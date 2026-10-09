@@ -50,6 +50,19 @@ Match the existing `dm/DM_Guide_Fort_and_Caves.md`. Read it before you write.
 - The world is post-imperial. Old machines and old magic are the same thing seen from two sides. Monsters wear imperial scrap. Nothing is from a generic fantasy catalogue without a reason to be here.
 - Each module ends with **The Fort Reacts** (what changes at home) and a **Rumors** table (d8 or d10, marked true, partly true, or false).
 
+### 2a. Patterns taken from *Floor 31*
+
+*Floor 31* is a sister scenario, a five-room AlgoCratic OSR floor on OSE rules. Four of its patterns carry over:
+
+| Pattern | What it is | Where it goes here |
+|---------|-----------|--------------------|
+| **The Plan / Execute gate** | Each room runs in two phases. In **Plan**, players talk, look and ask. The DM answers honestly. No dice, and no time passes. In **Execute**, the caller says "Execute", plans lock, and each player states one action. If a player acts early, the DM asks once: "Is that your plan or your action?" | Module 2 teaches it in S1, as the hard edge of the exploration turn: looking is free, and acting is a declared choice that costs time. Modules 2 and 3 both use it. |
+| **Intro hooks** | Players arrive with what their intro produced: one **public fact**, one **secret fact**, one **bond**. A table in the module maps each entry to the room where it lands. | Each module opens with an **Intro Hooks** table: playbook choice → where it lands. The demo ends by printing the character's three facts as a card to bring to the table. |
+| **Mutual bonds** | Two characters whose bonds name each other each get 1 extra Fate this session. It can only be spent to help that partner. | Modules 2 and 3, in the Fate rules box. |
+| **Running the party** | A table of changes by party size and by missing roles ("No cleric: …"). | Every module, near the end. |
+
+Stat blocks use the full OSE line, as *Floor 31* does: AC, HD (with hp), Att, THAC0, MV with the encounter rate (`120' (40')`), SV, ML, XP. This replaces the shorter format in rule 2 below.
+
 ### 3. The cast
 
 Use these characters in "Each PC's Moment" tables and in the demo. The old DM Guide names a Thief and a Hunter. They have no playbook. Do not use them.
