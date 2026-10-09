@@ -81,13 +81,56 @@ Rules base: OSE Advanced Fantasy, plus the playbooks' Fate Points (3 per charact
 
 ---
 
+## The Fort Country (canon)
+
+The DM's hex map, *The Fort Country* (1 hex = 6 miles, art rule: Otus ink), fixes where things are. Its key, transcribed:
+
+| Hex | Name | Key line | Used by |
+|-----|------|----------|---------|
+| D4 | The Fort | Home. Biddy guards the henhouse. | All |
+| D3 | The Shallows | Fish by day. Singing at night. | Module 2 (the crossing) |
+| D2 | Isle of Old Stone | A broken lamp-tower. A stair into the water. | **Module 2** |
+| D1 | The Deep | No bottom. Halcyon lies below. | Module 2 hook: the Door Beneath the Lake faces it. Do not explain Halcyon. |
+| E3 | The Reed Shore | The Quiet's stilt huts. | Module 2 (the Quiet know the lake; guides or witnesses) |
+| C3 | The Weirs | Old fish traps. New stakes. | Module 3 (clan raids) |
+| B3 | The Ridge | Cave mouths. No birds. | **Module 3** |
+| B2 | The Gorgon Caves | Last year's dungeon. The skeleton master sits. | Module 1 |
+| C4 | The Old Road | A humming milestone. | Module 3 (the Readers' route) |
+| B5 | The Webwood | Giant crab spiders. Something larger sleeps. | — |
+| C5 | Boar Hollow | A hunter's lodge. A map nailed inside. | — |
+| D6 | The Court's Door | A mushroom ring. Opens at each equinox and solstice. | — |
+| E4 | The Fields | Fort farms. A new well. | — |
+| E5 | The Standing Stones | Nine stones, one fallen. | — |
+| F4 | Mile-House 13 | A red-painted B.I.A. way station. | — |
+| F5 | The Tin Dozen | Twelve deserters. They want salt. | — |
+
+The fishing village lies one day east of the map. Hexes without a key line: roll d8 for texture and d8 for encounters (tables in a DM Guide not yet in this repo). Do not expand a key line beyond what it says unless the module needs it; never explain Halcyon, the B.I.A., or the Court.
+
+**Map style for module maps:** match this sheet. Black ink on cream paper, no blue. Small-caps serif title rule, "DM COPY" and scale in the top right, keyed areas as white numerals in black circles, a plain legend. Otus ink: dense, hand-feeling linework.
+
+---
+
+## Pedagogy: Low Threshold, No Ceiling
+
+Three ideas from Papert's Logo work shape how the modules teach.
+
+| Idea | What it means here |
+|------|-------------------|
+| **Low threshold, no ceiling** | A new player can act in the first minute with no rules read. An old hand finds depth in the same room. Every room has an obvious action and a clever one. |
+| **Body-syntonic learning** | Children learned geometry by being the turtle: FORWARD 50, RIGHT 90, not x and y. Our players learn dungeon space the same way. The DM describes moves **relative to the party's facing** ("the passage runs 30 feet ahead, then bends right"), and the mapper draws like a turtle. Module 2's mapping lesson is **Turtle Mapping**: a sidebar with the DM's call pattern and a worked example. |
+| **Constructionism** | People learn best by making a thing they can hold. The players' map is that thing. So is the Intro Card. The module tells the DM to let the players' map be wrong and to let them find out by walking it. |
+
+A sidebar in Module 2, **The Turn Is a Procedure**, writes the exploration turn as a short Logo-style procedure (`TO TURN … END`: plan, execute, tick the clock, check for wanderers, repeat). It is for tables that include programmers or students, and for the DM who wants the loop in one look.
+
+---
+
 ## The Throughline
 
 One thread runs through all three dungeons. Each module can be played alone, but each one leaves a clue that points to the next.
 
 1. **Module 1.** The basilisk queen sat under imperial wards. Harrow buys cockatrice eggs and will not say for whom.
-2. **Module 2.** Harrow's buyers are **the Saltmen**, smugglers who use the grotto under the island tower as a cache. Their ledger shows eggs going east along the coast path to "the Readers". Under the grotto is **the Door Beneath the Lake**, sealed with the same eye-wards as the basilisk's chamber. The Elf Minister's warning (*"must not open the door beneath the lake"*) is about this door. **Nobody opens it in Module 2.** It is a campaign hook, not a room.
-3. **Module 3.** The coast-path scouts are clan raiders from the ravine. The clans are paid and bullied by **the Readers of the Unwritten**, a cult that holds the Temple at the head of the ravine. Their temple holds a dark Terminal. It shows the hymns reversed. The Readers want the eggs to make stone guardians and want the door beneath the lake opened. Their map of the island is in the temple.
+2. **Module 2.** Harrow's buyers are **the Saltmen**, smugglers who use the grotto under the island tower as a cache. Their ledger shows eggs going up the Old Road to "the Readers" on the Ridge. Under the grotto is **the Door Beneath the Lake**, sealed with the same eye-wards as the basilisk's chamber. The Elf Minister's warning (*"must not open the door beneath the lake"*) is about this door. **Nobody opens it in Module 2.** It is a campaign hook, not a room.
+3. **Module 3.** The clans of the Ridge have started to raid: new stakes at the Weirs (C3), tracks on the Old Road (C4). The clans are paid and bullied by **the Readers of the Unwritten**, a cult that holds the Temple at the head of the ravine. Their temple holds a dark Terminal. It shows the hymns reversed. The Readers want the eggs to make stone guardians and want the door beneath the lake opened. Their map of the island is in the temple.
 
 ### The Readers of the Unwritten
 
@@ -99,7 +142,7 @@ Chaos in this setting is not demons. It is noise. The Terminal network kept a so
 
 The lake island holds the stump of an imperial tower. The empire called it **Lamp Station Nine**. Locals call it the Drowned Tower because its lower floors are under the waterline. It was a lighthouse and an observatory for the lake, built to watch the door below. Its last keeper was the imperial magister **Ostrel Vane, the Lampwright**. His bones and notes are in the cellars.
 
-Getting there: an hour by rowboat from The Fort's docks. The island is half a mile across, rock and pine.
+Getting there: the Isle of Old Stone is hex D2, about 12 miles north of The Fort across the Shallows (D3). Half a day by rowboat (four to five hours), less under sail. The party arrives in the afternoon or camps on the isle; that is part of the time lesson. The island is half a mile across, rock and pine. The Door Beneath the Lake faces north, toward the Deep (D1).
 
 **Three tiers:**
 
@@ -139,7 +182,7 @@ Getting there: an hour by rowboat from The Fort's docks. The island is half a mi
 
 ## Module 3: The Ravine of Mouths — Pinned Facts
 
-A ravine cut into the hills, half a day inland from the coast path, a day and a half from The Fort. Its walls are dotted with cave mouths, each a lair. A footpath climbs the ravine floor. The Temple of the Unwritten is at the top, in an imperial building half-buried in the hill. Near the coast path is a ruined imperial waystation, **Mile Tower**, the party can use as a forward camp.
+The Ravine of Mouths is a cleft in **the Ridge**, hex B3, about 12 miles northwest of The Fort by way of the Weirs (C3) or the Old Road (C4). Half a day on foot. Hex B2 beside it holds last year's dungeon, the Gorgon Caves. The Ravine's walls are dotted with cave mouths, each a lair; no birds nest on the Ridge. A footpath climbs the ravine floor. The Temple of the Unwritten is at the top, in an imperial building half-buried in the hill. The Fort itself is the home base, half a day back, as the Keep is in the source; there is no forward camp. Getting loot home, and the clans moving while the party is away, are the supply lesson.
 
 **The lairs, in teaching order (low to high up the ravine):**
 
@@ -157,7 +200,7 @@ Between lairs: the ravine reacts. Clans reinforce, move, ally, or flee based on 
 
 The two halves of Module 3 are written as two files:
 
-- `dm/Module_3_The_Ravine_of_Mouths.md` — overview, Mile Tower, the ravine, lairs A–G, faction web, ravine reacts.
+- `dm/Module_3_The_Ravine_of_Mouths.md` — overview, the journey from The Fort, the ravine, lairs A–G, faction web, ravine reacts.
 - `dm/Module_3_Part_2_The_Temple_of_the_Unwritten.md` — lair H in full, the dark Terminal, the final choice, and the campaign ending.
 
 **The final choice at the dark Terminal** (pinned, both files agree): the party can **smash it** (a node of the network dies; The Fort's Terminal goes quiet for a week, then shows a new line), **reclaim it** (the Minister or Paladin re-sings it into order; costly; the Readers' survivors become enemies of The Fort forever), or **read it** (a PC learns where the Door Beneath the Lake leads; the DM decides the cost). No answer is correct.
