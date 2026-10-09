@@ -141,11 +141,28 @@ The authored modules are the reference: a generated dungeon should read like a r
 
 ---
 
+## Science Fantasy, Floor 31 Shape
+
+*Floor 31* is the model for the kind of adventure we want: science fantasy on OSE rules. The Fort's world already is one; the modules should lean in, not hedge.
+
+- **Name the machine side plainly.** A ward is a sensor eye and a spell at once. The Warden's collar is a control collar. The Lampwright's lamp is a lamp, a beacon and an instrument. A hymn is a protocol. Players may treat any of these as magic or as machinery, and both readings work at the table.
+- **A job with a clock and two buyers.** Floor 31 gives the party one night, a prize, and two people who want it for opposite reasons. Each module states its clock (what happens if the party is slow) and ends on a choice between buyers or uses, none of them correct.
+- **Teach a procedure the first time it matters, not before.**
+- **Art reference per major room.** One blockquote, two or three sentences: palette, line style, what is in frame. House art rule from the hex map: Otus ink, black on cream. A climax room may name a painted exception, as Floor 31 does.
+
+## Play Record (canon from the table)
+
+| Session | What happened | What it fixes |
+|---------|---------------|---------------|
+| Module 1 | **The Gorgon Queen was defeated by a cockatrice.** | The queen is stone, turned by the very creature whose eggs Harrow buys. Read this as the "petrified" branch of Module 1's outcome table: the wards stay lit, she is contained, not destroyed. Word spreads that a cockatrice can beat a gorgon. That is why the eggs are now worth more, and why the Readers want them. |
+
+The repo's Module 1 text calls her the Basilisk Queen and the hex map calls the site the Gorgon Caves. Use **the Gorgon Queen** in new writing.
+
 ## The Throughline
 
 One thread runs through all three dungeons. Each module can be played alone, but each one leaves a clue that points to the next.
 
-1. **Module 1.** The basilisk queen sat under imperial wards. Harrow buys cockatrice eggs and will not say for whom.
+1. **Module 1.** The Gorgon Queen sat under imperial wards. In play, a cockatrice defeated her; she is stone and the wards still glow. Harrow buys cockatrice eggs and will not say for whom.
 2. **Module 2.** Harrow's buyers are **the Saltmen**, smugglers who use the grotto under the island tower as a cache. Their ledger shows eggs going up the Old Road to "the Readers" on the Ridge. Under the grotto is **the Door Beneath the Lake**, sealed with the same eye-wards as the basilisk's chamber. The Elf Minister's warning (*"must not open the door beneath the lake"*) is about this door. **Nobody opens it in Module 2.** It is a campaign hook, not a room.
 3. **Module 3.** The clans of the Ridge have started to raid: new stakes at the Weirs (C3), tracks on the Old Road (C4). The clans are paid and bullied by **the Readers of the Unwritten**, a cult that holds the Temple at the head of the ravine. Their temple holds a dark Terminal. It shows the hymns reversed. The Readers want the eggs to make stone guardians and want the door beneath the lake opened. Their map of the island is in the temple.
 
