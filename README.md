@@ -21,6 +21,10 @@ Open [`demo/index.html`](demo/index.html) in a browser. Pick one of six characte
 
 Test it with `node demo/test.mjs` (needs Playwright and Chromium).
 
+## For programming classes: The First Delve
+
+[`classroom/`](classroom/) holds the first descent into the Drowned Tower as a console game in **Python and C++**, built up in seven stages: variables, choices, loops, functions, arrays, structs and the room graph, then breadth-first search. Each stage runs on its own. Given the same seed and inputs, the Python and C++ versions print the same text byte for byte. Each stage has a PRIMM activity (Predict, Run, Investigate, Modify, Make), test vectors, and the common mistakes for that concept. Start with [`classroom/README.md`](classroom/README.md).
+
 ## For players
 
 Start with [`player/Players_Guide_The_Fort.md`](player/Players_Guide_The_Fort.md), then pick a playbook in [`player/`](player/). The Fighter, the Elf, and the NPC Minister are in [`player/npc/`](player/npc/); a player can take the Fighter or the Elf, and the GM runs the Minister if no one plays the Elf Minister.
