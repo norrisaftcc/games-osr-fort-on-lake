@@ -14,7 +14,7 @@ Three B/X dungeons, played in order. Each one teaches the dungeon craft that the
 | 2 | *The Drowned Tower* | The ruined-tower sample dungeon of the 1977 blue Basic book | 1–2 | Time, light, doors, mapping, wandering monsters, retreat and return. A dungeon is a place you visit more than once. |
 | 3 | *The Ravine of Mouths* | The cave-lair ravine of module B2 | 1–3 | Reaction, morale, factions, parley, alarm, expedition supply. A dungeon is a society. It ends in **the Temple of the Unwritten**, the gloss on the chaos temple, which tests everything at once. |
 
-Plus one **playable demo**: a single HTML page. The player picks one of the six playbook characters, plays that character's intro at The Fort, then plays the first rooms of the Drowned Tower. The demo teaches the first lesson of Module 2 by doing it.
+Plus a **dungeon generator** (the Forge, below) and one **playable demo**: a single HTML page. The player picks one of the six playbook characters, plays that character's intro at The Fort, then plays the first rooms of the Drowned Tower. The demo teaches the first lesson of Module 2 by doing it.
 
 ---
 
@@ -121,6 +121,23 @@ Three ideas from Papert's Logo work shape how the modules teach.
 | **Constructionism** | People learn best by making a thing they can hold. The players' map is that thing. So is the Intro Card. The module tells the DM to let the players' map be wrong and to let them find out by walking it. |
 
 A sidebar in Module 2, **The Turn Is a Procedure**, writes the exploration turn as a short Logo-style procedure (`TO TURN … END`: plan, execute, tick the clock, check for wanderers, repeat). It is for tables that include programmers or students, and for the DM who wants the loop in one look.
+
+---
+
+## Procedural Generation: The Forge
+
+The two source dungeons give us **templates**, not content: *a ruined tower over cellars over a water cave*, and *a cleft of lair-caves that rises to a temple*. A template is an idea, and ideas are free. A generator makes the line between structure and expression plain. It also gives every table its own dungeon.
+
+The rule: **the lesson ladder is fixed, the content is rolled.** A generated tower always teaches light, searching, doors, wanderers, mapping (a loop, a dead end, a shortcut secret door), retreat, a readable history, a first parley, a hazard, and a climax that rewards what was learned, in that order of depth. A generated ravine always climbs morale → reaction → factions → alarm → deception → avoidance → temple. What fills each slot comes from our own tables.
+
+| Piece | Path | Does |
+|-------|------|------|
+| The Forge page | `generator/index.html` | Pick *Tower* or *Ravine*, enter a seed, get a keyed dungeon in the house format and a map in the Otus-ink style. Print it or copy it as Markdown. |
+| The engine | `generator/forge.js` | Pure functions, seeded RNG, no DOM. Runs in the browser and in Node. |
+| The tables | `generator/tables.js` | Every rollable list, in plain data. Original text only; this file is where a GM or a student adds their own. |
+| The checks | `generator/test.mjs` | Generates hundreds of seeds and checks the invariants: connected, exits reciprocal, every lesson slot present in order, the secret door really shortens the path, no overlapping rooms, every fight has hp and XP, no forbidden names. |
+
+The authored modules are the reference: a generated dungeon should read like a rougher cousin of Module 2 or Module 3, never like the source books. The Forge is also a teaching artifact in its own right, for CS students: low threshold (change a table, press Generate) and no ceiling (write a new template).
 
 ---
 

@@ -11,6 +11,10 @@ A short B/X campaign for OSE Advanced Fantasy, built to teach the dungeon craft 
 
 Maps are in [`dm/maps/`](dm/maps/). The design record that binds the three modules together is [`campaign/SPINE.md`](campaign/SPINE.md).
 
+## Make your own: the Forge
+
+Open [`generator/index.html`](generator/index.html). Pick *Tower* or *Ravine*, give it a seed, and it builds a keyed dungeon with a map. The lesson ladder is fixed; the rooms, monsters and treasure are rolled from original tables. The same seed always gives the same dungeon, so a table can share one by number.
+
 ## Play the demo
 
 Open [`demo/index.html`](demo/index.html) in a browser. Pick one of six characters, play their intro at The Fort, then row to the island and make the first descent into the Drowned Tower. The demo keeps the dungeon clock on screen, so a new player learns light, time, doors, and wandering monsters by spending them.
