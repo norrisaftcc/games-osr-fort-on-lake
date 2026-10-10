@@ -41,18 +41,20 @@ Captain Maren calls the party to the Hall the morning after they come back from 
 
 ### The Gorgon Queen, and Why the Eggs Matter
 
-In play, **a cockatrice defeated the Gorgon Queen**. She is stone. The wards in her chamber still glow. She is contained, not dead.
+In play, in the Gorgon Caves, the Fae player domesticated a cockatrice chick, and **the chick's cry paralysed the Gorgon Queen**.
 
-The cockatrice was the Beast Pen's own. The village has adopted it. It lives at The Fort, hooded, half pet and half mascot, and the children feed it beetles. Everyone on the lake has heard of it.
+What happened next is **assumed** (the Year Two DM Guide marks it so; replace it freely): the Gorgon Queen is dead, and the wards in her chamber went dark when she died. Petra is flesh again and sleeps a lot. The iron cage in the Beast Pen is empty. If your table's Year One went another way, change the lines in this module that lean on it: the eye-wards (the table below, C6 and G8) and the Fighter's hook.
 
-Word spreads. A cockatrice can beat a gorgon, and The Fort owns one that has. Harrow paid 50 gp an egg last season. Now he pays 100, and his buyers pay him more. The buyers are **the Saltmen**. They keep their stock in the grotto under the island, and they pass the eggs on to people the ledger calls **"the Readers"**.
+The chick is **Biddy**. She lives in the Beast Pen at The Fort and guards the henhouse. **Wick**, the twelve-year-old lamplighter, keeps her. Everyone keeps clear of her beak, and everyone on the lake has heard of her.
+
+Word spreads. A cockatrice stopped a gorgon, and The Fort owns the one that did. Harrow paid 50 gp an egg last season. Now he pays 100, and his buyers pay him more. The buyers are **the Saltmen**. They keep their stock in the grotto under the island, and they pass the eggs on to people the ledger calls **"the Readers"**.
 
 ### The Throughline in One Breath
 
 | Module 1 left | This module shows | Module 3 picks up |
 |---------------|-------------------|-------------------|
 | Eggs go to Harrow, and Harrow won't say where they go next | Harrow sells to the Saltmen. Their ledger sends the eggs up the Old Road to the Readers on the Ridge. | The Readers of the Unwritten, their temple on the Ridge, and why they want stone guardians |
-| The Gorgon Queen's chamber had carved eyes: wards | The same eyes ring the Door Beneath the Lake. Here they are shut. | The Readers want that door open. |
+| The Gorgon Queen's chamber had carved eyes: wards. They went dark when she died (assumed). | The same eyes ring the Door Beneath the Lake. Here they are shut, waiting. | The Readers want that door open. |
 | The Elf Minister's warning: *"must not open the door beneath the lake"* | This is the door. It does not open in this module. | The final choice at the dark Terminal can tell a PC where it leads. |
 
 ### The Clock
@@ -73,10 +75,10 @@ The party will likely come home with three things other people want. None of the
 
 | Prize | Maren wants it because | Harrow wants it because | Vosk (if alive) wants it because | Keeping it means |
 |-------|------------------------|-------------------------|-----------------------------------|------------------|
-| **The eggs** (up to 4) | She wants them destroyed, or held as a bargaining chip. | 100 gp each, cash, no questions. He has a buyer waiting. | They're her cargo. She'll pay 150 each to get them back. | The PCs hold the second most wanted thing on the lake. The first is in the Beast Pen. |
+| **The eggs** (up to 4) | She wants them destroyed, or held as a bargaining chip. | 100 gp each, cash, no questions. He has a buyer waiting. | They're her cargo. She'll pay 150 each to get them back. | The PCs hold the second most wanted thing on the lake. The first is Biddy, in the Beast Pen. |
 | **The ledger** | Proof against Harrow. Names. Dates. The Old Road. | It has his name on every page. He'll pay 200 gp for it and swear to stop. | It's her life. The Readers will kill her if it reaches The Fort. | The party knows where the eggs went, and nobody else does. |
 | **The Warden's Lamp** | She doesn't care what it is. She wants it locked in the Hall. | He doesn't know what it is. | The Readers will pay her a thousand for "the way past the fish". She'd split it. | The keeper's key to the Door stays with the party. The Elf Minister may have views. |
-| **The Fort's cockatrice** (at home, not in the dungeon) | It stays. It's The Fort's. | 1,000 gp, quietly, "for a buyer". | 2,000 gp. A proven gorgon-killer. | The best guard on the lake lives in a pen behind the forge, and everyone knows it. |
+| **Biddy**, The Fort's cockatrice (at home, not in the dungeon) | She stays. She's The Fort's. | 1,000 gp, quietly, "for a buyer". | 2,000 gp. The bird that stopped a gorgon. | The best guard on the lake lives in the Beast Pen and guards the henhouse, Wick keeps her, and everyone knows it. |
 
 ---
 
@@ -117,14 +119,14 @@ Players who came through the demo arrive with an **Intro Card**: one **public fa
 | | Stays for the Terminal, the people, or rest | C7 | Vane stayed for all three reasons. His last page says so. Let the Paladin read it first. |
 | **Gnome Druid** | The land is sick | S4 | The lamp-stones run bronze wire through the rock. The ground in a ring round the isle is dead an inch down. The collar is the sickness, worn by a fish. |
 | | The land is waking | G7 | What is waking is the Warden. It is old and tired and curious. *Speak with Animals* works on it. |
-| | The land is old and remembers | G8 | The Door was here before the empire. The empire built a tower to watch it, not to make it. |
+| | The land is old and remembers | G8 | The land remembers a city where the lake is now, and remembers the water coming in. The Door is the empire's work; the rock it is cut into is older, and the land has not forgiven either. |
 | | Animals told me to come | S1 | The fish in the Shallows all swim one way at dusk: away from the isle. |
 | | My grove was destroyed | S5 | The isle's pines are healthy except in the lamp-stone ring. It could be a grove, if the stones went dark. |
 | | Heard the Terminal from underground | S4 | The hum the Druid followed is the lamp-stones, not The Fort's Terminal. They are the same family of thing. |
 | | Thinks the Terminal is a tool, a wound, or a conversation | G7 | The control collar is all three. Ask the Druid which, at the pool. |
 | **Fighter** | Chose the heavy hammer | C1 | +1 to force the stuck oak door. Let the Fighter be the one who opens the dungeon. |
 | | Forged a plow blade | — | Knows every family. One of them sold Harrow an egg last month. The Fighter knows who. |
-| | Forged the beast-pen cage | G3, G4 | The cage held the cockatrice that turned the Gorgon Queen; The Fort has adopted it. The eggs in G3 may be its kin. Vosk asks the Fighter, by name, what it would cost. |
+| | Forged the beast-pen cage | G3, G4 | The cage stands empty now (assumed). Biddy, the cockatrice whose cry stopped the Gorgon Queen, lives in the Beast Pen and guards the henhouse. The eggs in G3 may be her kin. Vosk asks the Fighter, by name, what Biddy would cost. |
 | | Forged coffin nails | C5 | The skeletons' oath-plates are riveted the way the Fighter's master riveted. Imperial work. |
 | | Any reason for stopping | C2 | The first fight. Ask the player, after it, whether the reason felt true. |
 | **Elf** | My people are gone | G8 | The direction they went is north, over the Deep. The Door faces the same way. |
@@ -187,7 +189,9 @@ How it behaves is in G7. How the party can change that is in C7. That link is th
 
 ### The Door Beneath the Lake
 
-A round door of black stone banded in bronze, fifteen feet across, set in the grotto's north wall under the cliff, half under water. It is reached by the pool's north arm: a ledge, or a swim. Carved eyes ring it, all shut. It faces north and opens toward the Deep (hex D1). The hex map says **Halcyon lies below**. Do not explain Halcyon. If a player asks, the answer is "north, and down".
+A round door of black stone banded in bronze, fifteen feet across, set in the grotto's north wall under the cliff, half under water. It is reached by the pool's north arm: a ledge, or a swim. Carved eyes ring it, all shut. It faces north and opens toward the Deep (hex D1).
+
+The Isle of Old Stone is the roof of **Halcyon**, Year Two's drowned lamp-city, and the Door Beneath the Lake is one face of the Isle way into it. Lamp Station Nine was Halcyon's lighthouse and watch-post. The Year Two DM Guide keys Halcyon; this module does not. If a player asks where the Door goes, the answer is "north, and down".
 
 **Nobody opens the Door in this module.** No key here fits it. The lamp commands the Warden, not the Door. It is a hook for later, not a room to clear.
 
@@ -466,6 +470,15 @@ Check every 2 turns, 1-in-6. Every result has a reason to be here.
 | Giant crab | 2 [17] | 3 (14) | 2 × pincer (2d6) | 17 [+2] | 60' (20') | D12 W13 P14 B15 S16 (2) | 7 | 35 |
 | Giant bass | 7 [12] | 2 (9, 7) | 1 × bite (1d6) | 18 [+1] | swim 120' (40') | D12 W13 P14 B15 S16 (1) | 8 | 20 each |
 
+- Giant rat: *5e: CR 1/4 · AC 12 · hp 2, 1, 3, 2, 4, 1, 3, 2 · bite +0 (1d3) · disease: CON save DC 12.*
+- Skeleton: *5e: CR 1/2 · AC 12 · hp 4, 6 · spear +0 (1d6) · immune to sleep and charm.*
+- Stirge: *5e: CR 1/2 · AC 12 · hp 5, 3, 4 · beak +0 (1d3), +2 on its first attack · attaches and drains 1d3 a round.*
+- Saltman: *5e: CR 1/2 · AC 12 · hp 5, 4, 6 · cutlass +0 (1d6) or crossbow +0 (1d6).*
+- Giant centipede: *5e: CR 1/4 · AC 10 · hp 2 · bite +0 (no damage) · poison: CON save DC 12 or sick 10 days · flees at half HP.*
+- Zombie: *5e: CR 1 · AC 11 · hp 10 · claw +1 (1d8) · always loses initiative; immune to sleep and charm.*
+- Giant crab: *5e: CR 2 · AC 17 · hp 14 · 2 pincers +2 (2d6 each) · flees at half HP.*
+- Giant bass: *5e: CR 1 · AC 12 · hp 9, 7 · bite +1 (1d6).*
+
 Stirges get +2 to hit on their first attack. A stirge that hits stays attached and drains 1d3 each round until killed. Zombies always lose initiative. Wandering monsters are not in the XP totals at the end; add them as they happen.
 
 ---
@@ -647,6 +660,8 @@ Twenty feet under the tower. Dressed stone, low vaults, the smell of old oil. Ma
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | ½ (2, 3, 1, 4, 2) | 1 × bite (1d3 + disease) | 19 [0] | 120' (40'), swim 60' (20') | D12 W13 P14 B15 S16 (1) | 8 | 5 each |
 
+*5e: CR 1/4 · AC 12 · hp 2, 3, 1, 4, 2 · bite +0 (1d3) · disease: CON save DC 12.*
+
 They flee at 2 dead, west down the C3 stair and into the water. A bite carries disease 1-in-20: the victim is sick for 1d6 days and can't heal naturally.
 
 > **What This Room Teaches:** **The clock is a monster.** From this room on, roll wandering checks every 2 turns. Say it out loud the first time: "Two turns. I roll." Let them hear the die.
@@ -723,6 +738,8 @@ They flee at 2 dead, west down the C3 stair and into the water. A bite carries d
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | 1 (5, 3, 7, 4) | 1 × spear (1d6) | 19 [0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 12 | 10 each |
 
+*5e: CR 1/2 · AC 12 · hp 5, 3, 7, 4 · spear +0 (1d6) · immune to sleep and charm.*
+
 Turned on 7+ (2d6). Immune to *sleep* and *charm*. They never check morale.
 
 > **Art reference:** Otus ink, black on cream. Bunks in hard perspective, four figures rising from them in the same pose, each with a small bright plate on the chest drawn as a white square in a field of hatching.
@@ -745,7 +762,7 @@ Turned on 7+ (2d6). Immune to *sleep* and *charm*. They never check morale.
 | Feature | Detail |
 |---------|--------|
 | The ring | 30' across. Any flame that is not green gutters out inside it. Relighting a torch takes a round, outside the ring. Infravision works. |
-| The eyes | Sensor eyes and wards at once: they see heat and colour and hold what they are told to hold. Same carving as the Gorgon Queen's chamber, but here the eyes are open. |
+| The eyes | Sensor eyes and wards at once: they see heat and colour and hold what they are told to hold. The same make as the eyes in the Gorgon Queen's chamber. Hers went dark when she died (assumed); these are open. |
 | **The Warden's Lamp** | A bronze hooded lantern with a lens of green crystal. Burns ordinary oil, 24 turns a flask. Light green, 30 feet. Lifting it from the cradle makes every eye in the room close. The ring goes dead while the lamp is away. |
 | Wires | Bronze wires run from the ring into the walls, toward the lamp-stones and toward the pool. |
 | *Detect Magic* | Everything glows. The lamp glows brightest. |
@@ -818,6 +835,8 @@ Turned on 7+ (2d6). Immune to *sleep* and *charm*. They never check morale.
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | 1* (4, 6, 3) | 1 × beak (1d3, then 1d3 blood each round) | 19 [0] | 30' (10'), fly 180' (60') | D12 W13 P14 B15 S16 (2) | 9 | 13 each |
 
+*5e: CR 1/2 · AC 12 · hp 4, 6, 3 · beak +0 (1d3), +2 on its first attack · attaches and drains 1d3 a round.*
+
 +2 to hit on the first attack. A stirge that hits stays attached until killed.
 
 > **What This Room Teaches:** **The loop.** C8 joins the west loop: C4, C5, C10, C8, C4. A party that walks it all the way round finds out whether its map is right.
@@ -867,6 +886,8 @@ Turned on 7+ (2d6). Immune to *sleep* and *charm*. They never check morale.
 |----|---------|-----|-------|----|----|----|----|
 | 2 [17] | 3 (15) | 2 × pincer (2d6) | 17 [+2] | 60' (20') | D12 W13 P14 B15 S16 (2) | 7 | 35 |
 
+*5e: CR 2 · AC 17 · hp 15 · 2 pincers +2 (2d6 each) · flees at half HP.*
+
 It stays in the water. It attacks anyone at the basin's edge within 10 feet of the wheel, or anyone in the water.
 
 > **What This Room Teaches:** **Water is an obstacle with a handle.** The flooded stair has a cause, and the cause can be turned off.
@@ -896,6 +917,8 @@ It stays in the water. It attacks anyone at the basin's edge within 10 feet of t
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 8 [11] | 2 (9, 11) | 1 × claw (1d8) | 18 [+1] | 120' (40') | D12 W13 P14 B15 S16 (1) | 12 | 20 each |
+
+*5e: CR 1 · AC 11 · hp 9, 11 · claw +1 (1d8) · always loses initiative; immune to sleep and charm.*
 
 Turned on 9+ (2d6). Immune to *sleep* and *charm*. Always lose initiative.
 
@@ -949,6 +972,9 @@ If the party arrives without attacking, roll **2d6** for the Saltmen's reaction.
 | Ude Harl, mate | 7 [12] | 2 (10) | 1 × cutlass (1d6) or crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F2) | 9 | 20 |
 | Cobb, Little Pell | 7 [12] | 1 (5, 6) | 1 × cutlass (1d6) or crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
 
+- Ude Harl: *5e: CR 1 · AC 12 · hp 10 · cutlass +0 (1d6) or crossbow +0 (1d6).*
+- Cobb, Little Pell: *5e: CR 1/2 · AC 12 · hp 5, 6 · cutlass +0 (1d6) or crossbow +0 (1d6).*
+
 Award their XP however the party gets past them: by fighting, a deal, a bribe or a bluff.
 
 > **Art reference:** Otus ink, black on cream. Three figures round a brazier seen from the passage mouth, crossbows leaning, dice frozen mid-throw on a barrelhead, the shaft's black square behind them with the ladder going down out of frame.
@@ -986,6 +1012,8 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 |----|---------|-----|-------|----|----|----|----|
 | 2 [17] | 3 (13) | 2 × pincer (2d6) | 17 [+2] | 60' (20') | D12 W13 P14 B15 S16 (2) | 7 | 35 |
 
+*5e: CR 2 · AC 17 · hp 13 · 2 pincers +2 (2d6 each) · flees at half HP.*
+
 > **What This Room Teaches:** **The front door is guarded.** Coming in by the rope is fast, and the party arrives where the Saltmen expect visitors.
 
 > **Design Note:** Obvious: fight the crab at the rope's foot. Clever: drop a fish from the boat's catch off the far end of the ledge and climb down while it eats. The fisherman shouts unless he's dealt with first.
@@ -1014,6 +1042,9 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 |-----|----|---------|-----|-------|----|----|----|----|
 | Sefa Garr, mate | 7 [12] | 2 (11) | 1 × cutlass (1d6) or crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F2) | 9 | 20 |
 | Hands ×4 | 7 [12] | 1 (5, 4, 6, 3) | 1 × cutlass (1d6) or crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
+
+- Sefa Garr: *5e: CR 1 · AC 12 · hp 11 · cutlass +0 (1d6) or crossbow +0 (1d6).*
+- Hands ×4: *5e: CR 1/2 · AC 12 · hp 5, 4, 6, 3 · cutlass +0 (1d6) or crossbow +0 (1d6).*
 
 **If the party comes as guests** (escorted from C12): no roll. Tense, civil, watched. They are taken across the bridge to Vosk.
 **If the party comes as intruders** (from G1, G5 or the pool): roll reaction as at C12, at –2. Two dead or Sefa down: the rest check morale.
@@ -1044,7 +1075,7 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 
 > **What This Room Teaches:** **Treasure has weight.** The coffer alone weighs as much as 3,500 coins. Getting rich means more trips, or a boat.
 
-> **Design Note:** Obvious: grab everything. Clever: find the string, then ask who's going to carry it. The Fort's adopted cockatrice came off the same ridge; these may be its kin.
+> **Design Note:** Obvious: grab everything. Clever: find the string, then ask who's going to carry it. Biddy came out of the Gorgon Caves, next to the Ridge; these may be her kin.
 
 ## G4. Vosk's Room
 
@@ -1060,7 +1091,7 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 | Feature | Detail |
 |---------|--------|
 | **The ledger** | Eggs bought from Harrow by date and price. Every batch ends with the same line: *"up the Old Road to the Readers, left at the hum."* The hum is the humming milestone (hex C4). The courier column says *Dace* every time; the last entry has no return date. Payments in faceless gold. |
-| The Readers' letter | Polite, in an educated hand: *"Our thanks for the four. We shall need more. We hear The Fort keeps a bird that has already killed a queen; name its price. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read."* It quotes a hymn line backwards. Its closing uses an old knightly countersign. |
+| The Readers' letter | Polite, in an educated hand: *"Our thanks for the four. We shall need more. We hear The Fort keeps a bird that has already stopped a queen; name its price. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read."* It quotes a hymn line backwards. Its closing uses an old knightly countersign. |
 | The strongbox | Locked; key on a cord round Vosk's neck. 1,800 gold coins with the faces ground off; 2,000 sp; three gems (50, 100 and 100 gp). As heavy as 3,800 coins. |
 | Chart table | A lake chart. The Saltmen's route east. The isle marked with eight dots and a circle. |
 | Potion | One potion of healing, in her coat. |
@@ -1076,7 +1107,7 @@ She talks first. Roll no reaction unless the party attacks or insults her. She o
 | The ledger and the letter | Her life and the boat, nothing else. Her final offer. |
 | The secret of the bell | Information only. She'll give it free if it gets the party to the pool and away from her. |
 | To buy the Warden's Lamp | 500 gp from the strongbox, now. The Readers would pay her twice that. |
-| To buy The Fort's cockatrice | 2,000 gp, half now. "A bird that has killed a queen. The Readers would give me a ship for it." |
+| To buy Biddy, The Fort's cockatrice | 2,000 gp, half now. "A bird that stopped a queen. The Readers would give me a ship for it." |
 
 ### Encounter: Ketter Vosk and Moss
 
@@ -1084,6 +1115,9 @@ She talks first. Roll no reaction unless the party attacks or insults her. She o
 |-----|----|---------|-----|-------|----|----|----|----|
 | Ketter Vosk | 5 [14] | 3 (16) | 1 × sword (1d8) | 19 [0] | 90' (30') | D12 W13 P14 B15 S16 (F3) | 9 | 35 |
 | Moss | 6 [13] | 2 (12) | 1 × axe (1d8) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F2) | 10 | 20 |
+
+- Ketter Vosk: *5e: CR 2 · AC 14 · hp 16 · sword +0 (1d8).*
+- Moss: *5e: CR 1 · AC 13 · hp 12 · axe +0 (1d8).*
 
 Vosk wears an imperial scale shirt. Below half hp she yields and bargains from the floor.
 
@@ -1112,6 +1146,8 @@ Vosk wears an imperial scale shirt. Below half hp she yields and bargains from t
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | 1 (4) | 1 × crossbow (1d6) or cutlass (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 |
+
+*5e: CR 1/2 · AC 12 · hp 4 · crossbow +0 (1d6) or cutlass +0 (1d6).*
 
 > **What This Room Teaches:** **Surprise is earned.** A party that came down quietly finds a sleeping man and a choice.
 
@@ -1161,6 +1197,8 @@ Vosk wears an imperial scale shirt. Below half hp she yields and bargains from t
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 4 [15] | 8+3* (38) | 1 × bite (2d8) + 4 × feelers (1d4 each) | 12 [+7] | swim 90' (30') | D10 W11 P12 B13 S14 (4) | 8 | 1,200 |
+
+*5e: CR 4 · AC 15 · hp 38 · bite +7 (2d8) and 4 feelers +7 (1d4 each) · immune to sleep; lunges 10' from the water (bite only).*
 
 Immune to *sleep* (too many HD). It can lunge 10' out of the water to bite; out of the water it bites only, no feelers. While collared it never flees the Door. Under half hp it sinks for 1d6 rounds, then comes back.
 
@@ -1228,8 +1266,8 @@ Immune to *sleep* (too many HD). It can lunge 10' out of the water to bite; out 
 
 | Feature | Detail |
 |---------|--------|
-| The Door | Black stone, bronze bands, no handle, no lock, no seam you can find. Reaching it from the dry ledge means a 20' swim. It faces north, toward the Deep. The hex key says **Halcyon lies below**. Do not explain it. If asked: "north, and down". |
-| The eyes | Twelve, shut. The same carving as the Gorgon Queen's chamber and the ward room. There the eyes are open. Here they sleep. |
+| The Door | Black stone, bronze bands, no handle, no lock, no seam you can find. Reaching it from the dry ledge means a 20' swim. It faces north, toward the Deep. It is one face of the Isle way into **Halcyon**, the drowned lamp-city under the lake, which the Year Two DM Guide keys; Lamp Station Nine was Halcyon's lighthouse and watch-post. Do not explain it to the players. If asked: "north, and down". |
+| The eyes | Twelve, shut. The same make as the eyes in the Gorgon Queen's chamber, which went dark when she died (assumed), and as the open eyes of the ward room (C6). These are shut, waiting. |
 | Listening | Ear to the stone: very far down, the singing of the Shallows. |
 | *Detect Magic* | Every other made thing in the station glows. The Door does not. Whatever it is, it isn't this kind of thing. |
 | *Detect Evil* | Nothing. The Paladin is not reassured. |
@@ -1334,7 +1372,7 @@ When the party rows home, The Fort mirrors their choices. React; don't plan. In 
 | **The ledger** | Maren reads it twice and goes to find Harrow. Harrow, if he's in town, asks to see her alone. What she does depends on what the party asked her to do. |
 | **The eggs** | Harrow offers 100 each and doesn't ask where they came from. Maren wants them destroyed or locked up. The Minister asks whether anyone thought about what they're for. |
 | **The Warden's Lamp** | The Minister sets it before The Fort's Terminal. The Terminal shows a line in green for the first time in years, then goes back to the hymns. She won't say what it said. Wick, the twelve-year-old lamplighter, asks to be the one who fills it. |
-| **News: someone wants the cockatrice** | Vosk's offer, the Readers' letter, or Harrow's quiet bid. Maren puts a guard on the Beast Pen and the children take turns sleeping by it. |
+| **News: someone wants Biddy** | Vosk's offer, the Readers' letter, or Harrow's quiet bid. Maren puts a guard on the Beast Pen. Wick, who keeps Biddy, starts counting everyone who walks past it. |
 | **Vane's notes** | The Wizard can spend a week copying them. Copy the last page: the rite works on any bound dead, once. |
 | **Vosk, as a prisoner** | Maren has a cell and a problem. Vosk knows the way to the Readers' handoff and will trade it for her freedom. |
 | **The Saltmen's boat** | The Fort has a third boat, and the Saltmen have none. They'll want it back. |
@@ -1357,7 +1395,7 @@ Roll a d10 for each PC before the boat leaves, or let them buy a drink at the Ha
 | 4 | "The keeper out there was a wizard. Turned his servants to bone so they'd work forever." | **Partly.** He bound them after they died, so the work would go on. |
 | 5 | "There's a sunken treasure ship under the jetty." | **False.** |
 | 6 | "Chalk eyes on a door mean a curse. Don't go through." | **False.** It's a smugglers' sign: keep out. |
-| 7 | "Harrow's buying cockatrice eggs at double since the Gorgon Queen went to stone. Says a cockatrice is worth ten swords now." | **True.** |
+| 7 | "Harrow's buying cockatrice eggs at double since Biddy's cry froze the Gorgon Queen. Says a cockatrice is worth ten swords now." | **True.** |
 | 8 | "The cellars under the tower go out under the lake, all the way to the Deep." | **Partly.** They reach the grotto. The Door faces the Deep. |
 | 9 | "The old stones on the isle's shore hum before a storm. Put your ear to one and you'll hear your name." | **Partly.** They hum. They don't say names. |
 | 10 | "The Quiet on the Reed Shore know the isle. Bring them salt, not silver." | **True.** |
@@ -1374,7 +1412,7 @@ This module ends with a clue. Module 3 begins with it.
 | **Dace** | The Saltmen's courier, overdue from his last run up the Old Road. Vosk wants to know what happened to him. He turns up in Module 3. |
 | **Faceless gold** | Coins with their faces ground off. Whoever pays in them doesn't want to be read. The Readers of the Unwritten. |
 | **The Readers' letter** | Polite, educated, sure. It wants more eggs, the way past the Warden, and the ground before the Door kept clear. They will send someone to read the Door open. They write from **Choir Station Six**, their temple on the Ridge, and their foot-soldiers are called **Hearers**. |
-| **The Door Beneath the Lake** | Still shut, still facing north toward the Deep. If the Warden was freed, nothing guards it now. The Readers' map of the isle is in their temple. |
+| **The Door Beneath the Lake** | Still shut, still facing north toward the Deep. It is one face of the Isle way into **Halcyon**, the drowned lamp-city whose roof is the isle; Lamp Station Nine was its lighthouse and watch-post. The Year Two DM Guide keys Halcyon. If the Warden was freed, nothing guards it now. The Readers' map of the isle is in their temple. |
 | **The lamp** | Whoever holds it is the keeper. The Readers will want it as much as the eggs. |
 | **The clans** | The Readers pay and bully the clans of the Ridge. New stakes at the Weirs. Tracks on the Old Road. Module 3. |
 

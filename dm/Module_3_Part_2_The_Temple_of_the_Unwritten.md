@@ -52,8 +52,10 @@
 | Captives go up the ledge path from E6 to the lower yard. None come down. | Part 1 (E5's ledger) | The pen in H11 |
 | The Temple's hours and the line the Readers sing at their door. | Part 1 (G3, the day-book) | The duty slate in H3; Corva (H7) |
 | The Readers walk the Old Road (C4). The milestone there hums. | Part 1, the journey | Corva (H7) |
-| A cockatrice beat the Gorgon Queen. Word got around. Eggs are worth more now. | Module 1, as played | Sarn's notes in H11 |
+| A cockatrice chick's cry paralysed the Gorgon Queen in her own caves. The chick is **Biddy**, now kept at The Fort by Wick. Word got around. Eggs are worth more now. | Module 1, as played | Sarn's notes in H11 |
 | The Elf Minister's warning about "the door beneath the lake". | Her playbook | Line 5 on the Terminal (H16) |
+
+> **Assumed since Module 1** (the Year Two DM Guide's defaults; replace freely): the Gorgon Queen is dead, and her wards went dark; Petra is flesh again and sleeps a lot; the iron cage in the Beast Pen is empty. This module uses those states. If your table changed them, change Sarn's reasoning, his notes in H11, the Fighter's cage hook and **Threads Forward** to match.
 
 ### The Approach
 
@@ -128,7 +130,8 @@ He was the keeper of a Terminal in a coast town. He sat before it for nine years
 
 **What he knows that the PCs don't:**
 
-- A cockatrice beat the Gorgon Queen. The eye-wards at the island door are the same make as hers: sensor eyes and spell at once. He thinks a cockatrice can turn those eyes to stone, as it turned her. That is why he wants live eggs, not just shells.
+- A cockatrice stopped the Gorgon Queen: one chick's cry, and she could not move. The eye-wards at the island door are the same make as the wards on her chamber: sensor eyes and spell at once. Hers went dark when she died. He reasons that what mastered her will master them: guardians made with cockatrice stone to stand before the door, or a cockatrice's cry to hold its eyes still. That is why he wants live eggs, not just shells.
+- The bird that did it lives at The Fort: Biddy, in the Beast Pen. He would pay a fortune for her. He would rather buy than steal, and he has not found a seller.
 - The Fort's Terminal is the strongest node left near the lake. When the Unsaying is done, it will hear the backward song first.
 - Vosk's price for a boat to the door is one finished stone guardian.
 - A guardian is a living person, turned to stone by cockatrice and fitted with an imperial frame. He has told the Hearers they are statues. Ivo knows. Corva guessed.
@@ -138,6 +141,8 @@ He was the keeper of a Terminal in a coast town. He sat before it for nine years
 | | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---|---|---|---|---|---|---|---|---|
 | **Sarn** (Cleric 5) | 4 [15] | 5** (21) | 1 × mace (1d6) | 17 [+2] | 60' (20') | D9 W10 P12 B14 S12 (C5) | 9 | 425 |
+
+*5e: CR 3 · AC 15 · hp 21 · mace +2 (1d6) · spells (WIS save DC 12): darkness, cause fear, hold person, silence; the Backward Hymn once a day.*
 
 Chain under the robe; the Blank Book serves as a shield. **Carries:** potion of healing (he drinks it at 8 hp or less), keys to H7, H12 and the H12 strongbox, the Blank Book, 3 gp.
 
@@ -195,7 +200,7 @@ The Readers are busy. If the party is slow, Sarn finishes things. This continues
 | 1–2 | The guardian in H11 is half-made. The Unsaying has reached the ninth of twelve hymns. At week 2, E's captives arrive in the pen in H11, alive. |
 | 3 | The first guardian stands finished in the yard (H1). Its face is one someone at The Fort would know (Part 1). It has 24 hp and moves 60' (20'). The Unsaying reaches the twelfth hymn: The Fort's Terminal shows one backward line between loops, and the Minister sees it. |
 | 4 | The eggs in H10 are used up; only shells remain. The captives in the pen are stone. Ivo walks the Old Road toward the lake, asking about boats (Part 1). |
-| 5+ | Sarn walks the Old Road to the lake with the guardians and six Hearers to meet Vosk's boat. Ashe holds the temple. The next campaign opens with the Readers at the Door Beneath the Lake. |
+| 5+ | Sarn walks the Old Road to the lake with the guardians and six Hearers to meet Vosk's boat. Ashe holds the temple. Year Two opens with the Readers at the Door Beneath the Lake, the Isle way into Halcyon. |
 
 ### Where Everyone Is
 
@@ -358,7 +363,7 @@ Outside, the Readers' Stair climbs to the yard in front of the portico (H1). The
 | **Exits** | North: bronze double doors to H2. South: the Readers' Stair down to the ravine path. |
 | **Encounter** | 2 Hearers (doorwardens). At dusk, the four H2 skeletons carrying stones. From week 3, a finished guardian. |
 
-> **Read aloud:** The stair is wide enough for a procession and empty enough for a funeral. It ends in a yard ringed with twelve empty plinths, and beyond the yard eight columns hold up the hill, which has crept down over the roof like a blanket over a sleeper. Two figures in grey stand by tall bronze doors, a white square sewn on each breast. One lifts a hand in greeting before you are near enough to see her face.
+> **Read aloud:** The stair is wide enough for a procession and empty enough for a funeral. It ends in a yard ringed with twelve empty plinths, and beyond the yard eight columns hold up the hill, which has crept down over the roof like a slow wave about to break. Two figures in grey stand by tall bronze doors, a white square sewn on each breast. One lifts a hand in greeting before you are near enough to see her face.
 
 | Feature | Detail |
 |---------|--------|
@@ -382,6 +387,8 @@ Outside, the Readers' Stair climbs to the yard in front of the portico (H1). The
 | | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---|---|---|---|---|---|---|---|---|
 | Hearer ×2 | 7 [12] | 1 (5, 4) | 1 × mace (1d6) | 19 [+0] | 90' (30') | D11 W12 P14 B16 S15 (C1) | 7 | 10 each |
+
+*5e: CR 1/2 · AC 12 · hp 5, 4 · mace +0 (1d6) · flees at half HP.*
 
 **Treasure:** 6 gp between them.
 
@@ -418,6 +425,8 @@ Outside, the Readers' Stair climbs to the yard in front of the portico (H1). The
 | | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---|---|---|---|---|---|---|---|---|
 | Skeleton ×4 | 7 [12] | 1 (4, 6, 3, 5) | 1 × mace (1d6) | 19 [+0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 12 | 10 each |
+
+*5e: CR 1/2 · AC 12 · hp 4, 6, 3, 5 · mace +0 (1d6).*
 
 Undead: immune to *sleep*, *charm* and *hold*.
 
@@ -477,6 +486,8 @@ Undead: immune to *sleep*, *charm* and *hold*.
 |---|---|---|---|---|---|---|---|---|
 | Hearer ×4 | 7 [12] | 1 (3, 6, 5, 2) | 1 × mace (1d6) | 19 [+0] | 90' (30') | D11 W12 P14 B16 S15 (C1) | 7 | 10 each |
 
+*5e: CR 1/2 · AC 12 · hp 3, 6, 5, 2 · mace +0 (1d6) · flees at half HP.*
+
 If Sarn is not in sight, they surrender when one falls.
 
 **Obvious:** kill them in their beds. **Clever:** wake them with a blade at the door, and send them home down the Old Road with the letter.
@@ -515,6 +526,10 @@ If Sarn is not in sight, they surrender when one falls.
 | Collector Ivo (Cleric 2) | 9 [10] | 2* (9) | 1 × mace (1d6) | 19 [+0] | 120' (40') | D11 W12 P14 B16 S15 (C2) | 8 | 25 |
 | Chair skeleton ×2 | 7 [12] | 1 (4, 5) | 1 × fist (1d4) | 19 [+0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 12 | 10 each |
 
+- **Orc ×2:** *5e: CR 1/2 · AC 13 · hp 5, 4 · cleaver +0 (1d6).*
+- **Collector Ivo:** *5e: CR 1 · AC 10 · hp 9 · mace +0 (1d6) · spell: darkness.*
+- **Chair skeleton ×2:** *5e: CR 1/2 · AC 12 · hp 4, 5 · fist +0 (1d4).*
+
 Ivo's spell: *Darkness*. These are Part 1's numbers. If the party beat Ivo in the ravine, he and his skeletons are not here.
 
 **Obvious:** fight two orcs. **Clever:** open the chest, pay them their own wages, and send them home angry at the Readers.
@@ -549,6 +564,9 @@ Olun is a scholar. He argues before he fights. He will trade the Fair Copy for h
 |---|---|---|---|---|---|---|---|---|
 | Reader Olun (Cleric 2) | 5 [14] | 2* (8) | 1 × mace (1d6) | 19 [+0] | 60' (20') | D11 W12 P14 B16 S15 (C2) | 8 | 25 |
 | Copyist ×3 | 9 [10] | 1-1 (3, 2, 4) | 1 × penknife (1d4) | 19 [+0] | 120' (40') | D11 W12 P14 B16 S15 (C1) | 6 | 5 each |
+
+- **Reader Olun:** *5e: CR 1 · AC 14 · hp 8 · mace +0 (1d6) · spell: darkness.*
+- **Copyist ×3:** *5e: CR 1/4 · AC 10 · hp 3, 2, 4 · penknife +0 (1d4) · flees at half HP.*
 
 Olun's spell: *Darkness*.
 
@@ -590,6 +608,8 @@ Olun's spell: *Darkness*.
 |---|---|---|---|---|---|---|---|---|
 | Corva (Cleric 2, starved) | 9 [10] | 2 (3 of 9) | 1 × fist (1d2) | 19 [+0] | 120' (40'); 60' (20') until fed | D11 W12 P14 B16 S15 (C2) | 6 | — |
 
+*5e: CR 1 · AC 10 · hp 3 (of 9) · fist +0 (1d2) · flees at half HP.*
+
 On Turn 3 of the alarm a Hearer is sent to kill her. He arrives at Turn 4.
 
 **Obvious:** free her and leave. **Clever:** free her, feed her, and ask everything before going further. She is the map key.
@@ -625,6 +645,9 @@ Mott talks while he sews. Attacked, he says one word and the zombies move. The g
 | Reader Mott (Cleric 3) | 5 [14] | 3* (13) | 1 × mace (1d6) | 19 [+0] | 60' (20') | D11 W12 P14 B16 S15 (C3) | 8 | 50 |
 | Zombie ×3 | 8 [11] | 2 (9, 11, 7) | 1 × weapon (1d8) | 18 [+1] | 120' (40') | D12 W13 P14 B15 S16 (1) | 12 | 20 each |
 
+- **Reader Mott:** *5e: CR 2 · AC 14 · hp 13 · mace +0 (1d6) · spells (WIS save DC 12): cause fear, darkness.*
+- **Zombie ×3:** *5e: CR 1 · AC 11 · hp 9, 11, 7 · weapon +1 (1d8).*
+
 Mott's spells: *Cause Fear*, *Darkness*. Zombies always lose initiative. The 7 hp zombie is the goblin.
 
 **Obvious:** kill Mott and the zombies. **Clever:** take a clan's dead back to its lair. The clan turns on the Readers.
@@ -658,6 +681,8 @@ On Turn 2 of the alarm a Hearer lowers the ladder.
 | | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---|---|---|---|---|---|---|---|---|
 | Ghoul ×2 | 6 [13] | 2* (10, 8) | 2 × claw (1d3 + paralysis), 1 × bite (1d3 + paralysis) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (2) | 9 | 25 each |
+
+*5e: CR 1 · AC 13 · hp 10, 8 · 2 claws +1 (1d3), bite +1 (1d3) · each hit: CON save DC 12 or paralyzed 2d4 turns; elves immune.*
 
 **Paralysis:** save vs. paralysis or paralyzed 2d4 turns. Elves are immune. Read the **Ghoul Warning** on the turning sheet before this room.
 
@@ -696,6 +721,9 @@ On Turn 2 of the alarm a Hearer lowers the ladder.
 | Hearer (egg-keeper) | 7 [12] | 1 (4) | 1 × hooked pole (1d4) | 19 [+0] | 90' (30') | D11 W12 P14 B16 S15 (C1) | 7 | 10 |
 | Cockatrice chick | 7 [12] | 1* (3) | 1 × beak (1d2 + petrification, save at +2) | 19 [+0] | 30' (10') | D12 W13 P14 B15 S16 (1) | 6 | 13 |
 
+- **Hearer (egg-keeper):** *5e: CR 1/2 · AC 12 · hp 4 · hooked pole +0 (1d4) · flees at half HP.*
+- **Cockatrice chick:** *5e: CR 1/2 · AC 12 · hp 3 · beak +0 (1d2) · petrification: CON save DC 11 (DC 13, less the chick's +2) · flees at half HP.*
+
 **Obvious:** smash the eggs, or bag them for Harrow. **Clever:** take the hooked pole and gloves, catch the chick alive in a lidded pot, and carry the whole question home to The Fort.
 
 > **Art reference:** Otus ink. A low warm room, the glowing plate drawn as solid black with white heat-lines. Eggs in nests; a small bird half-hidden, one bright eye.
@@ -717,12 +745,12 @@ On Turn 2 of the alarm a Hearer lowers the ladder.
 
 | Feature | Detail |
 |---------|--------|
-| The stone people | Eleven captives from the ravine, turned to stone. They are alive in there, as the Gorgon Queen's victims were. The Crown of the Stone Court (Module 1) can speak to them. *Stone to Flesh* brings one back. If the party is past week 2 and did not free E's pens, the newest figure is whoever E5's ledger lists last. |
+| The stone people | Eleven captives from the ravine, turned to stone. They are alive in there, as Petra was in the Gorgon Caves. The Crown of the Stone Court (Module 1) can speak to them. *Stone to Flesh* brings one back. If the party is past week 2 and did not free E's pens, the newest figure is whoever E5's ledger lists last. |
 | The pen | A timber cage by the south door. After week 2, E's captives wait here alive, roped, for their turn. By week 4 they are stone. |
 | The guardian | Half lab, half rite. The Readers grind cockatrice yolk into a paste that turns flesh to stone. They paint a captive with it. Then they cut the stone open, fit a servo-frame of imperial bronze, wire the frame to the Terminal's power, and read a hymn backward over it until it moves. This one, a hobgoblin, still has one arm fused to its side. |
 | Black box | Imperial. A switch and a dial. Turning the switch off stops the guardian for 1d4 rounds. Finding the switch: the Fighter's or Wizard's ability, or a turn of study. |
 | Workbench | Chisels, copper thread from the kobolds, a jar of quicksilver (50 gp). Plans: a guardian on the shore of an island, before a door. |
-| Sarn's notes | *"The queen in the caves was turned by a bird. The eyes at the door are her kin. What turned her will close them. Twelve for the yard. Tell the Hearers they are statues."* |
+| Sarn's notes | *"The queen in the caves was stopped by a bird's cry. Her wards were the same make as the eyes at the door, and they went dark with her. What held her will hold them. Twelve for the yard. Tell the Hearers they are statues."* |
 
 The guardian will not leave the room before week 3 of the clock. It attacks anything that comes within 10'.
 
@@ -731,6 +759,8 @@ The guardian will not leave the room before week 3 of the clock. It attacks anyt
 | | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---|---|---|---|---|---|---|---|---|
 | Stone guardian (half-made) | 4 [15] | 3* (15) | 2 × fist (1d6) | 17 [+2] | 30' (10') | D12 W13 P14 B15 S16 (3) | 12 | 50 |
+
+*5e: CR 2 · AC 15 · hp 15 · 2 fists +2 (1d6).*
 
 Immune to *sleep*, *charm* and *hold*. **Cannot be turned.**
 
@@ -798,6 +828,9 @@ If Sarn is here, this is where he would most like to talk. See **What Sarn Says*
 | Reader Ashe (Cleric 3) | 5 [14] | 3* (12) | 1 × mace (1d6) | 19 [+0] | 60' (20') | D11 W12 P14 B16 S15 (C3) | 8 | 50 |
 | Hearer ×2 | 7 [12] | 1 (5, 3) | 1 × mace (1d6) | 19 [+0] | 90' (30') | D11 W12 P14 B16 S15 (C1) | 7 | 10 each |
 
+- **Reader Ashe:** *5e: CR 2 · AC 14 · hp 12 · mace +0 (1d6) · spells: darkness, cause light wounds (touch, 1d6+1).*
+- **Hearer ×2:** *5e: CR 1/2 · AC 12 · hp 5, 3 · mace +0 (1d6) · flees at half HP.*
+
 Ashe's spells: *Darkness*, *Cause Light Wounds* (touch, 1d6+1). Ashe carries the keys to H7 and H12. Ivo has the H5 chest key.
 
 **Obvious:** fight whoever is here. **Clever:** watch one Reading from the H2 doors, then use the next one to search the upper floor while the nave is full.
@@ -858,6 +891,8 @@ Ashe's spells: *Darkness*, *Cause Light Wounds* (touch, 1d6+1). Ashe carries the
 |---|---|---|---|---|---|---|---|---|
 | Zombie knight ×4 | 5 [14] | 2 (12, 9, 10, 8) | 1 × sword (1d8) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (1) | 12 | 20 each |
 
+*5e: CR 1 · AC 14 · hp 12, 9, 10, 8 · sword +1 (1d8).*
+
 Zombies: always lose initiative; immune to *sleep*, *charm* and *hold*. Turned knights flee north into H16.
 
 **Obvious:** fight four armored zombies. **Clever:** the Paladin speaks the oath. On the first round the knights do not attack him. Or turn them back up past restored eyes (H14), not down into Sarn's room.
@@ -892,6 +927,9 @@ Zombies: always lose initiative; immune to *sleep*, *charm* and *hold*. Turned k
 |---|---|---|---|---|---|---|---|---|
 | Sarn (Cleric 5) | 4 [15] | 5** (21) | 1 × mace (1d6) | 17 [+2] | 60' (20') | D9 W10 P12 B14 S12 (C5) | 9 | 425 |
 | Skeleton bearer ×2 | 7 [12] | 1 (5, 4) | 1 × fist (1d4) | 19 [+0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 12 | 10 each |
+
+- **Sarn:** *5e: CR 3 · AC 15 · hp 21 · mace +2 (1d6) · spells (WIS save DC 12): darkness, cause fear, hold person, silence; the Backward Hymn once a day.*
+- **Skeleton bearer ×2:** *5e: CR 1/2 · AC 12 · hp 5, 4 · fist +0 (1d4).*
 
 Full spells and tactics under **Reader Sarn**. Count Sarn's XP once, wherever he is beaten.
 
@@ -995,8 +1033,8 @@ Sarn dead, fled, held or talked down, the party stands at the screen. Ask: *"Wha
 | | |
 |---|---|
 | **Who** | One PC, by choice. They read it as the Readers do: backward, with the Blank Book, Corva's help, or three turns of staring. |
-| **What they learn** | Where the Door Beneath the Lake leads. Play it as a private note or a whisper. Whether the rest of the table hears is the reader's choice. |
-| **Where it leads** | The DM decides, before the session, and writes it down. You may name **Halcyon**. Do not explain it. Choose one: the door opens on the stair to Halcyon, under the Deep; the door is a lid, and what the song holds asleep is on the other side; the door is a road, and the network's roads ran under water to other doors. |
+| **What they learn** | Where the Door Beneath the Lake leads: to **Halcyon**. Play it as a private note or a whisper. Whether the rest of the table hears is the reader's choice. |
+| **Where it leads** | Halcyon, the drowned lamp-city under the Deep (D1). The door is one face of the Isle way in. Halcyon is Year Two's main site, keyed in the Year Two DM Guide, not here; what the Readers want freed lies there. Do not invent another destination, and do not explain the city. The DM decides what the reader glimpses (a lit avenue under water, a district, a key) and writes it down before the session. Take it from the Year Two DM Guide's key, so it holds when the party gets there. |
 | **The cost** | The DM decides. Pick one that fits the reader: they cannot sleep within sight of water; they wake knowing a hymn nobody taught them, and it is backward; the Terminal learns their name and The Fort's screen shows it once a day; they age a year for each turn they read; the eye-with-a-line appears on their palm, and the Saltmen will know it. |
 | **The temple** | Unchanged. The note holds. If Sarn lives, he treats the reader as a colleague. The Readers do not become The Fort's enemies, but they will come for the reader. They want to know what was read. |
 
@@ -1063,7 +1101,7 @@ Part 1 placed each playbook choice in the ravine. This table says where it lands
 | | Thinks it a wound | The cables to H10 drink power from below. | **Smash** closes a wound. **Reclaim** reopens it on purpose. |
 | | Thinks it a conversation | The backward song is one side shouting the other down. | **Read** lets the quiet side speak. |
 | **Fighter** | Forged a plow blade | H5: the Readers' bread is stolen from the Weirs. | Builder: what will The Fort build from what is left? |
-| | Forged the cage | H10: the chick. If the cage at home holds a young cockatrice, the Fighter has seen this before. | What to do with the chick decides what the cage at home is for. |
+| | Forged the cage | H10: the chick. The Fighter's iron cage in the Beast Pen stands empty, and Biddy roams the pen outside it. The Fighter has seen a cockatrice raised before. | What to do with the chick decides what the empty cage at home is for. |
 | | Forged coffin nails | H8's slate: *"Next: the burying ground at the lake fort."* The Readers mean to dig up The Fort's dead, the one the Fighter nailed in among them. | The Fighter knows something the Minister asked them to keep secret. Time to say it? |
 | **Elf** | People gone | H6: the logs record elves passing on the Old Road, westward, the year the empire fell. | The Elf remembers this station singing them off. |
 | | Sent to wait for a sign | The sign was a screen gone black with letters climbing. This is it. | It is time. For what, the Elf decides. |
@@ -1157,8 +1195,8 @@ Paying the orcs their 120 gp costs the party that treasure. The eggs count only 
 | **Captives freed from the pen** | E's captives come home with the party (Part 1's Fort Reacts covers who). Every family at The Fort counts heads. |
 | **News of the stone people** | Eleven people stand in stone on the Ridge. The Crown of the Stone Court can talk to them. The Fort's question from Module 1 comes back: who learns *Stone to Flesh*, and who is saved first? |
 | **Hearers sent home** | Harrow's village gets its sons back. Harrow hears what the eggs were for. He stops buying, or he raises his price. |
-| **The eggs** | Harrow wants them. The Minister wants them destroyed. Someone says, "a cockatrice beat the Gorgon Queen," and the room goes quiet. |
-| **The chick** | Goes in the Fighter's cage, or in the lake. The goats will not go near the beast pen. |
+| **The eggs** | Harrow wants them. The Minister wants them destroyed. Someone says, "Biddy stopped the Gorgon Queen," and the room goes quiet. |
+| **The chick** | Goes in the empty cage in the Beast Pen, near Biddy, or in the lake. Wick asks to keep it; someone has to say yes or no. The goats will not go near the Beast Pen. |
 | **The island map** | Maren knows exactly where the door is. She wants it watched. Nobody wants to row out. |
 | **The Fair Copy** | Three lost hymns. The Minister learns them. The Fort's Terminal answers one of them. |
 | **A backward hymnal** | Somebody at The Fort will read it. Decide who. |
@@ -1183,12 +1221,12 @@ Ask each player one question. Let them answer in a few sentences. That is the en
 
 | Thread | Where it goes |
 |--------|---------------|
-| **The Door Beneath the Lake** | The next campaign. The party has the map (H12), Lamp Station Nine on the Isle of Old Stone, the Warden in its collar, and whatever was read at Six. The door faces the Deep. Halcyon lies below. Nobody at The Fort knows what that means. |
+| **The Door Beneath the Lake** | Year Two. The door faces the Deep and is one face of the Isle way into **Halcyon**, the drowned lamp-city below: Year Two's main site, keyed in the Year Two DM Guide, not here. What the Readers want freed lies there. The party has the map (H12), Lamp Station Nine on the Isle of Old Stone, the Warden in its collar, and whatever was read at Six. Nobody at The Fort knows what Halcyon is. |
 | **The Readers' survivors** | If they live, they race the party to the door. If the Terminal was reclaimed, they hate The Fort. |
 | **Ketter Vosk and the Saltmen** | The egg trade, the boat, and the price of one guardian. Did a guardian reach him? |
 | **Harrow** | He knew where the eggs went, or he chose not to. The Fort has to decide what he is. |
 | **The other Terminals** | The Elf Minister's map, the Paladin's journal. Three still glow. One is across the sea. |
-| **The Gorgon Queen** | Stone, under lit wards, turned by a bird. The Readers' notes call the door's eyes "her kin." |
+| **The Gorgon Queen** | Paralysed by Biddy's cry in her own caves; dead since, and her wards dark. The Readers' notes say the island door's eyes are the same make as her wards, and that what held her will hold them. Biddy is at The Fort, and the Readers know it. |
 | **The Old Road** | The milestone hums. Whatever was chosen at Six, check whether it still does. |
 
 ### Rumors at The Fort, After the Temple

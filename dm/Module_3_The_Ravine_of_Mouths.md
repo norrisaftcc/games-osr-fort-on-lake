@@ -56,12 +56,12 @@ Two years ago, **the Readers of the Unwritten** took the station. The clans call
 
 | They want | Who gets it for them | Why |
 |-----------|---------------------|-----|
-| Cockatrice eggs | The Coin Teeth orcs (C) carry them from the humming milestone, where the Saltmen leave them | Word is out that a cockatrice beat the Gorgon Queen next door. The Readers want stone guardians that never sleep. Eggs make stone. |
+| Cockatrice eggs | The Coin Teeth orcs (C) carry them from the humming milestone, where the Saltmen leave them | Word is out that a cockatrice's cry stopped the Gorgon Queen next door. The Readers want stone guardians that never sleep. Eggs make stone. |
 | Copper cable | The Wirepicker kobolds (A) strip it from the galleries | To mend the dark Terminal's voice |
 | Living people | The Keyholder hobgoblins (E) buy and hold them; the Hosts (F) sell them guests | For the guardians. The Readers do not say this aloud. |
 | Obedience | Everyone | The Readers dug up the Sash orcs' dead (D) and made them walk. Every clan saw it. |
 
-**The Gorgon Queen.** Last year a cockatrice turned the Gorgon Queen to stone in the caves at B2. The wards there still glow; she is contained, not destroyed. Every clan on the Ridge knows the story. Kobold mothers tell it. Orcs swear by it. Nobody goes into the Gorgon Caves.
+**The Gorgon Queen.** Last year, in the Gorgon Caves at B2, the Glamourist tamed a cockatrice chick, and the chick's cry paralysed the Gorgon Queen. The chick is **Biddy** now. Wick keeps her at The Fort, and anyone who trades in eggs knows what she would fetch. This module assumes what came after; change any of it to fit your table: the queen is dead and her wards went dark, Petra is flesh again, and the skeleton the Glamourist declared Petra's master still sits in the caves on its stone chair. The Glamourist visits it. Every clan on the Ridge knows the story. Kobold mothers tell it. Orcs swear by it. Nobody goes into the Gorgon Caves now, because of the dead thing in the chair that a fae calls on like a friend.
 
 ### The Clock
 
@@ -89,16 +89,17 @@ Use one or more. They all point to the Ridge.
 | **The Saltmen's ledger** | Module 2 | The ledger from the grotto lists eggs "up the Old Road to the Readers, left at the hum." The hum is the humming milestone (C4). Someone collects there. |
 | **The humming milestone** | Harrow, or a Fort farmer | The old milestone on the Old Road has started to hum louder at night. Bootprints with hobnails in a ring come and go from it, west toward the Ridge. |
 | **Merrit Coyle** | Wenna's brother, a woodcutter | He asks the party to bring his sister home. He has nothing to pay. He will carry anything. |
-| **Petra** | If Petra was saved in Module 1 | She says that while she was stone she heard singing through the rock from the next ridge over, and the words ran backward. |
+| **Petra** | Petra, or the Fort watch | Petra sleeps long hours since she came back from stone, and now she walks in her sleep. Twice the watch has found her on the Old Road at dawn, facing west toward the Ridge. Awake, she says that while she was stone she heard singing through the rock from the next ridge over, and the words ran backward. She still hears it when she sleeps. |
 
 ### The Throughline
 
 | From | Clue | Points to |
 |------|------|-----------|
-| Module 1 | A cockatrice turned the Gorgon Queen to stone. Harrow buys cockatrice eggs. | Someone wants stone. |
+| Module 1 | A cockatrice chick's cry paralysed the Gorgon Queen. Harrow buys cockatrice eggs. | Someone wants what Biddy can do. |
 | Module 2 | The Saltmen leave eggs at the humming milestone for "the Readers". | The Old Road and the Ridge |
 | This module | The Coin Teeth carry eggs up the ravine. The Keyholders send people up. The Readers pay for both. | The Temple (H) |
 | Part 2 | The Readers' map of the island, and the dark Terminal | The Door Beneath the Lake |
+| Year Two | The Readers believe the hymns are a cage. What they want to set free lies under the lake, in Halcyon. | Halcyon (the Year Two DM Guide) |
 
 ---
 
@@ -127,7 +128,7 @@ Each player arrives with three facts from their playbook: a **public fact** (the
 | | The land is waking | No birds nest on the Ridge. But the ferns at **G1** grow in spirals, all turning the same way, toward the head of the ravine. |
 | | The land is old and remembers | The cable in **A5** is warm. The land is feeding it. The Terminal and the land are entangled here, and the Temple drinks from both. |
 | **Fighter** | Forged a plow blade | Knows every family. Wenna Coyle (**E4**) has two children at The Fort and a husband who drinks. |
-| | Forged the beast-pen cage | If the cage holds a goblin, it is **Snitter**'s cousin from the Brass Buttons (B). Brought along as a gift, it earns +2 on reactions at **B2**. |
+| | Forged the beast-pen cage | The cage stands empty now. If your table put a goblin in it, it is **Snitter**'s cousin from the Brass Buttons (B). Brought along as a gift, it earns +2 on reactions at **B2**. |
 | | Forged nails for coffins | The dead man was not sick. The claw marks were a bugbear's. The Hosts (F) hunt as far as the Weirs at night. |
 | **Elf** | People are gone | They went west, over the Ridge. Their sign is cut small into the brow of the First Mouth (**A1**): they saw these faces carved. |
 | | Was sent | "You will know when it's time." The sign: a ridge with no birds. It is time. |
@@ -135,6 +136,8 @@ Each player arrives with three facts from their playbook: a **public fact** (the
 | **Minister (NPC)** | Afraid it's just a recording | At the well in the Gut (**CD**), she hears the hymn in the water, reversed. The Terminals are not just recordings. Something is answering. |
 | | Afraid of new messages | The reversed line on **C2**'s wall is one of her new messages, backwards. |
 | | Afraid she's the last keeper | The Temple's Terminal is a keeper's Terminal too. Someone is keeping it. |
+
+**Year Two tables:** the Paladin is an NPC now, the Warden of the Gate. If she walks with the party, run her rows as you run the Minister's.
 
 ---
 
@@ -352,7 +355,7 @@ Monsters are not robots. Most want to live. Morale decides when they stop fighti
 
 | Clan | Wants | Fears | Hates | Will trade | Knows about the Temple |
 |------|-------|-------|-------|------------|------------------------|
-| **A. Wirepickers** (kobolds) | To sell cable without paying the goblin toll | Everything bigger; the owlbear; the Gorgon Caves | The Brass Buttons (the toll) | A safe way past B; their bolt-hole; how their trap works | The Readers buy cable "to mend the singing box's mouth". A Reader came once, touched Nitch's polished cable, and wept. |
+| **A. Wirepickers** (kobolds) | To sell cable without paying the goblin toll | Everything bigger; the owlbear; the skeleton on its stone chair in the Gorgon Caves | The Brass Buttons (the toll) | A safe way past B; their bolt-hole; how their trap works | The Readers buy cable "to mend the singing box's mouth". A Reader came once, touched Nitch's polished cable, and wept. |
 | **B. Brass Buttons** (goblins) | Toll; buttons; Tamsk paid or gone; the Sash to stop raiding her toll | Tamsk's temper; the Hosts | The Sash; the Wirepickers (won't pay) | Passage; her toll-sticks, a record of who goes up and down and when | The Collector comes down at the dark of the moon in a chair carried by two dead men. |
 | **C. Coin Teeth** (orcs) | The Gut's well; the Sash wiped out; more silver | The Readers' dead; losing the Readers' pay | The Sash | The Sash's chest (promised, not theirs to give); an escort on the Old Road | Eggs go up to "the House". The Readers pay in faceless silver. The Collector's name is Ivo. |
 | **D. The Sash** (orcs) | Their dead back in the ground; Vashka's head; the well | Being wiped out; they are fewer | The Coin Teeth; the Readers | Six spears to march on the Temple; drill | The Readers took twelve bodies from the Sash's niches. At dusk the dead walk in a line around the Temple yard, carrying stones. |
@@ -428,11 +431,15 @@ Check every 2 turns in the ravine and in the lairs (1-in-6), and twice a night i
 |----|---------|-----|-------|----|----|----|----|
 | 9 [10] | 2 (9) | 1 × mace (1d6) | 19 [0] | 120' (40') | D11 W12 P14 B16 S15 (C2) | 8 | 25 |
 
+*5e: CR 1 · AC 10 · hp 9 · mace +0 (1d6) · casts darkness once (CON save DC 12 or blinded).*
+
 **Hearers ×2** (the Readers' lay servants; grey robes on the road)
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 9 [10] | 1 (4, 3) | 1 × club (1d4) | 19 [0] | 120' (40') | D11 W12 P14 B16 S15 (C1) | 7 | 10 each |
+
+*5e: CR 1/2 · AC 10 · hp 4, 3 · club +0 (1d4) · flees at half HP.*
 
 **Skeletons ×2 (or ×4)** — the Sash's dead, red rags on their bones
 
@@ -440,11 +447,15 @@ Check every 2 turns in the ravine and in the lairs (1-in-6), and twice a night i
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | 1 (5, 4, 6, 3) | 1 × weapon (1d6) | 19 [0] | 60' (20') | D12 W13 P14 B15 S16 (F1) | 12 | 10 each |
 
+*5e: CR 1/2 · AC 12 · hp 5, 4, 6, 3 · weapon +0 (1d6).*
+
 **Giant rats ×1d6**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | ½ (2, 3, 1, 4, 2, 3) | 1 × bite (1d3 + disease) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 6 each |
+
+*5e: CR 1/4 · AC 12 · hp 2, 3, 1, 4, 2, 3 · bite +0 (1d3) · disease: CON save DC 12.*
 
 ---
 
@@ -463,7 +474,7 @@ Roll d10 for each PC before the first trip. Ossie knows two.
 | 7 | "The milestone on the Old Road is hollow at the foot. Smugglers leave things in it." | **True.** |
 | 8 | "The orcs up there are two tribes fighting over a woman." | **Partly.** Two bands. They fight over a well, and over silver. |
 | 9 | "The Readers are healers. They take the sick up the hill and cure them." | **False.** The Readers say this themselves. |
-| 10 | "On still nights the Ridge sings, and the words run backwards. The Gorgon Queen hears it in her stone." | **True**, as far as anyone can tell. |
+| 10 | "On still nights the Ridge sings, and the words run backwards. The old milestone on the Road hums along with it." | **True.** The faces are horns. They carry the reversed song down the Old Road to the milestone. |
 
 ---
 
@@ -535,6 +546,8 @@ Roll d10 for each PC before the first trip. Ossie knows two.
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | ½ (3, 2, 4, 1, 3, 4) | 1 × sling or spear (1d4) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 6 | 5 each |
 
+*5e: CR 1/4 · AC 12 · hp 3, 2, 4, 1, 3, 4 · sling or spear +0 (1d4) · flees at half HP.*
+
 When the first kobold drops, check morale. On a break, they slide off the back of the ledge and run for A3, shrieking.
 
 > **What This Room Teaches:** Morale. Kill one and watch the rest. You do not have to finish every fight.
@@ -568,6 +581,8 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | ½ (2, 2, 3, 1, 4, 3) | 1 × spear (1d4) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 6 | 5 each |
 
+*5e: CR 1/4 · AC 12 · hp 2, 2, 3, 1, 4, 3 · spear +0 (1d4) · flees at half HP.*
+
 **Surrender.** Kobolds who break with nowhere to run throw down their spears and grovel. They will tell what they know (the Faction Web) to anyone who promises not to hand them to the Hosts.
 
 > **What This Room Teaches:** Surrender is a morale result too. A beaten enemy is a source.
@@ -598,11 +613,15 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 2 (9) | 1 × hooked spear (1d6) | 18 [+1] | 60' (20') | D12 W13 P14 B15 S16 (F2) | 8 | 20 |
 
+*5e: CR 1 · AC 13 · hp 9 · hooked spear +1 (1d6).*
+
 **Bodyguards ×2** (fight as HD 1+1)
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1+1 (6, 5) | 1 × weapon (1d6) | 18 [+1] | 60' (20') | D12 W13 P14 B15 S16 (F1) | 7 | 15 each |
+
+*5e: CR 1/2 · AC 13 · hp 6, 5 · weapon +1 (1d6) · flees at half HP.*
 
 > **What This Room Teaches:** The leader holds the clan together. A leader can also be talked to.
 
@@ -673,6 +692,8 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1-1 (4, 6) | 1 × weapon (1d6) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 7 (9) | 5 each |
 
+*5e: CR 1/2 · AC 13 · hp 4, 6 · weapon +0 (1d6) · flees at half HP unless Grisk is in sight.*
+
 > **What This Room Teaches:** The reaction roll. Monsters talk before they fight, if you let them.
 
 > **Design Note:** Roll this one in the open. Then show the table how much a gift or a word would have changed it.
@@ -704,17 +725,23 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1-1 (2, 5, 1, 3, 7, 4, 2, 5) | 1 × weapon (1d6) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 7 (9) | 5 each |
 
+*5e: CR 1/2 · AC 13 · hp 2, 5, 1, 3, 7, 4, 2, 5 · weapon +0 (1d6) · flees at half HP unless Grisk is in sight.*
+
 **Mother Grisk** (fights as HD 3)
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 3 (15) | 1 × hooked knife (1d6+1) | 17 [+2] | 60' (20') | D12 W13 P14 B15 S16 (F3) | 9 | 35 |
 
+*5e: CR 2 · AC 13 · hp 15 · hooked knife +2 (1d6+1).*
+
 **Bodyguards ×2**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 2 (9, 7) | 1 × weapon (1d6) | 18 [+1] | 60' (20') | D12 W13 P14 B15 S16 (F2) | 9 | 20 each |
+
+*5e: CR 1 · AC 13 · hp 9, 7 · weapon +1 (1d6).*
 
 > **What This Room Teaches:** Parley has a price, and both sides know it. A leader who talks has something to sell.
 
@@ -742,6 +769,8 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 4+1 (26) | 1 × club (1d10) | 15 [+4] | 90' (30') | D10 W11 P12 B13 S14 (F4) | 10 (8 unpaid) | 125 |
+
+*5e: CR 2 · AC 14 · hp 26 · club +4 (1d10).*
 
 > **What This Room Teaches:** An enemy's ally is for sale if the enemy is a bad employer. Look at who isn't being paid.
 
@@ -793,6 +822,8 @@ When the first kobold drops, check morale. On a break, they slide off the back o
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1-1 (3, 6, 1, 4) | 1 × knife (1d6) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 7 (9) | 5 each |
+
+*5e: CR 1/2 · AC 13 · hp 3, 6, 1, 4 · knife +0 (1d6) · flees at half HP unless Grisk is in sight.*
 
 > **What This Room Teaches:** Food is treasure when you are 12 miles from home. And every lair has a second way out.
 
@@ -851,6 +882,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (5, 3, 7) | 1 × weapon (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
 
+*5e: CR 1/2 · AC 13 · hp 5, 3, 7 · weapon +0 (1d6).*
+
 > **What This Room Teaches:** Watchers have a direction. Learn which way they look.
 
 ### C2: The Coin Hall
@@ -878,11 +911,15 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (4, 6, 2, 8, 5, 4) | 1 × weapon (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
 
+*5e: CR 1/2 · AC 13 · hp 4, 6, 2, 8, 5, 4 · weapon +0 (1d6).*
+
 **Gorm, band leader**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 2 (11) | 1 × axe (1d8) | 18 [+1] | 120' (40') | D12 W13 P14 B15 S16 (F2) | 8 | 20 |
+
+*5e: CR 1 · AC 13 · hp 11 · axe +1 (1d8).*
 
 > **What This Room Teaches:** Read the walls. The Readers' hand shows long before you meet them.
 
@@ -914,11 +951,15 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 4 (16) | 1 × falchion (1d8) | 16 [+3] | 120' (40') | D10 W11 P12 B13 S14 (F4) | 9 | 75 |
 
+*5e: CR 2 · AC 14 · hp 16 · falchion +3 (1d8).*
+
 **Orc bodyguard**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (6) | 1 × weapon (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 |
+
+*5e: CR 1/2 · AC 13 · hp 6 · weapon +0 (1d6).*
 
 > **What This Room Teaches:** A faction leader always offers you her enemy's treasure. Ask why it isn't already hers.
 
@@ -946,6 +987,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (3, 7) | 1 × crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
+
+*5e: CR 1/2 · AC 13 · hp 3, 7 · crossbow +0 (1d6).*
 
 > **What This Room Teaches:** A wall between two enemies is a door for you.
 
@@ -975,6 +1018,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 9 [10] | ½ (2, 3, 2) | 1 × bite (poison: save or sick, half speed, 10 days) | 19 [0] | 60' (20') | D14 W15 P16 B17 S18 (NM) | 7 | 6 each |
+
+*5e: CR 1/4 · AC 10 · hp 2, 3, 2 · bite +0 (poison) · poison: CON save DC 12 or sick at half speed for 10 days · flees at half HP.*
 
 > **What This Room Teaches:** Factions. Two enemies who hate each other more than they hate you. Stand in the middle and both will talk.
 
@@ -1018,6 +1063,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (6, 4) | 1 × spear (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
 
+*5e: CR 1/2 · AC 13 · hp 6, 4 · spear +0 (1d6).*
+
 > **What This Room Teaches:** Two bands of the same monster are not the same. Read them.
 
 ### D2: The Drill Hall
@@ -1045,6 +1092,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (5, 7, 3, 8, 5) | 1 × spear (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 (9 in line) | 10 each |
+
+*5e: CR 1/2 · AC 13 (14 in shield line) · hp 5, 7, 3, 8, 5 · spear +0 (1d6).*
 
 > **What This Room Teaches:** An enemy with discipline fights as one thing. Break the line, and they are just orcs.
 
@@ -1075,11 +1124,15 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 4 (17) | 1 × short sword (1d6+1) | 16 [+3] | 120' (40') | D10 W11 P12 B13 S14 (F4) | 10 | 75 |
 
+*5e: CR 2 · AC 14 · hp 17 · short sword +3 (1d6+1).*
+
 **Orc**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (2) | 1 × spear (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 |
+
+*5e: CR 1/2 · AC 13 · hp 2 · spear +0 (1d6).*
 
 > **What This Room Teaches:** Every clan has a grievance. Find it, and you have an ally.
 
@@ -1106,6 +1159,8 @@ Two faces are carved side by side on the west wall, leaning toward each other as
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1 (6, 4) | 1 × spear (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
+
+*5e: CR 1/2 · AC 13 · hp 6, 4 · spear +0 (1d6).*
 
 > **What This Room Teaches:** A wall tells you who built it.
 
@@ -1169,6 +1224,8 @@ Count rounds from the first stroke of the gong.
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1+1 (6, 3) | 1 × weapon (1d8) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F1) | 8 (10) | 15 each |
 
+*5e: CR 1/2 · AC 13 · hp 6, 3 · weapon +1 (1d8).*
+
 > **What This Room Teaches:** An alarm is a monster you can kill before it acts.
 
 ### E2: The Guard Hall
@@ -1195,6 +1252,8 @@ Count rounds from the first stroke of the gong.
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1+1 (8, 5, 9, 4, 7, 2) | 1 × spear (1d8) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F1) | 8 (10) | 15 each |
 
+*5e: CR 1/2 · AC 13 · hp 8, 5, 9, 4, 7, 2 · spear +1 (1d8).*
+
 > **What This Room Teaches:** The lair responds. Fight here and every room hears.
 
 ### E3: The Kennel
@@ -1220,6 +1279,8 @@ Count rounds from the first stroke of the gong.
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 7 [12] | 2+2 (11, 9, 13) | 1 × bite (1d6) | 17 [+2] | 180' (60') | D12 W13 P14 B15 S16 (F1) | 8 | 25 each |
+
+*5e: CR 1 · AC 12 · hp 11, 9, 13 · bite +2 (1d6).*
 
 > **What This Room Teaches:** Not everything in a lair is loyal to it.
 
@@ -1255,6 +1316,8 @@ Count rounds from the first stroke of the gong.
 |----|---------|-----|-------|----|----|----|----|
 | 6 [13] | 1+1 (6, 5) | 1 × club (1d8) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F1) | 8 (10) | 15 each |
 
+*5e: CR 1/2 · AC 13 · hp 6, 5 · club +1 (1d8).*
+
 > **What This Room Teaches:** A rescue is a plan with two halves. Plan the way out before you open the cage.
 
 ### E5: Ushk's Tally Room
@@ -1284,11 +1347,15 @@ Count rounds from the first stroke of the gong.
 |----|---------|-----|-------|----|----|----|----|
 | 4 [15] | 5 (22) | 1 × morning star (2d4) | 15 [+4] | 90' (30') | D10 W11 P12 B13 S14 (F5) | 10 | 175 |
 
+*5e: CR 3 · AC 15 · hp 22 · morning star +4 (2d4).*
+
 **Bodyguards ×2**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 3 (14, 11) | 1 × weapon (1d8) | 17 [+2] | 90' (30') | D12 W13 P14 B15 S16 (F3) | 10 | 35 each |
+
+*5e: CR 2 · AC 14 · hp 14, 11 · weapon +2 (1d8).*
 
 > **What This Room Teaches:** Some enemies will sell what you came to steal. Ask the price, then decide whether you will pay it.
 
@@ -1377,11 +1444,15 @@ Show these. Do not explain them. A player who says what one means has read the t
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 3+1 (15) | 1 × weapon (2d4+1) | 16 [+3] | 90' (30') | D12 W13 P14 B15 S16 (F3) | 9 | 75 |
 
+*5e: CR 2 · AC 14 · hp 15 · weapon +3 (2d4+1).*
+
 **Gnoll**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 2 (9) | 1 × weapon (2d4) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F2) | 8 (6) | 20 |
+
+*5e: CR 1 · AC 14 · hp 9 · weapon +1 (2d4) · flees at half HP once Thole falls.*
 
 > **What This Room Teaches:** Hospitality can be a weapon.
 
@@ -1412,17 +1483,23 @@ Show these. Do not explain them. A player who says what one means has read the t
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 4+1 (25) | 1 × maul (2d4+2) | 15 [+4] | 90' (30') | D10 W11 P12 B13 S14 (F4) | 10 | 200 |
 
+*5e: CR 2 · AC 14 · hp 25 · maul +4 (2d4+2).*
+
 **Bugbears ×2**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 3+1 (12, 18) | 1 × weapon (2d4+1) | 16 [+3] | 90' (30') | D12 W13 P14 B15 S16 (F3) | 9 | 75 each |
 
+*5e: CR 2 · AC 14 · hp 12, 18 · weapon +3 (2d4+1).*
+
 **Gnoll**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 2 (11) | 1 × weapon (2d4) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F2) | 8 (6) | 20 |
+
+*5e: CR 1 · AC 14 · hp 11 · weapon +1 (2d4) · flees at half HP once Thole falls.*
 
 > **What This Room Teaches:** Read the table, not the words.
 
@@ -1472,11 +1549,15 @@ Show these. Do not explain them. A player who says what one means has read the t
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 3+1 (14) | 1 × cleaver (2d4+1) | 16 [+3] | 90' (30') | D12 W13 P14 B15 S16 (F3) | 9 | 75 |
 
+*5e: CR 2 · AC 14 · hp 14 · cleaver +3 (2d4+1).*
+
 **Gnolls ×2**
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 2 (7, 12) | 1 × weapon (2d4) | 18 [+1] | 90' (30') | D12 W13 P14 B15 S16 (F2) | 8 (6) | 20 each |
+
+*5e: CR 1 · AC 14 · hp 7, 12 · weapon +1 (2d4) · flees at half HP once Thole falls.*
 
 > **What This Room Teaches:** Hirelings are a clan's weak joint. The same lesson as Tamsk, and harder to see.
 
@@ -1562,7 +1643,7 @@ Show these. Do not explain them. A player who says what one means has read the t
 | **Exits** | West to G1 (steps). Along the north ledge to its east end, then up steps north to G3. South to G4 (an arched outflow at the east end of the south wall). |
 | **Encounter** | The owlbear, drinking, at dusk only |
 
-> **Read aloud:** Steps go down into still black water that fills a square hall of pillars. The ceiling is lost in the dark. Somewhere past the pillars, something breathes slow and deep, the way a sleeper breathes, and it is very big.
+> **Read aloud:** Steps go down into still black water that fills a square hall of pillars. The ceiling is lost in the dark. Somewhere past the pillars, something breathes slow and deep in its sleep, and it is very big.
 
 > **Turtle call:** The water runs ahead sixty feet. A narrow ledge hugs the wall on your left all the way to the far side, where it climbs to a dry opening. On your right, at the far end, an arch where the water leaves.
 
@@ -1600,6 +1681,8 @@ Show these. Do not explain them. A player who says what one means has read the t
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
 | 5 [14] | 5 (30) | 2 × claw (1d8), 1 × bite (1d8); hug 2d8 if both claws hit | 15 [+4] | 120' (40') | D12 W13 P14 B15 S16 (F3) | 9 | 175 |
+
+*5e: CR 3 · AC 14 · hp 30 · 2 claws and bite +4 (1d8 each) · hug 2d8 if both claws hit.*
 
 > **What This Room Teaches:** Avoidance. Not every lair is worth what it costs. The day-book is the real prize, and you can have it without a fight.
 
@@ -1758,7 +1841,7 @@ The Temple of the Unwritten is lair H, at the head of the ravine. It is written 
 | They know | From |
 |-----------|------|
 | The Readers pay in faceless silver and want eggs, cable and living people. | C3, A4, E5, F5 |
-| The eggs are for stone guardians, "twelve for the yard". A cockatrice beat the Gorgon Queen; the Readers mean to copy it. | G3, C3, E4 |
+| The eggs are for stone guardians, "twelve for the yard". A cockatrice's cry stopped the Gorgon Queen; the Readers mean to copy it. | G3, C3, E4 |
 | Collector Ivo's name and face. | Wandering table, C3, E6 |
 | The dead walk the Temple yard at dusk carrying stones. They are the Sash's dead. | D3 |
 | The Readers sing the hymns backwards. The faces carry the song. | A4, C2, CD |
