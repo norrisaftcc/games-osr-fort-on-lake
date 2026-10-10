@@ -46,11 +46,11 @@ Every lair has an **obvious approach** that a new player can try in the first mi
 
 ## What's Really Going On
 
-The empire cut the Ridge for stone. Then it found a better use for the cut. It built a relay station at the head of the cleft and carved great faces into the walls below it, each face around the mouth of a quarry gallery. Behind every face runs a cable as thick as a man's arm. The faces are horns. The station sang the hymns down the cleft, and the horns passed the song on, down the Old Road to the humming milestone and from there across the network. A hymn is a protocol. The faces were its loudspeakers.
+The empire cut the Ridge for stone. Then it found a better use for the cut. It built a relay station at the head of the cleft, **Choir Station Six**, and carved great faces into the walls below it, each face around the mouth of a quarry gallery. Behind every face runs a cable as thick as a man's arm. The faces are horns. The station sang the hymns down the cleft, and the horns passed the song on, down the Old Road to the humming milestone and from there across the network. A hymn is a protocol. The faces were its loudspeakers.
 
 The empire is gone. The galleries became lairs. Six clans live in them now, and they wear the empire's scrap without knowing what it was for.
 
-Two years ago, **the Readers of the Unwritten** took the relay station. They woke its dark Terminal and taught it to sing backwards. On still nights the horns still carry the song down the ravine, reversed. The clans hear it in their sleep. The Readers pay the clans in faceless silver and bully them with their dead.
+Two years ago, **the Readers of the Unwritten** took the station. The clans call it **the House**. They woke its dark Terminal and taught it to sing backwards. On still nights the horns still carry the song down the ravine, reversed. The clans hear it in their sleep. The Readers pay the clans in faceless silver and bully them with their dead.
 
 **What the Readers want from the ravine:**
 
@@ -70,10 +70,10 @@ The Readers and the clans do not wait for the party. Count weeks from the day th
 | Week | What happens if the party is slow |
 |------|-----------------------------------|
 | 1 | The Coin Teeth raid the Weirs again. Wenna Coyle is sold to the Keyholders (E). Collector Ivo takes two eggs up to the Temple. |
-| 2 | The Keyholders send their prisoners up the Collection Door (E6). **A rescue after week 2 finds the pens empty**, except for whoever was taken this week. The Sash try for the Gut and lose four orcs. |
-| 3 | The Coin Teeth take the Gut. The Sash are down to six and sealed in. The first stone guardian stands in the Temple yard. Its face is a face someone at The Fort would know. |
-| 4 | The Sash are gone: dead, or raiding the Fields (E4) for food. The Readers have the eggs they need. Collector Ivo and four Coin Teeth walk the Old Road toward the lake, asking about boats. |
-| 5+ | The Readers turn to the Door Beneath the Lake. Part 2 says what that means. |
+| 2 | The Keyholders send their prisoners out by the Ledge Door (E6) and up the ledge path. They reach the Temple's pen this week. **A rescue after week 2 finds the pens empty**, except for whoever was taken since. The Sash try for the Gut and lose four orcs. |
+| 3 | The Coin Teeth take the Gut. The Sash are down to six and sealed in. The first stone guardian stands in the Temple yard. Its face is a face someone at The Fort would know. The same week, The Fort's Terminal shows one line of hymn backwards. |
+| 4 | The Sash are gone: dead, or raiding the Fields (E4) for food. The eggs run out; the Readers have made what guardians they can. Collector Ivo and four Coin Teeth walk the Old Road toward the lake, asking about boats. |
+| 5+ | Reader Sarn leaves the House for the lake and the Door Beneath it. Part 2 says what that means. |
 
 > **Design Note:** Tell the players about the clock in the fiction, not as a rule. Merrit Coyle counts the days his sister has been gone. Harrow mentions that the eggs are "going quicker now". The point is that waiting is a choice with a cost.
 
@@ -206,7 +206,7 @@ All are normal humans: AC as listed, THAC0 19 [0], MV 120' (40') unless armoured
 
 ## The Expedition Sheet
 
-*One page. Keep it beside Module 2's Dungeon Clock. Read it before the first trip; use it at every return.*
+*One page. Put it beside Module 2's Dungeon Clock. Read it before the first trip; use it at every return.*
 
 ### 1. Before you leave The Fort
 
@@ -356,7 +356,7 @@ Monsters are not robots. Most want to live. Morale decides when they stop fighti
 | **B. Brass Buttons** (goblins) | Toll; buttons; Tamsk paid or gone; the Sash to stop raiding her toll | Tamsk's temper; the Hosts | The Sash; the Wirepickers (won't pay) | Passage; her toll-sticks, a record of who goes up and down and when | The Collector comes down at the dark of the moon in a chair carried by two dead men. |
 | **C. Coin Teeth** (orcs) | The Gut's well; the Sash wiped out; more silver | The Readers' dead; losing the Readers' pay | The Sash | The Sash's chest (promised, not theirs to give); an escort on the Old Road | Eggs go up to "the House". The Readers pay in faceless silver. The Collector's name is Ivo. |
 | **D. The Sash** (orcs) | Their dead back in the ground; Vashka's head; the well | Being wiped out; they are fewer | The Coin Teeth; the Readers | Six spears to march on the Temple; drill | The Readers took twelve bodies from the Sash's niches. At dusk the dead walk in a line around the Temple yard, carrying stones. |
-| **E. Keyholders** (hobgoblins) | Captives at good prices; order | The Readers stopping payment | Nobody. It is business. They despise goblins. | The prisoners, at a price; their ledger | Thirty-one captives sent up the ledge path by the Collection Door in two years. None came back down. |
+| **E. Keyholders** (hobgoblins) | Captives at good prices; order | The Readers stopping payment | Nobody. It is business. They despise goblins. | The prisoners, at a price; their ledger | Thirty-one captives sent up the ledge path in two years. None came back down. |
 | **F. The Hosts** (bugbears) | Guests; meat; to be admired | The owlbear; what the Readers do with the living | The Sash (Hrogg knows the Hosts ate a patrol) | Information, mixed true and false, for a price | The Readers pay thirty silver for each living guest. "They want them for the yard. Not for supper. I asked." |
 | **G. The owlbear** | Food, water, sleep | Fire | Anything in its water | Nothing | It ate a Reader. Her day-book is in its den. |
 
@@ -413,7 +413,7 @@ Check every 2 turns in the ravine and in the lairs (1-in-6), and twice a night i
 | 4 | The Sash | 1d4+2 orcs in step, patrolling | One orc with a red band, alone, wanting to die well. Attacks any Coin Tooth on sight. | A patrol that salutes |
 | 5 | Keyholders | 3 hobgoblins with a captive on a rope, walking up to E | A loose wolf (from E3), or an escaped captive | (The Keyholders do not ally. Treat as "holds", but they offer to buy the party's prisoners.) |
 | 6 | The Hosts | 2 gnolls pushing a handcart of boots | 1d4 unpaid gnolls, raiding anyone | Thole's doorman with an invitation to dinner. Still a trap, unless the deal was real. |
-| 7 | The Readers | **Collector Ivo**, 2 acolytes and 2 skeletons carrying his chair. If two or more clans are broken, he brings 4 skeletons and asks the party to tea. | — | — |
+| 7 | The Readers | **Collector Ivo**, 2 Hearers and 2 skeletons carrying his chair. If two or more clans are broken, he brings 4 skeletons and asks the party to tea. | — | — |
 | 8 | Beasts | By day: 1d6 giant rats from the spoil heaps. By night: the owlbear, if G was disturbed and it lives. | (G dead or gone: 1d4 wolves come down from the Ridge to the empty den) | — |
 
 **Collector Ivo** is a soft-voiced man in grey with a hand-drum at his belt. He is polite, curious and in no hurry. He asks the party's names and writes them down. He pays any clan anything for news of them.
@@ -428,7 +428,7 @@ Check every 2 turns in the ravine and in the lairs (1-in-6), and twice a night i
 |----|---------|-----|-------|----|----|----|----|
 | 9 [10] | 2 (9) | 1 × mace (1d6) | 19 [0] | 120' (40') | D11 W12 P14 B16 S15 (C2) | 8 | 25 |
 
-**Reader acolytes ×2**
+**Hearers ×2** (the Readers' lay servants; grey robes on the road)
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
@@ -1138,7 +1138,7 @@ Count rounds from the first stroke of the gong.
 | 3 | A hobgoblin opens E3: the wolves are loosed. |
 | 4 | Ushk and his bodyguards come out of E5. |
 | 5 | The two turnkeys in E4 cut the prisoners out of their cages and rope them together. |
-| 8 | Turnkeys and prisoners are through the Collection Door (E6). The door is barred from outside. |
+| 8 | Turnkeys and prisoners are through the Ledge Door (E6). The door is barred from outside. |
 | 1 turn | They are halfway up the ledge path to the Temple. The party can still catch them on the ledge, single file, in the open. |
 | 3 turns | They are at the Temple. Part 2. |
 
@@ -1294,7 +1294,7 @@ Count rounds from the first stroke of the gong.
 
 > **Design Note:** Buying people is a hard choice for the Paladin. That is the point. The oath says free them; it does not say how.
 
-### E6: The Collection Door
+### E6: The Ledge Door
 
 | | |
 |---|---|
@@ -1592,7 +1592,7 @@ Show these. Do not explain them. A player who says what one means has read the t
 |---------|--------|
 | The collar | An imperial control collar, cracked. A tag reads: "Cistern guard. Feed at the third bell." It used to tell the beast who was a friend. Now it tells it nothing. |
 | The dead Reader | Half eaten. Grey robe. A satchel: 60 gp, a silver chain (100 gp), and her day-book. |
-| The day-book | In a fine hand. The Temple's hours (when the Readers sing, when they sleep). "Twelve for the yard. The eggs are slow." The line the Readers sing at their own door, written out backwards. |
+| The day-book | In a fine hand. The House's hours (when the Readers sing, when they sleep). "Twelve for the yard. The eggs are slow." And the Readers' greeting, written out: the call is *"Keeps keeper the. Kept is light."* The answer is *"Held is sung is what."* |
 | *Sleep* | Does not work. The owlbear has 5 HD. |
 
 **Owlbear**
@@ -1637,10 +1637,10 @@ When the party leaves the ravine, the clans move. Apply each line for each clan 
 | **B. Brass Buttons** | Toll doubled. Tamsk, if unbought, is posted in B1. | Tamsk, if alive and unbought, takes the cave and eats the slow. Survivors flee to the Hosts and are eaten. | Toll waived. Fish and news for sale. Grisk still sends "customers" to the Hosts. |
 | **C. Coin Teeth** | Vashka hires 4 hobgoblins from E for the barricade and tells Ivo. | The Sash take the Gut and the south cave (see C and D). | C attacks D within 1d3 days. See C and D. |
 | **D. The Sash** | Hrogg seals D4 and sends two orcs to watch the Old Road. | The Coin Teeth take the Gut. Ivo's visits double. | D marches with the party, six spears, to C or to the Temple. Hrogg asks for his dead. |
-| **E. Keyholders** | Ivo sends an acolyte and 2 skeletons to E. The prisoners go up the ledge at the next dawn. A second gong is hung. | Captives freed. The Readers stop buying. The Hosts sell straight to the Temple. The Collection Door stands open. | Ushk raises his prices. Ivo has the party's faces and names. |
+| **E. Keyholders** | Ivo sends a Hearer and 2 skeletons to E. The prisoners go up the ledge at the next dawn. A second gong is hung. | Captives freed. The Readers stop buying. The Hosts sell straight to the Temple. The Ledge Door stands open. | Ushk raises his prices. Ivo has the party's faces and names. |
 | **F. The Hosts** | No more welcome. Two bugbears hunt the path at night (wandering row 6 becomes 2 bugbears). | Gnolls go raiding (wandering row 6, broken). The lantern goes dark. | Thole asks for an enemy delivered to his table. "A Coin Tooth. Or a Reader. I am not fussy." |
 | **G. Owlbear** | It roams by day too. Roll d6 each night: on 1–2 it raids a lair (that clan loses 1d4). | Its spring is clean water for anyone. The war in the Gut cools: both bands can drink. | — |
-| **The Readers** | After any clan falls, Ivo walks the ravine asking questions. | After two clans fall, Ivo asks the party to tea at the Foot, polite, with four skeletons. He offers 200 gp to stop. After four fall, the Temple closes its doors and the dead walk the yard by day. | — |
+| **The Readers** | After any clan falls, Ivo walks the ravine asking questions. | After two clans fall, Ivo asks the party to tea at the Foot, polite, with four skeletons. He offers 200 gp to stop. After four fall, the House shuts its doors and readies itself (Part 2). | — |
 
 ---
 
@@ -1652,7 +1652,7 @@ When the party comes home, The Fort sees what they carry. React.
 |---------------------|----------------------|
 | **Wenna Coyle, alive** | Her children run to the gate. Maren pays 50 gp from Fort stores. Merrit owes the party for the rest of his life and says so once. |
 | **Dace the Saltman** | Harrow goes pale. Maren wants him held. Dace wants out by morning. He knows Ketter Vosk and the hum. |
-| **Cockatrice eggs** | Harrow offers 50 gp each, as before. Now the party knows who his buyers sell to. Selling feeds the Readers. Destroying loses 100 gp. Keeping them is keeping a weapon. |
+| **Cockatrice eggs** | Harrow offers 50 gp each, as before. Now the party knows who his buyers sell to. Selling feeds the Readers. Destroying loses 100 gp. Holding on to them is holding a weapon. |
 | **Faceless silver** | Harrow will not touch it. The Minister holds a blank up to the Terminal and says, "A coin with no face is a hymn with no words." |
 | **Tamsk the ogre** | Panic at the gate. Maren: "Not inside the wall." The children love him. |
 | **Orc allies (the Sash)** | Maren will not let orcs inside. She will trade with them outside the gate. Two families leave for the fishing village. |
@@ -1666,7 +1666,7 @@ When the party comes home, The Fort sees what they carry. React.
 | Character | Lair | The moment |
 |-----------|------|------------|
 | **Wizard** | A2, B3, A4 | *Sleep* on the ledge kobolds or on Tamsk (it works; he is 4+1 HD). *I've Read About This* on the cable in A4: the ravine was a relay, the faces were horns. |
-| **Elf Minister** | C2, E3, G3 | Reads the reversed line on C2's wall. *The Archives Are Deep*: the empire called the cleft "the Choir"; the old records called the Terminals "the mouths". Names E3's collar as a control collar. *Detect Magic* on the F1 lantern. |
+| **Elf Minister** | C2, E3, G3 | Reads the reversed line on C2's wall. *The Archives Are Deep*: the House was Choir Station Six; the old records called the Terminals "the mouths". Names E3's collar as a control collar. *Detect Magic* on the F1 lantern. |
 | **Half-Elf Paladin** | D1, F2, E5 | The Sash salute her sigil. *Detect Evil* at Thole's table reads the Hosts. *The Oath Remembers* at D4: the Sash's wall is laid the way the order's auxiliaries built. Ushk's price for the prisoners tests the oath. |
 | **Gnome Druid** | A3, E3, G1 | Fights at full height in the four-foot warren. *Speak with Animals* turns E3's wolves. *The Land Speaks* at G1: one beast, limping, gone at dusk. *Entangle* in the ferns. |
 | **Fighter** | A1, E1, F5 | *I Know How This Was Made*: the deadfall's net, the gate's rusted hinge pins, the lock on Thole's strongbox. Holds the line against the Sash's shield wall, or beside it. |
@@ -1748,8 +1748,10 @@ The Temple of the Unwritten is lair H, at the head of the ravine. It is written 
 | Route | From | What it costs |
 |-------|------|---------------|
 | **The Readers' Stair** | The ravine path, past F | The front door. The Hosts see you go by. |
-| **The ledge path** | E6, the Collection Door | Three feet wide, 300' of cliff, single file. Comes out in the Temple's lower yard. The way the captives went. |
+| **The ledge path** | E6, the Ledge Door | Three feet wide, 300' of cliff, single file. Comes out in the Temple's lower yard. The way the captives went. |
 | **With the Sash** | Anywhere | Six orcs who want their dead back. They will not stop to talk. |
+
+*Not a way in:* a crack in the hillside 300' east of the Readers' Stair is Reader Sarn's bolt-hole. The party does not know it is there. Part 2 says when it matters.
 
 **What the party likely knows by now:**
 
@@ -1761,7 +1763,7 @@ The Temple of the Unwritten is lair H, at the head of the ravine. It is written 
 | The dead walk the Temple yard at dusk carrying stones. They are the Sash's dead. | D3 |
 | The Readers sing the hymns backwards. The faces carry the song. | A4, C2, CD |
 | The Readers mean to go down to the lake. | C3 |
-| The Temple's hours and the line the Readers sing at their door. | G3 |
+| The House's hours and the Readers' greeting, call and answer. | G3 |
 | Who is still in the Temple from the pens. | E5's ledger |
 
 > **Sidebar:** The ravine was a society. The Temple is a congregation. Everything the party learned here (who to pay, who to fear, when to run, which door is the back one) is what Part 2 tests. Ask the players, before they climb, what they think the Readers want. Then go and find out.
