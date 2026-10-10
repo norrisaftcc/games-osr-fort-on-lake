@@ -1,0 +1,86 @@
+Seed? 4
+
+THE FIRST DELVE - Stage 5: five rats
+
+Who rows to the island?
+  1. The Wizard: 4 hp, AC 9 [10], dagger 1d4, STR -1, one Sleep spell
+  2. The Fighter: 8 hp, AC 4 [15], sword 1d8, STR +1
+Pick 1 or 2: 2
+You are the Fighter.
+
+The Fort docks. Captain Maren sends you to the Isle of Old Stone.
+S1. THE BROKEN JETTY. A fresh rope burn on a post. A shadow in the water.
+The sun sets. You light a torch. It will burn 6 turns.
+S2. THE TOWER SHELL. Rubble, a stair up the wall, and crows.
+What do you do? Each choice takes one turn.
+  1. Search the rubble   2. Climb the stair   3. Look in the cottage
+Pick 1, 2 or 3: 1
+Under the rubble lies a trapdoor of black oak.
+Turn 1. Torch: 5 of 6.
+
+C1. THE CELLAR STAIR. Twenty feet down, an oak door. It is stuck.
+Listen at the door? (y/n): n
+Force the door? It takes one turn. (y/n): y
+Force: d6 = 3, need 3 or less: yes.
+The door bursts open with a crack like a dropped plank.
+Turn 2. Torch: 4 of 6.
+Wandering check: d6 = 5, need 1 or less: no.
+
+C2. THE OIL STORE. Racks of broken oil jars. The floor is tacky.
+Five giant rats, each the size of a cat, lift their heads from the spill.
+You hold the doorway. Only two rats can reach you at a time.
+Round 1. You: 8 hp. Rats: 2 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 1. d20 = 6, total 7 vs AC 12: miss.
+Rat 1 bites. d20 = 5, total 5 vs AC 15: miss.
+Rat 2 bites. d20 = 6, total 6 vs AC 15: miss.
+Round 2. You: 8 hp. Rats: 2 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 1. d20 = 20, total 21 vs AC 12: hit.
+You deal 2 damage.
+Rat 1 dies.
+Rat 2 bites. d20 = 1, total 1 vs AC 15: miss.
+Rat 3 bites. d20 = 8, total 8 vs AC 15: miss.
+Round 3. You: 8 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 6, total 7 vs AC 12: miss.
+Rat 2 bites. d20 = 9, total 9 vs AC 15: miss.
+Rat 3 bites. d20 = 17, total 17 vs AC 15: hit.
+You lose 1 hp.
+Round 4. You: 7 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 3, total 4 vs AC 12: miss.
+Rat 2 bites. d20 = 17, total 17 vs AC 15: hit.
+You lose 1 hp.
+Rat 3 bites. d20 = 9, total 9 vs AC 15: miss.
+Round 5. You: 6 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 8, total 9 vs AC 12: miss.
+Rat 2 bites. d20 = 4, total 4 vs AC 15: miss.
+Rat 3 bites. d20 = 7, total 7 vs AC 15: miss.
+Round 6. You: 6 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 17, total 18 vs AC 12: hit.
+You deal 2 damage.
+Rat 2 bites. d20 = 7, total 7 vs AC 15: miss.
+Rat 3 bites. d20 = 2, total 2 vs AC 15: miss.
+Round 7. You: 6 hp. Rats: x 1 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 10, total 11 vs AC 12: miss.
+Rat 2 bites. d20 = 7, total 7 vs AC 15: miss.
+Rat 3 bites. d20 = 20, total 20 vs AC 15: hit.
+You lose 2 hp.
+Round 8. You: 4 hp. Rats: x 1 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 7, total 8 vs AC 12: miss.
+Rat 2 bites. d20 = 20, total 20 vs AC 15: hit.
+You lose 3 hp.
+Rat 3 bites. d20 = 7, total 7 vs AC 15: miss.
+Round 9. You: 1 hp. Rats: x 1 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 10, total 11 vs AC 12: miss.
+Rat 2 bites. d20 = 1, total 1 vs AC 15: miss.
+Rat 3 bites. d20 = 18, total 18 vs AC 15: hit.
+You lose 3 hp.
+You fall among the broken jars. The rats close in.
+The delve is over for today.

@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Forge</title>
+<meta name="description" content="A seeded dungeon generator for the Fort Country: towers and ravines that teach B/X dungeon craft.">
+<style>
+  :root {
+    --paper: #f3ebd9; --ink: #1c1915; --muted: #5a5246; --rule: #1c1915; --panel: #ebe1cb; --accent: #1c1915;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --paper: #15130f; --ink: #efe6d2; --muted: #b9ae98; --rule: #efe6d2; --panel: #221f19; --accent: #efe6d2; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --paper: #15130f; --ink: #efe6d2; --muted: #b9ae98; --rule: #efe6d2; --panel: #221f19; --accent: #efe6d2; color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: "Palatino Linotype", Palatino, "Book Antiqua", "Iowan Old Style", Georgia, "DejaVu Serif", serif; font-size: 17px; line-height: 1.5; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 16px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; border-bottom: 2.5px solid var(--rule); padding-bottom: 6px; margin-bottom: 14px; }
+  h1, h2, h3, h4 { font-variant: small-caps; font-weight: normal; letter-spacing: 0.02em; line-height: 1.2; }
+  h1 { font-size: 2.2rem; margin: 0; }
+  .dmcopy { font-variant: small-caps; letter-spacing: 0.12em; font-size: 0.85rem; color: var(--muted); }
+  .lede { margin: 0 0 12px; color: var(--muted); font-style: italic; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; background: var(--panel); padding: 12px; border: 1px solid var(--rule); }
+  .controls fieldset { border: 0; padding: 0; margin: 0; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .controls legend, .controls label.cap { font-variant: small-caps; font-size: 0.9rem; letter-spacing: 0.05em; display: block; }
+  .field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .seedrow { display: flex; gap: 6px; }
+  input[type=number], select { font: inherit; font-size: 1rem; padding: 6px 8px; background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 0; width: 9.5em; max-width: 100%; }
+  select { width: auto; }
+  button { font: inherit; font-size: 0.95rem; padding: 7px 12px; background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 0; cursor: pointer; font-variant: small-caps; letter-spacing: 0.04em; }
+  button.primary { background: var(--ink); color: var(--paper); }
+  button:hover { outline: 2px solid var(--ink); outline-offset: 1px; }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .seg label { border: 1.5px solid var(--ink); padding: 6px 12px; cursor: pointer; font-variant: small-caps; }
+  .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .seg input:checked + span { font-weight: bold; }
+  .seg label:has(input:checked) { background: var(--ink); color: var(--paper); }
+  .seg input:focus-visible + span { outline: 3px solid currentColor; outline-offset: 3px; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; align-items: center; }
+  .share { font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; }
+  a { color: var(--ink); }
+  .status { font-size: 0.9rem; font-style: italic; min-height: 1.4em; }
+  #fallback { display: none; margin: 8px 0; }
+  #fallback textarea { width: 100%; height: 10em; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); }
+
+  .mapbox { border: 1px solid var(--rule); background: var(--paper); margin: 8px 0 18px; overflow: hidden; }
+  .mapbox.zoom { overflow: auto; max-height: 85vh; }
+  .mapbox svg { display: block; width: 100%; height: auto; }
+  .mapbox.zoom svg { width: 1500px; max-width: none; }
+  .map .fg-if { fill: var(--ink); } .map .fg-pf { fill: var(--paper); }
+  .map .fg-is { stroke: var(--ink); } .map .fg-ps { stroke: var(--paper); }
+
+  #key h1 { font-size: 2rem; border-bottom: 2.5px solid var(--rule); padding-bottom: 4px; margin-top: 8px; }
+  #key h2 { font-size: 1.45rem; border-bottom: 1.5px solid var(--rule); padding-bottom: 2px; margin-top: 1.6em; }
+  #key h2 em { font-style: italic; font-variant: normal; font-size: 1.1rem; border: 0; }
+  #key h3 { font-size: 1.2rem; margin-top: 1.4em; }
+  #key h3.room { display: flex; align-items: center; gap: 10px; }
+  #key h3.room .k { display: inline-flex; align-items: center; justify-content: center; min-width: 2.1em; height: 2.1em; padding: 0 0.4em; border-radius: 1.05em; background: var(--ink); color: var(--paper); font-variant: normal; font-weight: bold; font-size: 0.8rem; flex: none; }
+  #key p, #key li { max-width: 46em; }
+  #key blockquote { margin: 0.8em 0; padding: 0.4em 0.9em; border-left: 3px solid var(--ink); background: var(--panel); }
+  #key blockquote p { margin: 0.2em 0; }
+  .tablewrap { overflow-x: auto; margin: 0.6em 0; max-width: 100%; }
+  #key table { border-collapse: collapse; font-size: 0.92rem; min-width: 50%; }
+  #key th, #key td { border: 1px solid var(--rule); padding: 4px 8px; vertical-align: top; text-align: left; }
+  #key th { font-variant: small-caps; font-weight: normal; background: var(--panel); }
+  #key hr { border: 0; border-top: 1px dashed var(--muted); margin: 1.5em 0; }
+
+  details.how { border: 1px solid var(--rule); padding: 8px 12px; margin: 12px 0; background: var(--panel); }
+  details.how summary { cursor: pointer; font-variant: small-caps; font-size: 1.1rem; }
+  details.how code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85em; overflow-wrap: anywhere; }
+  details.how ol { padding-left: 1.3em; }
+  footer { margin-top: 2em; font-size: 0.85rem; font-style: italic; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 6px; }
+
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.7rem; }
+    #key h1 { font-size: 1.6rem; }
+    .controls { padding: 10px; }
+    input[type=number] { width: 7.5em; }
+  }
+  @media print {
+    :root, :root[data-theme="dark"] { --paper: #fff; --ink: #000; --muted: #333; --rule: #000; --panel: #fff; }
+    html, body { background: #fff; color: #000; }
+    .noprint, .controls, .actions, details.how, header.top .lede, #fallback, footer { display: none !important; }
+    .wrap { max-width: none; padding: 0; }
+    .mapbox { border: 0; page-break-after: always; break-after: page; overflow: visible; }
+    .mapbox svg, .mapbox.zoom svg { width: 100%; max-height: 95vh; }
+    #key h2.tier { break-before: page; page-break-before: always; }
+    #key h3, #key table, #key blockquote { break-inside: avoid; page-break-inside: avoid; }
+    .tablewrap { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>The Forge</h1>
+    <span class="dmcopy">DM copy · The Fort Country</span>
+  </header>
+  <p class="lede">Pick a template, give it a seed, and get a keyed dungeon with a map. The lesson ladder is fixed; the content is rolled. The same seed always makes the same dungeon, so a table can share one by number.</p>
+
+  <form class="controls" id="controls" onsubmit="return false">
+    <fieldset class="seg">
+      <legend>Template</legend>
+      <label><input type="radio" name="template" value="tower" checked><span>Tower</span></label>
+      <label><input type="radio" name="template" value="ravine"><span>Ravine</span></label>
+    </fieldset>
+    <div class="field">
+      <label class="cap" for="seed">Seed</label>
+      <div class="seedrow">
+        <input id="seed" type="number" min="0" max="4294967295" step="1" value="7" inputmode="numeric">
+        <button type="button" id="newseed">New seed</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="cap" for="level">Party level</label>
+      <select id="level"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+    </div>
+    <button type="button" class="primary" id="go">Generate</button>
+  </form>
+
+  <div class="actions noprint">
+    <button type="button" id="copy">Copy Markdown</button>
+    <button type="button" id="dlmd">Download .md</button>
+    <button type="button" id="dlsvg">Download .svg</button>
+    <button type="button" id="print">Print</button>
+    <button type="button" id="zoom" aria-pressed="false">Zoom map</button>
+    <button type="button" id="theme" title="Switch light and dark">Dark</button>
+  </div>
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+  <div id="fallback"><p>Copying is blocked here. The Markdown is selected below: press Ctrl+C (or ⌘C).</p><textarea id="fbtext" readonly></textarea></div>
+  <p class="share noprint">Share this dungeon: <a id="sharelink" href="#">this link</a></p>
+
+  <div class="mapbox map" id="map" aria-label="Map"></div>
+
+  <details class="how noprint" id="how">
+    <summary>How it works</summary>
+    <p><strong>The lesson ladder is fixed. The content is rolled.</strong> Each template has a list of lessons in a fixed order. The engine builds a map so that each lesson sits deeper than the one before it, then fills every room from the tables. A seed is the starting number for the dice. Same seed, same tables: same dungeon.</p>
+    <p id="ladder"></p>
+    <ol>
+      <li><strong>Add a table entry.</strong> Open <code>generator/tables.js</code>. Find a list, such as <code>ForgeTables.tower.cellarFiller</code> or <code>ForgeTables.ravine.quirks</code>. Copy an entry, change its words, save, and reload this page. Read-aloud text is one or two short sentences. Changing a table changes what a seed makes.</li>
+      <li><strong>Change a rule.</strong> The lesson ladders are in <code>TEMPLATES</code> near the top of <code>generator/forge.js</code>. Their order is the point of the dungeon. Change it only on purpose.</li>
+      <li><strong>Write a new template.</strong> In <code>forge.js</code>, write a <code>genSomething(seed, level)</code> that returns rooms with keys, exits and map boxes, add its lessons to <code>TEMPLATES</code>, and list it in <code>GENERATORS</code>. Then run <code>node generator/test.mjs</code>: it checks hundreds of seeds for you.</li>
+    </ol>
+  </details>
+
+  <article id="key" aria-label="Keyed dungeon"></article>
+
+  <footer>The Forge. Original tables for the Fort Country; OSE / B/X monster statistics. Map art rule: Otus ink, black on cream.</footer>
+</div>
+
+<script src="tables.js"></script>
+<script src="forge.js"></script>
+<script>
+(function () {
+  "use strict";
+  var current = null, md = "", svg = "";
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- tiny Markdown renderer for the Forge's own output ---------- */
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function inline(s) {
+    return esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
+  }
+  function splitRow(line) {
+    var cells = [], cur = "", i;
+    line = line.trim().replace(/^\|/, "").replace(/\|$/, "");
+    for (i = 0; i < line.length; i++) {
+      if (line[i] === "\\" && line[i + 1] === "|") { cur += "|"; i++; continue; }
+      if (line[i] === "|") { cells.push(cur.trim()); cur = ""; continue; }
+      cur += line[i];
+    }
+    cells.push(cur.trim());
+    return cells;
+  }
+  function render(src, tierNames) {
+    var lines = src.split("\n"), out = [], i = 0, para = [];
+    function flush() { if (para.length) { out.push("<p>" + inline(para.join(" ")) + "</p>"); para = []; } }
+    while (i < lines.length) {
+      var l = lines[i];
+      if (/^\s*$/.test(l)) { flush(); i++; continue; }
+      var h = /^(#{1,4})\s+(.*)$/.exec(l);
+      if (h) {
+        flush();
+        var lvl = h[1].length, text = h[2];
+        var rm = /^([A-Z]\d+)\.\s+(.*)$/.exec(text);
+        if (lvl === 3 && rm) out.push('<h3 class="room" id="room-' + rm[1] + '"><span class="k">' + esc(rm[1]) + "</span><span>" + inline(rm[2]) + "</span></h3>");
+        else out.push("<h" + lvl + (lvl === 2 && tierNames(text) ? ' class="tier"' : "") + ">" + inline(text) + "</h" + lvl + ">");
+        i++; continue;
+      }
+      if (/^---\s*$/.test(l)) { flush(); out.push("<hr>"); i++; continue; }
+      if (/^\|/.test(l)) {
+        flush();
+        var rows = [];
+        while (i < lines.length && /^\|/.test(lines[i])) { rows.push(lines[i]); i++; }
+        var head = splitRow(rows[0]), body = rows.slice(2).map(splitRow);
+        var blankHead = head.every(function (c) { return !c; });
+        var t = '<div class="tablewrap"><table>' + (blankHead ? "" : "<thead><tr>" + head.map(function (c) { return "<th>" + inline(c) + "</th>"; }).join("") + "</tr></thead>") + "<tbody>";
+        body.forEach(function (r) { t += "<tr>" + r.map(function (c) { return "<td>" + inline(c) + "</td>"; }).join("") + "</tr>"; });
+        out.push(t + "</tbody></table></div>");
+        continue;
+      }
+      if (/^>/.test(l)) {
+        flush();
+        var q = [];
+        while (i < lines.length && /^>/.test(lines[i])) { q.push(lines[i].replace(/^>\s?/, "")); i++; }
+        out.push("<blockquote><p>" + inline(q.join(" ")) + "</p></blockquote>");
+        continue;
+      }
+      if (/^- /.test(l)) {
+        flush();
+        var items = [];
+        while (i < lines.length && /^- /.test(lines[i])) { items.push("<li>" + inline(lines[i].slice(2)) + "</li>"); i++; }
+        out.push("<ul>" + items.join("") + "</ul>");
+        continue;
+      }
+      para.push(l); i++;
+    }
+    flush();
+    return out.join("\n");
+  }
+
+  /* ---------- state from the URL ---------- */
+  function readParams() {
+    var p = new URLSearchParams(location.search);
+    var t = p.get("template"), s = p.get("seed"), l = p.get("level");
+    if (t === "tower" || t === "ravine") document.querySelector('input[name=template][value="' + t + '"]').checked = true;
+    if (s !== null && /^\d+$/.test(s)) $("seed").value = s;
+    if (l === "1" || l === "2" || l === "3") $("level").value = l;
+  }
+  function opts() {
+    return {
+      template: document.querySelector("input[name=template]:checked").value,
+      seed: Math.max(0, Math.floor(Number($("seed").value) || 0)),
+      partyLevel: Number($("level").value) || 1
+    };
+  }
+  function shareURL(o) { return "?template=" + o.template + "&seed=" + o.seed + "&level=" + o.partyLevel; }
+
+  function generate() {
+    var o = opts();
+    try {
+      current = Forge.generate(o);
+      md = Forge.toMarkdown(current);
+      svg = Forge.toSVG(current);
+    } catch (e) {
+      $("status").textContent = "Could not generate: " + e.message;
+      throw e;
+    }
+    $("map").innerHTML = svg;
+    var tiers = {};
+    if (current.template === "tower") current.tiers.forEach(function (t) { tiers[t.name] = true; });
+    $("key").innerHTML = render(md, function (text) { return tiers[text] || /^(Lair |The Temple |The Ravine Floor)/.test(text); });
+    var url = shareURL(o);
+    $("sharelink").href = url;
+    $("sharelink").textContent = location.pathname.split("/").pop() + url;
+    try { history.replaceState(null, "", url); } catch (e) { /* file:// in some browsers */ }
+    document.title = current.title + " · The Forge";
+    $("status").textContent = current.title + ": " + current.rooms.length + " keyed areas, " + current.xpTotal + " XP from monsters.";
+    var L = Forge.templates[current.template].lessons;
+    $("ladder").innerHTML = "<strong>This template's ladder:</strong> " + L.map(function (l, i) { return (i + 1) + ". " + esc(l.label); }).join(" · ");
+    $("fallback").style.display = "none";
+  }
+
+  function download(name, text, type) {
+    var blob = new Blob([text], { type: type });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  function fileBase() { return "forge-" + current.template + "-" + current.seed + "-L" + current.partyLevel; }
+  function showFallback() {
+    $("fallback").style.display = "block";
+    $("fbtext").value = md;
+    $("fbtext").focus();
+    $("fbtext").select();
+  }
+
+  $("go").addEventListener("click", generate);
+  $("newseed").addEventListener("click", function () { $("seed").value = Math.floor(Math.random() * 100000); generate(); });
+  $("seed").addEventListener("keydown", function (e) { if (e.key === "Enter") generate(); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=template]"), function (r) { r.addEventListener("change", generate); });
+  $("level").addEventListener("change", generate);
+  $("copy").addEventListener("click", function () {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(md).then(function () { $("status").textContent = "Markdown copied."; }, showFallback);
+    } else showFallback();
+  });
+  $("dlmd").addEventListener("click", function () { download(fileBase() + ".md", md, "text/markdown"); });
+  $("dlsvg").addEventListener("click", function () { download(fileBase() + ".svg", svg, "image/svg+xml"); });
+  $("print").addEventListener("click", function () { window.print(); });
+  $("zoom").addEventListener("click", function () {
+    var on = $("map").classList.toggle("zoom");
+    this.setAttribute("aria-pressed", on ? "true" : "false");
+    this.textContent = on ? "Fit map" : "Zoom map";
+  });
+  function setThemeLabel() {
+    var t = document.documentElement.getAttribute("data-theme");
+    var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    $("theme").textContent = dark ? "Light" : "Dark";
+  }
+  $("theme").addEventListener("click", function () {
+    var t = document.documentElement.getAttribute("data-theme");
+    var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = dark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("forge-theme", next); } catch (e) { /* storage blocked */ }
+    setThemeLabel();
+  });
+  try { var saved = localStorage.getItem("forge-theme"); if (saved) document.documentElement.setAttribute("data-theme", saved); } catch (e) { /* storage blocked */ }
+  setThemeLabel();
+
+  readParams();
+  generate();
+})();
+</script>
+</body>
+</html>

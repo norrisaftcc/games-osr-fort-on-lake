@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The Drowned Tower: DM map for Module 2. Original cartography. Black ink on cream, after the Fort Country sheet.
+     Panels: the Island (1 square = 100 ft, with a 10 ft inset of tower and cottage), Level 1 The Lamp Cellars, Level 2 The Grotto.
+     Inside each panel group, 1 unit = 1 square. -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1000" height="1610" viewBox="0 0 1000 1610"
+     font-family="'Alegreya SC','Cormorant SC',Charter,'Bitstream Charter',Georgia,'Liberation Serif',serif">
+  <title>The Drowned Tower: DM map</title>
+  <defs>
+    <!-- faint 1-square grid -->
+    <pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse">
+      <path d="M1 0 H0 V1" fill="none" stroke="#1b1b1b" stroke-opacity="0.28" stroke-width="0.03"/>
+    </pattern>
+    <!-- open water: rows of waves, as on the hex sheet -->
+    <pattern id="water" width="1" height="0.5" patternUnits="userSpaceOnUse">
+      <path d="M0 0.25 q0.25 -0.16 0.5 0 t0.5 0" fill="none" stroke="#1b1b1b" stroke-width="0.045"/>
+    </pattern>
+    <!-- shallows: broken waves -->
+    <pattern id="shallow" width="1.2" height="0.7" patternUnits="userSpaceOnUse">
+      <path d="M0.1 0.2 q0.15 -0.1 0.3 0 M0.7 0.55 q0.15 -0.1 0.3 0" fill="none" stroke="#1b1b1b" stroke-width="0.045"/>
+    </pattern>
+    <!-- rock hatching: blocks of short strokes in turning directions, Otus/Dyson fashion -->
+    <pattern id="hatch" width="3" height="3" patternUnits="userSpaceOnUse">
+      <g stroke="#1b1b1b" stroke-width="0.06" stroke-linecap="round" fill="none">
+        <path d="M0.1 0.35 L1.4 0.15 M0.1 0.7 L1.4 0.5 M0.1 1.05 L1.4 0.85 M0.1 1.4 L1.4 1.2"/>
+        <path d="M1.7 0.1 L1.85 1.4 M2.05 0.1 L2.2 1.4 M2.4 0.1 L2.55 1.4 M2.75 0.1 L2.9 1.4"/>
+        <path d="M0.1 2.1 L0.6 1.6 M0.1 2.6 L1.1 1.6 M0.3 2.9 L1.4 1.8 M0.8 2.9 L1.4 2.3"/>
+        <path d="M1.9 1.6 L2.9 2.6 M1.6 1.8 L2.7 2.9 M1.6 2.3 L2.2 2.9 M2.4 1.6 L2.9 2.1"/>
+      </g>
+    </pattern>
+
+    <!-- ===== Level 1 floor plan (no paint: painted by <use>) ===== -->
+    <g id="L1floor">
+      <rect x="12" y="21" width="1" height="4"/>        <!-- C1 landing + stair -->
+      <rect x="10" y="19" width="3" height="2"/>        <!-- C2 -->
+      <rect x="6" y="19" width="4" height="2"/>         <!-- C3 -->
+      <rect x="12" y="16" width="1" height="3"/>        <!-- C2-C4 -->
+      <rect x="6" y="14" width="10" height="2"/>        <!-- C4 -->
+      <rect x="5" y="14" width="1" height="1"/>         <!-- C4-C5 -->
+      <rect x="1" y="11" width="4" height="6"/>         <!-- C5 -->
+      <rect x="2" y="8" width="1" height="3"/>          <!-- C5-C10 -->
+      <rect x="1" y="2" width="5" height="6"/>          <!-- C10 -->
+      <rect x="6" y="6" width="4" height="1"/>          <!-- C10-C8 -->
+      <rect x="10" y="6" width="5" height="5"/>         <!-- C8 -->
+      <rect x="12" y="11" width="1" height="3"/>        <!-- C4-C8 -->
+      <rect x="7" y="10" width="1" height="4"/>         <!-- C9 -->
+      <rect x="16" y="14" width="2" height="1"/>        <!-- C4-C6 -->
+      <polygon points="19,12 22,12 23,13 23,16 22,17 19,17 18,16 18,13"/> <!-- C6 -->
+      <rect x="20" y="10" width="1" height="2"/>        <!-- C6-C11 -->
+      <rect x="19" y="7" width="3" height="3"/>         <!-- C11 -->
+      <rect x="20" y="17" width="1" height="1"/>        <!-- C6-C7 -->
+      <rect x="18" y="18" width="4" height="4"/>        <!-- C7 -->
+      <rect x="13" y="21" width="5" height="1"/>        <!-- secret passage C1-C7 -->
+      <rect x="22" y="19" width="4" height="1"/>        <!-- C7-C12 -->
+      <rect x="26" y="16" width="5" height="6"/>        <!-- C12 -->
+    </g>
+    <clipPath id="panelclip"><rect x="0" y="0" width="33" height="26"/></clipPath>
+    <clipPath id="panelclipS"><rect x="0" y="0" width="33" height="20"/></clipPath>
+
+    <!-- ===== Level 2 floor plan ===== -->
+    <g id="L2floor">
+      <rect x="0" y="0" width="33" height="1.5"/>       <!-- open lake beyond the cliff -->
+      <polygon points="17,1.2 23,1.2 25.5,2.6 26.3,4.6 25.2,6.3 21,6.6 17.5,6.4 16.2,4.6 16.4,2.6"/> <!-- G1 -->
+      <polygon points="15.6,6.2 21,6.2 25.9,5.6 26.4,7.8 26,10.2 24.6,11.6 23.5,12.6 19.5,12.6 15.4,12.6 15.2,10 15.4,7.8"/> <!-- G2 -->
+      <polygon points="9.2,6.6 12.6,6.2 14.5,7.3 15.8,8.0 15.8,9.0 14.5,9.8 12.8,10.6 9.6,10.3 8.4,8.6"/> <!-- G4 -->
+      <polygon points="25.8,8.3 27.4,8.3 27.4,9.2 25.8,9.2"/> <!-- G2-G3 -->
+      <polygon points="27,6.8 30.6,6.4 32.2,7.9 31.8,10.4 28.4,11 26.8,9.9"/> <!-- G3 -->
+      <polygon points="25.0,10.6 26.1,10.0 28.0,14.4 26.9,14.9"/> <!-- G2-G5 -->
+      <polygon points="26.6,14.4 30.4,13.9 31.6,15.8 30.6,18.6 27.4,18.7 26.0,16.6"/> <!-- G5 -->
+      <polygon points="11.8,12.4 15,12.0 19.5,11.9 24.6,12.0 25.0,14.2 25.4,17.8 23.6,21.2 20.2,22.4 14,22.4 10.6,20.6 9.6,16.8 10.4,13.6"/> <!-- G7 -->
+      <polygon points="2.6,17.6 6.8,17.0 10.2,17.4 10.6,18.2 10.4,20.4 6.4,21.6 3.0,21.2 2.2,19.4"/> <!-- G6 -->
+      <polygon points="2.2,2.1 8.2,2.1 8.8,3.6 8.0,5.6 5.8,6.4 2.8,6.2 1.6,4.2"/> <!-- G8, under the north cliff -->
+      <polygon points="3.0,5.6 5.8,5.8 5.4,8.4 5.8,11.6 6.6,12.5 10.9,12.6 10.2,14.9 4.8,14.8 2.8,12.6 2.4,8.4"/> <!-- north arm: ledge and deep water, G7 to G8 -->
+    </g>
+    <clipPath id="L2clip">
+      <rect x="0" y="0" width="33" height="1.5"/>       
+      <polygon points="17,1.2 23,1.2 25.5,2.6 26.3,4.6 25.2,6.3 21,6.6 17.5,6.4 16.2,4.6 16.4,2.6"/> 
+      <polygon points="15.6,6.2 21,6.2 25.9,5.6 26.4,7.8 26,10.2 24.6,11.6 23.5,12.6 19.5,12.6 15.4,12.6 15.2,10 15.4,7.8"/> 
+      <polygon points="9.2,6.6 12.6,6.2 14.5,7.3 15.8,8.0 15.8,9.0 14.5,9.8 12.8,10.6 9.6,10.3 8.4,8.6"/> 
+      <polygon points="25.8,8.3 27.4,8.3 27.4,9.2 25.8,9.2"/> 
+      <polygon points="27,6.8 30.6,6.4 32.2,7.9 31.8,10.4 28.4,11 26.8,9.9"/> 
+      <polygon points="25.0,10.6 26.1,10.0 28.0,14.4 26.9,14.9"/> 
+      <polygon points="26.6,14.4 30.4,13.9 31.6,15.8 30.6,18.6 27.4,18.7 26.0,16.6"/> 
+      <polygon points="11.8,12.4 15,12.0 19.5,11.9 24.6,12.0 25.0,14.2 25.4,17.8 23.6,21.2 20.2,22.4 14,22.4 10.6,20.6 9.6,16.8 10.4,13.6"/> 
+      <polygon points="2.6,17.6 6.8,17.0 10.2,17.4 10.6,18.2 10.4,20.4 6.4,21.6 3.0,21.2 2.2,19.4"/> 
+      <polygon points="2.2,2.1 8.2,2.1 8.8,3.6 8.0,5.6 5.8,6.4 2.8,6.2 1.6,4.2"/>
+      <polygon points="3.0,5.6 5.8,5.8 5.4,8.4 5.8,11.6 6.6,12.5 10.9,12.6 10.2,14.9 4.8,14.8 2.8,12.6 2.4,8.4"/> 
+    </clipPath>
+
+    <!-- ===== Island outline ===== -->
+    <polygon id="island" points="6,4 9,3 13,2.6 17,2.4 21,2.5 24,3.2 27,4.5 29.5,7 30,10 29,13.5 26.5,16.5 22,18.2 17,18.8 12.5,18.4 8.5,17 5.5,14.5 4,11 4.3,7.5"/>
+    <clipPath id="islandclip"><use xlink:href="#island"/></clipPath>
+
+    <!-- pine, as on the hex sheet -->
+    <g id="pine" fill="none" stroke="#1b1b1b" stroke-width="0.06" stroke-linejoin="round">
+      <path d="M0 -0.32 L0.24 0.12 L-0.24 0.12 Z M0 -0.12 L0.16 0.12 M0 -0.12 L-0.16 0.12 M0 0.12 L0 0.3"/>
+    </g>
+    <!-- carved eye, for wards -->
+    <g id="eye" fill="none" stroke="#1b1b1b" stroke-width="0.05">
+      <path d="M-0.3 0 Q0 -0.22 0.3 0 Q0 0.22 -0.3 0 Z"/>
+      <circle r="0.08" fill="#1b1b1b"/>
+    </g>
+  </defs>
+
+  <!-- paper -->
+  <rect width="1000" height="1610" fill="#F5EFE0"/>
+
+  <!-- ===== title block ===== -->
+  <text x="30" y="58" font-size="34" font-variant="small-caps" letter-spacing="1" fill="#1b1b1b">The Drowned Tower</text>
+  <text x="970" y="58" font-size="12.5" font-variant="small-caps" letter-spacing="1.2" text-anchor="end" fill="#1b1b1b">DM copy · 1 square = 10 feet</text>
+  <line x1="30" y1="70" x2="970" y2="70" stroke="#1b1b1b" stroke-width="2"/>
+  <text x="30" y="92" font-size="13" font-style="italic" fill="#1b1b1b">Lamp Station Nine, on the Isle of Old Stone (hex D2). Module 2. Players never see this sheet.</text>
+  <!-- compass -->
+  <g transform="translate(945,108)" stroke="#1b1b1b" fill="#1b1b1b">
+    <line x1="0" y1="34" x2="0" y2="-4" stroke-width="1.6"/>
+    <path d="M0 -12 L-6 2 L0 -2 L6 2 Z"/>
+    <text x="0" y="-18" font-size="14" text-anchor="middle" stroke="none">N</text>
+  </g>
+
+  <!-- =========================================================== -->
+  <!-- PANEL 1: THE ISLAND (1 square = 100 ft)                     -->
+  <!-- =========================================================== -->
+  <text x="30" y="128" font-size="17" font-variant="small-caps" letter-spacing="0.8" fill="#1b1b1b">The Island · Surface</text>
+  <line x1="30" y1="134" x2="624" y2="134" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(30,140) scale(18)"><g clip-path="url(#panelclipS)">
+    <rect width="33" height="20" fill="#F5EFE0"/>
+    <rect width="33" height="20" fill="url(#water)"/>
+    <!-- rocky shore: hatch band, then the land on top -->
+    <use xlink:href="#island" fill="none" stroke="url(#hatch)" stroke-width="1.3"/>
+    <use xlink:href="#island" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.14"/>
+    <use xlink:href="#island" fill="url(#grid)"/>
+    <!-- north cliff over the grotto -->
+    <path d="M14 2.62 l0 -0.6 M14.4 2.6 l0 -0.55 M14.8 2.58 l0 -0.62 M15.2 2.55 l0 -0.55 M15.6 2.53 l0 -0.62 M16 2.5 l0 -0.55 M16.4 2.48 l0 -0.62 M16.8 2.45 l0 -0.55 M17.2 2.42 l0 -0.62 M17.6 2.42 l0 -0.55 M18 2.43 l0 -0.62 M18.4 2.44 l0 -0.55 M18.8 2.45 l0 -0.62 M19.2 2.46 l0 -0.55 M19.6 2.47 l0 -0.62 M20 2.48 l0 -0.55 M20.4 2.49 l0 -0.62 M20.8 2.5 l0 -0.55 M21.2 2.55 l0 -0.6 M21.6 2.65 l0 -0.55"
+          stroke="#1b1b1b" stroke-width="0.07"/>
+    <!-- the boat-shaped shadow under the cliff -->
+    <path d="M18.2 1.25 Q19 0.85 19.8 1.25 Q19 1.65 18.2 1.25 Z" fill="#1b1b1b" fill-opacity="0.75"/>
+    <!-- pines -->
+    <g>
+      <use xlink:href="#pine" x="7" y="6"/><use xlink:href="#pine" x="8.2" y="5.2"/><use xlink:href="#pine" x="9.5" y="6.4"/>
+      <use xlink:href="#pine" x="6.2" y="8.6"/><use xlink:href="#pine" x="7.6" y="9.8"/><use xlink:href="#pine" x="6.8" y="12"/>
+      <use xlink:href="#pine" x="8.4" y="13.4"/><use xlink:href="#pine" x="10" y="15.4"/><use xlink:href="#pine" x="11.4" y="11.6"/>
+      <use xlink:href="#pine" x="10.6" y="8.4"/><use xlink:href="#pine" x="12.6" y="5.2"/><use xlink:href="#pine" x="13.4" y="9.2"/>
+      <use xlink:href="#pine" x="12.8" y="14.6"/><use xlink:href="#pine" x="13.2" y="16.8"/><use xlink:href="#pine" x="18.6" y="15.2"/>
+      <use xlink:href="#pine" x="20.2" y="12.6"/><use xlink:href="#pine" x="19.2" y="9.6"/><use xlink:href="#pine" x="21.6" y="7.2"/>
+      <use xlink:href="#pine" x="23.4" y="9.8"/><use xlink:href="#pine" x="22.6" y="13.8"/><use xlink:href="#pine" x="24.6" y="12.2"/>
+      <use xlink:href="#pine" x="25.6" y="7.6"/><use xlink:href="#pine" x="26.8" y="9.4"/><use xlink:href="#pine" x="21" y="16.2"/>
+      <use xlink:href="#pine" x="15" y="4.8"/><use xlink:href="#pine" x="22.4" y="4.6"/><use xlink:href="#pine" x="10.2" y="4.2"/>
+    </g>
+    <!-- paths -->
+    <g fill="none" stroke="#1b1b1b" stroke-width="0.08" stroke-dasharray="0.28 0.2">
+      <path d="M15.2 18.3 C15.4 15 16.4 12 17.0 9 S17.4 6.6 17.5 6.0"/>
+      <path d="M17.62 5.25 L18.1 3.45"/>
+      <path d="M15.6 18.2 C19 17.8 23 16.7 26 14.8 S27.5 12.8 27.9 12.3"/>
+      <path d="M28.3 11.0 C28.1 8.5 26 5.6 23 4.2 S19.5 3.3 18.4 3.2"/>
+    </g>
+    <!-- jetty, its end fallen -->
+    <rect x="14.98" y="18.35" width="0.42" height="0.75" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.08"/>
+    <path d="M15.0 19.3 l0.18 -0.05 l0.05 0.16 l-0.18 0.05 Z M15.25 19.42 l0.16 0.02 l-0.02 0.15 l-0.16 -0.02 Z" fill="#1b1b1b"/>
+    <!-- tower and cottage (not to scale here; see inset) -->
+    <circle cx="17.5" cy="5.6" r="0.36" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.14"/>
+    <rect x="18.1" y="5.35" width="0.5" height="0.4" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.1"/>
+    <!-- lamp-stones: eight at the waterline, three on the east point -->
+    <g fill="#1b1b1b">
+      <circle cx="28.5" cy="11.4" r="0.2"/><circle cx="28.95" cy="12.0" r="0.2"/><circle cx="28.3" cy="12.55" r="0.2"/>
+      <circle cx="8.6" cy="16.7" r="0.17"/><circle cx="4.65" cy="11" r="0.17"/><circle cx="6.2" cy="4.45" r="0.17"/>
+      <circle cx="13" cy="3.05" r="0.17"/>
+      <ellipse cx="22" cy="17.8" rx="0.28" ry="0.12" transform="rotate(-20 22 17.8)"/>
+    </g>
+    <!-- keys -->
+    <g font-family="Charter,'Bitstream Charter',Georgia,serif" font-weight="bold" font-size="0.62" text-anchor="middle" fill="#fff">
+      <g transform="translate(13.7,19.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S1</text></g>
+      <g transform="translate(16.3,5.7)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S2</text></g>
+      <g transform="translate(19.55,5.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S3</text></g>
+      <g transform="translate(27.0,12.6)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S4</text></g>
+      <g transform="translate(16.85,3.45)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S5</text></g>
+    </g>
+    <!-- notes on the water -->
+    <g font-size="0.62" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.22" paint-order="stroke">
+      <text x="21" y="0.95">boat-shaped shadow</text>
+      <text x="6.6" y="1.3">north: the Deep (D1)</text>
+      <text x="20.5" y="19.55">south: the Shallows; The Fort, 12 miles</text>
+      <text x="29.9" y="15.6" text-anchor="middle">east point</text>
+    </g>
+    <!-- scale bar (100 ft squares) -->
+    <g transform="translate(0.7,17.6)">
+      <rect x="-0.3" y="-0.9" width="6.2" height="2.2" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0 0 H5 M0 -0.25 V0.25 M1 -0.15 V0.15 M2 -0.15 V0.15 M3 -0.15 V0.15 M4 -0.15 V0.15 M5 -0.25 V0.25" stroke="#1b1b1b" stroke-width="0.07"/>
+      <rect x="0" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="2" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="4" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/>
+      <text x="0" y="-0.4" font-size="0.55" fill="#1b1b1b">0</text>
+      <text x="5" y="-0.4" font-size="0.55" text-anchor="end" fill="#1b1b1b">500 ft</text>
+      <text x="0" y="0.95" font-size="0.55" font-style="italic" fill="#1b1b1b">1 square = 100 feet</text>
+    </g>
+    </g>
+    <rect width="33" height="20" fill="none" stroke="#1b1b1b" stroke-width="0.1"/>
+  </g>
+
+  <!-- ===== inset: tower and cottage at 10 ft ===== -->
+  <text x="660" y="160" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Tower &amp; Cottage</text>
+  <text x="970" y="160" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">1 square = 10 feet</text>
+  <line x1="660" y1="166" x2="970" y2="166" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(664,174) scale(18)">
+    <rect width="17" height="13" fill="#F5EFE0"/>
+    <rect width="17" height="13" fill="url(#grid)"/>
+    <!-- paths -->
+    <g fill="none" stroke="#1b1b1b" stroke-width="0.08" stroke-dasharray="0.28 0.2">
+      <path d="M5.5 8.3 L5.5 12.9"/>
+      <path d="M6.9 6.9 C8.2 6.0 8.1 3.0 8.0 0.1"/>
+      <path d="M7.1 7.2 L9.0 7.2 L9.0 6.1"/>
+    </g>
+    <!-- tower: wall ring, door gap to the south -->
+    <circle cx="5.5" cy="6.5" r="1.6" fill="none" stroke="url(#hatch)" stroke-width="1.0"/>
+    <circle cx="5.5" cy="6.5" r="1.55" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.32"/>
+    <circle cx="5.5" cy="6.5" r="1.4" fill="url(#grid)"/>
+    <rect x="5.15" y="7.85" width="0.7" height="0.4" fill="#F5EFE0"/>
+    <path d="M5.15 7.88 V8.22 M5.85 7.88 V8.22" stroke="#1b1b1b" stroke-width="0.08"/>
+    <!-- inner stair round the wall (ticks), rising clockwise from the door to the broken top -->
+    <g stroke="#1b1b1b" stroke-width="0.05">
+      <path d="M4.36 7.36 L4.6 7.12 M4.14 7.05 L4.42 6.86 M4.0 6.7 L4.31 6.58 M3.96 6.33 L4.29 6.3 M4.02 5.96 L4.33 6.03 M4.17 5.62 L4.45 5.78 M4.4 5.32 L4.64 5.55 M4.7 5.08 L4.88 5.36 M5.05 4.94 L5.15 5.26 M5.43 4.9 L5.45 5.23 M5.8 4.93 L5.73 5.26 M6.16 5.05 L6.02 5.35"/>
+      <path d="M4.45 7.25 A1.25 1.25 0 0 1 6.1 5.2" fill="none"/>
+    </g>
+    <!-- rubble -->
+    <g fill="#1b1b1b">
+      <circle cx="5.0" cy="6.0" r="0.07"/><circle cx="5.3" cy="5.8" r="0.05"/><circle cx="6.0" cy="6.1" r="0.08"/><circle cx="6.3" cy="6.6" r="0.06"/>
+      <circle cx="6.1" cy="7.1" r="0.07"/><circle cx="5.6" cy="7.4" r="0.05"/><circle cx="4.9" cy="7.2" r="0.06"/><circle cx="4.7" cy="6.6" r="0.07"/>
+      <circle cx="5.9" cy="5.6" r="0.05"/><circle cx="6.5" cy="6.0" r="0.05"/><circle cx="5.2" cy="7.0" r="0.04"/><circle cx="4.85" cy="6.3" r="0.04"/>
+    </g>
+    <!-- trapdoor -->
+    <rect x="5.2" y="6.2" width="0.6" height="0.6" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.07"/>
+    <path d="M5.2 6.4 H5.8 M5.2 6.6 H5.8" stroke="#1b1b1b" stroke-width="0.04"/>
+    <!-- cottage: 30 x 20, roof gone; door west; hearth north -->
+    <rect x="9" y="4.5" width="3" height="2" fill="none" stroke="url(#hatch)" stroke-width="0.9"/>
+    <rect x="9" y="4.5" width="3" height="2" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.26"/>
+    <rect x="9" y="4.5" width="3" height="2" fill="url(#grid)"/>
+    <rect x="8.85" y="5.85" width="0.3" height="0.5" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.06"/>
+    <rect x="10.2" y="4.55" width="0.65" height="0.35" fill="#1b1b1b"/>
+    <rect x="11.2" y="5.4" width="0.65" height="0.95" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+    <!-- chalk mark beside the door -->
+    <g transform="translate(8.45,5.55) scale(0.8)"><use xlink:href="#eye"/><path d="M-0.35 0.25 L0.35 -0.25" stroke="#1b1b1b" stroke-width="0.07"/></g>
+    <!-- keys -->
+    <g font-family="Charter,'Bitstream Charter',Georgia,serif" font-weight="bold" font-size="0.62" text-anchor="middle" fill="#fff">
+      <g transform="translate(3.3,4.6)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S2</text></g>
+      <g transform="translate(13.1,5.5)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">S3</text></g>
+    </g>
+    <g font-size="0.55" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.2" paint-order="stroke">
+      <text x="2.2" y="9.1">trapdoor under rubble:</text>
+      <text x="2.2" y="9.75">down to C1</text>
+      <text x="5.75" y="12.7">to S1</text>
+      <text x="8.25" y="0.75">to S5</text>
+      <text x="9.0" y="3.8">hearth</text>
+      <text x="6.1" y="10.9">inner stair to the</text>
+      <text x="6.1" y="11.5">broken top, 40 ft up</text>
+      <text x="12.4" y="7.5">chalk mark on door</text>
+    </g>
+    <path d="M4.55 8.6 L5.25 6.85" stroke="#1b1b1b" stroke-width="0.04"/>
+    <path d="M10.3 7.15 L8.6 5.85" stroke="#1b1b1b" stroke-width="0.04"/>
+    <!-- scale -->
+    <g transform="translate(13.2,11.6)">
+      <path d="M0 0 H3 M0 -0.2 V0.2 M1 -0.12 V0.12 M2 -0.12 V0.12 M3 -0.2 V0.2" stroke="#1b1b1b" stroke-width="0.06"/>
+      <text x="0" y="-0.35" font-size="0.5" fill="#1b1b1b">0</text>
+      <text x="3" y="-0.35" font-size="0.5" text-anchor="end" fill="#1b1b1b">30 ft</text>
+    </g>
+    <rect width="17" height="13" fill="none" stroke="#1b1b1b" stroke-width="0.1"/>
+  </g>
+
+  <!-- =========================================================== -->
+  <!-- PANEL 2: LEVEL 1, THE LAMP CELLARS                          -->
+  <!-- =========================================================== -->
+  <text x="30" y="548" font-size="17" font-variant="small-caps" letter-spacing="0.8" fill="#1b1b1b">Level 1 · The Lamp Cellars</text>
+  <text x="624" y="548" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">20 feet below the tower floor</text>
+  <line x1="30" y1="554" x2="624" y2="554" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(30,560) scale(18)"><g clip-path="url(#panelclip)">
+    <rect width="33" height="26" fill="#F5EFE0"/>
+    <!-- hatch band, walls, floor, grid -->
+    <use xlink:href="#L1floor" fill="none" stroke="url(#hatch)" stroke-width="2.3"/>
+    <use xlink:href="#L1floor" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.28" stroke-linejoin="miter"/>
+    <use xlink:href="#L1floor" fill="#F5EFE0"/>
+    <use xlink:href="#L1floor" fill="url(#grid)"/>
+
+    <!-- secret door: wall restored, S on it -->
+    <path d="M13 21 V22" stroke="#1b1b1b" stroke-width="0.28"/>
+    <text x="13" y="21.72" font-size="0.75" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.14" paint-order="stroke" font-family="Charter,Georgia,serif">S</text>
+
+    <g>
+      <!-- C1 stair: rising south to the trapdoor -->
+      <path d="M12 22.2 H13 M12 22.5 H13 M12 22.8 H13 M12 23.1 H13 M12 23.4 H13 M12 23.7 H13 M12 24.0 H13 M12 24.3 H13 M12 24.6 H13" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="12.15" y="24.68" width="0.7" height="0.3" fill="none" stroke="#1b1b1b" stroke-width="0.06"/>
+      <!-- C3 stair: falling west into water -->
+      <path d="M9.8 19 V21 M9.5 19 V21 M9.2 19 V21 M8.9 19 V21 M8.6 19 V21 M8.3 19 V21 M8.0 19 V21 M7.7 19 V21 M7.4 19 V21 M7.1 19 V21 M6.8 19 V21 M6.5 19 V21 M6.2 19 V21" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="6" y="19" width="2.4" height="2" fill="#F5EFE0" fill-opacity="0.55"/>
+      <rect x="6" y="19" width="2.4" height="2" fill="url(#water)"/>
+      <path d="M8.4 19 V21" stroke="#1b1b1b" stroke-width="0.06" stroke-dasharray="0.15 0.1"/>
+      <!-- C2 racks -->
+      <rect x="10.15" y="19.12" width="2.7" height="0.24" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="10.15" y="20.62" width="1.5" height="0.24" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <path d="M10.6 19.12 v0.24 M11.1 19.12 v0.24 M11.6 19.12 v0.24 M12.1 19.12 v0.24 M12.6 19.12 v0.24 M10.6 20.62 v0.24 M11.1 20.62 v0.24" stroke="#1b1b1b" stroke-width="0.04"/>
+      <!-- C4 lamp niches -->
+      <g fill="#1b1b1b">
+        <circle cx="6.5" cy="14.16" r="0.09"/><circle cx="8.5" cy="14.16" r="0.09"/><circle cx="9.5" cy="14.16" r="0.09"/><circle cx="10.5" cy="14.16" r="0.09"/><circle cx="11.5" cy="14.16" r="0.09"/><circle cx="13.5" cy="14.16" r="0.09"/><circle cx="14.5" cy="14.16" r="0.09"/><circle cx="15.5" cy="14.16" r="0.09"/>
+        <circle cx="6.5" cy="15.84" r="0.09"/><circle cx="7.5" cy="15.84" r="0.09"/><circle cx="8.5" cy="15.84" r="0.09"/><circle cx="9.5" cy="15.84" r="0.09"/><circle cx="10.5" cy="15.84" r="0.09"/><circle cx="11.5" cy="15.84" r="0.09"/><circle cx="13.5" cy="15.84" r="0.09"/><circle cx="14.5" cy="15.84" r="0.09"/><circle cx="15.5" cy="15.84" r="0.09"/>
+      </g>
+      <!-- C5 bunks -->
+      <g fill="none" stroke="#1b1b1b" stroke-width="0.05">
+        <rect x="1.15" y="11.4" width="0.9" height="0.4"/><rect x="1.15" y="12.4" width="0.9" height="0.4"/><rect x="1.15" y="13.4" width="0.9" height="0.4"/><rect x="1.15" y="14.4" width="0.9" height="0.4"/><rect x="1.15" y="15.4" width="0.9" height="0.4"/><rect x="1.15" y="16.4" width="0.9" height="0.4"/>
+        <rect x="3.95" y="11.4" width="0.9" height="0.4"/><rect x="3.95" y="12.4" width="0.9" height="0.4"/><rect x="3.95" y="15.4" width="0.9" height="0.4"/><rect x="3.95" y="16.4" width="0.9" height="0.4"/>
+      </g>
+      <!-- C10 basin and sluice wheel -->
+      <rect x="2" y="3" width="3" height="3" fill="#F5EFE0"/>
+      <rect x="2" y="3" width="3" height="3" fill="url(#water)" stroke="#1b1b1b" stroke-width="0.12"/>
+      <g transform="translate(5.35,2.6)" stroke="#1b1b1b" stroke-width="0.05" fill="none">
+        <circle r="0.32"/><path d="M-0.32 0 H0.32 M0 -0.32 V0.32 M-0.23 -0.23 L0.23 0.23 M-0.23 0.23 L0.23 -0.23"/>
+      </g>
+      <!-- C8 grinding wheels and flue -->
+      <g stroke="#1b1b1b" stroke-width="0.05" fill="none">
+        <circle cx="11.0" cy="7.0" r="0.4"/><circle cx="11.0" cy="7.0" r="0.08"/>
+        <circle cx="11.0" cy="10.0" r="0.4"/><circle cx="11.0" cy="10.0" r="0.08"/>
+        <rect x="14.15" y="6.15" width="0.65" height="0.65"/><path d="M14.15 6.15 l0.65 0.65 M14.8 6.15 l-0.65 0.65"/>
+        <rect x="13.4" y="9.6" width="1.4" height="1.2"/>
+      </g>
+      <!-- C9 choked stair, rising north -->
+      <path d="M7 11.6 H8 M7 11.3 H8 M7 11.0 H8 M7 10.7 H8 M7 10.4 H8" stroke="#1b1b1b" stroke-width="0.05"/>
+      <g fill="#1b1b1b">
+        <circle cx="7.2" cy="10.2" r="0.09"/><circle cx="7.5" cy="10.35" r="0.07"/><circle cx="7.8" cy="10.15" r="0.1"/><circle cx="7.35" cy="10.6" r="0.06"/><circle cx="7.7" cy="10.75" r="0.08"/>
+        <circle cx="7.15" cy="10.9" r="0.05"/><circle cx="7.55" cy="11.05" r="0.06"/><circle cx="7.85" cy="10.5" r="0.05"/>
+      </g>
+      <!-- C6 ward ring, plinth, eyes on the walls -->
+      <circle cx="20.5" cy="14.5" r="1.35" fill="none" stroke="#1b1b1b" stroke-width="0.07" stroke-dasharray="0.2 0.12"/>
+      <rect x="20.2" y="14.2" width="0.6" height="0.6" fill="#1b1b1b"/>
+      <use xlink:href="#eye" x="20.5" y="12.35"/><use xlink:href="#eye" x="22.65" y="14.5"/><use xlink:href="#eye" x="19.0" y="16.6"/><use xlink:href="#eye" x="18.4" y="13.2"/>
+      <use xlink:href="#eye" x="22.4" y="12.8"/><use xlink:href="#eye" x="21.7" y="16.6"/>
+      <!-- C11 dead screen on its plinth -->
+      <rect x="20.1" y="7.2" width="0.8" height="0.5" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.07"/>
+      <rect x="20.22" y="7.3" width="0.56" height="0.3" fill="#1b1b1b"/>
+      <!-- C7 desk, shelves -->
+      <rect x="18.3" y="18.3" width="1.2" height="0.6" fill="none" stroke="#1b1b1b" stroke-width="0.06"/>
+      <circle cx="18.9" cy="19.2" r="0.18" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="19.4" y="21.55" width="2.4" height="0.3" fill="none" stroke="#1b1b1b" stroke-width="0.06"/><path d="M20.0 21.55 v0.3 M20.6 21.55 v0.3 M21.2 21.55 v0.3" stroke="#1b1b1b" stroke-width="0.04"/>
+      <!-- C12 shaft with ladder, table, cots -->
+      <rect x="29" y="17" width="1" height="1" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.08"/>
+      <path d="M29 17 l1 1 M30 17 l-1 1" stroke="#1b1b1b" stroke-width="0.05"/>
+      <circle cx="28.0" cy="18.5" r="0.4" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="30.1" y="20.2" width="0.75" height="1.5" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <rect x="29.2" y="20.2" width="0.75" height="1.5" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+    </g>
+
+    <!-- doors: plain = open or stuck; solid = locked -->
+    <g fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.07">
+      <rect x="12.2" y="20.85" width="0.6" height="0.3"/>   <!-- C1/C2 stuck oak -->
+      <rect x="12.2" y="18.85" width="0.6" height="0.3"/>   <!-- C2 north -->
+      <rect x="4.85" y="14.2" width="0.3" height="0.6"/>    <!-- C5 east -->
+      <rect x="2.2" y="10.85" width="0.6" height="0.3"/>    <!-- C5 north -->
+      <rect x="9.85" y="6.2" width="0.3" height="0.6"/>     <!-- C8 west -->
+      <rect x="12.2" y="13.85" width="0.6" height="0.3"/>   <!-- C4 to C8 -->
+      <rect x="17.85" y="14.2" width="0.3" height="0.6"/>   <!-- C6 west -->
+      <rect x="20.2" y="11.85" width="0.6" height="0.3"/>   <!-- C6 north -->
+      <rect x="17.85" y="21.2" width="0.3" height="0.6"/>   <!-- C7 west -->
+      <rect x="21.85" y="19.2" width="0.3" height="0.6"/>   <!-- C7 east -->
+    </g>
+    <rect x="20.2" y="17.85" width="0.6" height="0.3" fill="#1b1b1b"/> <!-- C6/C7 locked -->
+
+    <!-- keys -->
+    <g font-family="Charter,'Bitstream Charter',Georgia,serif" font-weight="bold" font-size="0.62" text-anchor="middle" fill="#fff">
+      <g transform="translate(12.5,23.3)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">C1</text></g>
+      <g transform="translate(11.5,20.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C2</text></g>
+      <g transform="translate(8.9,20.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C3</text></g>
+      <g transform="translate(10.0,15.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C4</text></g>
+      <g transform="translate(3.0,14.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C5</text></g>
+      <g transform="translate(21.75,15.8)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C6</text></g>
+      <g transform="translate(20.0,20.5)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C7</text></g>
+      <g transform="translate(12.5,8.5)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C8</text></g>
+      <g transform="translate(7.5,12.8)"><circle r="0.48" fill="#1b1b1b"/><text y="0.2" font-size="0.5">C9</text></g>
+      <g transform="translate(3.5,7.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C10</text></g>
+      <g transform="translate(20.5,8.8)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C11</text></g>
+      <g transform="translate(27.6,20.4)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">C12</text></g>
+    </g>
+
+    <!-- notes -->
+    <g font-size="0.55" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.22" paint-order="stroke">
+      <text x="13.7" y="24.5">up to S2 (trapdoor)</text>
+      <text x="13.7" y="23.15">stuck oak door</text>
+      <text x="6.0" y="22.75">down to G6, flooded</text>
+      <text x="6.3" y="1.5">sluice wheel</text>
+      <text x="8.2" y="9.75">choked stair</text>
+      <text x="8.2" y="10.4">(dead end)</text>
+      <text x="15.2" y="5.6">flue to surface</text>
+      <text x="23.4" y="11.6">ward ring</text>
+      <text x="22.6" y="7.8">dead screen</text>
+      <text x="13.9" y="20.55">Vane's passage</text>
+      <text x="22.3" y="18.65">chalk sign</text>
+      <text x="30.6" y="16.65" text-anchor="middle">shaft</text>
+      <text x="30.6" y="19.0" text-anchor="middle">to G5</text>
+    </g>
+    <path d="M23.3 11.4 L21.5 13.4" stroke="#1b1b1b" stroke-width="0.04"/>
+    <path d="M13.65 23.0 L12.6 21.1" stroke="#1b1b1b" stroke-width="0.04"/>
+
+    <!-- scale bar -->
+    <g transform="translate(0.8,24.9)">
+      <path d="M0 0 H5 M0 -0.25 V0.25 M1 -0.15 V0.15 M2 -0.15 V0.15 M3 -0.15 V0.15 M4 -0.15 V0.15 M5 -0.25 V0.25" stroke="#1b1b1b" stroke-width="0.07"/>
+      <rect x="0" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="2" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="4" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/>
+      <text x="0" y="-0.4" font-size="0.55" fill="#1b1b1b">0</text>
+      <text x="5" y="-0.4" font-size="0.55" text-anchor="end" fill="#1b1b1b">50 ft</text>
+    </g>
+    </g>
+    <rect width="33" height="26" fill="none" stroke="#1b1b1b" stroke-width="0.1"/>
+  </g>
+
+  <!-- ===== legend ===== -->
+  <text x="660" y="580" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Legend</text>
+  <line x1="660" y1="586" x2="970" y2="586" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(664,600) scale(18)" font-size="0.62" fill="#1b1b1b">
+    <!-- door -->
+    <g transform="translate(0,0)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0 0.5 H1.4" stroke="#1b1b1b" stroke-width="0.24"/><rect x="0.4" y="0.35" width="0.6" height="0.3" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.07"/>
+      <text x="2" y="0.7">Door (may be stuck)</text>
+    </g>
+    <g transform="translate(0,1.5)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0 0.5 H1.4" stroke="#1b1b1b" stroke-width="0.24"/><rect x="0.4" y="0.35" width="0.6" height="0.3" fill="#1b1b1b"/>
+      <text x="2" y="0.7">Locked door</text>
+    </g>
+    <g transform="translate(0,3)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0 0.5 H1.4" stroke="#1b1b1b" stroke-width="0.24"/>
+      <text x="0.7" y="0.75" text-anchor="middle" font-weight="bold" stroke="#F5EFE0" stroke-width="0.12" paint-order="stroke" font-size="0.72">S</text>
+      <text x="2" y="0.7">Secret door</text>
+    </g>
+    <g transform="translate(0,4.5)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.2 0 V1 M0.45 0 V1 M0.7 0 V1 M0.95 0 V1 M1.2 0 V1" stroke="#1b1b1b" stroke-width="0.05"/>
+      <text x="2" y="0.7">Stairs</text>
+    </g>
+    <g transform="translate(0,6)">
+      <rect x="0" y="0" width="1.4" height="1" fill="url(#water)" stroke="#1b1b1b" stroke-width="0.04"/>
+      <text x="2" y="0.7">Water (deep)</text>
+    </g>
+    <g transform="translate(0,7.5)">
+      <rect x="0" y="0" width="1.4" height="1" fill="url(#shallow)" stroke="#1b1b1b" stroke-width="0.04"/>
+      <text x="2" y="0.7">Shallows (wade)</text>
+    </g>
+    <g transform="translate(0,9)">
+      <rect x="0.2" y="0" width="1" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.07"/><path d="M0.2 0 l1 1 M1.2 0 l-1 1" stroke="#1b1b1b" stroke-width="0.05"/>
+      <text x="2" y="0.7">Shaft with ladder</text>
+    </g>
+    <g transform="translate(0,10.5)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <g fill="#1b1b1b"><circle cx="0.3" cy="0.3" r="0.08"/><circle cx="0.7" cy="0.55" r="0.1"/><circle cx="1.1" cy="0.3" r="0.07"/><circle cx="0.45" cy="0.75" r="0.06"/><circle cx="1.0" cy="0.78" r="0.08"/></g>
+      <text x="2" y="0.7">Rubble</text>
+    </g>
+    <g transform="translate(0,12)">
+      <use xlink:href="#eye" x="0.7" y="0.5"/>
+      <text x="2" y="0.7">Carved eye (ward)</text>
+    </g>
+    <g transform="translate(0,13.5)">
+      <circle cx="0.7" cy="0.5" r="0.5" fill="#1b1b1b"/><text x="0.7" y="0.7" fill="#fff" font-weight="bold" text-anchor="middle" font-size="0.48" font-family="Charter,Georgia,serif">C4</text>
+      <text x="2" y="0.7">Keyed area</text>
+    </g>
+  </g>
+
+  <!-- ways between levels -->
+  <text x="660" y="882" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Ways Between Levels</text>
+  <line x1="660" y1="888" x2="970" y2="888" stroke="#1b1b1b" stroke-width="1"/>
+  <g font-size="12.5" fill="#1b1b1b">
+    <text x="660" y="910">S2 trapdoor — C1 stair (20 ft)</text>
+    <text x="660" y="930">C3 flooded stair — G6 (swim, or drain at C10)</text>
+    <text x="660" y="950">C12 shaft — G5 (rope ladder, 40 ft)</text>
+    <text x="660" y="970">S5 knotted rope — G1 ledge (50 ft)</text>
+    <text x="660" y="990">G1 cave mouth — open lake (boat)</text>
+    <text x="660" y="1010">C1 secret door — C7 (Vane's passage)</text>
+    <text x="660" y="1030">G8 Door — sealed; leads nowhere in Module 2</text>
+  </g>
+
+  <!-- =========================================================== -->
+  <!-- PANEL 3: LEVEL 2, THE GROTTO                                -->
+  <!-- =========================================================== -->
+  <text x="30" y="1078" font-size="17" font-variant="small-caps" letter-spacing="0.8" fill="#1b1b1b">Level 2 · The Grotto</text>
+  <text x="624" y="1078" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">at lake level, under the north cliff</text>
+  <line x1="30" y1="1084" x2="624" y2="1084" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(30,1090) scale(18)"><g clip-path="url(#panelclip)">
+    <rect width="33" height="26" fill="#F5EFE0"/>
+    <use xlink:href="#L2floor" fill="none" stroke="url(#hatch)" stroke-width="2.3"/>
+    <use xlink:href="#L2floor" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.28" stroke-linejoin="round"/>
+    <use xlink:href="#L2floor" fill="#F5EFE0"/>
+    <use xlink:href="#L2floor" fill="url(#grid)"/>
+
+    <g clip-path="url(#L2clip)">
+      <!-- open lake, channel, pool -->
+      <g fill="#F5EFE0">
+        <rect x="0" y="0" width="33" height="1.5"/>
+        <polygon points="17.2,-1 22.8,-1 22.4,2.5 21,4.5 19.6,6.5 18.6,8.5 18.4,11 18.6,13 14.8,13 15.0,10.2 15.3,9.6 15.3,7.6 15.0,6.5 15.8,5.5 16.0,3 16.5,-1"/>
+        <polygon points="12.6,12.5 17,12.3 21,12.6 22.0,14.2 22.6,17.2 21.6,20.2 19.4,21.5 14.6,21.5 11.6,19.9 10.8,16.8 11.4,13.8"/>
+        <polygon points="4.2,3.6 6.9,3.6 6.5,5.0 6.2,8.4 6.6,11.4 7.0,11.9 11.5,11.9 11.6,13.8 10.0,13.8 5.6,13.6 4.3,12.2 4.0,8.4 4.4,5.4"/>
+        <rect x="0" y="1.6" width="10" height="2.2"/>
+      </g>
+      <g fill="url(#water)" stroke="#1b1b1b" stroke-width="0.07">
+        <rect x="-1" y="-1" width="35" height="2.5"/>
+        <polygon points="17.2,-1 22.8,-1 22.4,2.5 21,4.5 19.6,6.5 18.6,8.5 18.4,11 18.6,13 14.8,13 15.0,10.2 15.3,9.6 15.3,7.6 15.0,6.5 15.8,5.5 16.0,3 16.5,-1"/>
+        <polygon points="12.6,12.5 17,12.3 21,12.6 22.0,14.2 22.6,17.2 21.6,20.2 19.4,21.5 14.6,21.5 11.6,19.9 10.8,16.8 11.4,13.8"/>
+        <polygon points="4.2,3.6 6.9,3.6 6.5,5.0 6.2,8.4 6.6,11.4 7.0,11.9 11.5,11.9 11.6,13.8 10.0,13.8 5.6,13.6 4.3,12.2 4.0,8.4 4.4,5.4"/>
+        <rect x="0" y="1.6" width="10" height="2.2"/>
+      </g>
+      <!-- G6 shallows -->
+      <polygon points="2.6,17.6 6.8,17.0 10.2,17.4 10.6,18.2 10.4,20.4 6.4,21.6 3.0,21.2 2.2,19.4" fill="url(#shallow)"/>
+      <!-- G6 stair rising west to C3 -->
+      <rect x="2.6" y="18.4" width="2.0" height="1.8" fill="#F5EFE0" fill-opacity="0.6"/>
+      <path d="M4.6 18.4 V20.2 M4.3 18.4 V20.2 M4.0 18.4 V20.2 M3.7 18.4 V20.2 M3.4 18.4 V20.2 M3.1 18.4 V20.2 M2.8 18.4 V20.2 M2.6 18.4 H4.6 M2.6 20.2 H4.6" stroke="#1b1b1b" stroke-width="0.05"/>
+    </g>
+
+    <!-- dock and plank bridge -->
+    <rect x="18.5" y="7.6" width="1.2" height="3.8" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.08"/>
+    <path d="M18.5 7.9 H19.7 M18.5 8.2 H19.7 M18.5 8.5 H19.7 M18.5 8.8 H19.7 M18.5 9.1 H19.7 M18.5 9.4 H19.7 M18.5 9.7 H19.7 M18.5 10.0 H19.7 M18.5 10.3 H19.7 M18.5 10.6 H19.7 M18.5 10.9 H19.7 M18.5 11.2 H19.7" stroke="#1b1b1b" stroke-width="0.035"/>
+    <rect x="14.6" y="8.2" width="4.0" height="0.6" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.08"/>
+    <path d="M14.9 8.2 V8.8 M15.2 8.2 V8.8 M15.5 8.2 V8.8 M15.8 8.2 V8.8 M16.1 8.2 V8.8 M16.4 8.2 V8.8 M16.7 8.2 V8.8 M17.0 8.2 V8.8 M17.3 8.2 V8.8 M17.6 8.2 V8.8 M17.9 8.2 V8.8 M18.2 8.2 V8.8" stroke="#1b1b1b" stroke-width="0.035"/>
+    <!-- the boat -->
+    <path d="M19.2 1.8 Q20.0 3.4 19.2 5.0 Q18.4 3.4 19.2 1.8 Z" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.09"/>
+    <path d="M18.75 2.9 H19.65 M18.65 3.7 H19.75 M19.2 2.2 V4.6" stroke="#1b1b1b" stroke-width="0.04"/>
+    <!-- rope down from S5 -->
+    <g transform="translate(24.6,2.5)" fill="none" stroke="#1b1b1b" stroke-width="0.05">
+      <circle r="0.3"/><circle r="0.18"/><circle r="0.07"/>
+    </g>
+    <!-- G3 crates -->
+    <g fill="none" stroke="#1b1b1b" stroke-width="0.05">
+      <rect x="30.2" y="7.4" width="0.7" height="0.7"/><path d="M30.2 7.4 l0.7 0.7"/>
+      <rect x="31.0" y="8.3" width="0.6" height="0.6"/><path d="M31.0 8.3 l0.6 0.6"/>
+      <rect x="30.4" y="9.2" width="0.7" height="0.7"/><path d="M30.4 9.2 l0.7 0.7"/>
+      <rect x="28.3" y="9.8" width="0.8" height="0.6"/><circle cx="27.8" cy="7.4" r="0.32"/>
+    </g>
+    <!-- G4 hammock, strongbox, chart table -->
+    <path d="M9.4 7.6 Q10.4 8.2 11.4 7.4" fill="none" stroke="#1b1b1b" stroke-width="0.06"/>
+    <rect x="10.0" y="9.3" width="0.55" height="0.4" fill="#1b1b1b"/>
+    <rect x="12.4" y="8.9" width="1.0" height="0.7" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+    <!-- G5 shaft foot -->
+    <rect x="28" y="15" width="1" height="1" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.08"/>
+    <path d="M28 15 l1 1 M29 15 l-1 1" stroke="#1b1b1b" stroke-width="0.05"/>
+    <!-- bell on the feeding ledge -->
+    <g transform="translate(23.4,13.6)">
+      <path d="M-0.25 0.2 Q-0.25 -0.3 0 -0.3 Q0.25 -0.3 0.25 0.2 Z" fill="#1b1b1b"/>
+      <path d="M-0.35 0.22 H0.35" stroke="#1b1b1b" stroke-width="0.06"/>
+    </g>
+    <!-- the Door Beneath the Lake, set in the north wall under the cliff, eyes shut, half under water -->
+    <circle cx="5.2" cy="2.3" r="0.76" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.14"/>
+    <circle cx="5.2" cy="2.3" r="0.52" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+    <path d="M4.9 2.3 Q5.2 2.52 5.5 2.3" fill="none" stroke="#1b1b1b" stroke-width="0.07"/>
+    <path d="M4.3 2.75 Q5.2 3.35 6.1 2.75" fill="none" stroke="#1b1b1b" stroke-width="0.05" stroke-dasharray="0.12 0.08"/>
+    <g fill="none" stroke="#1b1b1b" stroke-width="0.05">
+      <path d="M2.8 2.45 q0.2 0.12 0.4 0 M3.6 2.45 q0.2 0.12 0.4 0 M6.4 2.45 q0.2 0.12 0.4 0 M7.2 2.45 q0.2 0.12 0.4 0"/>
+    </g>
+
+    <!-- keys -->
+    <g font-family="Charter,'Bitstream Charter',Georgia,serif" font-weight="bold" font-size="0.62" text-anchor="middle" fill="#fff">
+      <g transform="translate(23.4,4.5)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G1</text></g>
+      <g transform="translate(22.4,9.0)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G2</text></g>
+      <g transform="translate(29.3,8.6)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G3</text></g>
+      <g transform="translate(11.2,8.6)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G4</text></g>
+      <g transform="translate(29.4,17.3)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G5</text></g>
+      <g transform="translate(7.4,19.3)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G6</text></g>
+      <g transform="translate(23.9,16.4)"><circle r="0.68" fill="#1b1b1b"/><text y="0.22">G7</text></g>
+      <g transform="translate(2.9,5.0)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">G8</text></g>
+    </g>
+    <!-- notes -->
+    <g font-size="0.55" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.22" paint-order="stroke">
+      <text x="2.0" y="1.0">open lake · the Deep lies north</text>
+      <text x="25.1" y="1.95">rope up to S5</text>
+      <text x="20.1" y="3.6">boat</text>
+      <text x="20.0" y="7.4">dock</text>
+      <text x="14.6" y="7.95">plank bridge</text>
+      <text x="16.7" y="17.0" text-anchor="middle">the pool, 40 ft deep</text>
+      <text x="24.0" y="13.0">bell</text>
+      <text x="22.8" y="14.9">feeding ledge</text>
+      <text x="26.9" y="20.0">rope ladder up to C12</text>
+      <text x="1.2" y="22.6">stair up to C3 (flooded)</text>
+      <text x="6.0" y="16.6">leech shallows</text>
+      <text x="12.6" y="23.3">rim ledge, 5–10 ft</text>
+      <text x="9.4" y="2.9">the Door Beneath</text>
+      <text x="9.4" y="3.55">the Lake: faces north</text>
+      <text x="9.4" y="4.2">to the Deep, half</text>
+      <text x="9.4" y="4.85">under water</text>
+      <text x="3.25" y="10.2" text-anchor="middle" transform="rotate(-90 3.25 10.2)">north arm: ledge</text>
+      <text x="6.9" y="13.0">deep water</text>
+    </g>
+    <path d="M24.7 2.1 L24.6 2.25" stroke="#1b1b1b" stroke-width="0.04"/>
+    <path d="M9.3 2.8 L6.0 2.45" stroke="#1b1b1b" stroke-width="0.04"/>
+    <!-- scale bar -->
+    <g transform="translate(0.8,24.9)">
+      <path d="M0 0 H5 M0 -0.25 V0.25 M1 -0.15 V0.15 M2 -0.15 V0.15 M3 -0.15 V0.15 M4 -0.15 V0.15 M5 -0.25 V0.25" stroke="#1b1b1b" stroke-width="0.07"/>
+      <rect x="0" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="2" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="4" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/>
+      <text x="0" y="-0.4" font-size="0.55" fill="#1b1b1b">0</text>
+      <text x="5" y="-0.4" font-size="0.55" text-anchor="end" fill="#1b1b1b">50 ft</text>
+    </g>
+    </g>
+    <rect width="33" height="26" fill="none" stroke="#1b1b1b" stroke-width="0.1"/>
+  </g>
+
+  <!-- grotto side notes -->
+  <text x="660" y="1110" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Water in the Grotto</text>
+  <line x1="660" y1="1116" x2="970" y2="1116" stroke="#1b1b1b" stroke-width="1"/>
+  <g font-size="12.5" fill="#1b1b1b">
+    <text x="660" y="1138">The channel runs from the cave mouth</text>
+    <text x="660" y="1156">(G1) past the dock (G2) into the pool</text>
+    <text x="660" y="1174">(G7). The Warden can swim all of it.</text>
+    <text x="660" y="1200">Dry way round the pool: from the feeding</text>
+    <text x="660" y="1218">ledge (G2) the rim ledge runs round the</text>
+    <text x="660" y="1236">south and west sides, past G6, and up</text>
+    <text x="660" y="1254">the north arm to G8 under the cliff.</text>
+    <text x="660" y="1280">G8 can also be reached by swimming the</text>
+    <text x="660" y="1298">north arm. The Warden can swim it too.</text>
+    <text x="660" y="1324">G4 is reached only by the plank bridge.</text>
+  </g>
+
+  <text x="970" y="1598" font-size="10.5" font-style="italic" text-anchor="end" fill="#1b1b1b">Original map for The Drowned Tower. Art rule: Otus ink.</text>
+</svg>

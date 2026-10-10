@@ -1,0 +1,34 @@
+Seed? 7
+
+THE FIRST DELVE - Stage 4: dice as functions
+
+Who rows to the island?
+  1. The Wizard: 4 hit points, AC 9 [10], STR 8
+  2. The Fighter: 8 hit points, AC 4 [15], STR 14
+Pick 1 or 2: 2
+You are the Fighter.
+
+The Fort docks. Captain Maren sends you to the Isle of Old Stone.
+S1. THE BROKEN JETTY. A fresh rope burn on a post. A shadow in the water.
+The sun sets. You light a torch. It will burn 6 turns.
+S2. THE TOWER SHELL. Rubble, a stair up the wall, and crows.
+What do you do? Each choice takes one turn.
+  1. Search the rubble   2. Climb the stair   3. Look in the cottage
+Pick 1, 2 or 3: 1
+Under the rubble lies a trapdoor of black oak.
+Turn 1. Torch: 5 of 6.
+
+C1. THE CELLAR STAIR. Twenty feet down, an oak door. It is stuck.
+Listen at the door? (y/n): y
+Listen: d6 = 5, need 1 or less: no.
+You hear only water, dripping somewhere.
+Force the door? It takes one turn. (y/n): y
+Force: d6 = 3, need 3 or less: yes.
+The door bursts open with a crack like a dropped plank.
+Turn 2. Torch: 4 of 6.
+Wandering check: d6 = 3, need 1 or less: no.
+C2. THE OIL STORE. Five giant rats lift their heads. One leaps.
+You strike first. d20 = 11, total 12 vs AC 12: hit.
+Your blow throws it back among the jars.
+The whole fight with all five rats is stage 5.
+END OF STAGE 4.

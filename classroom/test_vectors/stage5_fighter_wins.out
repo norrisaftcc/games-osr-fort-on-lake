@@ -1,0 +1,69 @@
+Seed? 7
+
+THE FIRST DELVE - Stage 5: five rats
+
+Who rows to the island?
+  1. The Wizard: 4 hp, AC 9 [10], dagger 1d4, STR -1, one Sleep spell
+  2. The Fighter: 8 hp, AC 4 [15], sword 1d8, STR +1
+Pick 1 or 2: 2
+You are the Fighter.
+
+The Fort docks. Captain Maren sends you to the Isle of Old Stone.
+S1. THE BROKEN JETTY. A fresh rope burn on a post. A shadow in the water.
+The sun sets. You light a torch. It will burn 6 turns.
+S2. THE TOWER SHELL. Rubble, a stair up the wall, and crows.
+What do you do? Each choice takes one turn.
+  1. Search the rubble   2. Climb the stair   3. Look in the cottage
+Pick 1, 2 or 3: 1
+Under the rubble lies a trapdoor of black oak.
+Turn 1. Torch: 5 of 6.
+
+C1. THE CELLAR STAIR. Twenty feet down, an oak door. It is stuck.
+Listen at the door? (y/n): y
+Listen: d6 = 5, need 1 or less: no.
+You hear only water, dripping somewhere.
+Force the door? It takes one turn. (y/n): y
+Force: d6 = 3, need 3 or less: yes.
+The door bursts open with a crack like a dropped plank.
+Turn 2. Torch: 4 of 6.
+Wandering check: d6 = 3, need 1 or less: no.
+
+C2. THE OIL STORE. Racks of broken oil jars. The floor is tacky.
+Five giant rats, each the size of a cat, lift their heads from the spill.
+You hold the doorway. Only two rats can reach you at a time.
+Round 1. You: 8 hp. Rats: 2 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 1. d20 = 11, total 12 vs AC 12: hit.
+You deal 9 damage.
+Rat 1 dies.
+Rat 2 bites. d20 = 9, total 9 vs AC 15: miss.
+Rat 3 bites. d20 = 10, total 10 vs AC 15: miss.
+Round 2. You: 8 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 8, total 9 vs AC 12: miss.
+Rat 2 bites. d20 = 14, total 14 vs AC 15: miss.
+Rat 3 bites. d20 = 9, total 9 vs AC 15: miss.
+Round 3. You: 8 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 4, total 5 vs AC 12: miss.
+Rat 2 bites. d20 = 4, total 4 vs AC 15: miss.
+Rat 3 bites. d20 = 15, total 15 vs AC 15: hit.
+You lose 2 hp.
+Round 4. You: 6 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 6, total 7 vs AC 12: miss.
+Rat 2 bites. d20 = 6, total 6 vs AC 15: miss.
+Rat 3 bites. d20 = 7, total 7 vs AC 15: miss.
+Round 5. You: 6 hp. Rats: x 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. d20 = 15, total 16 vs AC 12: hit.
+You deal 7 damage.
+Rat 2 dies.
+2 rats lie dead. The pack breaks. The rest flee down the far stair.
+Turn 3. Torch: 3 of 6.
+In one rack, five flasks of oil are still whole. You take them.
+
+C3. THE FLOODED STAIR. A second stair goes down into black water.
+As you watch, the water climbs one step, as if the lake took a breath.
+The first delve ends here, on turn 3. Torch: 3 of 6.
+END OF STAGE 5.
