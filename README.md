@@ -11,6 +11,18 @@ A short B/X campaign for OSE Advanced Fantasy, built to teach the dungeon craft 
 
 Maps are in [`dm/maps/`](dm/maps/). The design record that binds the three modules together is [`campaign/SPINE.md`](campaign/SPINE.md).
 
+## Year Two: the three PCs
+
+For the Year Two table (the elven thief, the elf cleric of the Sacred Terminal, the gnome druid):
+
+| Piece | Path |
+|-------|------|
+| Fort Cards: solo intros, one per PC, played before session zero. Every choice is made here. | [`intro/index.html`](intro/index.html) |
+| Year Two playbooks: what each choice does | [`player/year-two/`](player/year-two/) |
+| The first session, *The Hum* (GM) | [`dm/Year_Two_First_Session_The_Hum.md`](dm/Year_Two_First_Session_The_Hum.md) |
+
+The science fantasy brushes the setting rather than taking it over. Each Fort Card records a **Lens**, how the player chose to read old things (Hymn, Machine or Both), and the first session's *Brush* table says how far to take each machine element.
+
 ## Make your own: the Forge
 
 Open [`generator/index.html`](generator/index.html). Pick *Tower* or *Ravine*, give it a seed, and it builds a keyed dungeon with a map. The lesson ladder is fixed; the rooms, monsters and treasure are rolled from original tables. The same seed always gives the same dungeon, so a table can share one by number.

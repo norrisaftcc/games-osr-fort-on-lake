@@ -14,6 +14,9 @@ A B/X teaching campaign set around **The Fort on the Lake**, a post-imperial fro
 | `generator/` | **The Forge**: a seeded dungeon generator (towers and ravines). Pure JS, no build. |
 | `demo/` | A single-file browser demo: six character intros and the first delve into the Drowned Tower. |
 | `classroom/` | **The First Delve** for first-year programming classes: seven stages in Python and C++ with byte-identical output. |
+| `player/year-two/` | Year Two playbooks for the real party: the elven thief, the elf cleric, the gnome druid. |
+| `intro/` | **Fort Cards**: Badge Zero–style solo intros for the three Year Two PCs. All their choices are made here. |
+| `dm/Year_Two_First_Session_The_Hum.md` | Year Two's first session: the humming milestone, the hunter's map, the outflow tunnel. Stops at Halcyon's door. |
 | `beta/` | The superseded pre-split setting document. Keep it; do not edit it. |
 
 ## Where canon comes from
@@ -38,6 +41,7 @@ Canon marked **ASSUMED** in the DM Guide (the basilisk is dead; Petra is restore
 - **Art.** Two looks, named in each entry: Elmore (colour) for characters, monsters and hero scenes; Otus (black-and-white ink) for interiors, machines, maps and handouts. Maps are black ink on cream, to match the hex sheet.
 - **Science fantasy.** Name the machine side plainly: a ward is a sensor eye and a spell at once; a hymn is a protocol.
 - **Puzzles** have a rule players can discover by trying, give feedback, and never block the game. A Fate point or Cassandra gives one hint.
+- **The Brush.** Year Two tests whether the players want science fiction. Old machines appear at the edge and can be left alone; the player chooses whether to read them as hymn or machine (the Fort Card's **Lens**). Every machine element in a session has a *brush* depth and a *lean in* depth. Do not push past brush unless the players ask.
 
 ## House style
 
@@ -49,6 +53,7 @@ Plain words. Short sentences, one idea each. Concrete nouns. Tables for anything
 |---------|-----|--------|
 | `generator/` | `node generator/test.mjs` | "All … checks passed" (a few minutes; uses Chromium) |
 | `demo/` | `node demo/test.mjs` (or `SEEDS=1,7 node demo/test.mjs` for a quick pass) | `PASS` |
+| `intro/` | `node intro/test.mjs` | `PASS` |
 | `classroom/` | `bash classroom/check.sh` | `ALL CHECKS PASSED`. After a deliberate output change: `bash classroom/check.sh --regen`, then check the diff of `test_vectors/`. |
 | A map in `dm/maps/` | Render the SVG to PNG with Playwright and look at it | Every keyed area labelled; exits match the module's key |
 | A module | Read every exit both ways; grep for the forbidden names | Exits reciprocal; no hits |
@@ -63,6 +68,9 @@ Playwright is installed globally (`/opt/node22/lib/node_modules/playwright`); Ch
 - Do not commit the user's Year Two guides, family details, or anything from their mail.
 
 ## Open items
+
+- The DM confirms the Year Two numbers marked "DM confirms": the Year of Change effects, recomputed saves and the cleric's shield AC, XP to levels 3 and 4, gnome infravision.
+- The first session invents Senior Agent Emory Platt (the missing B.I.A. agent) and Tobin Ash (the hunter); replace them if the DM Guide names them.
 
 - The Year Two party includes an **elven thief**, who has no playbook here yet, so the modules give the thief no moments.
 - Each module's **The Fort Reacts** table should eventually read as changes to the Fort's tracks (Stores, Walls, Folk, Lamp) and tags.
