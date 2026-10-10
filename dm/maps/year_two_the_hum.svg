@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The Hum: DM map for the Year Two first session. Original cartography. Black ink on cream, after the Fort Country sheet.
+     Panels: the Country (1 hex = 6 miles; hexes C3, C4, C5, D4) and the Outflow Tunnel (1 square = 10 ft, T1-T5).
+     Inside the tunnel panel group, 1 unit = 1 square. Long plain reaches are shortened and marked with a break. -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1000" height="1160" viewBox="0 0 1000 1160"
+     font-family="'Alegreya SC','Cormorant SC',Charter,'Bitstream Charter',Georgia,'Liberation Serif',serif">
+  <title>The Hum: DM map</title>
+  <defs>
+    <pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse">
+      <path d="M1 0 H0 V1" fill="none" stroke="#1b1b1b" stroke-opacity="0.28" stroke-width="0.03"/>
+    </pattern>
+    <pattern id="water" width="1" height="0.5" patternUnits="userSpaceOnUse">
+      <path d="M0 0.25 q0.25 -0.16 0.5 0 t0.5 0" fill="none" stroke="#1b1b1b" stroke-width="0.045"/>
+    </pattern>
+    <pattern id="waterH" width="22" height="11" patternUnits="userSpaceOnUse">
+      <path d="M0 5.5 q5.5 -3.5 11 0 t11 0" fill="none" stroke="#1b1b1b" stroke-width="1"/>
+    </pattern>
+    <pattern id="shallowH" width="26" height="15" patternUnits="userSpaceOnUse">
+      <path d="M2 4 q3.5 -2.2 7 0 M15 11 q3.5 -2.2 7 0" fill="none" stroke="#1b1b1b" stroke-width="1"/>
+    </pattern>
+    <pattern id="hatch" width="3" height="3" patternUnits="userSpaceOnUse">
+      <g stroke="#1b1b1b" stroke-width="0.06" stroke-linecap="round" fill="none">
+        <path d="M0.1 0.35 L1.4 0.15 M0.1 0.7 L1.4 0.5 M0.1 1.05 L1.4 0.85 M0.1 1.4 L1.4 1.2"/>
+        <path d="M1.7 0.1 L1.85 1.4 M2.05 0.1 L2.2 1.4 M2.4 0.1 L2.55 1.4 M2.75 0.1 L2.9 1.4"/>
+        <path d="M0.1 2.1 L0.6 1.6 M0.1 2.6 L1.1 1.6 M0.3 2.9 L1.4 1.8 M0.8 2.9 L1.4 2.3"/>
+        <path d="M1.9 1.6 L2.9 2.6 M1.6 1.8 L2.7 2.9 M1.6 2.3 L2.2 2.9 M2.4 1.6 L2.9 2.1"/>
+      </g>
+    </pattern>
+    <g id="pine" fill="none" stroke="#1b1b1b" stroke-width="1" stroke-linejoin="round">
+      <path d="M0 -6 L4.5 2 L-4.5 2 Z M0 -2 L3 2 M0 -2 L-3 2 M0 2 L0 5.5"/>
+    </g>
+    <g id="reed" fill="none" stroke="#1b1b1b" stroke-width="0.9" stroke-linecap="round">
+      <path d="M0 4 L-2.5 -4 M0 4 L0 -5.5 M0 4 L2.5 -4 M-4 4 H4"/>
+    </g>
+    <g id="reedS" fill="none" stroke="#1b1b1b" stroke-width="0.05" stroke-linecap="round">
+      <path d="M0 0.2 L-0.13 -0.2 M0 0.2 L0 -0.28 M0 0.2 L0.13 -0.2"/>
+    </g>
+
+    <g id="tfloor">
+      <rect x="3" y="15" width="4" height="3"/> <!-- T1 -->
+      <rect x="7" y="16" width="3" height="1"/> <!-- reach A -->
+      <rect x="10" y="15" width="5" height="3"/> <!-- T2 -->
+      <rect x="15" y="16" width="5" height="1"/> <!-- reach B east -->
+      <rect x="19" y="11" width="1" height="6"/> <!-- reach B north -->
+      <rect x="18" y="7" width="4" height="4"/> <!-- T3 -->
+      <rect x="22" y="8" width="5" height="1"/> <!-- reach C -->
+      <rect x="27" y="8" width="6" height="2"/> <!-- T4 -->
+      <rect x="28.25" y="7.5" width="0.5" height="0.5"/> <!-- niche N1 -->
+      <rect x="30.75" y="7.5" width="0.5" height="0.5"/> <!-- niche N2 -->
+      <rect x="28.25" y="10" width="0.5" height="0.5"/> <!-- niche S1 -->
+      <rect x="31.75" y="10" width="0.5" height="0.5"/> <!-- niche S2 (Platt) -->
+      <rect x="33" y="8" width="0.45" height="2"/> <!-- blade recess -->
+      <rect x="32" y="4" width="1" height="4"/> <!-- reach D -->
+      <circle cx="32.5" cy="3" r="1.5"/> <!-- T5 -->
+      <rect x="30.75" y="2.55" width="0.3" height="0.9"/> <!-- Tender alcove -->
+    </g>
+    <clipPath id="tclip"><rect x="0" y="0" width="37" height="20"/></clipPath>
+  </defs>
+
+  <!-- paper -->
+  <rect width="1000" height="1160" fill="#F5EFE0"/>
+
+  <!-- ===== title block ===== -->
+  <text x="30" y="58" font-size="34" font-variant="small-caps" letter-spacing="1" fill="#1b1b1b">The Hum</text>
+  <text x="970" y="58" font-size="12.5" font-variant="small-caps" letter-spacing="1.2" text-anchor="end" fill="#1b1b1b">DM copy · 1 square = 10 feet</text>
+  <line x1="30" y1="70" x2="970" y2="70" stroke="#1b1b1b" stroke-width="2"/>
+  <text x="30" y="92" font-size="13" font-style="italic" fill="#1b1b1b">Year Two, first session. The outflow tunnel under the Weirs (hex C3), as far as the inner door. Players never see this sheet.</text>
+  <!-- compass -->
+  <g transform="translate(945,118)" stroke="#1b1b1b" fill="#1b1b1b">
+    <line x1="0" y1="34" x2="0" y2="-4" stroke-width="1.6"/>
+    <path d="M0 -12 L-6 2 L0 -2 L6 2 Z"/>
+    <text x="0" y="-18" font-size="14" text-anchor="middle" stroke="none">N</text>
+  </g>
+
+  <text x="30" y="128" font-size="17" font-variant="small-caps" letter-spacing="0.8" fill="#1b1b1b">The Country · Hexes Travelled</text>
+  <line x1="30" y1="134" x2="560" y2="134" stroke="#1b1b1b" stroke-width="1"/>
+  <text x="560" y="128" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">1 hex = 6 miles</text>
+  <rect x="30" y="142" width="530" height="370" fill="none" stroke="#1b1b1b" stroke-width="1"/>
+  <g>
+    <polygon points="345.2,178.0 390.2,204.0 390.2,256.0 345.2,282.0 300.1,256.0 300.1,204.0" fill="url(#waterH)" stroke="none"/>
+    <polygon points="435.2,178.0 480.3,204.0 480.3,256.0 435.2,282.0 390.2,256.0 390.2,204.0" fill="url(#shallowH)" stroke="none"/>
+    <polygon points="165.0,178.0 210.1,204.0 210.1,256.0 165.0,282.0 120.0,256.0 120.0,204.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="345.2,178.0 390.2,204.0 390.2,256.0 345.2,282.0 300.1,256.0 300.1,204.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="435.2,178.0 480.3,204.0 480.3,256.0 435.2,282.0 390.2,256.0 390.2,204.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="120.0,256.0 165.0,282.0 165.0,334.0 120.0,360.0 75.0,334.0 75.0,282.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="390.2,256.0 435.2,282.0 435.2,334.0 390.2,360.0 345.2,334.0 345.2,282.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="165.0,334.0 210.1,360.0 210.1,412.0 165.0,438.0 120.0,412.0 120.0,360.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="345.2,334.0 390.2,360.0 390.2,412.0 345.2,438.0 300.1,412.0 300.1,360.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="255.1,178.0 300.1,204.0 300.1,256.0 255.1,282.0 210.1,256.0 210.1,204.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="210.1,256.0 255.1,282.0 255.1,334.0 210.1,360.0 165.0,334.0 165.0,282.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="255.1,334.0 300.1,360.0 300.1,412.0 255.1,438.0 210.1,412.0 210.1,360.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="300.1,256.0 345.2,282.0 345.2,334.0 300.1,360.0 255.1,334.0 255.1,282.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+  </g>
+  <use xlink:href="#pine" x="180.1" y="294.0"/>
+  <use xlink:href="#pine" x="188.1" y="330.0"/>
+  <use xlink:href="#pine" x="238.1" y="330.0"/>
+  <use xlink:href="#pine" x="240.1" y="288.0"/>
+  <use xlink:href="#pine" x="174.1" y="316.0"/>
+  <use xlink:href="#pine" x="225.1" y="374.0"/>
+  <use xlink:href="#pine" x="231.1" y="402.0"/>
+  <use xlink:href="#pine" x="281.1" y="400.0"/>
+  <use xlink:href="#pine" x="285.1" y="372.0"/>
+  <use xlink:href="#pine" x="255.1" y="416.0"/>
+  <use xlink:href="#pine" x="247.1" y="356.0"/>
+  <use xlink:href="#pine" x="271.1" y="356.0"/>
+  <use xlink:href="#pine" x="100.0" y="308.0"/>
+  <use xlink:href="#pine" x="130.0" y="326.0"/>
+  <use xlink:href="#pine" x="134.0" y="290.0"/>
+  <use xlink:href="#pine" x="151.0" y="396.0"/>
+  <use xlink:href="#pine" x="181.0" y="378.0"/>
+  <use xlink:href="#pine" x="327.2" y="398.0"/>
+  <use xlink:href="#pine" x="365.2" y="390.0"/>
+  <use xlink:href="#reed" x="225.1" y="214.0"/>
+  <use xlink:href="#reed" x="237.1" y="204.0"/>
+  <use xlink:href="#reed" x="281.1" y="208.0"/>
+  <use xlink:href="#reed" x="287.1" y="236.0"/>
+  <use xlink:href="#reed" x="221.1" y="240.0"/>
+  <use xlink:href="#reed" x="247.1" y="258.0"/>
+  <use xlink:href="#reed" x="275.1" y="256.0"/>
+  <use xlink:href="#reed" x="263.1" y="196.0"/>
+  <g stroke="#1b1b1b" stroke-width="1.2"><line x1="273.09996299037243" y1="224" x2="273.09996299037243" y2="229"/><line x1="278.09996299037243" y1="226" x2="278.09996299037243" y2="231"/><line x1="283.09996299037243" y1="228" x2="283.09996299037243" y2="233"/><line x1="288.09996299037243" y1="230" x2="288.09996299037243" y2="235"/><line x1="293.09996299037243" y1="232" x2="293.09996299037243" y2="237"/></g>
+  <g fill="none" stroke="#1b1b1b" stroke-width="1"><path d="M137.0333209967908 236 q14 -18 28 0 q14 -18 28 0"/><path d="M145.0333209967908 220 q10 -12 20 0 q10 -12 20 0"/></g>
+  <g stroke="#1b1b1b" stroke-width="0.8"><line x1="366.19992598074487" y1="294" x2="414.19992598074487" y2="294"/><line x1="366.19992598074487" y1="301" x2="414.19992598074487" y2="301"/><line x1="366.19992598074487" y1="308" x2="414.19992598074487" y2="308"/><line x1="366.19992598074487" y1="315" x2="414.19992598074487" y2="315"/><line x1="366.19992598074487" y1="322" x2="414.19992598074487" y2="322"/></g>
+  <path d="M286.1332839871632 308 L210.0666419935816 308 L183.0333209967908 260" fill="none" stroke="#1b1b1b" stroke-width="5"/>
+  <path d="M286.1332839871632 308 L210.0666419935816 308 L183.0333209967908 260" fill="none" stroke="#F5EFE0" stroke-width="2.4"/>
+  <path d="M294.1332839871632 296 Q290.1332839871632 264 267.09996299037243 246" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <path d="M294.1332839871632 320 Q286.1332839871632 356 267.09996299037243 380" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <path d="M253.09996299037243 376 Q221.09996299037243 348 202.0666419935816 314" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="211.4" y="289.5" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="220.9" y="279.1" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="230.4" y="268.8" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="239.9" y="258.5" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="249.4" y="248.1" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <g transform="translate(308.1332839871632,312)" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="1.6">
+    <rect x="-13" y="-10" width="26" height="20"/>
+    <path d="M-13 -10 v-5 h5 v5 M-3 -10 v-5 h6 v5 M8 -10 v-5 h5 v5" fill="none"/>
+    <rect x="-3" y="2" width="6" height="8" fill="#1b1b1b"/>
+  </g>
+  <g transform="translate(204.0666419935816,302)" stroke="#1b1b1b" fill="none">
+    <path d="M-4 9 V-9 L0 -13 L4 -9 V9 Z" fill="#1b1b1b"/>
+    <path d="M8 -6 q4 6 0 12 M12 -9 q6 9 0 18" stroke-width="1.1"/>
+  </g>
+  <g transform="translate(259.09996299037243,384)" stroke="#1b1b1b" stroke-width="1.4" fill="#F5EFE0">
+    <path d="M-10 8 V-2 L0 -11 L10 -2 V8 Z"/><rect x="-3" y="1" width="6" height="7" fill="#1b1b1b"/>
+  </g>
+  <g transform="translate(261.09996299037243,240)" stroke="#1b1b1b" stroke-width="1.6">
+    <path d="M-8 6 V-2 A8 8 0 0 1 8 -2 V6" fill="#F5EFE0"/><path d="M-4 6 V0 M0 6 V-4 M4 6 V0" stroke-width="1"/>
+  </g>
+  <path d="M271.09996299037243 232 L375.09996299037243 160" fill="none" stroke="#1b1b1b" stroke-width="1.6" stroke-dasharray="2 4"/>
+  <path d="M375.09996299037243 160 l-11 1 l5 9 Z" fill="#1b1b1b"/>
+  <text x="255.1" y="192.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C3</text>
+  <text x="255.1" y="205.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Weirs</text>
+  <text x="210.1" y="334.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C4</text>
+  <text x="210.1" y="347.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Old Road</text>
+  <text x="255.1" y="410.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C5</text>
+  <text x="255.1" y="423.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Boar Hollow</text>
+  <text x="300.1" y="334.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D4</text>
+  <text x="300.1" y="347.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fort</text>
+  <text x="165.0" y="196.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B3</text>
+  <text x="165.0" y="209.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Ridge</text>
+  <text x="345.2" y="196.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D3</text>
+  <text x="345.2" y="209.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Shallows</text>
+  <text x="435.2" y="196.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E3</text>
+  <text x="435.2" y="209.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Reed Shore</text>
+  <text x="390.2" y="334.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E4</text>
+  <text x="390.2" y="347.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fields</text>
+  <text x="120.0" y="278.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B4</text>
+  <text x="165.0" y="356.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B5</text>
+  <text x="345.2" y="356.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D5</text>
+  <g font-size="10" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">
+    <text x="325.09996299037243" y="152">outflow tunnel, under the lake,</text>
+    <text x="325.09996299037243" y="164">toward the Deep (D1)</text>
+    <text x="156.0666419935816" y="288">milestone</text>
+    <text x="273.09996299037243" y="388">lodge</text>
+    <text x="199.09996299037243" y="262">outflow mouth (T1)</text>
+  </g>
+  <g font-size="10" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,Georgia,serif">
+    <text x="248" y="321">road 2 h</text>
+    <text x="254" y="290">reeds 4 h</text>
+    <text x="175" y="273">markers 3 h</text>
+    <text x="260" y="372">forest 3 h</text>
+    <text x="177" y="360">forest 3 h</text>
+  </g>
+  <g font-size="10.5" fill="#1b1b1b">
+    <path d="M44 470 h34" stroke="#1b1b1b" stroke-width="5"/><path d="M44 470 h34" stroke="#F5EFE0" stroke-width="2.4"/>
+    <text x="84" y="474">Old Road</text>
+    <path d="M150 470 h34" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="190" y="474">path or track</text>
+    <rect x="276" y="467.8" width="4.4" height="4.4" fill="#1b1b1b"/><rect x="290" y="467.8" width="4.4" height="4.4" fill="#1b1b1b"/><rect x="304" y="467.8" width="4.4" height="4.4" fill="#1b1b1b"/>
+    <text x="316" y="474">marker stones</text>
+    <path d="M410 470 h34" stroke="#1b1b1b" stroke-width="1.6" stroke-dasharray="2 4"/>
+    <text x="450" y="474">tunnel</text>
+    <text x="44" y="496" font-style="italic">Bold hexes are travelled this session. Times are for a party at 120'. Leave at dawn; the flush is at midnight.</text>
+  </g>
+  <text x="600" y="128" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Legend · Tunnel</text>
+  <line x1="600" y1="134" x2="970" y2="134" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(604,148) scale(18)" font-size="0.62" fill="#1b1b1b">
+    <g transform="translate(0,0)">
+      <circle cx="0.7" cy="0.5" r="0.5" fill="#1b1b1b"/><text x="0.7" y="0.7" fill="#fff" font-weight="bold" text-anchor="middle" font-size="0.48" font-family="Charter,Georgia,serif">T3</text>
+      <text x="2" y="0.7">Keyed area</text>
+    </g>
+    <g transform="translate(0,1.4)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <text x="0.7" y="0.78" text-anchor="middle" font-weight="bold" font-size="0.75" font-family="Charter,Georgia,serif">T</text>
+      <text x="2" y="0.7">Trap (trigger square)</text>
+    </g>
+    <g transform="translate(0,2.8)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0 0.5 H1.4" stroke="#1b1b1b" stroke-width="0.07" stroke-dasharray="0.22 0.14"/>
+      <text x="2" y="0.7">Floor channel (the flush runs here)</text>
+    </g>
+    <g transform="translate(0,4.2)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.45 0 l0.25 1 M0.7 0 l0.25 1" stroke="#1b1b1b" stroke-width="0.07"/>
+      <text x="2" y="0.7">Long reach, shortened (length given)</text>
+    </g>
+    <g transform="translate(0,5.6)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.7 0 V1" stroke="#1b1b1b" stroke-width="0.16"/><path d="M0.55 0.1 h0.3 M0.55 0.3 h0.3 M0.55 0.5 h0.3 M0.55 0.7 h0.3 M0.55 0.9 h0.3" stroke="#1b1b1b" stroke-width="0.05"/>
+      <text x="2" y="0.7">Drop gate (T2) or blade (T4)</text>
+    </g>
+    <g transform="translate(0,7.0)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.2 0.5 H1.2" stroke="#1b1b1b" stroke-width="0.06" stroke-dasharray="0.1 0.08"/>
+      <path d="M0.3 0.35 V0.65 M0.55 0.35 V0.65 M0.8 0.35 V0.65 M1.05 0.35 V0.65" stroke="#1b1b1b" stroke-width="0.05"/>
+      <text x="2" y="0.7">Grille or grating</text>
+    </g>
+    <g transform="translate(0,8.4)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.15 0.5 H1.25" stroke="#1b1b1b" stroke-width="0.3"/><path d="M0.15 0.5 H1.25" stroke="#F5EFE0" stroke-width="0.16"/>
+      <text x="2" y="0.7">Crawl pipe, 2 ft</text>
+    </g>
+    <g transform="translate(0,9.8)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <g fill="#1b1b1b"><circle cx="0.25" cy="0.25" r="0.05"/><circle cx="0.55" cy="0.25" r="0.05"/><circle cx="0.85" cy="0.25" r="0.05"/><circle cx="1.15" cy="0.25" r="0.05"/><circle cx="0.25" cy="0.6" r="0.05"/><circle cx="0.55" cy="0.6" r="0.05"/><circle cx="0.85" cy="0.6" r="0.05"/><circle cx="1.15" cy="0.6" r="0.05"/></g>
+      <text x="2" y="0.7">Bronze pegs (the frame)</text>
+    </g>
+    <g transform="translate(0,11.2)">
+      <rect x="0" y="0" width="1.4" height="1" fill="none" stroke="#1b1b1b" stroke-width="0.04"/>
+      <path d="M0.2 0.75 A0.5 0.5 0 0 1 1.2 0.75" fill="none" stroke="#1b1b1b" stroke-width="0.22"/>
+      <circle cx="0.7" cy="0.55" r="0.12" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+      <text x="2" y="0.7">The inner door (shut; the session stops)</text>
+    </g>
+    <g transform="translate(0,12.6)">
+      <rect x="0" y="0" width="1.4" height="1" fill="url(#water)" stroke="#1b1b1b" stroke-width="0.04"/>
+      <text x="2" y="0.7">Stream (runs at midnight)</text>
+    </g>
+  </g>
+  <text x="604" y="430" font-size="11.5" font-style="italic" fill="#1b1b1b">Hex key lines (from the Fort Country sheet):</text>
+  <g font-size="11.5" fill="#1b1b1b">
+    <text x="604" y="448">C3 The Weirs · Old fish traps. New stakes.</text>
+    <text x="604" y="465">C4 The Old Road · A humming milestone.</text>
+    <text x="604" y="482">C5 Boar Hollow · A hunter's lodge. A map nailed inside.</text>
+    <text x="604" y="499">D4 The Fort · Home. Biddy guards the henhouse.</text>
+  </g>
+
+  <text x="30" y="548" font-size="17" font-variant="small-caps" letter-spacing="0.8" fill="#1b1b1b">The Outflow Tunnel · T1–T5</text>
+  <text x="970" y="548" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">1 square = 10 feet · the tube falls gently north-east under the lake</text>
+  <line x1="30" y1="554" x2="970" y2="554" stroke="#1b1b1b" stroke-width="1"/>
+  <g transform="translate(37,568) scale(24.5)"><g clip-path="url(#tclip)">
+    <rect width="37" height="20" fill="#F5EFE0"/>
+    <!-- outside: reeds and the stream bed west of the mouth -->
+    <rect x="0" y="15.6" width="3.05" height="1.8" fill="url(#water)"/>
+    <path d="M0 15.6 H3.05 M0 17.4 H3.05" stroke="#1b1b1b" stroke-width="0.06"/>
+
+    <use xlink:href="#reedS" x="0.5" y="14.6"/>
+    <use xlink:href="#reedS" x="1.3" y="14.9"/>
+    <use xlink:href="#reedS" x="2.2" y="14.5"/>
+    <use xlink:href="#reedS" x="0.8" y="18.2"/>
+    <use xlink:href="#reedS" x="1.8" y="18.5"/>
+    <use xlink:href="#reedS" x="2.6" y="18.1"/>
+    <use xlink:href="#reedS" x="0.4" y="19.2"/>
+    <use xlink:href="#reedS" x="1.5" y="13.8"/>
+    <use xlink:href="#reedS" x="2.5" y="13.6"/>
+    <!-- hatch band, walls, floor, grid -->
+    <use xlink:href="#tfloor" fill="none" stroke="url(#hatch)" stroke-width="2.0"/>
+    <use xlink:href="#tfloor" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.24" stroke-linejoin="miter"/>
+    <use xlink:href="#tfloor" fill="#F5EFE0"/>
+    <use xlink:href="#tfloor" fill="url(#grid)"/>
+    <!-- the mouth: open west wall with the bent grille -->
+    <rect x="2.8" y="15.6" width="0.4" height="1.8" fill="#F5EFE0"/>
+    <path d="M3.0 15.6 V16.3 M3.0 16.8 V17.4" stroke="#1b1b1b" stroke-width="0.07" stroke-dasharray="0.1 0.08"/>
+    <path d="M2.85 16.3 L2.6 16.45 M2.85 16.8 L2.6 16.65" stroke="#1b1b1b" stroke-width="0.06"/>
+    <path d="M2.82 15.62 V15.2 M2.82 17.38 V17.8" stroke="#1b1b1b" stroke-width="0.24"/>
+
+    <path d="M14.75 15.35 H18.6 V16" fill="none" stroke="#1b1b1b" stroke-width="0.34"/>
+    <path d="M14.6 15.35 H18.6 V16.05" fill="none" stroke="#F5EFE0" stroke-width="0.18"/>
+
+    <rect x="3.45" y="15.45" width="3.1" height="2.1" fill="none" stroke="#1b1b1b" stroke-width="0.06" stroke-dasharray="0.18 0.1"/>
+    <g fill="none" stroke="#1b1b1b" stroke-width="0.07" stroke-dasharray="0.22 0.14">
+      <path d="M0 16.5 H19.5 V11"/>
+      <path d="M22 8.5 H33"/>
+      <path d="M32.5 8 V4.5"/>
+    </g>
+
+    <rect x="8.55" y="15.95" width="0.5" height="1.1" fill="#F5EFE0"/>
+    <path d="M8.5 15.85 l0.25 1.3 M8.8 15.85 l0.25 1.3" stroke="#1b1b1b" stroke-width="0.08"/>
+    <rect x="16.75" y="15.95" width="0.5" height="1.1" fill="#F5EFE0"/>
+    <path d="M16.7 15.85 l0.25 1.3 M17.0 15.85 l0.25 1.3" stroke="#1b1b1b" stroke-width="0.08"/>
+    <rect x="24.35" y="7.95" width="0.5" height="1.1" fill="#F5EFE0"/>
+    <path d="M24.3 7.85 l0.25 1.3 M24.6 7.85 l0.25 1.3" stroke="#1b1b1b" stroke-width="0.08"/>
+    <rect x="31.95" y="6.05" width="1.1" height="0.5" fill="#F5EFE0"/>
+    <path d="M31.85 6.0 l1.3 0.25 M31.85 6.3 l1.3 0.25" stroke="#1b1b1b" stroke-width="0.08"/>
+    <g font-size="0.32" fill="#1b1b1b" font-family="Charter,Georgia,serif">
+      <text x="10.2" y="15.42">1·2·3·4·5·6·7·8·9·10·11·12</text>
+    </g>
+    <circle cx="10.55" cy="17.45" r="0.3" fill="none" stroke="#1b1b1b" stroke-width="0.06"/><circle cx="10.55" cy="17.45" r="0.11" fill="#1b1b1b"/>
+    <rect x="15" y="16" width="1" height="1" fill="#1b1b1b" fill-opacity="0.18"/>
+    <path d="M16 16 V17" stroke="#1b1b1b" stroke-width="0.16"/><path d="M15.85 16.1 h0.3 M15.85 16.3 h0.3 M15.85 16.5 h0.3 M15.85 16.7 h0.3 M15.85 16.9 h0.3" stroke="#1b1b1b" stroke-width="0.05"/>
+    <!-- winch east of the gate -->
+    <circle cx="16.55" cy="16.2" r="0.17" fill="none" stroke="#1b1b1b" stroke-width="0.05"/><path d="M16.38 16.2 h0.34 M16.55 16.03 v0.34" stroke="#1b1b1b" stroke-width="0.04"/>
+
+    <g fill="#1b1b1b"><circle cx="18.300" cy="7.300" r="0.045"/><circle cx="18.300" cy="7.725" r="0.045"/><circle cx="18.300" cy="8.150" r="0.045"/><circle cx="18.300" cy="8.575" r="0.045"/><circle cx="18.300" cy="9.000" r="0.045"/><circle cx="18.300" cy="9.425" r="0.045"/><circle cx="18.300" cy="9.850" r="0.045"/><circle cx="18.300" cy="10.275" r="0.045"/><circle cx="18.300" cy="10.700" r="0.045"/><circle cx="18.725" cy="7.300" r="0.045"/><circle cx="18.725" cy="7.725" r="0.045"/><circle cx="18.725" cy="8.150" r="0.045"/><circle cx="18.725" cy="8.575" r="0.045"/><circle cx="18.725" cy="9.000" r="0.045"/><circle cx="18.725" cy="9.425" r="0.045"/><circle cx="18.725" cy="9.850" r="0.045"/><circle cx="18.725" cy="10.275" r="0.045"/><circle cx="18.725" cy="10.700" r="0.045"/><circle cx="19.150" cy="7.300" r="0.045"/><circle cx="19.150" cy="7.725" r="0.045"/><circle cx="19.150" cy="8.150" r="0.045"/><circle cx="19.150" cy="8.575" r="0.045"/><circle cx="19.150" cy="9.000" r="0.045"/><circle cx="19.150" cy="9.425" r="0.045"/><circle cx="19.150" cy="9.850" r="0.045"/><circle cx="19.150" cy="10.275" r="0.045"/><circle cx="19.150" cy="10.700" r="0.045"/><circle cx="19.575" cy="7.300" r="0.045"/><circle cx="19.575" cy="7.725" r="0.045"/><circle cx="19.575" cy="8.150" r="0.045"/><circle cx="19.575" cy="8.575" r="0.045"/><circle cx="19.575" cy="9.000" r="0.045"/><circle cx="19.575" cy="9.425" r="0.045"/><circle cx="19.575" cy="9.850" r="0.045"/><circle cx="19.575" cy="10.275" r="0.045"/><circle cx="19.575" cy="10.700" r="0.045"/><circle cx="20.000" cy="7.300" r="0.045"/><circle cx="20.000" cy="7.725" r="0.045"/><circle cx="20.000" cy="8.150" r="0.045"/><circle cx="20.000" cy="8.575" r="0.045"/><circle cx="20.000" cy="9.000" r="0.045"/><circle cx="20.000" cy="9.425" r="0.045"/><circle cx="20.000" cy="9.850" r="0.045"/><circle cx="20.000" cy="10.275" r="0.045"/><circle cx="20.000" cy="10.700" r="0.045"/><circle cx="20.425" cy="7.300" r="0.045"/><circle cx="20.425" cy="7.725" r="0.045"/><circle cx="20.425" cy="8.150" r="0.045"/><circle cx="20.425" cy="8.575" r="0.045"/><circle cx="20.425" cy="9.000" r="0.045"/><circle cx="20.425" cy="9.425" r="0.045"/><circle cx="20.425" cy="9.850" r="0.045"/><circle cx="20.425" cy="10.275" r="0.045"/><circle cx="20.425" cy="10.700" r="0.045"/><circle cx="20.850" cy="7.300" r="0.045"/><circle cx="20.850" cy="7.725" r="0.045"/><circle cx="20.850" cy="8.150" r="0.045"/><circle cx="20.850" cy="8.575" r="0.045"/><circle cx="20.850" cy="9.000" r="0.045"/><circle cx="20.850" cy="9.425" r="0.045"/><circle cx="20.850" cy="9.850" r="0.045"/><circle cx="20.850" cy="10.275" r="0.045"/><circle cx="20.850" cy="10.700" r="0.045"/><circle cx="21.275" cy="7.300" r="0.045"/><circle cx="21.275" cy="7.725" r="0.045"/><circle cx="21.275" cy="8.150" r="0.045"/><circle cx="21.275" cy="8.575" r="0.045"/><circle cx="21.275" cy="9.000" r="0.045"/><circle cx="21.275" cy="9.425" r="0.045"/><circle cx="21.275" cy="9.850" r="0.045"/><circle cx="21.275" cy="10.275" r="0.045"/><circle cx="21.275" cy="10.700" r="0.045"/><circle cx="21.700" cy="7.725" r="0.045"/><circle cx="21.700" cy="8.150" r="0.045"/><circle cx="21.700" cy="8.575" r="0.045"/><circle cx="21.700" cy="9.000" r="0.045"/><circle cx="21.700" cy="9.425" r="0.045"/><circle cx="21.700" cy="9.850" r="0.045"/><circle cx="21.700" cy="10.275" r="0.045"/><circle cx="21.700" cy="10.700" r="0.045"/></g>
+    <circle cx="21.7" cy="7.3" r="0.16" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.07"/><circle cx="21.7" cy="7.3" r="0.05" fill="#1b1b1b"/>
+    <rect x="18.05" y="10.55" width="0.8" height="0.35" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.06"/>
+    <rect x="18.05" y="8.2" width="0.35" height="0.7" fill="#1b1b1b"/>
+
+    <rect x="27" y="8" width="0.5" height="2" fill="#1b1b1b" fill-opacity="0.55"/>
+    <path d="M27.05 8.2 H27.45 M27.05 8.4 H27.45 M27.05 8.6 H27.45 M27.05 8.8 H27.45" stroke="#F5EFE0" stroke-width="0.06"/>
+    <rect x="30" y="8" width="1" height="2" fill="#1b1b1b" fill-opacity="0.18"/>
+    <rect x="33.05" y="8.05" width="0.3" height="1.9" fill="#1b1b1b"/>
+    <path d="M33.05 8.2 h-0.15 M33.05 8.5 h-0.15 M33.05 8.8 h-0.15 M33.05 9.1 h-0.15 M33.05 9.4 h-0.15 M33.05 9.7 h-0.15" stroke="#1b1b1b" stroke-width="0.05"/>
+    <circle cx="32.0" cy="10.27" r="0.13" fill="#1b1b1b"/>
+    <!-- scratches at knee and chest height, drawn along the walls -->
+    <path d="M27.6 8.12 H32.9 M27.6 9.88 H32.9" stroke="#1b1b1b" stroke-width="0.03"/>
+
+    <path d="M31.75 1.65 A1.5 1.5 0 0 1 33.25 1.65" fill="none" stroke="#1b1b1b" stroke-width="0.32"/>
+    <circle cx="32.5" cy="1.82" r="0.13" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="0.05"/>
+    <path d="M32.15 2.05 H32.85" stroke="#1b1b1b" stroke-width="0.05" stroke-dasharray="0.08 0.06"/>
+    <g transform="translate(33.6,3)" stroke="#1b1b1b" stroke-width="0.05" fill="none">
+      <circle r="0.32"/><path d="M-0.32 0 H0.32 M0 -0.32 V0.32 M-0.23 -0.23 L0.23 0.23 M-0.23 0.23 L0.23 -0.23"/>
+    </g>
+    <path d="M30.95 2.7 q0.35 0.3 0 0.6 M30.95 2.85 q0.2 0.15 0 0.3" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+    <rect x="33.2" y="3.55" width="0.45" height="0.3" fill="none" stroke="#1b1b1b" stroke-width="0.05"/>
+
+    <text x="7.55" y="16.78" font-size="0.75" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.14" paint-order="stroke" font-family="Charter,Georgia,serif">T</text>
+    <text x="15.5" y="16.78" font-size="0.75" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.14" paint-order="stroke" font-family="Charter,Georgia,serif">T</text>
+    <text x="30.5" y="9.28" font-size="0.75" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.14" paint-order="stroke" font-family="Charter,Georgia,serif">T</text>
+    <g font-family="Charter,'Bitstream Charter',Georgia,serif" font-weight="bold" font-size="0.62" text-anchor="middle" fill="#fff">
+      <g transform="translate(5.0,16.5)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">T1</text></g>
+      <g transform="translate(12.4,16.5)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">T2</text></g>
+      <g transform="translate(20.0,9.0)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">T3</text></g>
+      <g transform="translate(28.9,9.0)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">T4</text></g>
+      <g transform="translate(32.4,3.15)"><circle r="0.62" fill="#1b1b1b"/><text y="0.22">T5</text></g>
+    </g>
+    <g font-size="0.45" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="0.2" paint-order="stroke">
+      <text x="0.2" y="15.25">stream: to the Weirs</text>
+      <text x="0.2" y="19.75">reeds and shrines</text>
+      <text x="3.1" y="18.65">grille, bars bent</text>
+      <text x="3.6" y="14.75">dry basin</text>
+      <text x="7.3" y="15.65">bell-line</text>
+      <text x="8.85" y="17.65" text-anchor="middle">reach A · 600 ft</text>
+      <text x="17.0" y="17.65" text-anchor="middle">reach B · 480 ft</text>
+      <text x="20.2" y="13.6">reach B</text>
+      <text x="20.2" y="14.15">(north arm)</text>
+      <text x="10.2" y="18.65">float pit</text>
+      <text x="12.6" y="14.75">depth marks, 1–20</text>
+      <text x="14.6" y="18.65">dark slab · drop gate</text>
+      <text x="15.0" y="14.75">crawl pipe, 40 ft</text>
+      <text x="16.75" y="16.05">winch</text>
+      <text x="22.15" y="7.05">lamp peg</text>
+      <text x="18.9" y="11.65">little frame</text>
+      <text x="16.4" y="8.7">locker</text>
+      <text x="18.0" y="6.6">peg field: true corners</text>
+      <text x="24.6" y="9.65" text-anchor="middle">reach C · 720 ft</text>
+      <text x="25.5" y="10.75">sump and grating</text>
+      <text x="29.9" y="10.95">pan · sweep</text>
+      <text x="32.25" y="11.0">Platt</text>
+      <text x="33.6" y="8.9">blade</text>
+      <text x="33.25" y="6.45">reach D · 360 ft</text>
+      <text x="34.3" y="2.95">sluice wheel</text>
+      <text x="33.75" y="4.15">crate</text>
+      <text x="28.0" y="2.55">Tender's</text>
+      <text x="28.0" y="3.1">alcove</text>
+      <text x="26.2" y="0.85">the inner door: shut. Beyond, the Eval Chamber</text>
+      <text x="26.2" y="1.4">(Year Two DM Guide; not keyed here)</text>
+    </g>
+
+    <g transform="translate(0.8,1.4)">
+      <path d="M0 0 H5 M0 -0.25 V0.25 M1 -0.15 V0.15 M2 -0.15 V0.15 M3 -0.15 V0.15 M4 -0.15 V0.15 M5 -0.25 V0.25" stroke="#1b1b1b" stroke-width="0.07"/>
+      <rect x="0" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="2" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/><rect x="4" y="-0.08" width="1" height="0.16" fill="#1b1b1b"/>
+      <text x="0" y="-0.4" font-size="0.55" fill="#1b1b1b">0</text>
+      <text x="5" y="-0.4" font-size="0.55" text-anchor="end" fill="#1b1b1b">50 ft</text>
+    </g>
+    <!-- notes block -->
+    <g font-size="0.5" fill="#1b1b1b">
+      <text x="0.8" y="3.2" font-size="0.6" font-variant="small-caps" letter-spacing="0.03">The reaches (careful / brisk turns)</text>
+      <text x="0.8" y="4.0">A 600 ft (5 / 2) · B 480 ft (4 / 2) · C 720 ft (6 / 2) · D 360 ft (3 / 1)</text>
+      <text x="0.8" y="4.65">Platt's map, in paces of 2½ ft: 240 · 192 · 288 · 144. No traps in the reaches.</text>
+      <text x="0.8" y="5.7" font-size="0.6" font-variant="small-caps" letter-spacing="0.03">Traps</text>
+      <text x="0.8" y="6.5">T1 bell-line (harmless) · T2 dark slab drops the gate · T4 pan trips the sweep</text>
+      <text x="0.8" y="7.55" font-size="0.6" font-variant="small-caps" letter-spacing="0.03">The flush</text>
+      <text x="0.8" y="8.35">Midnight, one hour: the channel overflows; T2 fills to 4 ft;</text>
+      <text x="0.8" y="9.0">the T4 blade runs every turn. Water comes from under the inner door.</text>
+      <text x="0.8" y="10.05" font-size="0.6" font-variant="small-caps" letter-spacing="0.03">Exits</text>
+      <text x="0.8" y="10.85">T1 W arch, E reach A · T2 W reach A, E gate and reach B (and the crawl pipe)</text>
+      <text x="0.8" y="11.5">T3 S reach B, E reach C · T4 W reach C, N (east end) reach D · T5 S reach D, N inner door</text>
+    </g>
+    </g>
+    <rect width="37" height="20" fill="none" stroke="#1b1b1b" stroke-width="0.08"/>
+  </g>
+
+  <text x="970" y="1146" font-size="10.5" font-style="italic" text-anchor="end" fill="#1b1b1b">Original map for The Hum. Art rule: Otus ink.</text>
+</svg>
