@@ -8,8 +8,8 @@ See [`../../meetings/2026-06-05_gray_facilitation-roleplay.md`](../../meetings/2
 
 The setting and adventure went through a **beta → final** iteration during the Day-before prep (2026-06-04 Thursday, two sessions):
 
-- **Beta:** [`beta/Setting_Lake_Outpost_and_Petrified_Caves.md`](beta/Setting_Lake_Outpost_and_Petrified_Caves.md) — single unified document containing setting, NPCs, and adventure content together. Superseded but preserved.
-- **Final:** [`Players_Guide_The_Fort.md`](Players_Guide_The_Fort.md) plus [`DM_Guide_Fort_and_Caves.md`](DM_Guide_Fort_and_Caves.md), with information separated by who needs to read what. Plus one playbook per main B/X class.
+- **Beta:** [`beta/Setting_Lake_Outpost_and_Petrified_Caves.md`](../beta/Setting_Lake_Outpost_and_Petrified_Caves.md) — single unified document containing setting, NPCs, and adventure content together. Superseded but preserved.
+- **Final:** [`Players_Guide_The_Fort.md`](Players_Guide_The_Fort.md) plus [`DM_Guide_Fort_and_Caves.md`](../dm/DM_Guide_Fort_and_Caves.md), with information separated by who needs to read what. Plus one playbook per main B/X class.
 
 The split was the load-bearing iteration: separating *what every character knows* (player-facing world brief) from *what's actually going on, what the NPCs want, where the pressure points are* (GM reference). Same kind of "audience separation" decision the ASCEND-vs-Canvas terminology pass made in the FSM data-model document.
 
@@ -20,20 +20,20 @@ The split was the load-bearing iteration: separating *what every character knows
 | File | Audience | Notes |
 |---|---|---|
 | [Players_Guide_The_Fort.md](Players_Guide_The_Fort.md) | Players | World + The Fort + What's Out There + Current Situation + How This Works at the Table. The "What Everyone Knows" baseline. |
-| [DM_Guide_Fort_and_Caves.md](DM_Guide_Fort_and_Caves.md) | GM only | NPC behavior tables (Wants / Will do / Won't do / Treats PCs as), pressure-point status + trajectory, after-adventure "The Fort reacts" guidance, plus the 5-room Petrified Caves dungeon with room-by-room teaching objectives. |
-| [Playbook_Fighter.md](Playbook_Fighter.md) | Player | Main B/X class. |
+| [DM_Guide_Fort_and_Caves.md](../dm/DM_Guide_Fort_and_Caves.md) | GM only | NPC behavior tables (Wants / Will do / Won't do / Treats PCs as), pressure-point status + trajectory, after-adventure "The Fort reacts" guidance, plus the 5-room Petrified Caves dungeon with room-by-room teaching objectives. |
+| [Playbook_Fighter.md](npc/Playbook_Fighter.md) | Player | Main B/X class. |
 | [Playbook_Wizard.md](Playbook_Wizard.md) | Player | Main B/X class. |
-| [Playbook_Elf.md](Playbook_Elf.md) | Player | OSE Advanced class+race. |
+| [Playbook_Elf.md](npc/Playbook_Elf.md) | Player | OSE Advanced class+race. |
 | [Playbook_Elf_Minister.md](Playbook_Elf_Minister.md) | Player | OSE Advanced — the "Minister" Cleric variant of the Order of the Sacred Terminal. |
 | [Playbook_Half_Elf_Paladin.md](Playbook_Half_Elf_Paladin.md) | Player | OSE Advanced — the Paladin variant of the Order of the Sacred Terminal. |
 | [Playbook_Gnome_Druid.md](Playbook_Gnome_Druid.md) | Player | OSE Advanced class+race. |
-| [Playbook_Shrine_Maiden.md](Playbook_Shrine_Maiden.md) | Player + GM fallback | NPC version available if no player chooses the Minister role. |
+| [Playbook_Shrine_Maiden.md](npc/Playbook_Shrine_Maiden.md) | Player + GM fallback | NPC version available if no player chooses the Minister role. |
 
 ### Beta (pre-split)
 
 | File | Notes |
 |---|---|
-| [beta/Setting_Lake_Outpost_and_Petrified_Caves.md](beta/Setting_Lake_Outpost_and_Petrified_Caves.md) | Unified setting + adventure. Superseded by the final split. Kept for version-history reference and as evidence of the beta-to-final iteration process. |
+| [beta/Setting_Lake_Outpost_and_Petrified_Caves.md](../beta/Setting_Lake_Outpost_and_Petrified_Caves.md) | Unified setting + adventure. Superseded by the final split. Kept for version-history reference and as evidence of the beta-to-final iteration process. |
 
 ## Why this works as an ASCEND-procedure testbed
 

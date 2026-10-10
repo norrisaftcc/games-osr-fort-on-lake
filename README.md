@@ -29,6 +29,10 @@ Test it with `node demo/test.mjs` (needs Playwright and Chromium).
 
 Start with [`player/Players_Guide_The_Fort.md`](player/Players_Guide_The_Fort.md), then pick a playbook in [`player/`](player/). The Fighter, the Elf, and the NPC Minister are in [`player/npc/`](player/npc/); a player can take the Fighter or the Elf, and the GM runs the Minister if no one plays the Elf Minister.
 
+## Working on this repository
+
+Read [`AGENTS.md`](AGENTS.md) first. It says where canon comes from, the rules that are easy to break, the house style, and the checks to run before you push. [`CLAUDE.md`](CLAUDE.md) points Claude Code at it.
+
 ## Sources and homage
 
 Modules 2 and 3 are glosses. Module 2 follows the shape of the ruined-tower sample dungeon in the 1977 Basic rulebook. Module 3 follows the shape of the cave-lair ravine in module B2. Those books belong to Wizards of the Coast and are not open content. We took their structure, which is free, and wrote every name, room, map and line of text new for this setting. Monster statistics follow the B/X conventions as published in Old-School Essentials.
