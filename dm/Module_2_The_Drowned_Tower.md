@@ -43,7 +43,9 @@ Captain Maren calls the party to the Hall the morning after they come back from 
 
 In play, **a cockatrice defeated the Gorgon Queen**. She is stone. The wards in her chamber still glow. She is contained, not dead.
 
-Word spreads. A cockatrice can beat a gorgon. Harrow paid 50 gp an egg last season. Now he pays 100, and his buyers pay him more. The buyers are **the Saltmen**. They keep their stock in the grotto under the island, and they pass the eggs on to people the ledger calls **"the Readers"**.
+The cockatrice was the Beast Pen's own. The village has adopted it. It lives at The Fort, hooded, half pet and half mascot, and the children feed it beetles. Everyone on the lake has heard of it.
+
+Word spreads. A cockatrice can beat a gorgon, and The Fort owns one that has. Harrow paid 50 gp an egg last season. Now he pays 100, and his buyers pay him more. The buyers are **the Saltmen**. They keep their stock in the grotto under the island, and they pass the eggs on to people the ledger calls **"the Readers"**.
 
 ### The Throughline in One Breath
 
@@ -71,9 +73,10 @@ The party will likely come home with three things other people want. None of the
 
 | Prize | Maren wants it because | Harrow wants it because | Vosk (if alive) wants it because | Keeping it means |
 |-------|------------------------|-------------------------|-----------------------------------|------------------|
-| **The eggs** (up to 4) | She wants them destroyed, or held as a bargaining chip. | 100 gp each, cash, no questions. He has a buyer waiting. | They're her cargo. She'll pay 150 each to get them back. | The PCs hold the most wanted object on the lake. Someone will come for it. |
+| **The eggs** (up to 4) | She wants them destroyed, or held as a bargaining chip. | 100 gp each, cash, no questions. He has a buyer waiting. | They're her cargo. She'll pay 150 each to get them back. | The PCs hold the second most wanted thing on the lake. The first is in the Beast Pen. |
 | **The ledger** | Proof against Harrow. Names. Dates. The Old Road. | It has his name on every page. He'll pay 200 gp for it and swear to stop. | It's her life. The Readers will kill her if it reaches The Fort. | The party knows where the eggs went, and nobody else does. |
 | **The Warden's Lamp** | She doesn't care what it is. She wants it locked in the Hall. | He doesn't know what it is. | The Readers will pay her a thousand for "the way past the fish". She'd split it. | The keeper's key to the Door stays with the party. The Elf Minister may have views. |
+| **The Fort's cockatrice** (at home, not in the dungeon) | It stays. It's The Fort's. | 1,000 gp, quietly, "for a buyer". | 2,000 gp. A proven gorgon-killer. | The best guard on the lake lives in a pen behind the forge, and everyone knows it. |
 
 ---
 
@@ -121,7 +124,7 @@ Players who came through the demo arrive with an **Intro Card**: one **public fa
 | | Thinks the Terminal is a tool, a wound, or a conversation | G7 | The control collar is all three. Ask the Druid which, at the pool. |
 | **Fighter** | Chose the heavy hammer | C1 | +1 to force the stuck oak door. Let the Fighter be the one who opens the dungeon. |
 | | Forged a plow blade | — | Knows every family. One of them sold Harrow an egg last month. The Fighter knows who. |
-| | Forged the beast-pen cage | G3 | If the cage holds a young cockatrice, the eggs in G3 are its siblings. |
+| | Forged the beast-pen cage | G3, G4 | The cage held the cockatrice that turned the Gorgon Queen; The Fort has adopted it. The eggs in G3 may be its kin. Vosk asks the Fighter, by name, what it would cost. |
 | | Forged coffin nails | C5 | The skeletons' oath-plates are riveted the way the Fighter's master riveted. Imperial work. |
 | | Any reason for stopping | C2 | The first fight. Ask the player, after it, whether the reason felt true. |
 | **Elf** | My people are gone | G8 | The direction they went is north, over the Deep. The Door faces the same way. |
@@ -184,7 +187,7 @@ How it behaves is in G7. How the party can change that is in C7. That link is th
 
 ### The Door Beneath the Lake
 
-A round door of black stone banded in bronze, fifteen feet across, half under water at the south end of the pool. Carved eyes ring it, all shut. It faces north, toward the Deep (hex D1). The hex map says **Halcyon lies below**. Do not explain Halcyon. If a player asks, the answer is "north, and down".
+A round door of black stone banded in bronze, fifteen feet across, set in the grotto's north wall under the cliff, half under water. It is reached by the pool's north arm: a ledge, or a swim. Carved eyes ring it, all shut. It faces north and opens toward the Deep (hex D1). The hex map says **Halcyon lies below**. Do not explain Halcyon. If a player asks, the answer is "north, and down".
 
 **Nobody opens the Door in this module.** No key here fits it. The lamp commands the Warden, not the Door. It is a hook for later, not a room to clear.
 
@@ -1041,7 +1044,7 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 
 > **What This Room Teaches:** **Treasure has weight.** The coffer alone weighs as much as 3,500 coins. Getting rich means more trips, or a boat.
 
-> **Design Note:** Obvious: grab everything. Clever: find the string, then ask who's going to carry it. If the Fighter built the beast-pen cage and it holds a young cockatrice, these are its siblings.
+> **Design Note:** Obvious: grab everything. Clever: find the string, then ask who's going to carry it. The Fort's adopted cockatrice came off the same ridge; these may be its kin.
 
 ## G4. Vosk's Room
 
@@ -1057,7 +1060,7 @@ Sea-cave rock at lake level, under the north cliff. Wet, echoing, lit only where
 | Feature | Detail |
 |---------|--------|
 | **The ledger** | Eggs bought from Harrow by date and price. Every batch ends with the same line: *"up the Old Road to the Readers, left at the hum."* The hum is the humming milestone (hex C4). The courier column says *Dace* every time; the last entry has no return date. Payments in faceless gold. |
-| The Readers' letter | Polite, in an educated hand: *"Our thanks for the four. We shall need more. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read."* It quotes a hymn line backwards. Its closing uses an old knightly countersign. |
+| The Readers' letter | Polite, in an educated hand: *"Our thanks for the four. We shall need more. We hear The Fort keeps a bird that has already killed a queen; name its price. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read."* It quotes a hymn line backwards. Its closing uses an old knightly countersign. |
 | The strongbox | Locked; key on a cord round Vosk's neck. 1,800 gold coins with the faces ground off; 2,000 sp; three gems (50, 100 and 100 gp). As heavy as 3,800 coins. |
 | Chart table | A lake chart. The Saltmen's route east. The isle marked with eight dots and a circle. |
 | Potion | One potion of healing, in her coat. |
@@ -1073,6 +1076,7 @@ She talks first. Roll no reaction unless the party attacks or insults her. She o
 | The ledger and the letter | Her life and the boat, nothing else. Her final offer. |
 | The secret of the bell | Information only. She'll give it free if it gets the party to the pool and away from her. |
 | To buy the Warden's Lamp | 500 gp from the strongbox, now. The Readers would pay her twice that. |
+| To buy The Fort's cockatrice | 2,000 gp, half now. "A bird that has killed a queen. The Readers would give me a ship for it." |
 
 ### Encounter: Ketter Vosk and Moss
 
@@ -1119,7 +1123,7 @@ Vosk wears an imperial scale shirt. Below half hp she yields and bargains from t
 |---|---|
 | **Size** | About 80' × 40'. Water 1–3' deep. |
 | **Light** | None |
-| **Exits** | Up (west): the flooded stair to C3. East: opens onto the rim ledge of G7. |
+| **Exits** | Up (west): the flooded stair to C3. East: opens onto the rim ledge of G7, which runs north up the north arm to G8. |
 | **Encounter** | Leeches (a hazard, not a monster) |
 
 > **Read aloud:** The stair comes up out of the water onto a broad, flooded shelf of rock, and the water here is warm as blood and full of slow ribbons that are not weed. To the east the shelf narrows to a ledge along a great dark pool. Out on the pool, without a sound, a wide ring spreads and fades.
@@ -1138,9 +1142,9 @@ Vosk wears an imperial scale shirt. Below half hp she yields and bargains from t
 
 | | |
 |---|---|
-| **Size** | About 150' × 100'. The pool is 110' × 90' and 40' deep. A rim ledge 5–10' wide runs round the west and south sides; a feeding ledge 30' wide on the east. |
+| **Size** | About 150' × 100'. The pool is 110' × 90' and 40' deep. A rim ledge 5–10' wide runs round the south and west sides; a feeding ledge 30' wide on the east. From the north-west corner, the **north arm** (a 10' ledge beside deep water) runs 120' north to G8. |
 | **Light** | None, except a faint green glow far down: the collar |
-| **Exits** | North: G2 (the dock and the feeding ledge). West: rim ledge to G6. South: rim ledge to G8. |
+| **Exits** | North: G2 (the dock and the feeding ledge). West: rim ledge to G6. North-west: the north arm, by its ledge or by swimming, to G8. |
 | **Encounter** | **The Warden** |
 
 > **Read aloud:** The cave opens into a hall of water so wide your light can't find its far side. Far down, something glows a dim, steady green, like a coal in a deep grate. Then the glow rises. The water bulges, slides off a back as broad as a barn door, and a head comes up: whiskers thick as ship's cable, a mouth that could take a man to the waist, and round its neck a band of green bronze set with one dark stone.
@@ -1176,7 +1180,7 @@ Immune to *sleep* (too many HD). It can lunge 10' out of the water to bite; out 
 
 | If the party | Then |
 |--------------|------|
-| Read the lamp finding (C7, #1) and brought the lamp lit | No fight. They walk the rim to the Door with the Warden lying still beneath them. Award its XP: they overcame it. |
+| Read the lamp finding (C7, #1) and brought the lamp lit | No fight. They walk the rim and the north arm to the Door with the Warden lying still beneath them. Award its XP: they overcame it. |
 | Read the collar finding (#2) | They know where to hit. The keystone is AC 2 [17], and only reachable when the head is up (lunging or feeding). 10 points of damage break it. The Fighter's *I Know How This Was Made* makes it one hit. Freed, the Warden thrashes for one round (one bite at anyone in the water), then swims out through G1, north to the Deep, and never returns. |
 | Read the bell finding (#3), or got it from Vosk or the C12 roll | They can buy 1d4+1 rounds with a crate of salt fish, as often as they have fish. |
 | Read the tremble finding (#4) | Everyone stands still and only one person moves at a time. The Warden gets one chance at each mover. |
@@ -1215,16 +1219,16 @@ Immune to *sleep* (too many HD). It can lunge 10' out of the water to bite; out 
 
 | | |
 |---|---|
-| **Size** | About 60' × 35'. The floor slopes down to the Door; its lower half is under water. |
+| **Size** | About 70' × 45', under the north cliff, west of the cave mouth. The north half is deep water; the Door's lower half is in it. |
 | **Light** | None |
-| **Exits** | North: rim ledge to G7. |
+| **Exits** | South: the north arm, by its ledge or by swimming, to G7. |
 | **Encounter** | None. The Warden, if it is still bound and not stood down. |
 
-> **Read aloud:** At the end of the ledge the rock slopes down into a round recess, and set into its far side is a door: a disc of black stone fifteen feet across, banded in bronze, its lower half sunk in still water. Twelve eyes are carved round its rim, and every one of them is shut. It faces north, away from you, toward something you cannot see; you have come up behind it.
+> **Read aloud:** The ledge ends in a low cave under the cliff, its far half flooded and still. Set into the north wall, across the water, is a door: a disc of black stone fifteen feet across, banded in bronze, its lower half sunk in the pool. Twelve eyes are carved round its rim, and every one of them is shut. Beyond that wall there is only the lake, and then the Deep; the door is turned to face it, as if it expects to be knocked on from the other side.
 
 | Feature | Detail |
 |---------|--------|
-| The Door | Black stone, bronze bands, no handle, no lock, no seam you can find. It faces north, toward the Deep. The hex key says **Halcyon lies below**. Do not explain it. If asked: "north, and down". |
+| The Door | Black stone, bronze bands, no handle, no lock, no seam you can find. Reaching it from the dry ledge means a 20' swim. It faces north, toward the Deep. The hex key says **Halcyon lies below**. Do not explain it. If asked: "north, and down". |
 | The eyes | Twelve, shut. The same carving as the Gorgon Queen's chamber and the ward room. There the eyes are open. Here they sleep. |
 | Listening | Ear to the stone: very far down, the singing of the Shallows. |
 | *Detect Magic* | Every other made thing in the station glows. The Door does not. Whatever it is, it isn't this kind of thing. |
@@ -1232,13 +1236,13 @@ Immune to *sleep* (too many HD). It can lunge 10' out of the water to bite; out 
 | The votive shelf | A stone shelf beside the Door: keepers' offerings. A gold disc stamped with an open eye, 400 gp. Taking it is the Paladin's call to object. |
 | Vosk's tools | If the Saltmen tried: a crowbar, bent, and a chalk copy of the eyes on a board. The Readers asked for it. |
 
-**If they try to open it:** it doesn't. Nothing in this module opens it. Each try takes a turn and brings one of these, in order: the eyes twitch under their lids; the water in the recess rises a foot; the lamp-stones on the surface hum loud enough to hear down here; that night every PC dreams of a long stair going down, north. No damage. No door.
+**If they try to open it:** it doesn't. Nothing in this module opens it. Each try takes a turn and brings one of these, in order: the eyes twitch under their lids; the water in the cave rises a foot; the lamp-stones on the surface hum loud enough to hear down here; that night every PC dreams of a long stair going down, north. No damage. No door.
 
 > **Art reference:** Otus ink, black on cream. The Door square in frame, small figures on the ledge for scale, the shut eyes drawn with single heavy lids, and below the waterline the bronze bands continuing down in broken reflected strokes.
 
 > **What This Room Teaches:** **Not every door is for opening.** Some are for knowing about. This one points at the rest of the campaign.
 
-> **Design Note:** Obvious: try to open it. Clever: leave it shut, copy the eyes, and ask who else wants it open. The Elf Minister's warning lands here. Let her player have the first word.
+> **Design Note:** The Door is on the grotto's north side so that it opens toward the Deep, not toward the station. Obvious: try to open it. Clever: leave it shut, copy the eyes, and ask who else wants it open. The Elf Minister's warning lands here. Let her player have the first word.
 
 ---
 
@@ -1323,13 +1327,14 @@ Each PC takes one share. The Minister, if she is an NPC, takes half a share.
 
 ## The Fort Reacts
 
-When the party rows home, The Fort mirrors their choices. React; don't plan.
+When the party rows home, The Fort mirrors their choices. React; don't plan. In Year Two, read each row as a change to The Fort's Stores, Walls, Folk or Lamp.
 
 | What They Bring Back | How The Fort Responds |
 |---------------------|----------------------|
 | **The ledger** | Maren reads it twice and goes to find Harrow. Harrow, if he's in town, asks to see her alone. What she does depends on what the party asked her to do. |
 | **The eggs** | Harrow offers 100 each and doesn't ask where they came from. Maren wants them destroyed or locked up. The Minister asks whether anyone thought about what they're for. |
-| **The Warden's Lamp** | The Minister sets it before The Fort's Terminal. The Terminal shows a line in green for the first time in years, then goes back to the hymns. She won't say what it said. |
+| **The Warden's Lamp** | The Minister sets it before The Fort's Terminal. The Terminal shows a line in green for the first time in years, then goes back to the hymns. She won't say what it said. Wick, the twelve-year-old lamplighter, asks to be the one who fills it. |
+| **News: someone wants the cockatrice** | Vosk's offer, the Readers' letter, or Harrow's quiet bid. Maren puts a guard on the Beast Pen and the children take turns sleeping by it. |
 | **Vane's notes** | The Wizard can spend a week copying them. Copy the last page: the rite works on any bound dead, once. |
 | **Vosk, as a prisoner** | Maren has a cell and a problem. Vosk knows the way to the Readers' handoff and will trade it for her freedom. |
 | **The Saltmen's boat** | The Fort has a third boat, and the Saltmen have none. They'll want it back. |
