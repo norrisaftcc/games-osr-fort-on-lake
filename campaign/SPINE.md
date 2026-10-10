@@ -65,7 +65,7 @@ Stat blocks use the full OSE line, as *Floor 31* does: AC, HD (with hp), Att, TH
 
 ### 3. The cast
 
-Use these characters in "Each PC's Moment" tables and in the demo. The old DM Guide names a Thief and a Hunter. They have no playbook. Do not use them.
+Use these characters in "Each PC's Moment" tables and in the demo. **Year Two's real party** is the gnome druid, the elven thief and the elf cleric of the Sacred Terminal (the Elf Minister playbook). The elven thief has no playbook in this repo yet; until one exists, modules do not give the thief a moment. The Paladin is now an NPC (Warden of the Gate, Maren's heir), and the Glamourist, a fae, was a Year One PC.
 
 | Character | File | Class | Fate ability |
 |-----------|------|-------|--------------|
@@ -77,7 +77,9 @@ Use these characters in "Each PC's Moment" tables and in the demo. The old DM Gu
 | The Elf | `player/npc/Playbook_Elf.md` | Elf | *I Remember When* |
 | The Minister (NPC) | `player/npc/Playbook_Shrine_Maiden.md` | Cleric (DM-run) | *The Terminal Remembers* |
 
-Rules base: OSE Advanced Fantasy, plus the playbooks' Fate Points (3 per character; reroll, +4 to a save, or cheat death for 2). Prompt Fate abilities before the DM describes a thing, not after.
+Rules base: OSE Advanced Fantasy, plus the playbooks' Fate Points (3 per character; reroll, +4 to a save, or cheat death for 2). Prompt Fate abilities before the DM describes a thing, not after. Year Two adds: a Fate point spent with a spell or an N/day power also gives the player authorship of part of its effect, and Fate refreshes at each Fort Turn.
+
+**The players read 5e; the DM runs OSE.** Write every stat block in OSE first, then **one line** of 5e note under it, using the DM Guide's conversion: HD n → CR about n/2; ascending AC [x] → AC x; save vs. Death or Poison → CON save DC 12; save vs. Petrify → CON save DC 13; ML 7 or lower → flees at half HP. Format: `*5e: CR 1/4 · AC 12 · hp 2, 3, 1 · bite +0 (1d3) · flees at half HP.*`
 
 ---
 
@@ -89,8 +91,8 @@ The DM's hex map, *The Fort Country* (1 hex = 6 miles, art rule: Otus ink), fixe
 |-----|------|----------|---------|
 | D4 | The Fort | Home. Biddy guards the henhouse. | All |
 | D3 | The Shallows | Fish by day. Singing at night. | Module 2 (the crossing) |
-| D2 | Isle of Old Stone | A broken lamp-tower. A stair into the water. | **Module 2**. The Door Beneath the Lake is on the grotto's north side, facing the Deep. |
-| D1 | The Deep | No bottom. Halcyon lies below. | Module 2 hook: the Door Beneath the Lake faces it. Do not explain Halcyon. |
+| D2 | Isle of Old Stone | A broken lamp-tower. A stair into the water. | **Module 2**. The isle is *the roof of Halcyon*. The Door Beneath the Lake is on the grotto's north side, facing the Deep. |
+| D1 | The Deep | No bottom. Halcyon lies below. | Halcyon's drowned avenues. **Year Two's main site**, keyed in the Year Two DM Guide, not here. |
 | E3 | The Reed Shore | The Quiet's stilt huts. | Module 2 (the Quiet know the lake; guides or witnesses) |
 | C3 | The Weirs | Old fish traps. New stakes. | Module 3 (clan raids) |
 | B3 | The Ridge | Cave mouths. No birds. | **Module 3** |
@@ -98,13 +100,13 @@ The DM's hex map, *The Fort Country* (1 hex = 6 miles, art rule: Otus ink), fixe
 | C4 | The Old Road | A humming milestone. | Module 3 (the Readers' route) |
 | B5 | The Webwood | Giant crab spiders. Something larger sleeps. | — |
 | C5 | Boar Hollow | A hunter's lodge. A map nailed inside. | — |
-| D6 | The Court's Door | A mushroom ring. Opens at each equinox and solstice. | — |
+| D6 | The Court's Door | A mushroom ring. Opens at each equinox and solstice. | The Glamourist's door to the Fae court. |
 | E4 | The Fields | Fort farms. A new well. | — |
 | E5 | The Standing Stones | Nine stones, one fallen. | — |
-| F4 | Mile-House 13 | A red-painted B.I.A. way station. | — |
+| F4 | Mile-House 13 | A red-painted B.I.A. way station. | The B.I.A. is the **Bureau of Imperial Anomalies**: two teen "Junior Men in Red" agents, polite and wrong about many things. |
 | F5 | The Tin Dozen | Twelve deserters. They want salt. | — |
 
-The fishing village lies one day east of the map. Hexes without a key line: roll d8 for texture and d8 for encounters (tables in a DM Guide not yet in this repo). Do not expand a key line beyond what it says unless the module needs it; never explain Halcyon, the B.I.A., or the Court.
+The fishing village lies one day east of the map. Hexes without a key line: roll d8 for texture and d8 for encounters (tables in the Year Two DM Guide; see **Year Two Canon** below). The Year Two DM Guide is the authority on every hex. Modules may name Halcyon, the B.I.A. and the Court as it defines them, but must not key Halcyon or spoil **the Sleeper** in anything a player reads.
 
 **Map style for module maps:** match this sheet. Black ink on cream paper, no blue. Small-caps serif title rule, "DM COPY" and scale in the top right, keyed areas as white numerals in black circles, a plain legend. Otus ink: dense, hand-feeling linework.
 
@@ -154,17 +156,35 @@ The authored modules are the reference: a generated dungeon should read like a r
 
 | Session | What happened | What it fixes |
 |---------|---------------|---------------|
-| Module 1 | **The Gorgon Queen was defeated by a cockatrice.** | The queen is stone, turned by the very creature whose eggs Harrow buys. Read this as the "petrified" branch of Module 1's outcome table: the wards stay lit, she is contained, not destroyed. Word spreads that a cockatrice can beat a gorgon. That is why the eggs are now worth more, and why the Readers want them. |
-| Module 1 | **The cockatrice was the Beast Pen's own**, and the village has adopted it. It lives at The Fort, hooded: half pet, half mascot, wholly proven against a gorgon. | A buyer would pay a fortune for it. Vosk, Harrow and the Readers all know it exists. |
-| The Year Between | A one-year prologue played with *The Year Between* zine (in the "Fort on the Lake: Maps and Handouts" canvas). The Fort tracks **Stores, Walls, Folk, Lamp** (0–6 each; start 4/3/4/2), its **Size** (Camp, Hamlet, Village by Folk), a **Surplus**, a **Want** with Strain, an **Oath**, an **Enmity**, and **Footnotes** the DM must use. The year's heroes in play: **the Druid, the Thief, the Cleric**, with the Paladin and the gnome in the fiction. New people: **Cassandra** (true and rude), **Wick** (age 12, lamplighter), **the Glamourist** (trades one tag for the year's best story and one name), the Tin Dozen, the Quiet. | Year Two opens with the Fort's holdings set by that year. Each module's **The Fort Reacts** table should read as changes to those tracks and tags when Year Two adopts it. |
+| Module 1 | **In the Gorgon Caves, the Fae player declared the skeleton Petra's master and domesticated a cockatrice chick. The chick's cry paralysed the Gorgon Queen (the basilisk).** | A cockatrice stopped a gorgon. Word spread. That is why eggs sell high, and why the Readers want them. Do not write that she was "turned to stone". |
+| Module 1 (assumed) | The Year Two DM Guide marks these as **ASSUMED, replace freely**: the basilisk is dead; Petra is flesh again and sleeps a lot; the skeleton "master" still sits in the Gorgon Caves and the Glamourist visits it; the iron cage in the Beast Pen is empty. | Write so that a DM can change these. Where a module needs a state, use the assumed one and say it is assumed. With the queen dead, Module 1's outcome table says her wards went dark. |
+| Module 1 | **The cockatrice is Biddy.** She lives in the Beast Pen and guards the henhouse. Wick keeps her. Everyone keeps clear of her beak. | Vosk, Harrow and the Readers all know a buyer would pay a fortune for her. |
+| The Year Between | A one-year prologue played with *The Year Between* zine (in the "Fort on the Lake: Maps and Handouts" canvas). The Fort tracks **Stores, Walls, Folk, Lamp** (0–6 each; start 4/3/4/2), its **Size** (Camp, Hamlet, Village by Folk), a **Surplus**, a **Want** with Strain, an **Oath**, an **Enmity**, and **Footnotes** the DM must use. The Pen: the druid in Spring, the thief in Summer, the cleric in Autumn, all three in Winter. | Year Two opens with the Fort's holdings set by that year. Each module's **The Fort Reacts** table should read as changes to those tracks and tags. |
 
 The repo's Module 1 text calls her the Basilisk Queen and the hex map calls the site the Gorgon Caves. Use **the Gorgon Queen** in new writing.
+
+## Year Two Canon
+
+Source: *Fort on the Lake, Year Two — DM Guide* and *Player Guide* (2026-10-09). They are the authority. This section is a summary for writers; when it and the guides disagree, the guides win.
+
+| Topic | Canon |
+|-------|-------|
+| **PCs** | The gnome druid, the elven thief, the elf cleric of the Order of the Sacred Terminal. Each picks a *Year of Change* and a *Fort Office* (Warden, Scout, Steward, Lorekeeper). |
+| **NPCs** | The Paladin (Warden of the Gate, Maren's heir). The Glamourist (fae; visits at solstice and equinox). Captain Maren (retiring). The Minister. **Lintel** (a damaged stone golem, a walking Terminal, Halcyon's maintenance steward; the DM's GMPC once woken). **Cassandra** (seer at the Shrine; true rumors, half-riddled; hints that ask questions). **Wick** (age 12, lamplighter, keeps Biddy, counts everything; do not put him in danger lightly). |
+| **Halcyon** | The drowned lamp-city under the lake: an imperial node of the Terminal network. Year Two's main site, on the B4 lost-city pattern (factions hold districts and keys). Three ways in: the Isle stair (D2), the Quiet's dive (E3), the outflow tunnel (C3). Its vault holds **the Sleeper**, a vast, kind mind; the Fort's Terminal is its mouth. Do not spoil the Sleeper to players. |
+| **Factions** | The Quiet (lake-folk who pray to the kingfisher), the B.I.A. (Mile-House 13), the Lamp Wardens (brass automata), the Fae Court, and the Fort itself (Maren against the Minister). |
+| **The Fort Turn** | Four times a year: season card, report, two Directives (Build, Defend, Trade, Explore, Tend), Fate facts, a d12 event, refresh. Tracks Stores, Walls, Folk, Lamp. |
+| **The gate** | The DM says the mode: **Planning** (talk, maps, Fort decisions) or **Execution** (dice and consequences). A player cannot undo an Execution result. Our "Plan / Execute gate" is the same rule at room scale; use the guide's words, *Planning* and *Execution*, when writing for this table. |
+| **Puzzles** | The brothers like math. The math is the way through, not a lock on the story. A puzzle has a rule players can find by trying, gives feedback, and never blocks the game; a Fate point or Cassandra gives one hint. |
+| **Art rule** | Two looks, named in each entry: **Elmore** (colour oil paint) for characters, monsters and hero scenes; **Otus** (black-and-white ink) for dungeon interiors, weird machines, occult rooms, maps and handouts. Spot art in the Steinberg manner for Fort Turn pages. |
+
+**How our modules sit beside Year Two.** The modules are teaching dungeons. A new table can play them in order; Year Two's table can use them as side sites. Module 2's Isle of Old Stone is the roof of Halcyon, and its Door Beneath the Lake is one face of the Isle way in. The Readers of the Unwritten (Module 3) believe the hymns are a cage; what they want to free is the Sleeper. They are wrong about what it is, and right that it is there.
 
 ## The Throughline
 
 One thread runs through all three dungeons. Each module can be played alone, but each one leaves a clue that points to the next.
 
-1. **Module 1.** The Gorgon Queen sat under imperial wards. In play, a cockatrice defeated her; she is stone and the wards still glow. Harrow buys cockatrice eggs and will not say for whom.
+1. **Module 1.** The Gorgon Queen sat under imperial wards. In play, a cockatrice chick's cry paralysed her (assumed since: she is dead, and her wards went dark). Harrow buys cockatrice eggs and will not say for whom.
 2. **Module 2.** Harrow's buyers are **the Saltmen**, smugglers who use the grotto under the island tower as a cache. Their ledger shows eggs going up the Old Road to "the Readers" on the Ridge. Under the grotto is **the Door Beneath the Lake**, sealed with the same eye-wards as the basilisk's chamber. The Elf Minister's warning (*"must not open the door beneath the lake"*) is about this door. **Nobody opens it in Module 2.** It is a campaign hook, not a room.
 3. **Module 3.** The clans of the Ridge have started to raid: new stakes at the Weirs (C3), tracks on the Old Road (C4). The clans are paid and bullied by **the Readers of the Unwritten**, a cult that holds the Temple at the head of the ravine. Their temple holds a dark Terminal. It shows the hymns reversed. The Readers want the eggs to make stone guardians and want the door beneath the lake opened. Their map of the island is in the temple.
 
