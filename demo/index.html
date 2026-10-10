@@ -335,6 +335,7 @@ const MAP_POS = { S1:[0,0,0], S2:[0,60,0], TOP:[0,60,40], S3:[30,60,0], C1:[0,80
 const RAT_HP = [2, 3, 1, 4, 2];
 const RAT_AC = 12;
 const RAT_LINE = "AC 7 [12] · HD ½ (hp 2, 3, 1, 4, 2) · Att 1 × bite (1d3) · THAC0 19 [+0] · MV 120' (40'), swim 60' (20') · SV D12 W13 P14 B15 S16 (F1) · ML 8 · XP 5 each";
+const RAT_5E = "<br><i>5e: CR 1/4 · AC 12 · hp 2, 3, 1, 4, 2 · bite +0 (1d3).</i>";  // the players read 5e; the DM runs OSE
 
 /* ==========================================================================
    PART 2: THE STORY
@@ -390,7 +391,7 @@ const STORY = {
     text: [
       "In the morning Old Harrow's cart is in the market, a week early. It smells of dried fish and tar.",
       "“No lamp oil this trip,” he tells the woman before you. “Next time. Next time.”",
-      "To you he says, “Since the Gorgon Queen went to stone, everyone wants a cockatrice egg. A bird that beats a gorgon! I pay silver.” He looks at your pack the way a heron looks at a pond.",
+      "To you he says, “Since a chick's cry froze the Gorgon Queen, everyone wants a cockatrice egg. A bird that beats a gorgon! I pay silver.” He looks at your pack the way a heron looks at a pond.",
       "You keep one hand on the pack. When you left the tower, you took one thing with you."
     ],
     extra: [
@@ -657,7 +658,7 @@ const STORY = {
       "Captain Maren waits at the end of the dock with her arms folded. She was an imperial soldier once. She still stands like one.",
       "“The Isle of Old Stone,” she says, and points north. “Twelve miles, past the Shallows. Half a day's row.”",
       "“Fishers see a light on it at night. Nets come up cut. Something big went under a boat last week.”",
-      "“Last season a cockatrice turned the Gorgon Queen to stone, and the whole lake heard of it. Now Harrow pays silver for eggs and will not say who buys. Somebody is landing on that island. I want to know who.”",
+      "“Last year a cockatrice chick's cry froze the Gorgon Queen where she stood, and the whole lake heard of it. Now Harrow pays silver for eggs and will not say who buys. Somebody is landing on that island. I want to know who.”",
       "“Row out. Find out who lands there and what moves in the water. Then come home and tell me. That is the whole job.”",
       "The Minister is already in the boat, with a staff, a satchel of bandages and one torch. “Somebody has to,” she says, to no one in particular.",
       "Maren hands down a horn lantern. “It's dry. Harrow came without oil this time. Take it anyway.”"
@@ -852,7 +853,7 @@ const STORY = {
     text: [
       "The door opens on a long room, thirty feet by twenty. Racks of oil jars line the walls. Most are broken. The floor is tacky with old oil.",
       "Five giant rats look up from the far corner. Each is the size of a dog. Their eyes throw your light back at you.",
-      { stat:"<b>Giant rats ×5</b> " + RAT_LINE + ". They flee at 2 dead." },
+      { stat:"<b>Giant rats ×5</b> " + RAT_LINE + ". They flee at 2 dead." + RAT_5E },
       s => s.fight.ready ? "You knew they were here. You are ready, and they are not. You have the first move." : "They did not need to listen for you. They are already coming."
     ],
     extra: [
@@ -867,7 +868,7 @@ const STORY = {
     text: [
       s => "Round " + (s.fight.round + 1) + ". " + ratLine(s),
       "The doorway is narrow. Only two rats can reach you at once. The rest wait their turn.",
-      { stat:"<b>Giant rat</b> " + RAT_LINE },
+      { stat:"<b>Giant rat</b> " + RAT_LINE + RAT_5E },
       { stat: s => "<b>You</b> AC " + CAST[s.char].acText + " · HP " + s.hp + "/" + s.maxHp + " · THAC0 19 [+0] · melee " + sgn(atkBonus(s)) + " · " + weapon(s).name + " 1d" + weapon(s).die + (dmgBonus(s) ? sgn(dmgBonus(s)) : "") + " · MV " + CAST[s.char].mv }
     ],
     extra: [

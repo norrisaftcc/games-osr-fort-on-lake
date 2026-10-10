@@ -6,12 +6,12 @@ One page, `demo/index.html`. The player picks one of six playbook characters, pl
 Facts come only from `campaign/SPINE.md`. Where this page and the spine disagree, the spine wins.
 
 ## Premise
-Captain Maren has a job. Fishers see a light on the Isle of Old Stone, nets come up cut, and since a cockatrice turned the Gorgon Queen to stone, Harrow pays silver for eggs and will not say who buys. Row out (half a day across the Shallows), find out who lands on the island and what moves in the water, and come home. The Minister (NPC) goes with you. The demo ends on the Flooded Stair, where the water rises one step a turn.
+Captain Maren has a job. Fishers see a light on the Isle of Old Stone, nets come up cut, and since a cockatrice chick's cry froze the Gorgon Queen, Harrow pays silver for eggs and will not say who buys. Row out (half a day across the Shallows), find out who lands on the island and what moves in the water, and come home. The Minister (NPC) goes with you. The demo ends on the Flooded Stair, where the water rises one step a turn.
 
 ## Rules of the tone
 - Second person. Plain, short sentences. One idea each. Concrete nouns.
 - A little Wolfe and Vance: formal, dry, exact, odd. Science fantasy: a ward is a sensor eye and a spell at once; the Warden's collar is a control collar; a hymn is a protocol. Both readings work.
-- No emoji in prose. Never explain Halcyon, the B.I.A. or the Court.
+- No emoji in prose. Do not key Halcyon or mention the Sleeper (Year Two canon belongs to the Year Two DM Guide).
 - Low threshold: the first screen is playable with no rules read. Each rule appears in a box the moment it first applies (time at the crossing; Plan/Act and marching order at S1; searching at the oil tin; listening and doors at C1; the stat line at C2; cheat death at 0 HP; TIRED when it bites).
 
 ## What it teaches
