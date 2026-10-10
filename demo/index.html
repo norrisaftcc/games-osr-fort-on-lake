@@ -1,0 +1,1699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Drowned Tower</title>
+<style>
+  /* Ink on cream, like the Fort Country hex sheet. One accent: oxblood. */
+  :root {
+    --paper:#f4ecd8; --card:#f8f2e2; --shade:#ebe1c8; --ink:#1a1712; --dim:#5f564a;
+    --rule:#1a1712; --soft:#cfc2a3; --accent:#8c2a1b; --key-bg:#1a1712; --key-fg:#f8f2e2;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#12110e; --card:#191712; --shade:#24211a; --ink:#efe6cf; --dim:#b3a88f;
+      --rule:#efe6cf; --soft:#4a4436; --accent:#e0866b; --key-bg:#efe6cf; --key-fg:#12110e;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#12110e; --card:#191712; --shade:#24211a; --ink:#efe6cf; --dim:#b3a88f;
+    --rule:#efe6cf; --soft:#4a4436; --accent:#e0866b; --key-bg:#efe6cf; --key-fg:#12110e;
+    color-scheme: dark;
+  }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.6 var(--serif); overflow-x:hidden; }
+  main { max-width:760px; margin:0 auto; padding:20px 16px 48px; }
+  [hidden] { display:none !important; }
+  a { color:var(--accent); }
+
+  header.mast { display:flex; justify-content:space-between; align-items:flex-end; gap:8px 16px; flex-wrap:wrap;
+    border-bottom:2px solid var(--rule); padding-bottom:6px; }
+  h1 { font-size:1.6rem; line-height:1.1; margin:0; font-variant:small-caps; letter-spacing:.03em; font-weight:600; }
+  .sub { font:.72rem/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+  #tracker { font:.75rem var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--dim); }
+
+  /* The Dungeon Clock */
+  #clock { margin:14px 0 0; border:1px solid var(--rule); background:var(--card);
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(96px, 1fr)); }
+  #clock div { padding:6px 10px; border-right:1px solid var(--soft); border-bottom:1px solid var(--soft); min-width:0; }
+  #clock dt { font:.62rem var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); }
+  #clock dd { margin:0; font:600 .9rem/1.35 var(--mono); overflow-wrap:anywhere; }
+  #clock dd.warn { color:var(--accent); }
+  #clock .cap { grid-column:1/-1; font:.62rem var(--mono); letter-spacing:.12em; text-transform:uppercase;
+    background:var(--ink); color:var(--paper); padding:3px 10px; border:0; }
+
+  #card { margin:16px 0; padding:4px 0 8px; }
+  #card.fade { animation:rise .35s ease both; }
+  @keyframes rise { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+  #place { display:flex; align-items:center; gap:10px; font:.72rem var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); }
+  .key { display:inline-flex; align-items:center; justify-content:center; min-width:2.1em; height:2.1em; padding:0 .3em;
+    border-radius:999px; background:var(--key-bg); color:var(--key-fg); font:700 .78rem/1 var(--serif); letter-spacing:0; flex:none; }
+  #title { font-size:1.5rem; line-height:1.2; margin:6px 0 10px; font-variant:small-caps; letter-spacing:.02em; font-weight:600;
+    border-bottom:1px solid var(--rule); padding-bottom:6px; }
+  #badge { display:inline-block; font:.7rem var(--mono); letter-spacing:.1em; text-transform:uppercase; padding:2px 8px;
+    border:1px solid currentColor; margin-top:8px; }
+  #badge.good { color:var(--ink); } #badge.back { color:var(--dim); } #badge.dead { color:var(--accent); }
+  #text p { margin:.55em 0; overflow-wrap:break-word; }
+  #text p.extra { border-left:2px solid var(--soft); padding-left:10px; }
+  #text p.fact { border-left:3px double var(--accent); padding-left:10px; font-style:italic; }
+  .rule { font:.82rem/1.5 var(--mono); border:1px solid var(--rule); background:var(--shade); padding:8px 10px; margin:.8em 0; overflow-wrap:break-word; }
+  .rule b { letter-spacing:.06em; }
+  .stat { font:.8rem/1.5 var(--mono); border-top:2px solid var(--rule); border-bottom:1px solid var(--rule); padding:6px 0; margin:.8em 0; overflow-wrap:break-word; }
+  .stat b { font-family:var(--serif); font-size:.95rem; font-variant:small-caps; }
+
+  #events { margin:4px 0 6px; }
+  #events:empty { display:none; }
+  #events ul { list-style:none; margin:0; padding:8px 10px; border:1px dashed var(--rule); background:var(--card); }
+  #events li { font:.82rem/1.5 var(--mono); overflow-wrap:break-word; }
+  #events li.note { font:italic .92rem/1.5 var(--serif); }
+  #events li.hit { color:var(--accent); }
+
+  #choices { list-style:none; margin:16px 0 0; padding:0; display:grid; gap:8px; }
+  #choices button { width:100%; text-align:left; font:inherit; font-size:1rem; line-height:1.4; color:var(--ink); background:var(--card);
+    border:1px solid var(--rule); padding:10px 12px; cursor:pointer; min-height:46px; display:flex; gap:10px; align-items:flex-start; }
+  #choices button:hover, #choices button:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  #choices button.plan { border-style:dashed; background:transparent; }
+  #choices button.fate { border-style:double; border-width:3px; }
+  #choices kbd { font:600 .78rem var(--mono); border:1px solid currentColor; padding:0 6px; flex:none; margin-top:2px; }
+  .ctext { min-width:0; overflow-wrap:break-word; }
+  .tag { display:block; font:.66rem var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:1px; }
+  .plan .tag { color:var(--dim); } .act .tag { color:var(--accent); }
+  .cost { font:.75rem var(--mono); color:var(--dim); white-space:nowrap; }
+
+  /* Character cards on the first screen */
+  #choices.cards { grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); }
+  #choices.cards button { flex-direction:column; gap:4px; height:100%; }
+  .cc-name { font-size:1.15rem; font-variant:small-caps; font-weight:600; line-height:1.2; }
+  .cc-sub { font-style:italic; color:var(--dim); }
+  .cc-stats { font:.74rem/1.5 var(--mono); border-top:1px solid var(--soft); padding-top:4px; margin-top:2px; width:100%; }
+  .cc-fate { font-size:.88rem; }
+  .cc-fate i { color:var(--accent); }
+
+  #endrow { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
+  .btn { font:inherit; font-size:.95rem; color:var(--paper); background:var(--ink); border:1px solid var(--ink); padding:9px 14px; cursor:pointer; min-height:44px; }
+  .btn.ghost { color:var(--ink); background:transparent; }
+  .btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* Ending: lessons, report, intro card */
+  table.lessons { width:100%; border-collapse:collapse; margin:.6em 0; font-size:.95rem; }
+  table.lessons td { border-top:1px solid var(--soft); padding:6px 4px; vertical-align:top; }
+  table.lessons td.tick { font:700 1rem var(--mono); width:2.2em; text-align:center; }
+  table.lessons td.tick.no { color:var(--dim); font-weight:400; }
+  table.lessons b { font-variant:small-caps; }
+  h3.sec { font-size:1rem; font-variant:small-caps; letter-spacing:.04em; margin:1.2em 0 .2em; border-bottom:1px solid var(--rule); }
+  ul.plain { margin:.3em 0; padding-left:1.2em; }
+  ul.plain li { margin:.2em 0; overflow-wrap:break-word; }
+  #introcard { border:2px solid var(--rule); background:var(--card); padding:12px 14px; margin:1em 0 .4em; }
+  #introcard .ic-h { font-size:1.15rem; font-variant:small-caps; font-weight:600; border-bottom:1px solid var(--rule); margin-bottom:6px; }
+  #introcard .ic-k { font:.66rem var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); display:block; }
+  #introcard p { margin:.2em 0 .6em; }
+  #cardfallback { width:100%; min-height:9em; font:.8rem/1.45 var(--mono); color:var(--ink); background:var(--paper); border:1px solid var(--rule); padding:8px; }
+  .copied { font:.75rem var(--mono); color:var(--dim); align-self:center; }
+
+  /* Your map (turtle) and trail */
+  .below { display:grid; grid-template-columns:1fr; gap:16px; margin-top:18px; }
+  @media (min-width:700px) { .below.withmap { grid-template-columns:240px 1fr; } }
+  .panel h3 { font-size:.95rem; font-variant:small-caps; letter-spacing:.04em; margin:0 0 6px; border-bottom:1px solid var(--rule); }
+  #mapsvg { width:100%; max-width:240px; height:auto; display:block; background:var(--card); border:1px solid var(--rule); }
+  #mapcmds { font:.72rem/1.5 var(--mono); margin:6px 0 0; padding-left:1.4em; color:var(--dim); }
+  #mapcmds li { overflow-wrap:anywhere; }
+  #trail { margin:0; padding-left:1.4em; color:var(--dim); font-size:.9rem; }
+  #trail li { overflow-wrap:break-word; }
+  footer { color:var(--dim); font-size:.8rem; margin-top:26px; border-top:1px solid var(--soft); padding-top:8px; }
+  footer .mono { font-family:var(--mono); }
+  @media (prefers-reduced-motion: reduce) { #card.fade { animation:none; } }
+
+  @media print {
+    body { background:#fff; color:#000; }
+    body * { visibility:hidden; }
+    #introcard, #introcard * { visibility:visible; color:#000 !important; }
+    #introcard { position:absolute; left:0; top:0; width:100%; border:2px solid #000; background:#fff; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="mast">
+    <div><h1>The Drowned Tower</h1><div class="sub">A first delve &middot; B/X teaching demo</div></div>
+    <div id="tracker" aria-live="polite"></div>
+  </header>
+
+  <section id="clock" hidden aria-label="Dungeon Clock"></section>
+
+  <article id="card" aria-live="polite">
+    <div id="place"></div>
+    <div id="badge" hidden></div>
+    <h2 id="title"></h2>
+    <div id="events"></div>
+    <div id="text"></div>
+    <ol id="choices"></ol>
+    <div id="endrow" hidden><button id="restart" class="btn" type="button">Play again (R)</button></div>
+  </article>
+
+  <div class="below" id="below">
+    <section class="panel" id="mappanel" hidden aria-label="Your map">
+      <h3>Your map</h3>
+      <svg id="mapsvg" viewBox="-50 -150 130 170" role="img" aria-label="The path you have walked, drawn turtle-style"></svg>
+      <ol id="mapcmds"></ol>
+    </section>
+    <section class="panel">
+      <h3>Trail</h3>
+      <ol id="trail"></ol>
+    </section>
+  </div>
+
+  <footer>
+    Press a choice's number to pick it, or click. Press R to restart.
+    Dashed choices are <b>Plan</b> (free); solid ones are <b>Act</b> (they cost time or roll dice).
+    Rules: OSE Advanced Fantasy and the cast playbooks. Module: <a href="../dm/Module_2_The_Drowned_Tower.md">dm/Module_2_The_Drowned_Tower.md</a>.
+    <br><span class="mono" id="seedline"></span>
+  </footer>
+</main>
+
+<script>
+/* ==========================================================================
+   THE DROWNED TOWER: A FIRST DELVE
+   One file. No libraries. No network. Data first, engine second.
+
+   PART 1: THE CAST
+   Numbers are the playbooks' level 1 numbers (OSE Advanced Fantasy).
+     hear  = chance in 6 to hear a noise at a door (humans 1, demi-humans 2)
+     door  = chance in 6 to force a stuck door (OSE STR table: 8 -> 1, 11 -> 2, 14 -> 3)
+     torches = the playbook's own torches. The Minister brings one more.
+   ========================================================================== */
+const CAST = {
+  wizard:      { name:"The Wizard", sub:"The Runaway Apprentice", cls:"Magic-User 1", hp:4, ac:10, acText:"9 [10]", hd:"1d4", mv:"120' (40')",
+                 strMod:-1, weapon:"dagger", die:4, edge:"Spell: Sleep", fate:"I've Read About This", hear:1, door:1, torches:3, sight:"needs light", first:"wiz_1" },
+  elfMinister: { name:"The Elf Minister", sub:"The One Who Believes", cls:"Elf Cleric 1", hp:6, ac:12, acText:"7 [12]", hd:"1d6", mv:"120' (40')",
+                 strMod:-1, weapon:"mace", die:6, edge:"Spell: Cure Light Wounds", fate:"The Archives Are Deep", hear:2, door:1, torches:0, sight:"infravision 60'", first:"em_1" },
+  paladin:     { name:"The Half-Elf Paladin", sub:"The One Who Swore", cls:"Half-Elf Paladin 1", hp:8, ac:15, acText:"4 [15]", hd:"1d8", mv:"120' (40')",
+                 strMod:1, weapon:"longsword", die:8, edge:"Lay on Hands (2 HP)", fate:"The Oath Remembers", hear:2, door:3, torches:3, sight:"infravision 30'", first:"pal_1" },
+  gnome:       { name:"The Gnome Druid", sub:"The One Who Listens", cls:"Gnome Druid 1", hp:6, ac:12, acText:"7 [12]", hd:"1d6", mv:"90' (30')",
+                 strMod:-1, weapon:"quarterstaff", die:6, edge:"Speaks with burrowing beasts", fate:"The Land Speaks", hear:2, door:1, torches:0, sight:"infravision 60'", first:"gn_1" },
+  fighter:     { name:"The Fighter", sub:"The Next Blacksmith", cls:"Fighter 1", hp:8, ac:15, acText:"4 [15]", hd:"1d8", mv:"120' (40')",
+                 strMod:1, weapon:"sword", die:8, edge:"Weapon: sword d8, spear d6 or hammer d6", fate:"I Know How This Was Made", hear:1, door:3, torches:3, sight:"needs light", first:"fi_1" },
+  elf:         { name:"The Elf", sub:"The One Who Stayed", cls:"Elf 1", hp:6, ac:14, acText:"5 [14]", hd:"1d6", mv:"120' (40')",
+                 strMod:0, weapon:"longsword", die:8, edge:"Spell: Light", fate:"I Remember When", hear:2, door:2, torches:0, sight:"infravision 60'", first:"elf_1" }
+};
+
+/* Each Fate ability adds one true fact, in one room. `where` is the scene. */
+const FACTS = {
+  wizard: { where:"s1", short:"The thing in the water is a bound guard in a bronze collar. It waits; it does not hunt.",
+    text:"You have read about this. Stations of the old empire that watched something kept a guard in the water: a great fish, fitted with a bronze control collar and bound to its post. A bound guard does not hunt. It waits. It will not leave the water to follow you.",
+    minister:"“There is a hymn line for it,” the Minister says quietly. “The keeper of the deep, who does not sleep.” She had always thought it meant a saint." },
+  gnome: { where:"s1", short:"The island's rats are many and starving, and they live under the tower.",
+    text:"You kneel and press your palm to the rock. The island is hungry. Rats have eaten the pine seed to the root and gone down under the tower, where the old oil smells sweet. They are many. They are starving. You will know they are there before you hear them.",
+    minister:"“The Terminal logged a rat year here once, before The Fort,” the Minister says. “I thought it was a hymn about famine.”" },
+  elf: { where:"s2", short:"The keepers went down by a trapdoor at the stair's foot.",
+    text:"You remember when this tower burned all night, and a keeper in a grey coat went down to the cellars by a trapdoor at the foot of the stair. You walk to the place and push the slates aside with your boot. The iron ring is there.",
+    minister:"“The founding log mentions a keeper in grey,” the Minister says. “It says he went down and did not come back up.”" },
+  fighter: { where:"c1", short:"The cellar door swelled on its hinge side. Lift and shoulder it and it gives without a sound.",
+    text:"Oak on iron straps, hung by a good smith and left forty winters in the damp. It has swollen on the hinge side, not the latch. Lift the latch edge, put your shoulder to the top corner, and it will give without a sound.",
+    minister:"“The founding log has a work order for this door,” the Minister says. “Rehang. Never done.”" },
+  paladin: { where:"c2_after", short:"Lamp stations kept their sealed oil on a stone rack, safe from fire.",
+    text:"The oath remembers lamp stations. Their stores kept the sealed oil on a rack of stone, not wood, so a fire could not take it. You walk straight to it. Five flasks are still sound.",
+    minister:"“Lamp Station,” the Minister repeats. “My founding log calls this island the Ninth. I never knew it was a number.”" },
+  elfMinister: { where:"c3", short:"Lamp Station Nine, lower watch: flooded by design. The water is the lock.",
+    text:"You go down below the hymn layer, to the records under it, the way you learned in eleven years of waiting. Lamp Station Nine. Lower watch. One line of protocol: FLOODED BY DESIGN. THE WATER IS THE LOCK. This stair was never meant to be walked. It was meant to be watched.",
+    minister:"“Lamp Station Nine,” the Minister says. “That is in my log too. I thought it was the name of a hymn.”" }
+};
+
+/* Intro flags and how each one pays off at the end. (Delve payoffs are in the STORY extras.) */
+const PAYOFF = {
+  wiz_wrong:"Your master wanted a place like this opened. You have seen its stair now. You know one more reason it must stay shut.",
+  wiz_power:"Somewhere below are the Lampwright's notes: light that does not burn out. You notice how much you want them. So does the Minister.",
+  wiz_sent:"Your master sent you to the lake outpost with one phrase. It was not a riddle. It was a job: the lamp is lit so the door is watched.",
+  wiz_scroll: s => s.scrollUsed ? "The stolen scroll is ash now. You read it over the water, and the water showed you what it keeps." : "The stolen scroll is still in your pack, unread. Next time, read it where it matters.",
+  wiz_component:"The feather that does not fall still points down at the water. Your master knew. Of course your master knew.",
+  wiz_nothing: s => s.sleepCast ? "Your master's voice spoke once tonight, when you cast Sleep. You did as you liked anyway." : "Your master's voice was quiet all night. That has never happened before. You do not like it.",
+  em_map:"Four Terminals still glow, and one of them is underground. You think you know where it is now: below this lake, behind a door.",
+  em_name:"The Terminal knew your name. Tonight you wonder whose name it is saving for this island.",
+  em_warning:"The keeper must not open the door beneath the lake. Now you know where the door is. Now you have to tell her.",
+  em_right:"She is right, and she does not know why. Tonight, on the stair, she did not need to.",
+  em_wrongnec:"She is wrong about what the Terminal is. She was right to come. You will keep saying both.",
+  em_hears:"She hears something you do not. At the water she listened before you did.",
+  pal_disbanded:"Nobody told you to stop. Nobody tells you now. You write the island into the oath journal as a post the order never closed.",
+  pal_betrayed:"A hidden boat, a chalk sign, boots on the coast path. You know what gathering looks like. You will tell Maren more than you have told her before.",
+  pal_consumed:"You looked for the sign in yourself all night. You did not find it. That is not the same as it not being there.",
+  pal_keeper:"You are sworn to the keeper, not to the Captain. The keeper came home. That is the oath kept for one more night.",
+  pal_wards:"There are wards on this island, sensor eyes and spells at once. They are weak, but lit. Someone keeps them lit. It is not you, yet.",
+  pal_witness:"Tonight's page in the journal: a jetty, a tower, a cellar, a stair into the lake. Witnessed, and signed.",
+  gn_sick:"The island's sickness is old oil gone into the stone. That one, at least, can be healed.",
+  gn_waking:"The island is awake and curious. So is the thing in the water. You do not think they are friends.",
+  gn_old:"The land was here before the tower. It will be here after. Tonight it let you walk on it.",
+  gn_animals:"The crows told you about the boat before anyone in the Captain's watchtower could. The animals brought you here for this.",
+  gn_grove:"The island's pines are old and unafraid. It could be a grove one day, if the cellar stops breathing oil.",
+  gn_hum:"The hum you followed out of the deep forest is down there, under the water. It is not the Terminal. It is what the Terminal talks to.",
+  fi_sword:"The sword you forged went into the dark tonight. Nobody else has ever carried it. Nobody else ever will.",
+  fi_spear:"Your father's pattern, spear and javelin. Reach and range. You fought smart, not hard.",
+  fi_hammer:"The hammer was a smith's tool before it was a weapon. Tonight it was both, and the door knew it.",
+  fi_plow:"You believe The Fort survives by building. Tonight you saw how much the empire built, and how it ended.",
+  fi_cage:"The thing in your cage faces the lake at night. Now you know what is in the lake. You will make the bars thicker.",
+  fi_coffin:"You know how the dead man really died. Tonight you learned one more thing you will not say at the council fire.",
+  elf_gone:"Your people went west when the empire fell. You stayed. Tonight you remembered why someone has to.",
+  elf_sent:"“You will know when it is time.” The water rising on that stair. Was that the sign? You think it may have been.",
+  elf_cast:"The Minister walked behind you in the dark and trusted you. Your people would not have. You will not forget it.",
+  elf_empire:"The child asked about the empire. Now you can tell her: they built lamps to watch the water, and then they stopped.",
+  elf_monsters:"Some monsters are only hungry. You knew the rats would break when two fell, and you said so.",
+  elf_dead:"The child asked where people go. You will not tell her about the stair."
+};
+
+/* The Intro Card: one public fact, one secret fact, one bond, from the intro choices. */
+const CARD = {
+  wizard: f => ({
+    pub: f.wiz_wrong ? "Principled. The Minister trusts you. Captain Maren thinks you are soft." :
+         f.wiz_power ? "Ambitious. Captain Maren finds you useful. The Minister watches you carefully." :
+                       "An outsider. Nobody fully trusts you yet, but nobody has asked you to leave.",
+    sec: f.wiz_wrong ? "Your master was doing something wrong and you fled. You know the name Lamp Station Nine, and one reason it must stay sealed." :
+         f.wiz_power ? "You came for power your master would not teach. Lamp Station Nine holds the Lampwright's notes: light that does not burn out." :
+                       "Your master sent you here with no reason given. The phrase you memorized is a line in the Minister's hymnal.",
+    bond: f.wiz_scroll ? "The Minister: she saw the stolen scroll in your pack and said nothing. You owe her that silence." :
+          f.wiz_component ? "Old Harrow: he offered silver for the feather that does not fall. You said no. He asked twice." :
+                            "Captain Maren: she asked what you took from the tower. You said “nothing”, and she believed you." }),
+  elfMinister: f => ({
+    pub: f.em_map ? "Cartographer. You know the Terminal network as nobody else at The Fort does." :
+         f.em_name ? "Chosen. You carry it with certainty and without arrogance." :
+                     "Guardian. You came to The Fort on a mission, and it shows.",
+    sec: f.em_map ? "Four Terminals still glow. One is close, one is across the sea, one is underground." :
+         f.em_name ? "The Terminal keeps a list of names. Yours is on it. You check every new face against it." :
+                     "The keeper must not open the door beneath the lake. The Fort has an older, imperial name. The Minister does not know either thing yet.",
+    bond: f.em_right ? "The Minister: she is right, but she does not know why. You correct her gently; she resents it quietly." :
+          f.em_wrongnec ? "The Minister: allies who disagree about everything important. You heal together and pray apart." :
+                          "The Minister: equals, circling. She hears something from the Terminal that you do not." }),
+  paladin: f => ({
+    pub: f.pal_disbanded ? "Anachronism: a knight with no lord. Captain Maren respects your discipline." :
+         f.pal_betrayed ? "Exile. People follow you by instinct, then wonder why." :
+                          "Watchful. You check the Terminal every morning, and the Minister has noticed.",
+    sec: f.pal_disbanded ? "You know three other Terminals on the old network. Two are dark. You came to guard the one that still glows." :
+         f.pal_betrayed ? "You know who betrayed the order, and that their agents are still active. The coast path bootprints worry you." :
+                          "You know the sign of the corruption that took the order. You watch for it in yourself, and in the Minister.",
+    bond: f.pal_keeper ? "The Minister: she is your charge, not your leader. There is a difference." :
+          f.pal_wards ? "Captain Maren: she told you about the lamp-stones. You owe her a report on every ward you find." :
+                        "The Minister: you are writing her into your testament, and she does not know it." }),
+  gnome: f => ({
+    pub: f.gn_sick ? "A warning. You arrived with bad news. Maren listens because she has to." :
+         f.gn_waking ? "Strange. You talk to trees. The children follow you. The adults are not sure you are safe." :
+                       "An oracle. People come to you for weather and leave unsettled.",
+    sec: f.gn_sick ? "You know where the sickness is worst, and one symptom the humans have not noticed." :
+         f.gn_waking ? "There is a place where the waking is strongest. Something met you there. It did not speak. It looked." :
+                       "The Terminal and the land are entangled. The Minister does not know. You are deciding whether to tell her.",
+    bond: f.gn_animals ? "The Minister: she sat with you under the tree when nobody else would." :
+          f.gn_grove ? "Captain Maren: she promised you a strip of lake shore for a grove, if the island proves safe." :
+                       "The Minister: you hear her Terminal humming through the rock. She does not know you can." }),
+  fighter: f => ({
+    pub: f.fi_plow ? "Builder. The Fort trusts you with its tools, and you have a seat at the council fire." :
+         f.fi_cage ? "Pragmatist. The militia captain respects you. The Minister watches you." :
+                     "Steady. People come to you when things are bad, because you do not flinch.",
+    sec: f.fi_plow ? "You know every family at The Fort by name, and which ones have children." :
+         f.fi_cage ? "You know what is in the beast-pen cage, and what Captain Maren plans to do with it." :
+                     "You know how the dead man really died. The Minister asked you not to tell.",
+    bond: f.fi_plow ? "Captain Maren: she gave you the seat at the council fire. She expects you to use it." :
+          f.fi_cage ? "Captain Maren: the two of you share what is in the cage, and nobody else does." :
+                      "The Minister: you keep her secret about the dead man. She knows you keep it." }),
+  elf: f => ({
+    pub: f.elf_gone ? "A relic. The Fort treats you with cautious reverence and asks about the old days." :
+         f.elf_sent ? "A guardian. The Fort assumes you protect it. You let them think so." :
+                      "An exile. Some trust you more for it. Some trust you less.",
+    sec: f.elf_gone ? "You know which way your people went, and one reason you have never followed." :
+         f.elf_sent ? "You were told to watch for a sign. It has not come. Or it came, and you missed it." :
+                      "You know what you did. One person at The Fort reminds you of the one you wronged.",
+    bond: f.elf_empire ? "The Minister: she listens when you talk about the empire, and writes it down." :
+          f.elf_monsters ? "Captain Maren: she asks you about monsters and never about yourself. You like her for it." :
+                           "The Minister: the people ask her for faith and you for proof. Neither of you has enough." })
+};
+
+/* Room positions for the turtle map, in feet. North is up. z is height. */
+const MAP_POS = { S1:[0,0,0], S2:[0,60,0], TOP:[0,60,40], S3:[30,60,0], C1:[0,80,-20], C2:[0,110,-20], C3:[0,130,-20] };
+
+/* The rats of the Oil Store: the pinned numbers. */
+const RAT_HP = [2, 3, 1, 4, 2];
+const RAT_AC = 12;
+const RAT_LINE = "AC 7 [12] · HD ½ (hp 2, 3, 1, 4, 2) · Att 1 × bite (1d3) · THAC0 19 [+0] · MV 60' (20') · SV D14 W15 P16 B17 S18 · ML 8 · XP 5 each";
+
+/* ==========================================================================
+   PART 2: THE STORY
+   Each key is a scene id. A scene has:
+     title, place, key   heading, location line, and the room key (S1, C2...)
+     text     paragraphs: a string, a function of state, or { rule: "..." }
+              for a rules box, or { stat: "..." } for an OSE stat line.
+     extra    { when: (f, s) => bool, text } paragraphs shown only if true.
+              f = the flags, s = the whole state.
+     choices  { text, to, kind, cost, set, when, act }
+              kind: "plan" (free: look or ask, no time), "act" (costs time
+              or rolls), "fate" (declare a fact; free).
+              act(s) runs the rules and may return a different next scene.
+     ending   "good", "back" or "dead". An ending has no choices.
+   ========================================================================== */
+const START = "start";
+const isC = id => (f, s) => s.char === id;
+const fateReady = id => (f, s) => s.char === id && !s.fateUsed;
+const factShown = id => (f, s) => s.fact === id;
+const planOnce = (k) => (f, s) => !s.planSeen.includes(k);
+const plan = (k, text, info) => ({ kind:"plan", text, when: planOnce(k), act: s => { s.planSeen.push(k); note(info(s)); } });
+
+const STORY = {
+
+  /* ------------------------------------------------------------------ */
+  start: {
+    title: "Who Rows Out?", place: "The Fort",
+    text: [
+      "Captain Maren needs someone to row out to the island in the lake.",
+      "Pick who goes. Press 1 to 6, or click a card."
+    ],
+    choices: ["wizard","elfMinister","paladin","gnome","fighter","elf"].map(id => (
+      { card:id, text: CAST[id].name, to: CAST[id].first, act: s => pickChar(s, id) }))
+  },
+
+  /* ------------------------------ THE WIZARD ------------------------------ */
+  wiz_1: {
+    title: "The Runaway Apprentice", place: "The Fort · The Hall loft",
+    text: [
+      "You left. Your master, your tower, your books. You walked away and ended up here, at the edge of the world, where nobody asks where you studied.",
+      "You sleep in the loft above the Hall, between sacks of seed barley. Your spellbook is under your pillow. It is always under your pillow.",
+      "Magic is rare on the frontier. People need you. That is new.",
+      "Tonight you cannot sleep. You lie awake and remember why you left."
+    ],
+    choices: [
+      { text:"Your master was doing something wrong. You could not stop it, so you fled.", to:"wiz_2", set:{ wiz_wrong:true } },
+      { text:"You wanted power your master would not teach. The old places have it.", to:"wiz_2", set:{ wiz_power:true } },
+      { text:"You were sent. “Go to the lake outpost.” Nothing else, and no letters since.", to:"wiz_2", set:{ wiz_sent:true } }
+    ]
+  },
+  wiz_2: {
+    title: "Old Harrow's Cart", place: "The Fort · The Market",
+    text: [
+      "In the morning Old Harrow's cart is in the market, a week early. It smells of dried fish and tar.",
+      "“No lamp oil this trip,” he tells the woman before you. “Next time. Next time.”",
+      "To you he says, “Since the Gorgon Queen went to stone, everyone wants a cockatrice egg. A bird that beats a gorgon! I pay silver.” He looks at your pack the way a heron looks at a pond.",
+      "You keep one hand on the pack. When you left the tower, you took one thing with you."
+    ],
+    extra: [
+      { when: f => f.wiz_wrong, text:"In your master's margins there was a name, Lamp Station Nine, and beside it one word: sealed." },
+      { when: f => f.wiz_power, text:"In your master's notes there was a name, Lamp Station Nine, and a rumor: the Lampwright made a light that does not burn out." },
+      { when: f => f.wiz_sent,  text:"Your master made you learn one phrase by heart: “The lamp is lit so the door is watched.” You still do not know what it means." }
+    ],
+    choices: [
+      { text:"A scroll you were not supposed to read. A spell of Light.", to:"wiz_3", set:{ wiz_scroll:true } },
+      { text:"A feather that does not fall. Let go of it and it hangs in the air.", to:"wiz_3", set:{ wiz_component:true } },
+      { text:"Nothing. You left clean. Only your master's voice came with you.", to:"wiz_3", set:{ wiz_nothing:true } }
+    ]
+  },
+  wiz_3: {
+    title: "The Captain's Table", place: "The Fort · The Hall",
+    text: [
+      "Captain Maren runs The Fort from a table in the Hall. A map of the lake lies on it, weighted with four stones.",
+      "The Minister sits at the end of the bench with her hymnal. She speaks carefully, as she always does."
+    ],
+    extra: [
+      { when: f => f.wiz_wrong, text:"“You are the one who would not stay,” the Minister says. “Good.” She trusts you. Maren thinks you are soft, and says so with her eyebrows." },
+      { when: f => f.wiz_power, text:"Maren sees ambition and decides it can be pointed. The Minister watches you the way she watches the lake." },
+      { when: f => f.wiz_sent,  text:"The Minister's hymnal is open. The last line on the page is your master's phrase. You go cold. She does not notice." },
+      { when: f => f.wiz_scroll, text:"The Minister sees the scroll case in your pack. She looks at it, then at you, and says nothing." },
+      { when: f => f.wiz_component, text:"Harrow followed you in. “That feather,” he murmurs. “Name a price.” You do not." },
+      { when: f => f.wiz_nothing, text:"“What did you bring from that tower?” Maren asks. “Nothing,” you say. In your head, your master laughs." },
+      { when: () => true, text:"“Fishers see a light on the island,” Maren says. “I need someone who can read old stone. That is you. Sleep is your spell? Good. Docks at first light.”" }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* --------------------------- THE ELF MINISTER --------------------------- */
+  em_1: {
+    title: "The One Who Believes", place: "The Fort · The Shrine",
+    text: [
+      "You are the thing that should not exist: an elf who chose the Terminal.",
+      "Your people left, or cast you out, or forgot you. Instead of fading into the forest, you sat down before a screen in a ruined shrine and read the hymns until something answered. It took eleven years.",
+      "When the words on the screen finally changed, you wept. Not from relief. Because you had been right, and being right meant the burden was real.",
+      "What did the screen show you?"
+    ],
+    choices: [
+      { text:"A map of every Terminal on the old network. Most dark. Four still glow. One is close.", to:"em_2", set:{ em_map:true } },
+      { text:"Your own name, in Elvish, spelled the old way. It had been waiting for you.", to:"em_2", set:{ em_name:true } },
+      { text:"A warning, repeated for six hours: the keeper must not open the door beneath the lake.", to:"em_2", set:{ em_warning:true } }
+    ]
+  },
+  em_2: {
+    title: "Two Clerics", place: "The Fort · The Shrine",
+    text: [
+      "Now you sit in another shrine, at The Fort, beside another Minister. Hers is a human faith, and a local one. She tends this one screen.",
+      "She copies hymns by hand. Your hymnal is three times the size of hers. Its margins are in three scripts, and one of them you cannot read.",
+      "“You type to it,” she says. “I only wait.” It is not quite a complaint."
+    ],
+    extra: [
+      { when: f => f.em_map, text:"You have not told her that her Terminal is one of four that still glow. Or that one of the others is underground." },
+      { when: f => f.em_name, text:"You check each new face at The Fort against the list you half remember. Hers is not on it. You have not told her that either." },
+      { when: f => f.em_warning, text:"She does not know the full warning. She does not know The Fort has an older name. You are trying to find a way to tell her that will not break her." },
+      { when: () => true, text:"How do you see her?" }
+    ],
+    choices: [
+      { text:"She is right, but she does not know why.", to:"em_3", set:{ em_right:true } },
+      { text:"She is wrong, but she is necessary.", to:"em_3", set:{ em_wrongnec:true } },
+      { text:"She hears something you do not.", to:"em_3", set:{ em_hears:true } }
+    ]
+  },
+  em_3: {
+    title: "The Captain Is Wary", place: "The Fort · The Hall",
+    text: [
+      "Captain Maren finds you both at the Shrine door. She looks from one cleric to the other.",
+      "“Two clerics is a lot of theology for a frontier outpost,” she says. “I want healing, not a schism.”",
+      "“The Minister is going to the island. You go with her. Docks at first light.”"
+    ],
+    extra: [
+      { when: f => f.em_right, text:"The Minister glances at you. You could explain why her prayers are answered. You let it be." },
+      { when: f => f.em_wrongnec, text:"You support her in front of the Captain. Privately, you worry." },
+      { when: f => f.em_hears, text:"The Minister tilts her head, as if the Terminal behind her had said something. You heard nothing." }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* -------------------------- THE HALF-ELF PALADIN ------------------------ */
+  pal_1: {
+    title: "The One Who Swore", place: "The Fort · The Shrine at dawn",
+    text: [
+      "There was an order once. Knights who rode the old roads between Terminals, kept the hymns in step, and fought what came out of the dark when the wards failed.",
+      "The order is gone. The roads are broken. The empire that took your oath does not exist. The oath does.",
+      "You came to The Fort because a Terminal still glows here. You will stay as long as it does.",
+      "At dawn you stand before it, as you do every dawn. What happened to the others?"
+    ],
+    choices: [
+      { text:"The order disbanded. Nobody told you to stop.", to:"pal_2", set:{ pal_disbanded:true } },
+      { text:"The order was betrayed, and the knights were hunted. You ran.", to:"pal_2", set:{ pal_betrayed:true } },
+      { text:"Something in the network changed the others. You left before it reached you. You think.", to:"pal_2", set:{ pal_consumed:true } }
+    ]
+  },
+  pal_2: {
+    title: "The Words of the Oath", place: "The Fort · The Shrine",
+    text: [
+      "The Minister comes in with a lamp and her hymnal. She stops when she sees you."
+    ],
+    extra: [
+      { when: f => f.pal_disbanded, text:"“Whose authority do you serve?” she asked you once. You still have not answered." },
+      { when: f => f.pal_betrayed, text:"You carry yourself like someone who once had rank. The bootprints on the coast path worry you. You have not said why." },
+      { when: f => f.pal_consumed, text:"You watch her hands, her eyes, the way she says the hymns. You are looking for the sign. You look for it in yourself, too." },
+      { when: () => true, text:"You swore the oath in a tongue that was half Elvish, half Imperial Common. In plain words, it asks one thing above the rest." }
+    ],
+    choices: [
+      { text:"Protect the keeper. She is your charge, not your leader.", to:"pal_3", set:{ pal_keeper:true } },
+      { text:"Maintain the wards. You can feel when they weaken.", to:"pal_3", set:{ pal_wards:true } },
+      { text:"Bear witness. If the Terminals go dark, someone must write it down.", to:"pal_3", set:{ pal_witness:true } }
+    ]
+  },
+  pal_3: {
+    title: "A Knight Beside Her", place: "The Fort · The Hall",
+    text: [
+      "Captain Maren does not care about your oath. She cares about your sword arm, and she is relieved to have it.",
+      "“I am sending the Minister to the island,” she says. “I would like a knight beside her. Docks at first light.”"
+    ],
+    extra: [
+      { when: f => f.pal_keeper, text:"That decides it. You would have gone anyway." },
+      { when: f => f.pal_wards, text:"“There are old stones on that island,” she adds. “Imperial. My grandmother called them the lamp-stones.” You feel them already, faintly, like a draft under a door." },
+      { when: f => f.pal_witness, text:"You open the oath journal to a clean page and write the date." }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* ---------------------------- THE GNOME DRUID --------------------------- */
+  gn_1: {
+    title: "The One Who Listens", place: "The Fort · Under the oak",
+    text: [
+      "Nobody heard you coming. That is how it is with gnomes.",
+      "You walked out of the deep forest barefoot, three days ago, with a staff taller than you and a satchel that smells of wet earth.",
+      "You asked to see the Shrine. The Minister showed you the Terminal. You looked at it a long time, said “that's not where the power comes from,” and went out to sit under a tree.",
+      "You put your palms flat on the ground and listen. What is the land telling you?"
+    ],
+    choices: [
+      { text:"The land is sick. Something poisons it slowly, from underground.", to:"gn_2", set:{ gn_sick:true } },
+      { text:"The land is waking. Something old is stirring, and it is curious.", to:"gn_2", set:{ gn_waking:true } },
+      { text:"The land is old, and it remembers. It is waiting for the machines to stop.", to:"gn_2", set:{ gn_old:true } }
+    ]
+  },
+  gn_2: {
+    title: "The Minister Sits Down", place: "The Fort · Under the oak",
+    text: [
+      "The Minister comes out of the Shrine and sits on the root beside you. Nobody else has done that.",
+      "“The children say you talk to foxes,” she says. “Do they answer?” “They are honest,” you say. “That is not the same thing.”"
+    ],
+    extra: [
+      { when: f => f.gn_sick, text:"She asks about the sickness. She is afraid you are saying the Terminal has failed." },
+      { when: f => f.gn_waking, text:"She has seen the children following you. She is not sure you are safe. She sits anyway." },
+      { when: f => f.gn_old, text:"You almost tell her that the Terminal and the land are tangled together. Not yet." },
+      { when: () => true, text:"“Why did you come here?” she asks." }
+    ],
+    choices: [
+      { text:"The animals told you to. A fox led you three days through the forest.", to:"gn_3", set:{ gn_animals:true } },
+      { text:"Your grove was destroyed. You need a new one.", to:"gn_3", set:{ gn_grove:true } },
+      { text:"You heard the Terminal from underground. A hum, deep in the rock.", to:"gn_3", set:{ gn_hum:true } }
+    ]
+  },
+  gn_3: {
+    title: "Weather for the Captain", place: "The Fort · The Hall",
+    text: [
+      "Captain Maren does not care about your theology. She wants tomorrow's weather.",
+      "“Calm water,” you say. “Wind from the north after dark.” It is the truth.",
+      "“Good,” she says. “Then the Minister rows out at first light, and you go with her. You see in the dark. She does not.”"
+    ],
+    extra: [
+      { when: f => f.gn_grove, text:"“If the island is safe,” Maren adds, “you can have a strip of lake shore for your trees.” She means it." },
+      { when: f => f.gn_hum, text:"Through the floor of the Hall you hear the hum, faint, from somewhere north. Not from the Shrine." },
+      { when: f => f.gn_animals, text:"A crow lands on the Hall roof and looks at you. You nod to it. Maren pretends not to see." }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* ------------------------------ THE FIGHTER ----------------------------- */
+  fi_1: {
+    title: "The Next Blacksmith", place: "The Fort · The Forge",
+    text: [
+      "Everyone expected you to take over the forge. Your hands know iron: how to shape it, mend it, and break things with it.",
+      "When The Fort needed another sword on the wall, you picked one up instead. Now the forge is cold, and you are something nobody planned for.",
+      "Your weapon hangs on the wall above the cold anvil. Which one is it?"
+    ],
+    choices: [
+      { text:"A sword you forged yourself. 1d8. Nobody else has held it.", to:"fi_2", set:{ fi_sword:true } },
+      { text:"A spear and a javelin, your father's pattern. Spear 1d6; the javelin is thrown.", to:"fi_2", set:{ fi_spear:true } },
+      { text:"A heavy hammer. 1d6, and good against stuck doors.", to:"fi_2", set:{ fi_hammer:true } }
+    ]
+  },
+  fi_2: {
+    title: "The Last Thing You Made", place: "The Fort · The Forge",
+    text: [
+      "The Minister comes in with a bent lamp-hook. You mend it without a word. She watches you work.",
+      "Her eyes go to the bench, where the last thing you made before you stopped still lies, or used to lie. What was it?"
+    ],
+    choices: [
+      { text:"A plow blade. The Fort survives by building.", to:"fi_3", set:{ fi_plow:true } },
+      { text:"A cage for the beast pen. You know what is in it.", to:"fi_3", set:{ fi_cage:true } },
+      { text:"Nails for a coffin. You know how he really died. She asked you not to tell.", to:"fi_3", set:{ fi_coffin:true } }
+    ]
+  },
+  fi_3: {
+    title: "The Captain's Word", place: "The Fort · The Beast Pen",
+    text: [
+      "Captain Maren finds you at the beast pen. Next door, Biddy guards the henhouse and watches you both.",
+      "“I need someone between the Minister and whatever is on that island,” Maren says. “You are the wall. Docks at first light.”"
+    ],
+    extra: [
+      { when: f => f.fi_plow, text:"“You have a seat at the council fire,” she says. “Tomorrow you have a seat in a boat.”" },
+      { when: f => f.fi_cage, text:"The thing in your cage has turned to face the lake every night this week. Maren has noticed. So have you." },
+      { when: f => f.fi_coffin, text:"“The Minister will be in that boat,” Maren says. You think of the coffin, and of what the Minister asked of you." },
+      { when: f => f.fi_hammer, text:"She looks at the hammer. “Good. I hear the doors out there are old.”" }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* ------------------------------- THE ELF -------------------------------- */
+  elf_1: {
+    title: "The One Who Stayed", place: "The Fort · The Watchtower",
+    text: [
+      "There is one elf at The Fort. You.",
+      "The humans here live fast and die easy. They look at you like a relic: proof that the world used to be different.",
+      "You can fight, and you can cast spells, and you do not age as they do. None of that makes it easier.",
+      "From the watchtower you can see the island, a dark knuckle on the water. Why are you the only one?"
+    ],
+    choices: [
+      { text:"Your people are gone, west or under the forest. You were meant to go with them.", to:"elf_2", set:{ elf_gone:true } },
+      { text:"You were sent. “Go to the lake. Wait. You will know when it is time.”", to:"elf_2", set:{ elf_sent:true } },
+      { text:"You were cast out, for something you will not name.", to:"elf_2", set:{ elf_cast:true } }
+    ]
+  },
+  elf_2: {
+    title: "The Question", place: "The Fort · The Watchtower",
+    text: [
+      "A child has followed you up the ladder again. She sits on the top rung and asks you what they always ask.",
+      "Below, the Minister watches from the foot of the tower. You have been alive longer than her faith."
+    ],
+    extra: [
+      { when: f => f.elf_sent, text:"You were told you would know when it was time. You look at the island and wonder." }
+    ],
+    choices: [
+      { text:"“The old empire. What was it like? Why did it fall?”", to:"elf_3", set:{ elf_empire:true } },
+      { text:"“The monsters. What are they? Can they be killed?”", to:"elf_3", set:{ elf_monsters:true } },
+      { text:"“The dead. Where do people go?”", to:"elf_3", set:{ elf_dead:true } }
+    ]
+  },
+  elf_3: {
+    title: "What You Tell Her", place: "The Fort · The Watchtower",
+    text: [],
+    extra: [
+      { when: f => f.elf_empire, text:"You tell her the empire built lamps along the water and towers to hold them. You do not tell her that you never asked what the lamps were watching." },
+      { when: f => f.elf_monsters, text:"You tell her most monsters are only hungry. Hungry things run when they are hurt. The Minister, below, writes that down." },
+      { when: f => f.elf_dead, text:"You tell her you do not know. That is the truth. She seems to like it better than a story." },
+      { when: () => true, text:"Captain Maren climbs up after the child goes. She respects your skill and asks no personal questions. You like her for that." },
+      { when: () => true, text:"“You see in the dark,” she says. “The Minister does not. She is going to the island. Go with her. Docks at first light.”" }
+    ],
+    choices: [ { text:"Go down to the docks at first light.", to:"docks" } ]
+  },
+
+  /* ------------------------------- THE DOCKS ------------------------------ */
+  docks: {
+    title: "Maren's Job", place: "The Fort · The Docks",
+    text: [
+      "The lake is the colour of pewter. Two rowboats knock against the pilings like patient visitors.",
+      "Captain Maren waits at the end of the dock with her arms folded. She was an imperial soldier once. She still stands like one.",
+      "“The Isle of Old Stone,” she says, and points north. “Twelve miles, past the Shallows. Half a day's row.”",
+      "“Fishers see a light on it at night. Nets come up cut. Something big went under a boat last week.”",
+      "“Last season a cockatrice turned the Gorgon Queen to stone, and the whole lake heard of it. Now Harrow pays silver for eggs and will not say who buys. Somebody is landing on that island. I want to know who.”",
+      "“Row out. Find out who lands there and what moves in the water. Then come home and tell me. That is the whole job.”",
+      "The Minister is already in the boat, with a staff, a satchel of bandages and one torch. “Somebody has to,” she says, to no one in particular.",
+      "Maren hands down a horn lantern. “It's dry. Harrow came without oil this time. Take it anyway.”"
+    ],
+    extra: [
+      { when: (f, s) => CAST[s.char].torches > 0, text: s => "You have " + CAST[s.char].torches + " torches of your own in your pack." },
+      { when: (f, s) => CAST[s.char].torches === 0, text:"You see in the dark. The Minister does not. Her one torch is all the light she has, unless someone finds oil." }
+    ],
+    choices: [ { text:"Take the oars. Push off for the Shallows.", to:"crossing" } ]
+  },
+
+  crossing: {
+    title: "The Shallows", place: "D3 · The Shallows",
+    text: [
+      "The Fort shrinks behind you to a smudge of smoke. The water goes shallow and green, then deep and grey, then shallow again.",
+      "Fishers in flat boats lift a hand as you pass. Fish by day, they say on the shore. Nobody finishes the saying.",
+      "To the east stand the stilt huts of the Reed Shore, where the Quiet live. Smoke rises from one hut. A ladder hangs into the water.",
+      "Ahead, low and dark, is the Isle of Old Stone. You can make out the stump of a tower.",
+      { rule:"<b>TIME IS A RESOURCE.</b> What you do now decides whether you land in daylight or at dusk. In daylight you need no torch until you go underground." }
+    ],
+    choices: [
+      { kind:"act", cost:"land by mid-afternoon", text:"Row straight for the isle.", to:"s1", act: s => { s.dusk = false; } },
+      { kind:"act", cost:"land at dusk", text:"Put in at the Reed Shore and ask the Quiet what they have seen.", to:"reeds", act: s => { s.dusk = true; } }
+    ]
+  },
+
+  reeds: {
+    title: "The Reed Shore", place: "E3 · The Reed Shore",
+    text: [
+      "A woman of the Quiet sits on a hut ladder, mending a net. She does not speak. Nobody here speaks to strangers.",
+      "You ask about the isle. She points north, past it, to its far side. She holds her hand flat on the water: a boat. She covers her eyes: no lamp.",
+      "Then she makes a small sign over the water, and looks away, and does not look back.",
+      "The light is going. You row the last miles with the sun behind the trees."
+    ],
+    choices: [ { kind:"act", cost:"dusk", text:"Row on to the isle as the light goes.", to:"s1", act: s => { s.quietSaw = true; } } ]
+  },
+
+  /* ============================ THE DELVE: SURFACE ======================== */
+  s1: {
+    title: "The Broken Jetty", place: "Isle of Old Stone · South shore", key: "S1",
+    onEnter: s => arriveS1(s),
+    text: [
+      s => s.dusk ? "You come in at dusk. Behind you, the Shallows begin to sing. Nobody in the boat says what it is." : "You come in under a white afternoon sky. The Shallows behind you are full of fishing boats.",
+      "The jetty is old stone, half fallen into the lake. You tie up at the last post that stands.",
+      "There is a fresh rope burn on that post. The fibres are pale and new. Someone else lands here, and not long ago.",
+      "Past the end of the jetty, something large moves under the water. It is longer than your boat. Then it is gone, and the lake is flat again.",
+      s => s.dusk ? "The Minister lights her torch. Above you the island climbs in rock and black pine to the stump of a tower." : "Above you the island climbs in rock and black pine to the stump of a tower. The Minister keeps her torch unlit for now.",
+      { rule:"<b>PLAN, THEN ACT.</b> Dashed choices are Plan: look and ask as much as you like. They are free; no time passes. Solid choices are Act: they cost time, and some roll dice." },
+      { rule: s => "<b>MARCHING ORDER AND LIGHT.</b> Who goes first, and who carries the light? One turn is ten minutes. A torch burns 6 turns. Every 2nd turn a d6 is rolled for wandering monsters: on a 1, something comes." }
+    ],
+    extra: [
+      { when: factShown("wizard"), cls:"fact", text: FACTS.wizard.text },
+      { when: factShown("wizard"), text: FACTS.wizard.minister },
+      { when: factShown("gnome"), cls:"fact", text: FACTS.gnome.text },
+      { when: factShown("gnome"), text: FACTS.gnome.minister },
+      { when: f => f.wiz_component, text:"In your pack, the feather that does not fall has turned. It points at the water, the way a needle points north." },
+      { when: f => f.em_warning, text:"The door beneath the lake. You think of the warning on the screen and say nothing yet." },
+      { when: f => f.pal_wards, text:"Along the shore stand old stones, waist high, each with a carved eye. You feel them before you see them: a thin hum, like a hymn sung by someone very tired. Sensor eyes and spells at once. Weak, but lit." },
+      { when: f => f.elf_sent, text:"“You will know when it is time,” they told you. Is this the sign? You do not know. You did not know the last time either." },
+      { when: f => f.gn_sick, text:"The island tastes wrong under your feet. Not sick like the ridge. Oily: old oil, gone into the stone." },
+      { when: f => f.gn_waking, text:"The island is awake. The pines are listening to you, the way the children do." },
+      { when: f => f.gn_old, text:"The tower sits on the island like a nail in a hand. The island has not forgotten it." }
+    ],
+    choices: [
+      plan("s1post", "Look at the mooring post.", () => "The rope was hemp, tarred, the kind sold on the coast. Whoever tied it knew boats. Boot scuffs go up the path, and come back down."),
+      plan("s1ask", "Ask the Minister what she saw in the water.", () => "“A back like a boat turned over,” she says. “There was a gleam on it. Metal, I think. Like a collar.” Her hand is on her holy symbol."),
+      { kind:"fate", text:"Fate ability, I've Read About This: name the thing in the water.", when: fateReady("wizard"), to:"s1", act: s => useFate(s, "wizard") },
+      { kind:"fate", text:"Fate ability, The Land Speaks: put your palm on the island.", when: fateReady("gnome"), to:"s1", act: s => { useFate(s, "gnome"); s.knowsRats = true; } },
+      { kind:"act", cost:"1 turn", text:"You go first. The Minister follows with the light. Climb to the tower.", to:"s2", act: s => { s.front = "you"; tick(s, 1); move(s, "S2"); } },
+      { kind:"act", cost:"1 turn", text:"The Minister goes first with the light. You guard the back. Climb to the tower.", to:"s2", act: s => { s.front = "minister"; tick(s, 1); move(s, "S2"); } },
+      { kind:"act", cost:"retreat", text:"Untie the boat and row back to The Fort.", to:"end_retreat" }
+    ]
+  },
+
+  s2: {
+    title: "The Tower Shell", place: "Isle of Old Stone · The tower", key: "S2",
+    text: [
+      "The tower is round, thirty feet across. Its upper floors fell in long ago. What is left is a stone throat open to the sky.",
+      "A stair climbs the inside wall to a broken top forty feet up. Crows sit in the gaps and watch you with one eye each.",
+      "Rubble covers the floor: roof slates, beams gone soft, and a cracked bronze lamp-housing the size of a cart wheel."
+    ],
+    extra: [
+      { when: factShown("elf"), cls:"fact", text: FACTS.elf.text },
+      { when: factShown("elf"), text: FACTS.elf.minister },
+      { when: (f, s) => s.foundTrap, text:"Under the rubble at the foot of the stair is a trapdoor of iron-bound oak. Its ring is bright where hands have worn it." },
+      { when: (f, s) => s.climbed, text:"From the top you saw the whole island, and a boat-shaped shadow under the north cliff." },
+      { when: f => f.elf_empire, text:"You remember towers like this along the old lake roads, lit all night. You never asked what they watched. You wish you had." },
+      { when: f => f.wiz_power, text:"Your master's notes said the Lampwright's light did not burn out. You look at the cracked lamp-housing and want it." },
+      { when: (f, s) => f.gn_animals, text:"A crow drops onto the stair rail and looks at you. In the way crows tell things, it tells you: men come by boat to the north cliff, and leave the boat under the overhang." }
+    ],
+    choices: [
+      plan("s2lamp", "Look at the bronze lamp-housing.", () => "It is a lamp, a lens and an instrument at once: rings of glass, brass dials, a socket for something that is gone. The glass is crazed with heat. Whatever burned here burned very hot."),
+      plan("s2ask", "Ask the Minister about the crows.", () => "“Crows nest where nobody comes,” she says. “But somebody comes here. Look how they hate the light.”"),
+      { kind:"fate", text:"Fate ability, I Remember When: you have stood here before.", when: (f, s) => s.char === "elf" && !s.fateUsed && !s.foundTrap, to:"s2",
+        act: s => { useFate(s, "elf"); s.foundTrap = true; s.L.fateSearch = true; } },
+      { kind:"act", cost:"1 turn", text:"Search the rubble.", when: (f, s) => !s.searchedS2 && !s.foundTrap, to:"s2",
+        act: s => { s.searchedS2 = true; s.L.search++; tick(s, 1); s.foundTrap = true; note("You shift slates and rotten beams for ten minutes. Under them, at the foot of the stair: a trapdoor."); } },
+      { kind:"act", cost:"1 turn", text:"Climb the stair to the broken top.", when: (f, s) => !s.climbed, to:"s2_top", act: s => { tick(s, 1); move(s, "TOP"); } },
+      { kind:"act", cost:"1 turn", text:"Go to the roofless cottage beside the tower.", when: (f, s) => !s.visited.s3, to:"s3", act: s => { tick(s, 1); move(s, "S3"); } },
+      { kind:"act", cost:"1 turn", text:"Lift the trapdoor and go down.", when: (f, s) => s.foundTrap, to:"c1", act: s => enterCellar(s) },
+      { kind:"act", cost:"retreat", text:"Go back to the boat and row home.", to:"end_retreat" }
+    ]
+  },
+
+  s2_top: {
+    title: "The Top of the Stair", place: "Isle of Old Stone · 40 feet up", key: "S2",
+    onEnter: s => { s.climbed = true; s.sawBoat = true; },
+    text: [
+      "The stair is narrow, and the crows do not like you. At the top the wall ends in broken teeth.",
+      "You can see the whole island from here: rock, pine, the jetty, a roofless cottage at the tower's foot, a ring of old stones along the shore.",
+      "Under the north cliff, where the rock drops into the water, there is a shadow on the lake shaped like a boat. No light on it. Nobody aboard that you can see.",
+      "Somebody lands here, then, and hides the boat where The Fort's watchtower cannot see it."
+    ],
+    extra: [
+      { when: f => f.pal_betrayed, text:"A hidden boat. Boots on the coast path. Someone is gathering in the places nobody watches. You have seen this before, the year the order fell." },
+      { when: (f, s) => s.quietSaw, text:"The woman of the Quiet pointed at exactly this place." }
+    ],
+    choices: [
+      plan("topnorth", "Look north, past the island.", () => "North of the isle the water changes colour. It goes from grey to black, as if the lake had no bottom there. You do not like looking at it."),
+      { kind:"act", cost:"free", text:"Climb back down.", to:"s2", act: s => move(s, "S2") }
+    ]
+  },
+
+  s3: {
+    title: "The Keeper's Cottage", place: "Isle of Old Stone · Beside the tower", key: "S3",
+    text: [
+      "A stone cottage stands beside the tower. Its roof is gone. Pine needles lie in drifts on the floor.",
+      "The hearth holds ash, less than a week old by the look of it.",
+      "On the door, in chalk, someone has drawn an eye with a line through it."
+    ],
+    extra: [
+      { when: (f, s) => s.flasks > 0 || s.lanternOil > 0 || s.searchedS3, text:"You found the tin of lamp oil under a loose hearthstone. Two flasks." },
+      { when: f => f.pal_witness, text:"You write it in the oath journal: the mark, the ash, the date." }
+    ],
+    choices: [
+      plan("s3chalk", "Look at the chalk mark.", () => "“I have seen that mark,” the Minister says slowly. “Chalked on a crate in Old Harrow's cart. I thought it was a tally.” It is not a tally. It means: keep out."),
+      plan("s3ash", "Crumble the hearth ash.", () => "Soft and dry, not yet packed by rain. Fish bones in it, and the end of a tarred rope. Someone camped here and did not want a fire seen from the shore."),
+      { kind:"act", cost:"1 turn", text:"Search the cottage.", when: (f, s) => !s.searchedS3, to:"s3_tin",
+        act: s => { s.searchedS3 = true; s.L.search++; tick(s, 1); } },
+      { kind:"act", cost:"free", text:"Go back into the tower.", to:"s2", act: s => move(s, "S2") },
+      { kind:"act", cost:"1 turn", text:"Go back to the tower and down the trapdoor.", when: (f, s) => s.foundTrap, to:"c1", act: s => { move(s, "S2"); return enterCellar(s); } },
+      { kind:"act", cost:"retreat", text:"Go back to the boat and row home.", to:"end_retreat" }
+    ]
+  },
+
+  s3_tin: {
+    title: "A Tin of Lamp Oil", place: "Isle of Old Stone · The cottage", key: "S3",
+    text: [
+      "Ten minutes of lifting stones. Under a loose hearthstone: a tin of lamp oil. Two flasks, sealed.",
+      "Maren's lantern is dry. One flask fills it for 24 turns. A flask can also be lit and thrown.",
+      { rule:"<b>SEARCHING COSTS TIME.</b> Searching a 10-foot square takes one turn. Every turn burns light and brings the next wandering check closer." }
+    ],
+    choices: [
+      { kind:"act", cost:"free", text:"Fill the lantern with one flask and light it. Keep the other flask.", to:"s3",
+        act: s => { s.flasks = 1; fillLantern(s, "You fill Maren's lantern."); } },
+      { kind:"act", cost:"free", text:"Keep both flasks. Save them.", to:"s3", act: s => { s.flasks = 2; } }
+    ]
+  },
+
+  /* ============================ THE DELVE: CELLARS ======================== */
+  c1: {
+    title: "The Cellar Stair", place: "The Lamp Cellars · Under the trapdoor", key: "C1",
+    text: [
+      "Under the trapdoor a stone stair goes down twenty feet. The air is cold and smells of old oil.",
+      "At the bottom is an oak door banded in iron. It is stuck, swollen in its frame by forty winters of lake damp.",
+      { rule: s => "<b>LISTENING AND DOORS.</b> Listen at a door: d6, you hear on 1" + (CAST[s.char].hear > 1 ? "–2 (you are a demi-human)" : " (humans hear on 1)") +
+        ". A stuck door forces open on 1" + (doorChance(s) > 1 ? "–" + doorChance(s) : "") + " on a d6. Every try is loud: each one makes a wandering check." }
+    ],
+    extra: [
+      { when: factShown("fighter"), cls:"fact", text: FACTS.fighter.text },
+      { when: factShown("fighter"), text: FACTS.fighter.minister },
+      { when: (f, s) => s.heardRats, text:"Behind the door: scratching. Squeaks. Many small claws on stone." },
+      { when: (f, s) => s.listened && !s.heardRats, text:"You heard nothing. That is not the same as nothing being there." },
+      { when: (f, s) => s.doorTries > 0 && !s.doorOpen, text: s => "You have tried the door " + s.doorTries + (s.doorTries === 1 ? " time" : " times") + ". The noise rolls up the stair." },
+      { when: (f, s) => s.doorShut, text:"The door is shut again. Behind it, claws, and waiting." }
+    ],
+    choices: [
+      plan("c1door", "Look at the door.", () => "Oak on iron straps. Swollen tight in its frame. Along the bottom edge are fresh scratches, made from the other side."),
+      plan("c1floor", "Ask the Minister to hold the light low.", () => "Droppings on the bottom step, dark and fresh, each the size of a fingertip. Something large has been eating well."),
+      { kind:"fate", text:"Fate ability, I Know How This Was Made: look at how the door was hung.", when: (f, s) => s.char === "fighter" && !s.fateUsed && !s.doorOpen, to:"c2_door",
+        act: s => { useFate(s, "fighter"); note("You lift, you shoulder, and the door swings in without a sound."); return openDoor(s); } },
+      { kind:"act", cost:"d6, no turn", text:"Listen at the door.", when: (f, s) => !s.listened && !s.doorOpen, to:"c1", act: s => listen(s) },
+      { kind:"act", cost: s => "d6: 1–" + doorChance(s) + ", loud", text: s => "Force the door" + (s.flags.fi_hammer ? " with the hammer" : "") + ".", when: (f, s) => !s.doorOpen, to:"c1", act: s => forceDoor(s) },
+      { kind:"act", cost:"fight resumes", text:"Open the door again.", when: (f, s) => s.doorShut, to:"c2_fight", act: s => { s.doorShut = false; move(s, "C2"); } },
+      { kind:"act", cost:"1 turn", text:"Rest a turn on the stair.", when: (f, s) => s.sinceRest >= 4, to:"c1", act: s => rest(s) },
+      { kind:"act", cost:"retreat", text:"Climb out and row home.", to:"end_retreat" }
+    ]
+  },
+
+  c2_door: {
+    title: "The Oil Store", place: "The Lamp Cellars · Past the stuck door", key: "C2",
+    text: [
+      "The door opens on a long room, thirty feet by twenty. Racks of oil jars line the walls. Most are broken. The floor is tacky with old oil.",
+      "Five giant rats look up from the far corner. Each is the size of a dog. Their eyes throw your light back at you.",
+      { stat:"<b>Giant rats ×5</b> " + RAT_LINE + ". They flee at 2 dead." },
+      s => s.fight.ready ? "You knew they were here. You are ready, and they are not. You have the first move." : "They did not need to listen for you. They are already coming."
+    ],
+    extra: [
+      { when: f => f.elf_monsters, text:"Giant rats. You have seen packs like this, in older cellars. They break when two of them fall." },
+      { when: (f, s) => s.front === "minister" && f.pal_keeper, text:"The Minister is in front. Your oath is to the keeper. You step past her into the doorway before the rats can reach her." }
+    ],
+    choices: [] // filled in below: the same choices as a fight round, plus "Brace"
+  },
+
+  c2_fight: {
+    title: "Rats in the Oil Store", place: "The Lamp Cellars · The doorway", key: "C2",
+    text: [
+      s => "Round " + (s.fight.round + 1) + ". " + ratLine(s),
+      "The doorway is narrow. Only two rats can reach you at once. The rest wait their turn.",
+      { stat:"<b>Giant rat</b> " + RAT_LINE },
+      s => "<b>You</b> AC " + CAST[s.char].acText + " · HP " + s.hp + "/" + s.maxHp + " · THAC0 19 [+0] · melee " + sgn(atkBonus(s)) + " · " + weapon(s).name + " 1d" + weapon(s).die + (dmgBonus(s) ? sgn(dmgBonus(s)) : "") + " · MV " + CAST[s.char].mv
+    ],
+    extra: [
+      { when: f => f.elf_monsters, text:"They break when two fall. You have seen it before." }
+    ],
+    choices: []
+  },
+
+  c2_after: {
+    title: "The Oil Store, After", place: "The Lamp Cellars · The Oil Store", key: "C2",
+    text: [
+      s => ({
+        fled:   "The last tails whip into a hole in the far wall. The dead lie on the oily floor. The rest will not come back tonight.",
+        burned: "The fire burns down to a blue skin on the stone. The rats are gone up their run, singed and shrieking.",
+        asleep: "The rats lie in a heap, twitching in their sleep. They will wake within the hour. Do not be here when they do.",
+        parley: "The rats took your bread and went, one by one, into a hole in the far wall. They did not look back.",
+        killed: "Five rats lie dead on the oily floor. None of them ran."
+      })[s.ratsOutcome] || "The room is quiet.",
+      "Racks of broken oil jars line the walls. A far arch leads on, and down."
+    ],
+    extra: [
+      { when: factShown("paladin"), cls:"fact", text: FACTS.paladin.text },
+      { when: factShown("paladin"), text: FACTS.paladin.minister },
+      { when: (f, s) => s.searchedC2 && s.fact !== "paladin", text:"The oil from the stone rack is in your pack, or in the lantern." },
+      { when: (f, s) => s.ministerHealUsed && f.em_hears, text:"When the Minister healed, she listened first, as if the Terminal were in the room. You heard nothing. She heard something." }
+    ],
+    choices: [
+      plan("c2hole", "Look at the hole in the far wall.", () => "A run, gnawed through old mortar, climbing up and south. Toward the cottage hearth, you guess."),
+      plan("c2racks", "Look along the racks.", () => "Most jars are smashed and their oil long gone into the floor. One rack, at the north wall, is stone and not wood."),
+      { kind:"fate", text:"Fate ability, The Oath Remembers: this was a lamp station's store.", when: (f, s) => s.char === "paladin" && !s.fateUsed && !s.searchedC2, to:"c2_after",
+        act: s => { useFate(s, "paladin"); s.searchedC2 = true; s.L.fateSearch = true; gainOil(s, 5); } },
+      { kind:"act", cost:"1 turn", text:"Search the racks for sound oil.", when: (f, s) => !s.searchedC2, to:"c2_after",
+        act: s => { s.searchedC2 = true; s.L.search++; tick(s, 1); note("Ten minutes among the broken jars. On the stone rack: five flasks, still sealed."); gainOil(s, 5); } },
+      { kind:"act", cost:"no turn", text:"Cast Cure Light Wounds on yourself.", when: (f, s) => s.char === "elfMinister" && !s.spellUsed && s.hp < s.maxHp, to:"c2_after", act: s => healSelfSpell(s) },
+      { kind:"act", cost:"no turn", text:"Lay on hands: heal yourself 2 HP.", when: (f, s) => s.char === "paladin" && !s.layUsed && s.hp < s.maxHp, to:"c2_after", act: s => layOnHands(s) },
+      { kind:"act", cost:"no turn", text:"Ask the Minister to heal you.", when: (f, s) => !s.ministerHealUsed && s.hp < s.maxHp, to:"c2_after", act: s => ministerHeal(s) },
+      { kind:"act", cost:"1 turn", text:"Rest a turn.", when: (f, s) => s.sinceRest >= 4, to:"c2_after", act: s => rest(s) },
+      { kind:"act", cost:"1 turn", text:"Go on, through the far arch.", to:"c3", act: s => { tick(s, 1); move(s, "C3"); } },
+      { kind:"act", cost:"retreat", text:"Go back up and row home.", to:"end_retreat" }
+    ]
+  },
+
+  c3: {
+    title: "The Flooded Stair", place: "The Lamp Cellars · Past the far arch", key: "C3",
+    onEnter: s => { s.reachedC3 = true; },
+    text: [
+      "Past the far arch, a second stair goes down. Below the landing, it goes into black water.",
+      "The water is still. Then it is not. It climbs a step while you watch, and lies still again.",
+      "The lake is restless tonight. The water rises one step a turn.",
+      s => s.waterSteps > 1 ? "There are " + s.waterSteps + " dry steps left between the water and your boots." : "The water is one step below your boots.",
+      { rule:"<b>THE DEMO ENDS ON THIS STAIR.</b> The module goes on below, into the Grotto. Watch if you like. When you have seen enough, climb out." }
+    ],
+    extra: [
+      { when: factShown("elfMinister"), cls:"fact", text: FACTS.elfMinister.text },
+      { when: factShown("elfMinister"), text: FACTS.elfMinister.minister },
+      { when: (f, s) => s.lightReveal, cls:"fact", text:"White light falls into the water. The stair goes down and down. Far below, something turns, and a bronze collar flashes once, as broad as a cart wheel: a control collar, studded with dead lamps. Below that, at the very bottom of the light, a door of stone with an eye cut into it. The eye is lit. It is watching." },
+      { when: (f, s) => s.fact === "wizard", text:"You know what moves down there. A bound guard does not leave its water. You watch without fear, or nearly." },
+      { when: f => f.wiz_sent, text:"Cut into the wall above the water, in imperial letters: THE LAMP IS LIT SO THE DOOR IS WATCHED. Your master's phrase. The Minister's hymn." },
+      { when: f => f.wiz_component, text:"In your hand the feather that does not fall points straight down." },
+      { when: f => f.em_warning, text:"This is the stair to the door beneath the lake. You are as sure of it as of your own name. You do not go down." },
+      { when: f => f.em_map, text:"One of the glowing Terminals was underground. Standing here, you think: under water is under ground, too." },
+      { when: f => f.gn_hum, text:"Here the hum is loud. It comes up through the water. It is not the Terminal. It is something the Terminal is talking to." },
+      { when: f => f.pal_consumed, text:"The water hums. You check your hands, your breath, your thoughts, for the sign. Not yet." },
+      { when: f => f.pal_wards, text:"Above the waterline a ward is cut into the wall: an open eye. It is lit, faintly. When you lay your hand on it, it brightens, as a lamp brightens when you trim the wick." },
+      { when: (f, s) => s.char === "paladin", text:"You reach with the sense the oath gave you. Not evil, quite. Something old, and bound, and awake." },
+      { when: f => f.elf_dead, text:"The child asked where people go. You look at the black water and think: some of them go down." }
+    ],
+    choices: [
+      plan("c3look", "Look at the walls above the water.", () => "Tide-marks: dozens of lines, some high above your head. The water has been here before, and higher."),
+      plan("c3ask", "Ask the Minister what she hears.", () => "“Singing,” she says. “Like the Shallows at night. But under the water.” She does not want to be here. She stays."),
+      { kind:"fate", text:"Fate ability, The Archives Are Deep: search below the hymns for this place.", when: fateReady("elfMinister"), to:"c3", act: s => useFate(s, "elfMinister") },
+      { kind:"act", cost:"scroll", text:"Read the stolen scroll: cast Light down into the water.", when: (f, s) => f.wiz_scroll && !s.scrollUsed, to:"c3",
+        act: s => { s.scrollUsed = true; s.lightReveal = true; note("You read the scroll aloud. The words burn off the page as you say them."); } },
+      { kind:"act", cost:"spell", text:"Cast Light down into the water.", when: (f, s) => s.char === "elf" && !s.spellUsed, to:"c3",
+        act: s => { s.spellUsed = true; s.lightReveal = true; note("You speak the word. Light settles on the water like frost."); } },
+      { kind:"act", cost:"1 turn", text:"Watch the water for a turn.", when: (f, s) => s.watched < 2, to:"c3",
+        act: s => { s.watched++; tick(s, 1); s.waterSteps--; note("Ten minutes. The water climbs one step, and lies still."); } },
+      { kind:"act", cost:"end", text:"Mark the step in chalk. Climb out and row home to tell Maren.", to:"end_water" }
+    ]
+  },
+
+  /* ---------------------------- INTERRUPTIONS ----------------------------- */
+  dark: {
+    title: "The Light Goes Out", place: "Somewhere underground",
+    text: [
+      "The flame shrinks to a blue bead, and goes.",
+      "The Minister stops. You hear her breathe. She cannot see her own hand."
+    ],
+    extra: [
+      { when: (f, s) => CAST[s.char].sight !== "needs light", text:"You can see her, warm and grey in the black. You could go on without light. She could not." },
+      { when: (f, s) => CAST[s.char].sight === "needs light", text:"You cannot see anything at all." }
+    ],
+    choices: [
+      { kind:"act", cost:"spell, 12 turns", text:"Cast Light on the Minister's staff.", when: (f, s) => s.char === "elf" && !s.spellUsed, to:"dark",
+        act: s => { s.spellUsed = true; s.light = "spell"; s.spellLight = 12; s.L.light = true; s.L.lightHow = "When the torch died, you cast Light."; note("Cold light blooms on the head of her staff."); return s.resume; } },
+      { kind:"act", cost:"scroll, 12 turns", text:"Read the stolen scroll of Light by feel and memory.", when: (f, s) => f.wiz_scroll && !s.scrollUsed, to:"dark",
+        act: s => { s.scrollUsed = true; s.light = "spell"; s.spellLight = 12; s.L.light = true; s.L.lightHow = "When the torch died, you read the scroll of Light."; return s.resume; } },
+      { kind:"act", cost:"1 flask, 24 turns", text:"Fill the lantern by feel.", when: (f, s) => s.flasks > 0, to:"dark",
+        act: s => { s.flasks--; fillLantern(s, "Your fingers find the lantern, the flask, the wick."); return s.resume; } },
+      { kind:"act", cost:"retreat", text:"Take her hand. Lead her back the way you came.", to:"end_dark" }
+    ]
+  },
+
+  death_door: {
+    title: "Down", place: "The Lamp Cellars · The doorway", key: "C2",
+    text: [
+      "The floor comes up to meet you. Teeth, and oil, and the Minister calling your name from very far away.",
+      { rule:"<b>CHEAT DEATH.</b> You are at 0 HP. Spend 2 Fate Points and drop to 1 HP instead of dying. This is what Fate Points are for." }
+    ],
+    choices: [
+      { kind:"fate", cost:"2 Fate Points", text:"Spend 2 Fate Points. Get up.", when: (f, s) => s.fp >= 2, to:"c2_fight",
+        act: s => { s.fp -= 2; s.hp = 1; s.cheated = true; note("You get up. You do not remember deciding to."); } },
+      { kind:"act", cost:"end", text:"Let go.", to:"end_dead" }
+    ]
+  },
+
+  /* ------------------------------- ENDINGS -------------------------------- */
+  end_water: {
+    ending: "good", title: "The Water Rises", place: "Ending",
+    text: [
+      "You chalk a line on the step where the water stands. Then you climb: the stair, the door, the trapdoor, the tower, the jetty.",
+      "You row home under the stars. Behind you the Shallows are singing. Neither of you speaks until The Fort's fires come up out of the dark.",
+      { report:true }, { lessons:true }, { payoffs:true }, { card:true }, { module:true }
+    ],
+    choices: []
+  },
+  end_retreat: {
+    ending: "back", title: "Turned Back", place: "Ending",
+    text: [
+      "You go back to the boat and row for home. The Minister does not argue. Her hands are steady on the oars.",
+      "This is not a failure. Retreat is one of the lessons. A dungeon is a place you visit more than once, and you come back knowing more.",
+      { report:true }, { lessons:true }, { payoffs:true }, { card:true }, { module:true }
+    ],
+    choices: []
+  },
+  end_dark: {
+    ending: "back", title: "Turned Back in the Dark", place: "Ending",
+    text: [
+      "You take the Minister's hand and lead her up, one step at a time, counting. The trapdoor is a square of stars. The boat is where you left it.",
+      "The light ran out. That is how most people learn to count turns. Next time you will carry more, or find oil, or spend less time.",
+      "Retreat is one of the lessons. You came home alive.",
+      { report:true }, { lessons:true }, { payoffs:true }, { card:true }, { module:true }
+    ],
+    choices: []
+  },
+  end_dead: {
+    ending: "dead", title: "The Lake Keeps You", place: "Ending",
+    text: [
+      "The rats are small and there are only five of them. It does not matter. In B/X, a first-level character is one bad round from the end.",
+      "The Minister drags you up the stair alone. She reads the hymns over you on the jetty, with the Shallows singing behind her.",
+      "Death is rare in this demo. At the table it is not. Listen at doors. Let the strong ones stand in front. Spend Fate Points before you need them.",
+      { lessons:true }, { module:true }
+    ],
+    choices: []
+  }
+};
+
+/* The fight round choices, shared by c2_door (first move) and c2_fight. */
+const FIGHT = [
+  { kind:"act", cost: s => "d20" + sgn(atkBonus(s)) + " vs AC 12", text: s => "Attack with your " + weapon(s).name + ".", to:"c2_fight",
+    act: s => fightRound(s, () => swing(s, "weapon")) },
+  { kind:"act", cost:"d20 vs AC 12, 1d4", text:"Throw your javelin first.", when: (f, s) => f.fi_spear && !s.javelinUsed, to:"c2_fight",
+    act: s => fightRound(s, () => { s.javelinUsed = true; swing(s, "javelin"); }) },
+  { kind:"act", cost: s => "flasks: " + s.flasks, text:"Light a flask of oil and throw it.", when: (f, s) => s.flasks > 0, to:"c2_fight",
+    act: s => fightRound(s, () => throwOil(s)) },
+  { kind:"act", cost:"2d8 HD", text:"Cast Sleep.", when: (f, s) => s.char === "wizard" && !s.spellUsed, to:"c2_fight",
+    act: s => fightRound(s, () => castSleep(s)) },
+  { kind:"act", cost:"2d6 reaction", text:"Speak to the rats in their own tongue. Offer them your rations.", when: (f, s) => s.char === "gnome" && !s.parleyTried, to:"c2_fight",
+    act: s => fightRound(s, () => parley(s)) },
+  { kind:"act", cost:"1d6+1", text:"Cast Cure Light Wounds on yourself.", when: (f, s) => s.char === "elfMinister" && !s.spellUsed && s.hp < s.maxHp, to:"c2_fight",
+    act: s => fightRound(s, () => healSelfSpell(s)) },
+  { kind:"act", cost:"2 HP", text:"Lay on hands: heal yourself.", when: (f, s) => s.char === "paladin" && !s.layUsed && s.hp < s.maxHp, to:"c2_fight",
+    act: s => fightRound(s, () => layOnHands(s)) },
+  { kind:"act", cost:"1d6+1", text:"Ask the Minister to heal you.", when: (f, s) => !s.ministerHealUsed && s.hp < s.maxHp, to:"c2_fight",
+    act: s => fightRound(s, () => ministerHeal(s)) },
+  { kind:"fate", cost:"1 Fate Point", text:"Spend a Fate Point: reroll that miss.", when: (f, s) => !!s.fight.lastMiss && s.fp >= 1, to:"c2_fight",
+    act: s => reroll(s) },
+  { kind:"act", cost:"1 turn", text:"Back out and drag the door shut.", when: (f, s) => !s.fight.shutOnce, to:"c1",
+    act: s => shutDoor(s) }
+];
+STORY.c2_fight.choices = FIGHT;
+STORY.c2_door.choices = [
+  { kind:"act", cost:"they move first", text:"Brace yourself.", when: (f, s) => !s.fight.ready, to:"c2_fight",
+    act: s => { s.fight.free = false; note("They come in a grey wave."); ratsTurn(s); return s.hp <= 0 ? death(s) : "c2_fight"; } }
+].concat(FIGHT.filter(c => !/reroll|heal|Lay on hands/i.test(c.text)).map(c => Object.assign({}, c, {
+  when: (f, s) => s.fight.ready && (!c.when || c.when(f, s)) })));
+
+/* ==========================================================================
+   PART 3: THE ENGINE
+   ========================================================================== */
+const ENDING_IDS = Object.keys(STORY).filter(id => STORY[id].ending);
+const STORE_KEY = "drowned-tower-endings";
+
+/* Seeded dice (mulberry32). The seed comes from ?seed=N, or is picked at
+   random and shown in the footer. Same seed + same choices = same rolls. */
+const params = new URLSearchParams(location.search);
+const rngSeed = params.has("seed") && /^\d+$/.test(params.get("seed")) ? (parseInt(params.get("seed"), 10) >>> 0) : Math.floor(Math.random() * 1e6);
+function rand(s) {
+  let t = s.rng = (s.rng + 0x6D2B79F5) >>> 0;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+const d = (s, n) => 1 + Math.floor(rand(s) * n);
+const sgn = n => n > 0 ? "+" + n : n < 0 ? "−" + (-n) : "+0";
+
+let S;   // the whole game state; plain data, so it can be saved and restored
+
+function freshState() {
+  return {
+    scene: START, flags: {}, trail: [], log: [], rng: rngSeed, char: null,
+    hp: 0, maxHp: 0, fp: 3, fateUsed: false, fact: null, spellUsed: false, layUsed: false, scrollUsed: false, javelinUsed: false,
+    sleepCast: false, parleyTried: false, cheated: false,
+    inDelve: false, zone: "fort", dusk: false, quietSaw: false,
+    turn: 0, sinceRest: 0, light: "none", torchLeft: 6, torches: 0, lanternOil: 0, spellLight: 0, flasks: 0,
+    checks: 0, wanderers: 0, front: null,
+    visited: {}, foundTrap: false, searchedS2: false, searchedS3: false, searchedC2: false, climbed: false, sawBoat: false,
+    knowsRats: false, listened: false, heardRats: false, ratsAlert: false,
+    doorOpen: false, doorShut: false, doorTries: 0, fight: null, ratsOutcome: null,
+    ministerHealUsed: false, ministerHurt: false, reachedC3: false, watched: 0, waterSteps: 6, lightReveal: false,
+    resume: null, planSeen: [], planRoom: null,
+    L: { light: false, lightHow: null, search: 0, fateSearch: false, listen: false, morale: false, moraleHow: null },
+    turtle: { x: 0, y: 0, z: 0, h: 0, segs: [], cmds: [], keys: [] }
+  };
+}
+
+function note(text) { S.log.push({ t: "note", text }); }
+function rollLog(text, hit) { S.log.push({ t: "roll", text, hit: !!hit }); }
+
+function pickChar(s, id) {
+  const c = CAST[id];
+  s.char = id; s.hp = s.maxHp = c.hp;
+}
+
+/* --- Light and the clock --------------------------------------------- */
+function arriveS1(s) {
+  if (s.inDelve) return;
+  s.inDelve = true; s.zone = "surface"; s.turn = 0; s.sinceRest = 0;
+  s.torches = CAST[s.char].torches; s.torchLeft = 6;
+  s.light = s.dusk ? "torch" : "day";
+  move(s, "S1");
+}
+function enterCellar(s) {
+  tick(s, 1);
+  s.zone = "cellar";
+  if (s.light === "day") { s.light = "torch"; note("At the top of the stair the Minister lights her torch. From here on, light is time."); }
+  move(s, "C1");
+}
+function tick(s, n) {
+  for (let i = 0; i < n; i++) {
+    s.turn++; s.sinceRest++;
+    burn(s);
+    if (s.turn % 2 === 0) wander(s);
+  }
+}
+function burn(s) {
+  if (s.light === "torch")   { s.torchLeft--; if (s.torchLeft <= 0) { s.torchLeft = 0; nextLight(s, "The torch gutters out."); } }
+  else if (s.light === "lantern") { s.lanternOil--; if (s.lanternOil <= 0) { s.lanternOil = 0; nextLight(s, "The lantern goes dry."); } }
+  else if (s.light === "spell")   { s.spellLight--; if (s.spellLight <= 0) { s.spellLight = 0; nextLight(s, "The Light spell fades."); } }
+}
+function nextLight(s, msg) {
+  note(msg);
+  if (s.lanternOil > 0) { s.light = "lantern"; note("You light the lantern."); }
+  else if (s.torchLeft > 0) { s.light = "torch"; note("You relight the half-burnt torch."); }
+  else if (s.torches > 0) { s.torches--; s.torchLeft = 6; s.light = "torch"; s.L.light = true; s.L.lightHow = s.L.lightHow || "You lit a fresh torch when the old one died, and counted what was left.";
+    note("You light a fresh torch from the stub. " + s.torches + " spare left."); }
+  else { s.light = "none"; }
+}
+function fillLantern(s, msg) {
+  s.lanternOil = 24; s.L.light = true;
+  s.L.lightHow = "You filled Maren's lantern with oil you found: 24 turns of light.";
+  if (s.light === "torch" || s.light === "none") { s.light = "lantern"; note(msg + " The lantern is lit: 24 turns. The Minister pinches out the torch to save it."); }
+  else note(msg + " The lantern is full: 24 turns, for when you need it.");
+}
+function gainOil(s, n) {
+  s.flasks += n;
+  if (s.lanternOil === 0) { s.flasks--; fillLantern(s, "You fill Maren's lantern from one of them."); }
+}
+function rest(s) {
+  tick(s, 1); s.sinceRest = 0;
+  note("You sit on the cold stone for ten minutes and eat something. Your arms stop shaking.");
+}
+const tired = s => s.inDelve && s.sinceRest >= 6;
+
+/* Wandering monster check: every 2nd turn, and every loud try at a door. */
+function wander(s) {
+  s.checks++;
+  const r = d(s, 6);
+  if (r !== 1) { rollLog("Wandering check: d6 → " + r + " · nothing comes"); return; }
+  s.wanderers++;
+  rollLog("Wandering check: d6 → 1 · something comes", true);
+  if (s.zone === "surface") {
+    note("Crows boil out of the tower and go for the light and your eyes. You beat them off. They take 1 HP" + (s.light === "torch" ? " and knock the torch into the wet: it loses a turn." : "."));
+    hurtSoft(s, 1);
+    if (s.light === "torch") { s.torchLeft--; if (s.torchLeft <= 0) { s.torchLeft = 0; nextLight(s, "The torch drowns."); } }
+  } else {
+    note("A lone giant rat comes out of a crack in the wall. (AC 7 [12], HD ½, Att 1 × bite 1d3, THAC0 19 [+0], MV 60' (20'), ML 8.)");
+    const a = d(s, 20), ac = CAST[s.char].ac;
+    if (a >= ac) { const dmg = d(s, 3); rollLog("Rat bites: d20 → " + a + " vs AC " + ac + " · hit, d3 → " + dmg, true); hurtSoft(s, dmg); }
+    else rollLog("Rat bites: d20 → " + a + " vs AC " + ac + " · miss");
+    note("You drive it off. It squeals as it runs." + (!s.fight ? " Anything else down here now knows you are coming." : ""));
+    if (!s.fight) s.ratsAlert = true;
+  }
+}
+function hurtSoft(s, n) { s.hp = Math.max(1, s.hp - n); }   // wandering monsters cost, but never kill
+
+/* --- Doors ----------------------------------------------------------- */
+function doorChance(s) { return CAST[s.char].door + (s.flags.fi_hammer ? 1 : 0); }
+function listen(s) {
+  s.listened = true; s.L.listen = true;
+  const r = d(s, 6), need = CAST[s.char].hear;
+  s.heardRats = r <= need;
+  rollLog("Listen: d6 → " + r + " · need 1" + (need > 1 ? "–" + need : "") + " · " + (s.heardRats ? "you hear something" : "silence"), s.heardRats);
+}
+function forceDoor(s) {
+  s.doorTries++;
+  const r = d(s, 6), need = doorChance(s);
+  const ok = r <= need;
+  rollLog("Force the door: d6 → " + r + " · need 1" + (need > 1 ? "–" + need : "") + " · " + (ok ? "it gives" : "it holds"), ok);
+  note("The noise booms up the stair and into the cellars.");
+  wander(s);
+  if (ok) return openDoor(s);
+}
+function openDoor(s) {
+  s.doorOpen = true;
+  s.fight = { rats: RAT_HP.slice(), asleep: [false,false,false,false,false], dead: 0, round: 0, ready: (s.heardRats || s.knowsRats) && !s.ratsAlert,
+              free: false, over: false, lastMiss: null, shutOnce: false };
+  s.fight.free = s.fight.ready;
+  move(s, "C2");
+  if (s.front === "minister" && !s.flags.pal_keeper) {
+    const r = d(s, 20), dmg = d(s, 3);
+    rollLog("A rat bites the Minister: d20 → " + r + " vs AC 12 · " + (r >= 12 ? "hit, d3 → " + dmg : "miss"), r >= 12);
+    if (r >= 12) { s.ministerHurt = true; s.ministerHealUsed = true; note("She is in front. She cries out and drops the torch, then heals her own leg with the prayer she had saved for you."); }
+    else note("She is in front. She jerks back, drops the light, and you push past her into the doorway.");
+    if (s.light === "torch" && s.torchLeft > 1) { const lost = Math.min(2, s.torchLeft - 1); s.torchLeft -= lost; note("The torch gutters in the oil: it loses " + lost + (lost === 1 ? " turn." : " turns.")); }
+  }
+  return "c2_door";
+}
+
+/* --- The fight -------------------------------------------------------- */
+const awake = s => s.fight.rats.map((hp, i) => i).filter(i => s.fight.rats[i] > 0 && !s.fight.asleep[i]);
+function weapon(s) {
+  const f = s.flags;
+  if (s.char === "fighter") return f.fi_spear ? { name:"spear", die:6 } : f.fi_hammer ? { name:"hammer", die:6 } : { name:"sword", die:8 };
+  return { name: CAST[s.char].weapon, die: CAST[s.char].die };
+}
+const atkBonus = s => CAST[s.char].strMod - (tired(s) ? 1 : 0);
+const dmgBonus = s => CAST[s.char].strMod - (tired(s) ? 1 : 0);
+function ratLine(s) {
+  return "Rats: " + s.fight.rats.map((hp, i) => "#" + (i + 1) + (hp <= 0 ? " dead" : s.fight.asleep[i] ? " asleep" : " " + hp + "hp")).join(" · ");
+}
+function swing(s, kind) {
+  const f = s.fight, i = awake(s)[0];
+  if (i === undefined) return;
+  const jav = kind === "javelin";
+  const w = jav ? { name:"javelin", die:4 } : weapon(s);
+  const bonus = jav ? 0 : atkBonus(s);
+  const r = d(s, 20), tot = r + bonus, hit = tot >= RAT_AC;
+  rollLog("You attack rat #" + (i + 1) + " (" + w.name + "): d20 → " + r + (bonus ? " " + sgn(bonus) + " = " + tot : "") + " vs AC 12 · " + (hit ? "hit" : "miss"), hit);
+  if (!hit) { f.lastMiss = kind; return; }
+  f.lastMiss = null;
+  const dr = d(s, w.die), db = jav ? 0 : dmgBonus(s), dmg = Math.max(1, dr + db);
+  rollLog("Damage: d" + w.die + " → " + dr + (db ? " " + sgn(db) : "") + " = " + dmg, true);
+  hurtRat(s, i, dmg);
+}
+function hurtRat(s, i, dmg) {
+  const f = s.fight;
+  f.rats[i] = Math.max(0, f.rats[i] - dmg);
+  if (f.rats[i] === 0) { f.dead++; note("Rat #" + (i + 1) + " is dead."); }
+  else note("Rat #" + (i + 1) + " has " + f.rats[i] + " hp left.");
+}
+function ratsTurn(s) {
+  const list = awake(s).slice(0, 2), ac = CAST[s.char].ac;
+  list.forEach(i => {
+    const r = d(s, 20);
+    if (r >= ac) { const dmg = d(s, 3); s.hp -= dmg; rollLog("Rat #" + (i + 1) + " bites: d20 → " + r + " vs AC " + ac + " · hit, d3 → " + dmg, true); }
+    else rollLog("Rat #" + (i + 1) + " bites: d20 → " + r + " vs AC " + ac + " · miss");
+  });
+  const wait = awake(s).length - list.length;
+  if (wait > 0) note(wait + " more wait behind them. The doorway holds only two.");
+}
+function checkMorale(s) {
+  const f = s.fight, up = awake(s).length;
+  if (up === 0) { f.over = true; s.ratsOutcome = f.dead === 5 ? "killed" : "asleep"; return; }
+  if (f.dead >= 2) { f.over = true; s.ratsOutcome = "fled"; note("Two of the pack are dead. Their morale breaks (ML 8). The rest flee squealing into a hole in the far wall."); }
+}
+function death(s) { s.hp = 0; return s.fp >= 2 ? "death_door" : "end_dead"; }
+function finishFight(s) {
+  const f = s.fight; f.over = true;
+  if (s.ratsOutcome !== "killed") { s.L.morale = true;
+    s.L.moraleHow = { fled:"The rats broke when two of them died. You did not have to kill them all.",
+      burned:"Fire broke them. Animals run from it, and morale is not only about the dead.",
+      asleep:"Sleep dropped the pack and the fight was over. Ending a fight early is a win.",
+      parley:"You fed them and they left. Not every fight has to be fought." }[s.ratsOutcome]; }
+  note("The fight took the rest of the turn.");
+  tick(s, 1);
+  return "c2_after";
+}
+/* One round: your action, then (if they are still fighting) theirs. */
+function fightRound(s, action) {
+  const f = s.fight;
+  f.lastMiss = null;
+  const res = action();
+  f.round++;
+  if (!f.over) checkMorale(s);
+  if (f.over) return finishFight(s);
+  if (f.free) { f.free = false; note("They have not moved yet."); return "c2_fight"; }
+  if (res === "skip") { note("The rats shy back from the fire this round."); return "c2_fight"; }
+  ratsTurn(s);
+  if (s.hp <= 0) return death(s);
+  return "c2_fight";
+}
+function reroll(s) {
+  const f = s.fight, kind = f.lastMiss;
+  s.fp--; note("You spend a Fate Point. The world tilts; you swing again.");
+  f.lastMiss = null;
+  swing(s, kind);
+  checkMorale(s);
+  if (f.over) return finishFight(s);
+  return "c2_fight";
+}
+function throwOil(s) {
+  s.flasks--;
+  const r = d(s, 20), hit = r >= RAT_AC;
+  rollLog("Throw burning oil: d20 → " + r + " vs AC 12 · " + (hit ? "hit" : "miss"), hit);
+  if (hit) {
+    const dmg = d(s, 8);
+    rollLog("Fire: d8 → " + dmg + " to the two nearest rats", true);
+    awake(s).slice(0, 2).forEach(i => hurtRat(s, i, dmg));
+    s.fight.over = true; s.ratsOutcome = "burned";
+    note("Rats fear fire. The pack breaks and runs up its hole in the wall.");
+    return;
+  }
+  note("The flask bursts on the floor between you. A sheet of fire stands up from the oil.");
+  return "skip";
+}
+function castSleep(s) {
+  s.spellUsed = true; s.sleepCast = true;
+  if (s.flags.wiz_nothing) note("Your master's voice, very close: “Not on rats. Never waste it on rats.” You cast it anyway.");
+  const a = d(s, 8), b = d(s, 8), n = a + b;
+  rollLog("Sleep: 2d8 → " + a + " + " + b + " = " + n + " HD (each rat counts as 1)", true);
+  const up = awake(s);
+  up.slice(0, n).forEach(i => s.fight.asleep[i] = true);
+  const left = awake(s).length;
+  s.fight.over = true; s.ratsOutcome = "asleep";
+  if (left > 0) note("The pack drops in a heap. The " + left + " still awake see it and run.");
+  else note("Every rat drops where it stands, asleep.");
+}
+function parley(s) {
+  s.parleyTried = true;
+  const a = d(s, 6), b = d(s, 6), tot = a + b + 2;
+  const ok = tot >= 7;
+  rollLog("Reaction: 2d6 → " + a + " + " + b + " +2 (bread) = " + tot + " · " + (ok ? "they take it" : "they want you, not the bread"), ok);
+  if (ok) { s.fight.over = true; s.ratsOutcome = "parley"; note("You squeak and chitter and hold out the bread. The biggest one takes it. The others follow it out."); }
+}
+function healSelfSpell(s) {
+  s.spellUsed = true;
+  const r = d(s, 6) + 1; s.hp = Math.min(s.maxHp, s.hp + r);
+  rollLog("Cure Light Wounds: 1d6+1 → " + r + " HP", true);
+  note("The Terminal's light, extended. Your wounds close.");
+}
+function layOnHands(s) {
+  s.layUsed = true; s.hp = Math.min(s.maxHp, s.hp + 2);
+  note("Your hands grow warm. The wound closes. You still do not know why. (+2 HP)");
+}
+function ministerHeal(s) {
+  s.ministerHealUsed = true;
+  const r = d(s, 6) + 1; s.hp = Math.min(s.maxHp, s.hp + r);
+  rollLog("The Minister's Cure Light Wounds: 1d6+1 → " + r + " HP", true);
+  const f = s.flags;
+  note(f.em_right ? "She heals as if by rote. You could tell her why it works. You do not." :
+       f.em_wrongnec ? "A machine answering her, you think. Still, it answers." :
+       f.em_hears ? "She listens first, as if the Terminal were in the room. Then she heals you." :
+       "She flinches after, as if it cost her something.");
+}
+function shutDoor(s) {
+  const f = s.fight; f.shutOnce = true;
+  const up = awake(s);
+  if (up.length && !f.free) {
+    const r = d(s, 20), ac = CAST[s.char].ac;
+    if (r >= ac) { const dmg = d(s, 3); s.hp -= dmg; rollLog("A rat bites as you back out: d20 → " + r + " vs AC " + ac + " · hit, d3 → " + dmg, true); }
+    else rollLog("A rat snaps as you back out: d20 → " + r + " vs AC " + ac + " · miss");
+    if (s.hp <= 0) return death(s);
+  }
+  f.free = false; s.doorShut = true;
+  note("You drag the door shut. Claws on the far side.");
+  tick(s, 1); move(s, "C1");
+  return "c1";
+}
+
+/* --- Fate ------------------------------------------------------------ */
+function useFate(s, id) {
+  s.fateUsed = true; s.fact = id;
+  note("You declare a fact. It is true now. The DM builds on it.");
+}
+
+/* --- The turtle map --------------------------------------------------- */
+/* Each move prints relative commands, Logo style: turn, then go forward. */
+function move(s, key) {
+  const T = s.turtle, p = MAP_POS[key];
+  if (!p) return;
+  const [x, y, z] = p, cmds = [];
+  if (!T.keys.length) { T.x = x; T.y = y; T.z = z; T.keys.push(key); T.cmds.push("START AT " + key + " · FACING NORTH"); return; }
+  const dx = x - T.x, dy = y - T.y, dist = Math.round(Math.hypot(dx, dy));
+  if (dist > 0) {
+    const bearing = (Math.round(Math.atan2(dx, dy) * 180 / Math.PI) + 360) % 360;
+    const turn = ((bearing - T.h) + 540) % 360 - 180;
+    if (turn > 0) cmds.push("RIGHT " + turn); else if (turn < 0) cmds.push("LEFT " + (-turn));
+    T.h = bearing;
+  }
+  if (z < T.z) cmds.push("DOWN " + (T.z - z)); else if (z > T.z) cmds.push("UP " + (z - T.z));
+  if (dist > 0) { cmds.push("FORWARD " + dist); T.segs.push([T.x, T.y, x, y, Math.min(z, T.z) < 0 ? 1 : 0]); }
+  T.x = x; T.y = y; T.z = z;
+  if (!T.keys.includes(key)) T.keys.push(key);
+  if (cmds.length) T.cmds.push(cmds.join(" · ") + "  → " + (key === "TOP" ? "S2 top" : key));
+}
+
+/* --- Making choices --------------------------------------------------- */
+function visibleChoices(scene) { return scene.choices.filter(c => !c.when || c.when(S.flags, S)); }
+
+function choose(c) {
+  S.log = [];
+  Object.assign(S.flags, c.set || {});
+  let next = c.to || S.scene;   // plan choices stay in the room
+  if (c.act) { const r = c.act(S); if (r) next = r; }
+  if (S.inDelve && S.light === "none" && !STORY[next].ending && next !== "dark" && next !== "death_door") { S.resume = next; next = "dark"; }
+  go(next);
+}
+function go(id) {
+  const prev = S.scene;
+  S.scene = id;
+  const sc = STORY[id];
+  if (sc.onEnter) sc.onEnter(S);
+  if (S.planRoom !== id) { S.planRoom = id; S.planSeen = []; }
+  S.visited[id] = true;
+  const last = S.trail[S.trail.length - 1];
+  if (last && last.id === id) last.n++; else S.trail.push({ id, n: 1 });
+  render(true);
+}
+function newGame() { S = freshState(); render(true); }
+
+/* --- Ending pieces ---------------------------------------------------- */
+function lessonRows(s) {
+  const L = s.L;
+  const rows = [
+    ["Light and time", L.light,
+      L.light ? L.lightHow : s.scene === "end_dark" ? "The light ran out. Now you know what six turns feels like." : "You never had to tend the light. Next time, count turns before the torch is low."],
+    ["Searching costs time", L.search > 0 || L.fateSearch,
+      L.search > 0 ? "You searched " + L.search + (L.search === 1 ? " time" : " times") + " and paid a turn each time." + (L.fateSearch ? " Your Fate ability saved you one search." : "") :
+      L.fateSearch ? "Your Fate ability found what a search would have cost a turn to find." : "You did not search. Some doors are under rubble."],
+    ["Listening and doors", L.listen,
+      L.listen ? "You listened at the stuck door before you opened it" + (s.heardRats ? ", and heard them." : ". Silence is not the same as safety.") :
+      s.doorOpen ? "You opened the door without listening. What was behind it decided who moved first." : "You never reached the stuck door."],
+    ["The clock is a monster", s.wanderers > 0 || (s.reachedC3 && s.turn <= 7),
+      s.wanderers > 0 ? "Something found you " + s.wanderers + (s.wanderers === 1 ? " time" : " times") + " in " + s.checks + " checks. Every turn spent is a roll." :
+      (s.reachedC3 && s.turn <= 7) ? "You moved fast: " + s.turn + " turns, " + s.checks + " checks, nothing came. Speed is a defence." :
+      s.checks + " checks were rolled and nothing came. That was luck, not safety."],
+    ["Morale", L.morale, L.morale ? L.moraleHow : s.ratsOutcome === "killed" ? "You killed every rat. They would have run if you had let them." : "You did not meet the rats this time."]
+  ];
+  if (s.scene === "end_retreat" || s.scene === "end_dark") rows.push(["Retreat and return", true, "You came home alive with what you learned. The tower will still be there next week."]);
+  return rows;
+}
+function reportLines(s) {
+  const out = ["Someone lands at the jetty. The rope burn on the post was fresh."];
+  if (s.visited.s3) out.push("They camp in the keeper's cottage and chalk a sign on the door: an eye with a line through it. Keep out.");
+  if (s.sawBoat || s.quietSaw || (s.flags.gn_animals && s.visited.s2)) out.push("Their boat hides under the north cliff, with no lamp.");
+  out.push("Something longer than a rowboat moves in the water by the jetty." + (s.fact === "wizard" ? " It wears a bronze collar. It is bound to guard." : ""));
+  if (s.doorOpen) out.push("Under the tower are cellars: oil, and rats.");
+  if (s.reachedC3) out.push("Under the cellars a stair goes down into the lake, and the lake is rising.");
+  if (s.lightReveal) out.push("At the bottom of the drowned stair is a stone door with a lit eye cut into it.");
+  return out;
+}
+function cardData(s) {
+  const c = CAST[s.char], k = CARD[s.char](s.flags);
+  const who = c.name + ", " + c.sub + (s.char === "fighter" ? " (" + weapon(s).name + ")" : "");
+  return { who, stats: c.cls + " · AC " + c.acText + " · HD " + c.hd + " (hp " + c.hp + ") · THAC0 19 [+0] · MV " + c.mv + " · Fate: " + c.fate, pub:k.pub, sec:k.sec, bond:k.bond };
+}
+function cardText(s) {
+  const k = cardData(s);
+  return ["INTRO CARD — The Drowned Tower", k.who, k.stats, "", "PUBLIC FACT: " + k.pub, "SECRET FACT: " + k.sec, "BOND: " + k.bond].join("\n");
+}
+
+/* --- Drawing ---------------------------------------------------------- */
+const $ = id => document.getElementById(id);
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+const esc = t => String(t).replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" })[ch]);
+const val = (v, s) => typeof v === "function" ? v(s) : v;
+
+function render(animate) {
+  const sc = STORY[S.scene];
+  document.body.dataset.scene = S.scene;
+  document.body.dataset.char = S.char || "";
+
+  // Place line, with the room key in a black circle (as on the hex map).
+  const place = $("place"); place.innerHTML = "";
+  if (sc.key) place.appendChild(el("span", "key", esc(sc.key)));
+  place.appendChild(el("span", null, esc(sc.place || "")));
+  $("title").textContent = sc.title;
+
+  const badge = $("badge");
+  badge.hidden = !sc.ending;
+  if (sc.ending) {
+    badge.textContent = { good:"Ending · the water rises", back:"Ending · turned back", dead:"Ending · death" }[sc.ending];
+    badge.className = sc.ending;
+    const found = loadFound();
+    if (!found.includes(S.scene)) { found.push(S.scene); saveFound(found); }
+  }
+
+  // What just happened: dice and notes.
+  const ev = $("events"); ev.innerHTML = "";
+  if (S.log.length) {
+    const ul = el("ul");
+    S.log.forEach(x => { const li = el("li", x.t === "note" ? "note" : x.hit ? "hit" : ""); li.textContent = (x.t === "roll" ? "⚀ " : "") + x.text; ul.appendChild(li); });
+    ev.appendChild(ul);
+  }
+
+  // Scene text.
+  const box = $("text"); box.innerHTML = "";
+  const paras = sc.text.slice();
+  (sc.extra || []).forEach(x => { if (x.when(S.flags, S)) paras.push({ extra: x }); });
+  paras.forEach(p => {
+    if (p.extra) { const t = val(p.extra.text, S); if (t) { const e = el("p", p.extra.cls || "extra"); e.textContent = t; box.appendChild(e); } return; }
+    if (typeof p === "string" || typeof p === "function") { const t = val(p, S); if (t) { const e = el("p"); e.textContent = t; box.appendChild(e); } return; }
+    if (p.rule) { box.appendChild(el("div", "rule", val(p.rule, S))); return; }
+    if (p.stat) { box.appendChild(el("div", "stat", val(p.stat, S))); return; }
+    if (p.lessons) { box.appendChild(renderLessons()); return; }
+    if (p.report) { box.appendChild(el("h3", "sec", "What you tell Maren")); const ul = el("ul", "plain"); reportLines(S).forEach(t => { const li = el("li"); li.textContent = t; ul.appendChild(li); }); box.appendChild(ul); return; }
+    if (p.payoffs) { box.appendChild(renderPayoffs()); return; }
+    if (p.card) { box.appendChild(renderCard()); return; }
+    if (p.module) { const e = el("p"); e.innerHTML = "The rest of the tower is in the module: <a href=\"../dm/Module_2_The_Drowned_Tower.md\">dm/Module_2_The_Drowned_Tower.md</a>. Bring this character to the table."; box.appendChild(e); }
+  });
+  if (S.inDelve && tired(S) && !sc.ending) box.appendChild(el("div", "rule", "<b>TIRED.</b> Six turns without rest: −1 to hit and damage. Rest one turn in six."));
+
+  // Choices.
+  const list = $("choices"); list.innerHTML = "";
+  list.className = S.scene === START ? "cards" : "";
+  visibleChoices(sc).forEach((c, i) => {
+    const li = el("li"), b = el("button", c.kind || ""); b.type = "button";
+    if (c.card) b.innerHTML = cardHTML(c.card, i + 1);
+    else {
+      b.appendChild(el("kbd", null, String(i + 1)));
+      const span = el("span", "ctext");
+      if (c.kind) {
+        const cost = c.cost ? val(c.cost, S) : (c.kind === "plan" || c.kind === "fate" ? "free" : "");
+        span.appendChild(el("span", "tag", (c.kind === "plan" ? "Plan" : c.kind === "fate" ? "Fate · declare" : "Act") + (cost ? " · " + esc(cost) : "")));
+      }
+      span.appendChild(document.createTextNode(val(c.text, S)));
+      b.appendChild(span);
+    }
+    b.addEventListener("click", () => choose(c));
+    li.appendChild(b); list.appendChild(li);
+  });
+  $("endrow").hidden = !sc.ending;
+
+  renderClock(); renderMap(); renderTrail();
+  const found = loadFound().filter(id => ENDING_IDS.includes(id));
+  $("tracker").textContent = "endings found: " + found.length + " of " + ENDING_IDS.length;
+  $("seedline").textContent = "seed " + rngSeed + " · same seed, same dice · try ?seed=N";
+
+  const card = $("card"); card.classList.remove("fade");
+  if (animate) { void card.offsetWidth; card.classList.add("fade"); window.scrollTo(0, 0); }
+}
+
+function cardHTML(id, n) {
+  const c = CAST[id];
+  return "<span class=\"cc-name\"><kbd>" + n + "</kbd> " + esc(c.name) + "</span>" +
+    "<span class=\"cc-sub\">" + esc(c.sub) + "</span>" +
+    "<span class=\"cc-stats\">" + esc(c.cls) + "<br>HP " + c.hp + " · AC " + esc(c.acText) + " · THAC0 19 [+0]<br>" +
+      esc(c.weapon === "sword" ? "Weapon of your choice" : c.weapon[0].toUpperCase() + c.weapon.slice(1) + " 1d" + c.die) + " · " + esc(c.edge) + "<br>MV " + esc(c.mv) + " · " + esc(c.sight) + "</span>" +
+    "<span class=\"cc-fate\">Fate: <i>" + esc(c.fate) + "</i></span>";
+}
+
+function renderClock() {
+  const c = $("clock");
+  c.hidden = !S.inDelve || !!STORY[S.scene].ending;
+  if (c.hidden) return;
+  const lightText = { day:"daylight", torch:"torch " + "▮".repeat(S.torchLeft) + "▯".repeat(Math.max(0, 6 - S.torchLeft)) + " " + S.torchLeft,
+    lantern:"lantern " + S.lanternOil, spell:"Light spell " + S.spellLight, none:"DARK" }[S.light];
+  const spare = (S.torches ? S.torches + " torch" + (S.torches > 1 ? "es" : "") : "no torches") + (S.flasks ? ", " + S.flasks + " oil" : "");
+  const next = S.turn % 2 === 0 ? S.turn + 2 : S.turn + 1;
+  const cells = [
+    ["Turn", S.turn + " (" + S.turn * 10 + " min)"],
+    ["Light", lightText, S.light === "torch" && S.torchLeft <= 2 || S.light === "none"],
+    ["Spare", spare],
+    ["Wander check", "turn " + next + " · d6, 1 = trouble"],
+    ["Rest", tired(S) ? "TIRED −1" : "due in " + Math.max(0, 6 - S.sinceRest), tired(S)],
+    ["HP", S.hp + " / " + S.maxHp, S.hp <= Math.ceil(S.maxHp / 3)],
+    ["Fate Points", "●".repeat(S.fp) + "○".repeat(Math.max(0, 3 - S.fp)) + " " + S.fp],
+    ["Fate ability", (S.fateUsed ? "used" : "ready") + " · " + CAST[S.char].fate]
+  ];
+  c.innerHTML = "<div class=\"cap\">Dungeon Clock · 1 turn = 10 minutes</div>" +
+    cells.map(([k, v, w]) => "<div><dt>" + esc(k) + "</dt><dd" + (w ? " class=\"warn\"" : "") + ">" + esc(v) + "</dd></div>").join("");
+}
+
+function renderMap() {
+  const panel = $("mappanel"), T = S.turtle;
+  panel.hidden = !T.keys.length;
+  $("below").classList.toggle("withmap", !panel.hidden);
+  if (panel.hidden) return;
+  const svg = $("mapsvg");
+  let g = "";
+  g += "<text x=\"-46\" y=\"-140\" font-size=\"7\" fill=\"currentColor\" font-family=\"serif\">N ↑</text>";
+  T.segs.forEach(([x1, y1, x2, y2, under]) => {
+    g += "<line x1=\"" + x1 + "\" y1=\"" + (-y1) + "\" x2=\"" + x2 + "\" y2=\"" + (-y2) + "\" stroke=\"currentColor\" stroke-width=\"2\"" + (under ? " stroke-dasharray=\"4 3\"" : "") + " stroke-linecap=\"round\"/>";
+  });
+  T.keys.filter(k => k !== "TOP").forEach(k => {
+    const [x, y] = MAP_POS[k], dx = k.startsWith("C") ? 14 : -14;
+    g += "<g class=\"mk\"><circle cx=\"" + (x + dx) + "\" cy=\"" + (-y) + "\" r=\"7.5\" fill=\"var(--key-bg)\"/>" +
+         "<text x=\"" + (x + dx) + "\" y=\"" + (-y + 2.6) + "\" font-size=\"7\" text-anchor=\"middle\" fill=\"var(--key-fg)\" font-family=\"serif\" font-weight=\"700\">" + k + "</text></g>";
+  });
+  // The turtle: a small triangle pointing the way the party faces.
+  const a = T.h * Math.PI / 180, tx = T.x, ty = -T.y;
+  const pt = (r, ang) => (tx + r * Math.sin(ang)).toFixed(1) + "," + (ty - r * Math.cos(ang)).toFixed(1);
+  g += "<polygon class=\"turtle\" points=\"" + pt(6, a) + " " + pt(4, a + 2.5) + " " + pt(4, a - 2.5) + "\" fill=\"var(--accent)\"/>";
+  g += "<text x=\"-46\" y=\"16\" font-size=\"6\" fill=\"currentColor\" font-family=\"monospace\">solid = surface · dashed = under</text>";
+  svg.innerHTML = g;
+  svg.style.color = "var(--ink)";
+  const ol = $("mapcmds"); ol.innerHTML = "";
+  T.cmds.forEach(t => { const li = el("li"); li.textContent = t; ol.appendChild(li); });
+}
+
+function renderTrail() {
+  const ol = $("trail"); ol.innerHTML = "";
+  if (!S.trail.length) { ol.appendChild(el("li", null, "(none yet)")); return; }
+  S.trail.forEach(t => { const li = el("li"); const sc = STORY[t.id]; li.textContent = (sc.key ? sc.key + " " : "") + sc.title + (t.n > 1 ? " ×" + t.n : ""); ol.appendChild(li); });
+}
+
+function renderLessons() {
+  const wrap = el("div");
+  wrap.appendChild(el("h3", "sec", "What you learned"));
+  const t = el("table", "lessons");
+  lessonRows(S).forEach(([name, ok, how]) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", "tick" + (ok ? "" : " no"), ok ? "✓" : "–"));
+    const td = el("td"); td.innerHTML = "<b>" + esc(name) + ".</b> " + esc(how); tr.appendChild(td);
+    t.appendChild(tr);
+  });
+  wrap.appendChild(t);
+  return wrap;
+}
+function renderPayoffs() {
+  const wrap = el("div");
+  wrap.appendChild(el("h3", "sec", "What comes back with you"));
+  const ul = el("ul", "plain");
+  Object.keys(S.flags).filter(k => PAYOFF[k]).forEach(k => { const li = el("li"); li.textContent = val(PAYOFF[k], S); ul.appendChild(li); });
+  if (S.fact) { const li = el("li"); li.textContent = "You declared: " + FACTS[S.fact].short + " It is true now."; ul.appendChild(li); }
+  wrap.appendChild(ul);
+  return wrap;
+}
+function renderCard() {
+  const k = cardData(S), wrap = el("div");
+  wrap.appendChild(el("h3", "sec", "Your Intro Card"));
+  wrap.appendChild(el("p", null, "Take this to the table. Your DM's module maps each line to the room where it lands."));
+  const card = el("div"); card.id = "introcard";
+  card.innerHTML = "<div class=\"ic-h\">" + esc(k.who) + "</div>" +
+    "<p class=\"mono\" style=\"font:.74rem/1.5 var(--mono)\">" + esc(k.stats) + "</p>" +
+    "<span class=\"ic-k\">Public fact</span><p>" + esc(k.pub) + "</p>" +
+    "<span class=\"ic-k\">Secret fact</span><p>" + esc(k.sec) + "</p>" +
+    "<span class=\"ic-k\">Bond</span><p>" + esc(k.bond) + "</p>";
+  wrap.appendChild(card);
+  const row = el("div"); row.style.cssText = "display:flex;gap:10px;flex-wrap:wrap";
+  const copy = el("button", "btn ghost", "Copy card"); copy.type = "button"; copy.id = "copycard";
+  const msg = el("span", "copied"); msg.id = "copymsg";
+  const pr = el("button", "btn ghost", "Print card"); pr.type = "button";
+  pr.addEventListener("click", () => window.print());
+  const fb = el("textarea"); fb.id = "cardfallback"; fb.readOnly = true; fb.hidden = true; fb.value = cardText(S);
+  copy.addEventListener("click", () => copyCard(fb, msg));
+  row.appendChild(copy); row.appendChild(pr); row.appendChild(msg);
+  wrap.appendChild(row); wrap.appendChild(fb);
+  return wrap;
+}
+function copyCard(fb, msg) {
+  const showFallback = () => { fb.hidden = false; fb.focus(); fb.select(); msg.textContent = "Select and copy the text below (Ctrl+C or ⌘C)."; };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fb.value).then(() => { msg.textContent = "Copied."; fb.hidden = false; }, showFallback);
+    } else showFallback();
+  } catch (e) { showFallback(); }
+}
+
+/* --- Endings found (localStorage only makes them persist) -------------- */
+let foundThisSession = [];
+function loadFound() {
+  let saved = [];
+  try { const v = JSON.parse(localStorage.getItem(STORE_KEY)); if (Array.isArray(v)) saved = v; } catch (e) { /* blocked */ }
+  return [...new Set([...saved, ...foundThisSession])];
+}
+function saveFound(list) {
+  foundThisSession = list.slice();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) { /* private mode: will not persist */ }
+}
+
+/* --- Keyboard: number keys choose, R restarts -------------------------- */
+document.addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target && (e.target.tagName === "TEXTAREA" || e.target.tagName === "INPUT")) return;
+  if (e.key === "r" || e.key === "R") { newGame(); return; }
+  const n = parseInt(e.key, 10);
+  const opts = visibleChoices(STORY[S.scene]);
+  if (n >= 1 && n <= opts.length) choose(opts[n - 1]);
+});
+$("restart").addEventListener("click", newGame);
+
+/* --- Test hook: plain data in, plain data out --------------------------- */
+function stable(v) {
+  if (Array.isArray(v)) return "[" + v.map(stable).join(",") + "]";
+  if (v && typeof v === "object") return "{" + Object.keys(v).sort().map(k => JSON.stringify(k) + ":" + stable(v[k])).join(",") + "}";
+  return JSON.stringify(v);
+}
+window.DEMO = {
+  get state() { return S; }, rngSeed,
+  snapshot: () => JSON.stringify(S),
+  restore: snap => { S = JSON.parse(snap); render(false); },
+  // Signature of everything that can change what happens next (not the dice position or history).
+  sig: () => { const { rng, trail, log, turtle, ...rest } = S; return stable(rest); },
+  cardText: () => cardText(S)
+};
+
+/* Self-check: broken links show in the console. */
+Object.keys(STORY).forEach(id => {
+  const s = STORY[id];
+  if (!s.ending && !s.choices.length) console.warn("Dead end:", id);
+  s.choices.forEach(c => { if (!STORY[c.to]) console.warn("Missing scene", c.to, "in", id); });
+});
+
+newGame();
+</script>
+</body>
+</html>
