@@ -1,0 +1,131 @@
+{
+  "id": "surface",
+  "title": "The Island",
+  "tier": "Surface",
+  "grid": [
+    "######>#############",
+    "#####eeee###########",
+    "#####eeee........###",
+    "#####.##########.###",
+    "#####.##########.###",
+    "#####.##########.###",
+    "#####.#Sbb######.###",
+    "#####.#bbb######.###",
+    "#####.#bbb######.###",
+    "#####.##.#######.###",
+    "#####.....+ccc##.###",
+    "########.##ccc##.###",
+    "########.######dddd#",
+    "########.......dddd#",
+    "########a######dddd#",
+    "########a###########",
+    "########a<##########",
+    "########a###########",
+    "########w###########",
+    "########w###########",
+    "####################"
+  ],
+  "legend": {
+    "a": {
+      "area": "S1"
+    },
+    "w": {
+      "area": "S1",
+      "water": true
+    },
+    "b": {
+      "area": "S2"
+    },
+    "c": {
+      "area": "S3"
+    },
+    "d": {
+      "area": "S4"
+    },
+    "e": {
+      "area": "S5"
+    }
+  },
+  "cells": {
+    "9,16": {
+      "link": {
+        "hub": true
+      }
+    },
+    "7,6": {
+      "area": "S2",
+      "link": {
+        "map": "cellars",
+        "x": 12,
+        "y": 24,
+        "facing": 0
+      }
+    },
+    "9,6": {
+      "link": {
+        "scene": "s2"
+      }
+    },
+    "13,11": {
+      "link": {
+        "scene": "s3"
+      }
+    },
+    "18,12": {
+      "link": {
+        "scene": "s4"
+      }
+    },
+    "6,0": {
+      "link": {
+        "map": "grotto",
+        "x": 24,
+        "y": 2,
+        "facing": 2
+      }
+    }
+  },
+  "areas": {
+    "S1": {
+      "name": "The Broken Jetty",
+      "light": "daylight",
+      "enter": "s1"
+    },
+    "S2": {
+      "name": "The Tower Shell",
+      "light": "daylight",
+      "enter": "s2",
+      "search": "s2-search"
+    },
+    "S3": {
+      "name": "The Keeper's Cottage",
+      "light": "daylight",
+      "enter": "s3",
+      "search": "s3-search"
+    },
+    "S4": {
+      "name": "The Lamp-Stones",
+      "light": "daylight",
+      "enter": "s4"
+    },
+    "S5": {
+      "name": "The North Cliff",
+      "light": "daylight",
+      "enter": "s5"
+    }
+  },
+  "wander": [
+    {
+      "weight": 2,
+      "encounter": "wander-crows"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-crab"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-stirges"
+    }
+  ]
+}

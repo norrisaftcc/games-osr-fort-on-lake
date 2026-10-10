@@ -1,0 +1,231 @@
+{
+  "torch": {
+    "name": "Torch",
+    "kind": "light",
+    "value": 0,
+    "light": {
+      "turns": 6
+    }
+  },
+  "lantern": {
+    "name": "Lantern",
+    "kind": "gear",
+    "value": 0
+  },
+  "oil-flask": {
+    "name": "Flask of oil",
+    "kind": "light",
+    "value": 0,
+    "light": {
+      "turns": 24,
+      "requires": "lantern"
+    },
+    "use": {
+      "when": "fight",
+      "target": "foes",
+      "check": {
+        "inSix": 3
+      },
+      "on": {
+        "success": {
+          "item": {
+            "remove": {
+              "oil-flask": 1
+            }
+          },
+          "damage": {
+            "who": "nearest",
+            "n": 2,
+            "amount": "1d8"
+          },
+          "say": [
+            "The oil catches. Fire runs across the floor."
+          ]
+        },
+        "fail": {
+          "item": {
+            "remove": {
+              "oil-flask": 1
+            }
+          },
+          "say": [
+            "The flask breaks short. Fire between you and them."
+          ]
+        }
+      }
+    }
+  },
+  "rope": {
+    "name": "Rope, 50'",
+    "kind": "gear",
+    "value": 0
+  },
+  "salt": {
+    "name": "Salt",
+    "kind": "gear",
+    "value": 0
+  },
+  "salt-fish": {
+    "name": "Salt fish",
+    "kind": "gear",
+    "value": 0,
+    "use": {
+      "when": "fight",
+      "target": "foes",
+      "check": {
+        "inSix": 4
+      },
+      "on": {
+        "success": {
+          "item": {
+            "remove": {
+              "salt-fish": 1
+            }
+          },
+          "condition": {
+            "who": "foes",
+            "add": "fled"
+          },
+          "say": [
+            "You throw the fish. They fall on it, and forget you."
+          ]
+        },
+        "fail": {
+          "item": {
+            "remove": {
+              "salt-fish": 1
+            }
+          },
+          "say": [
+            "The fish lands. They do not care for it."
+          ]
+        }
+      }
+    }
+  },
+  "healing-potion": {
+    "name": "Potion of healing",
+    "kind": "use",
+    "value": 0,
+    "use": {
+      "when": "any",
+      "target": "ally",
+      "effects": {
+        "item": {
+          "remove": {
+            "healing-potion": 1
+          }
+        },
+        "heal": {
+          "who": "target",
+          "amount": "1d6+1"
+        }
+      }
+    }
+  },
+  "iron-key": {
+    "name": "Iron key",
+    "kind": "gear",
+    "value": 0
+  },
+  "warden-lamp": {
+    "name": "The Warden's Lamp",
+    "kind": "gear",
+    "value": 0
+  },
+  "listening-cone": {
+    "name": "Bronze ear-trumpet",
+    "kind": "gear",
+    "value": 0
+  },
+  "readers-letter": {
+    "name": "The Readers' letter",
+    "kind": "gear",
+    "value": 0
+  },
+  "vane-notes": {
+    "name": "Vane's notes",
+    "kind": "gear",
+    "value": 0
+  },
+  "vane-scroll": {
+    "name": "Vane's scroll (light, detect magic)",
+    "kind": "gear",
+    "value": 0
+  },
+  "ledger": {
+    "name": "The Saltmen's ledger",
+    "kind": "treasure",
+    "value": 200
+  },
+  "silver-ring": {
+    "name": "Silver ring stamped IX",
+    "kind": "treasure",
+    "value": 25
+  },
+  "bronze-lamp": {
+    "name": "Bronze lamp",
+    "kind": "treasure",
+    "value": 5
+  },
+  "service-medal": {
+    "name": "Silver service medal",
+    "kind": "treasure",
+    "value": 30
+  },
+  "lake-glass": {
+    "name": "Lake-glass",
+    "kind": "treasure",
+    "value": 250
+  },
+  "lens": {
+    "name": "Finished lens",
+    "kind": "treasure",
+    "value": 10
+  },
+  "imperial-coin": {
+    "name": "Imperial gold coin",
+    "kind": "treasure",
+    "value": 5
+  },
+  "cockatrice-egg": {
+    "name": "Cockatrice egg",
+    "kind": "treasure",
+    "value": 100
+  },
+  "cloth-bolt": {
+    "name": "Bolt of dyed cloth",
+    "kind": "treasure",
+    "value": 20
+  },
+  "brandy-cask": {
+    "name": "Cask of imperial brandy",
+    "kind": "treasure",
+    "value": 80
+  },
+  "bronze-fittings": {
+    "name": "Crate of bronze fittings",
+    "kind": "treasure",
+    "value": 150
+  },
+  "gem-50": {
+    "name": "Gem (50 gp)",
+    "kind": "treasure",
+    "value": 50
+  },
+  "gem-100": {
+    "name": "Gem (100 gp)",
+    "kind": "treasure",
+    "value": 100
+  },
+  "gold-disc": {
+    "name": "Gold disc stamped with an open eye",
+    "kind": "treasure",
+    "value": 400
+  },
+  "warden-collar": {
+    "name": "The Warden's collar",
+    "kind": "treasure",
+    "value": 500
+  }
+}

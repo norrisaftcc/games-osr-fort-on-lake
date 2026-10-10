@@ -1,0 +1,155 @@
+{
+  "light": {
+    "name": "Light",
+    "text": "A cold light on the blade. It lasts 12 turns.",
+    "kind": "spell",
+    "per": "rest",
+    "uses": 1,
+    "when": "any",
+    "target": "none",
+    "effects": {
+      "light": {
+        "turns": 12
+      },
+      "say": [
+        "Cold light gathers on the blade."
+      ]
+    }
+  },
+  "sleep": {
+    "name": "Sleep",
+    "text": "Puts weak foes to sleep. Rolls 2d8 hit dice.",
+    "kind": "spell",
+    "per": "rest",
+    "uses": 1,
+    "when": "fight",
+    "target": "foes",
+    "effects": {
+      "condition": {
+        "who": "foes",
+        "add": "asleep",
+        "budget": "2d8"
+      }
+    }
+  },
+  "cure-light-wounds": {
+    "name": "Cure Light Wounds",
+    "text": "Heals one ally for 1d6+1.",
+    "kind": "spell",
+    "per": "rest",
+    "uses": 1,
+    "when": "any",
+    "target": "ally",
+    "effects": {
+      "heal": {
+        "who": "target",
+        "amount": "1d6+1"
+      }
+    }
+  },
+  "lay-on-hands": {
+    "name": "Lay on Hands",
+    "text": "Heals one ally for 2.",
+    "kind": "power",
+    "per": "rest",
+    "uses": 1,
+    "when": "any",
+    "target": "ally",
+    "effects": {
+      "heal": {
+        "who": "target",
+        "amount": 2
+      }
+    }
+  },
+  "turn-undead": {
+    "name": "Turn Undead",
+    "text": "A rite against the bound dead. Used at a choice.",
+    "kind": "fate",
+    "per": "rest",
+    "uses": 2,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "speak-animals": {
+    "name": "Speak with Animals",
+    "text": "Ask the beasts. Used at a choice.",
+    "kind": "fate",
+    "per": "rest",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "read-about-this": {
+    "name": "I've Read About This",
+    "text": "Once a delve. You have read about this. A choice may give a fact.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "land-speaks": {
+    "name": "The Land Speaks",
+    "text": "Once a delve. The land gives a fact.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "remember-when": {
+    "name": "I Remember When",
+    "text": "Once a delve. You remember a fact from long ago.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "know-how-made": {
+    "name": "I Know How This Was Made",
+    "text": "Once a delve. You know how a thing was made.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "oath-remembers": {
+    "name": "The Oath Remembers",
+    "text": "Once a delve. Your oath gives a fact.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "archives-deep": {
+    "name": "The Archives Are Deep",
+    "text": "Once a delve. The archives give a fact.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  },
+  "terminal-remembers": {
+    "name": "The Terminal Remembers",
+    "text": "Once a delve. The terminal gives a fact.",
+    "kind": "fate",
+    "per": "delve",
+    "uses": 1,
+    "when": "scene",
+    "target": "none",
+    "effects": {}
+  }
+}

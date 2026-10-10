@@ -1,0 +1,6021 @@
+{
+  "maren-job": {
+    "title": "Maren's Job",
+    "text": [
+      "Maren has a lake chart spread on the council table, weighted at the corners with a whetstone and three cold cups. Her finger rests on the island nobody visits. \"Fishermen see a light out there on calm nights. Low, by the water. And something big has started coming into the Shallows after dark. I want to know who lands on that island, and what moves in the water. Take a boat. Come back.\"",
+      "Maren is Captain of The Fort. She was an imperial soldier once. She still stands like one."
+    ],
+    "choices": [
+      {
+        "id": "pay",
+        "mode": "plan",
+        "text": "Ask about the pay.",
+        "say": [
+          "\"Twenty gold each from the common chest, when you report. And first pick of anything that isn't The Fort's.\" She pushes a purse across the table. \"Twenty now, for oil and rope.\""
+        ]
+      },
+      {
+        "id": "silent",
+        "mode": "plan",
+        "text": "Ask what she is not saying.",
+        "say": [
+          "\"Since the Gorgon Queen fell, someone has been buying every cockatrice egg Harrow can find. I think that someone uses the island. I want proof before I accuse a man I need.\""
+        ]
+      },
+      {
+        "id": "queen",
+        "mode": "plan",
+        "text": "Ask about the Gorgon Queen.",
+        "say": [
+          "\"A cockatrice chick's cry paralysed her. Biddy's cry. Wick keeps her now. Everyone keeps clear of her beak, and everyone on the lake has heard of her. That is why the eggs sell high.\""
+        ]
+      },
+      {
+        "id": "boat",
+        "mode": "plan",
+        "text": "Ask about the boat.",
+        "say": [
+          "\"One of the two rowboats. It holds four with gear. The sailboat, if I trust you.\" She looks at you. \"I will see.\""
+        ]
+      },
+      {
+        "id": "advance",
+        "mode": "plan",
+        "text": "Take the twenty gold.",
+        "say": [
+          "Twenty gold, in a leather purse. It is not much."
+        ],
+        "once": true,
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 20
+            }
+          }
+        }
+      },
+      {
+        "id": "go",
+        "mode": "plan",
+        "text": "Take the job.",
+        "say": [
+          "Planning is free. Execution costs time, and the lake does not wait."
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "maren-report": {
+    "title": "Report to Maren",
+    "text": [
+      "Maren has the common chest open on the council table. \"Tell me what you saw. Not what you think. What you saw.\""
+    ],
+    "choices": [
+      {
+        "id": "who",
+        "mode": "plan",
+        "text": "Tell her who lands on the island.",
+        "say": [
+          "\"Smugglers. Coast folk in oilskins crusted white with salt. They tar their ropes. They chalk an eye with a line through it.\" Maren counts out forty gold."
+        ],
+        "once": true,
+        "if": {
+          "flags": [
+            "saw-chalk-eye"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 40
+            }
+          }
+        }
+      },
+      {
+        "id": "what",
+        "mode": "plan",
+        "text": "Tell her what moves in the water.",
+        "say": [
+          "\"A fish. A giant catfish in a bronze collar.\" Maren says nothing for a while. Then she counts out forty gold."
+        ],
+        "once": true,
+        "if": {
+          "flags": [
+            "saw-warden"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 40
+            }
+          }
+        }
+      },
+      {
+        "id": "ledger",
+        "mode": "plan",
+        "text": "Put the ledger on the table.",
+        "say": [
+          "Maren reads it twice. Then she puts it in her coat and goes to find Harrow. \"Wait here,\" she says. You do not."
+        ],
+        "if": {
+          "items": {
+            "ledger": 1
+          }
+        }
+      },
+      {
+        "id": "done",
+        "mode": "plan",
+        "text": "That is all.",
+        "say": [
+          "\"Then rest. You have earned it.\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "rumors": {
+    "title": "A Drink at the Hall",
+    "text": [
+      "Buy a drink and listen. Some of it is true."
+    ],
+    "choices": [
+      {
+        "id": "r1",
+        "mode": "plan",
+        "text": "A fisher, low.",
+        "say": [
+          "\"There's a boat out there with no lamp. It comes and goes from the isle on still nights. Not ours. Not from the village.\""
+        ]
+      },
+      {
+        "id": "r2",
+        "mode": "plan",
+        "text": "An old soldier.",
+        "say": [
+          "\"The tower was a lighthouse for the old empire's lake fleet.\""
+        ]
+      },
+      {
+        "id": "r3",
+        "mode": "plan",
+        "text": "A net-mender.",
+        "say": [
+          "\"Something big lives off the isle. It took a net and the boy holding it, my grandfather's time.\""
+        ]
+      },
+      {
+        "id": "r4",
+        "mode": "plan",
+        "text": "A child, bold.",
+        "say": [
+          "\"The keeper out there was a wizard. Turned his servants to bone so they'd work forever.\""
+        ]
+      },
+      {
+        "id": "r5",
+        "mode": "plan",
+        "text": "A drunk.",
+        "say": [
+          "\"There's a sunken treasure ship under the jetty.\""
+        ]
+      },
+      {
+        "id": "r6",
+        "mode": "plan",
+        "text": "A farmer's wife.",
+        "say": [
+          "\"Chalk eyes on a door mean a curse. Don't go through.\""
+        ]
+      },
+      {
+        "id": "r7",
+        "mode": "plan",
+        "text": "Someone at the back.",
+        "say": [
+          "\"Harrow's buying cockatrice eggs at double since Biddy's cry froze the Gorgon Queen. Says a cockatrice is worth ten swords now.\""
+        ]
+      },
+      {
+        "id": "r8",
+        "mode": "plan",
+        "text": "A boatwright.",
+        "say": [
+          "\"The cellars under the tower go out under the lake, all the way to the Deep.\""
+        ]
+      },
+      {
+        "id": "r9",
+        "mode": "plan",
+        "text": "A girl on the wall.",
+        "say": [
+          "\"The old stones on the isle's shore hum before a storm. Put your ear to one and you'll hear your name.\""
+        ]
+      },
+      {
+        "id": "r10",
+        "mode": "plan",
+        "text": "Wick, counting.",
+        "say": [
+          "\"The Quiet on the Reed Shore know the isle. Bring them salt, not silver.\""
+        ]
+      },
+      {
+        "id": "done",
+        "mode": "plan",
+        "text": "That is enough.",
+        "say": [
+          "You put the cup down."
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "cassandra": {
+    "title": "Cassandra",
+    "text": [
+      "Cassandra sits by the shrine door with her hands in her sleeves. She tells true things, half of them in riddles. She answers a question with a question. She gives one hint a visit."
+    ],
+    "choices": [
+      {
+        "id": "water",
+        "mode": "plan",
+        "text": "Ask about the water.",
+        "say": [
+          "\"What turns a stair into a door? And who holds the wheel?\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "fish",
+        "mode": "plan",
+        "text": "Ask about the fish.",
+        "say": [
+          "\"A servant remembers its master's face. What colour is a keeper's face?\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "dead",
+        "mode": "plan",
+        "text": "Ask about the dead.",
+        "say": [
+          "\"The keeper asked for words, and nobody came. Who has read his last page?\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "eyes",
+        "mode": "plan",
+        "text": "Ask about the shore stones.",
+        "say": [
+          "\"Eight stones, and a dish on each. What does a lit dish call?\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "salt",
+        "mode": "plan",
+        "text": "Ask about the Saltmen.",
+        "say": [
+          "\"Salt walks where silver is refused. What does the eye with a line through it say, to those who can read it?\""
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "none",
+        "mode": "plan",
+        "text": "Ask nothing.",
+        "say": [
+          "She nods, as if you had."
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "crossing": {
+    "title": "The Crossing",
+    "text": [
+      "Twelve miles of lake, north from The Fort's docks across the Shallows. Fish by day. Singing at night.",
+      "Four to five hours by rowboat. Leave at dawn and you land at midday, with a full afternoon on the isle. Leave at midday and you land near dusk, and the Warden circles the isle at dusk. Coming home takes as long."
+    ],
+    "choices": [
+      {
+        "id": "shallows",
+        "mode": "plan",
+        "text": "Ask about the Shallows.",
+        "say": [
+          "By day the water is clear to the weed and full of perch. By night it sings: a low chord under the hull, felt in the oar-handles more than heard. Anyone who trails a hand in it hears words in no language."
+        ]
+      },
+      {
+        "id": "quiet",
+        "mode": "plan",
+        "text": "Ask about the Reed Shore.",
+        "say": [
+          "Stilt huts in the reeds on the lake's east side, an hour's detour. The people there are called the Quiet. They do not speak aloud. They answer with hands and knotted cords."
+        ]
+      },
+      {
+        "id": "day",
+        "mode": "act",
+        "text": "Row straight for the isle. Land by day.",
+        "effects": {
+          "flag": {
+            "unset": [
+              "dish-lit",
+              "lamp-lit"
+            ]
+          },
+          "say": [
+            "You row north. The Fort shrinks to a smudge of smoke. The water goes shallow and green, then deep and grey, then shallow again."
+          ],
+          "goto": {
+            "map": "surface",
+            "x": 8,
+            "y": 15,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "dusk",
+        "mode": "act",
+        "text": "Put in at the Reed Shore first. Land at dusk.",
+        "effects": {
+          "flag": {
+            "unset": [
+              "dish-lit",
+              "lamp-lit"
+            ]
+          },
+          "goto": {
+            "scene": "reed-shore"
+          }
+        }
+      },
+      {
+        "id": "stay",
+        "mode": "plan",
+        "text": "Not yet.",
+        "say": [
+          "The boats knock at the pilings."
+        ],
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "reed-shore": {
+    "title": "The Reed Shore",
+    "text": [
+      "A woman of the Quiet sits on a hut ladder, mending a net. She does not speak. Nobody here speaks to strangers.",
+      "Behind her, cords hang from the hut rails. Each is knotted differently."
+    ],
+    "choices": [
+      {
+        "id": "isle",
+        "mode": "plan",
+        "text": "Ask about the isle.",
+        "say": [
+          "She draws a circle in the mud. She puts eight stones round it. She puts one large fish inside. Then she wipes it all out, except the fish."
+        ]
+      },
+      {
+        "id": "boat",
+        "mode": "plan",
+        "text": "Ask about the boat with no lights.",
+        "say": [
+          "She ties a cord with four knots and a gap. Four nights. The last run."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-last-run"
+            ]
+          }
+        }
+      },
+      {
+        "id": "guide",
+        "mode": "plan",
+        "text": "Ask for a guide.",
+        "say": [
+          "She holds out both hands, palms up. Salt. One of the Quiet will come for a gift of salt. A guide points the safe landing, refuses to set foot past the jetty, and waits in the boat."
+        ]
+      },
+      {
+        "id": "salt",
+        "mode": "act",
+        "text": "Give them salt.",
+        "once": true,
+        "if": {
+          "items": {
+            "salt": 1
+          }
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "salt": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "quiet-guide"
+            ]
+          },
+          "say": [
+            "She takes it with both hands. Salt is worth more to them than coin. A boy climbs into your boat without a word."
+          ]
+        }
+      },
+      {
+        "id": "home",
+        "mode": "act",
+        "text": "Turn back to The Fort.",
+        "effects": {
+          "goto": {
+            "hub": true
+          }
+        }
+      },
+      {
+        "id": "go",
+        "mode": "act",
+        "text": "Row on to the isle as the light goes.",
+        "effects": {
+          "flag": {
+            "set": [
+              "dusk"
+            ]
+          },
+          "say": [
+            "You row the last miles with the sun behind the trees. Behind you, the Shallows begin to sing."
+          ],
+          "goto": {
+            "map": "surface",
+            "x": 8,
+            "y": 15,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "dark": {
+    "title": "Dark",
+    "text": [
+      "The last light goes out. There is no flame in the pack, and no flask in the lantern. The dark is complete. The walls are somewhere."
+    ],
+    "choices": [
+      {
+        "id": "think",
+        "mode": "plan",
+        "text": "Stand still and think.",
+        "say": [
+          "Torches burn six turns. A flask in a lantern burns twenty-four. A light spell, if one of you has it, burns twelve. Use it, or go home."
+        ]
+      },
+      {
+        "id": "home",
+        "mode": "act",
+        "text": "Feel your way back to the Fort. Hand on the wall, all the way.",
+        "effects": {
+          "goto": {
+            "hub": true
+          }
+        }
+      }
+    ]
+  },
+  "s1": {
+    "title": "The Broken Jetty",
+    "area": "S1",
+    "text": [
+      "The jetty is old dressed stone, black with weed to the tideless waterline, and its far end has slumped into the lake like a tired arm. A post of grey oak stands where it meets the shore. Its iron ring is bright where a rope has lately worn it. Past the broken end the water lifts in one long, smooth swell, as if something the size of your boat turned over in its sleep; then the lake is flat again.",
+      "The jetty is ten feet wide, so two can stand side by side."
+    ],
+    "notes": [
+      "What this room teaches. Planning, then Execution. Looking and asking are free. Acting costs a turn. Set your marching order and your light now."
+    ],
+    "choices": [
+      {
+        "id": "post",
+        "mode": "plan",
+        "text": "Look at the mooring post.",
+        "say": [
+          "The rope burn is fresh: days, not weeks. Tar fibres in the ring. The Saltmen tar their ropes. Someone else lands here when the north side is rough."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-rope-burn"
+            ]
+          }
+        }
+      },
+      {
+        "id": "boots",
+        "mode": "plan",
+        "text": "Look at the bootprints on the path north.",
+        "say": [
+          "Heavy boots, several men. A week old under fresh needles. They lead toward the tower."
+        ]
+      },
+      {
+        "id": "stone",
+        "mode": "plan",
+        "text": "Look at the stone along the shore.",
+        "say": [
+          "Ten yards along the shore stands a man-high stone with a carved eye and a bronze dish on top. One of eight. There are more on the east point."
+        ]
+      },
+      {
+        "id": "ask",
+        "mode": "plan",
+        "text": "Ask the Minister what she saw in the water.",
+        "say": [
+          "\"A long back, wet and dark. There was a gleam on it. Metal, I think.\" Her hand is on her holy symbol. She says no more."
+        ]
+      },
+      {
+        "id": "watch",
+        "mode": "act",
+        "text": "Watch the water for a full turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-circuit"
+            ]
+          },
+          "say": [
+            "The swell comes round the east point and goes west. It circles the isle, clockwise, and it leaves the south water empty for a time."
+          ]
+        }
+      },
+      {
+        "id": "wizard",
+        "mode": "fate",
+        "ability": "read-about-this",
+        "text": "I've Read About This: name the thing in the water.",
+        "effects": {
+          "flag": {
+            "set": [
+              "fact-wizard"
+            ]
+          },
+          "say": [
+            "You say it plainly. A bound guard of the old station, in a bronze collar. It does not hunt. It keeps its post.",
+            "The Minister, softly: \"The Terminal remembers.\""
+          ]
+        }
+      },
+      {
+        "id": "gnome",
+        "mode": "fate",
+        "ability": "land-speaks",
+        "text": "The Land Speaks: put your palm on the island.",
+        "effects": {
+          "flag": {
+            "set": [
+              "heard-rats"
+            ]
+          },
+          "say": [
+            "Under your palm the island is full of small hungry lives. Rats. Many, and starving, in the dark under the tower. You count as having heard them."
+          ]
+        }
+      }
+    ]
+  },
+  "s2": {
+    "title": "The Tower Shell",
+    "area": "S2",
+    "text": [
+      "The tower is a drum of grey stone with the sky for a lid. Its upper floors lie on the ground floor in a hill of masonry, beams and green glass. A stair, each step a stone tongue set in the wall, climbs round the inside to a broken lip forty feet up, where crows sit and comment on you. Over the door, letters cut deep and filled with old verdigris."
+    ],
+    "notes": [
+      "Size: round, 30' across inside. Walls 4' thick.",
+      "What this room teaches. Searching costs time. Finding the trapdoor is one turn. Climbing for the view is another. The nest is a third. You can have all three, but the clock moves."
+    ],
+    "choices": [
+      {
+        "id": "lintel",
+        "mode": "plan",
+        "text": "Read the letters over the door.",
+        "say": [
+          "Imperial Common, cut deep, filled with verdigris: STATION NINE. KEEP THE LIGHT. KEEP THE DOOR.",
+          "The Elf Minister and the Paladin read it at once. Others with INT 13 or more puzzle it out in a turn."
+        ]
+      },
+      {
+        "id": "glass",
+        "mode": "plan",
+        "text": "Look at the green glass.",
+        "say": [
+          "Shards of the great lens, thick as a thumb. The station's light was green."
+        ]
+      },
+      {
+        "id": "crows",
+        "mode": "plan",
+        "text": "Ask the Minister about the crows.",
+        "say": [
+          "\"Crows nest where nobody comes. Somebody comes here. Look how they hate the light.\""
+        ]
+      },
+      {
+        "id": "remember",
+        "mode": "fate",
+        "ability": "remember-when",
+        "text": "I Remember When: you have stood in this tower.",
+        "effects": {
+          "flag": {
+            "set": [
+              "trapdoor-found"
+            ]
+          },
+          "reveal": {
+            "map": "surface",
+            "cells": [
+              "7,6"
+            ]
+          },
+          "say": [
+            "There was a trapdoor in the floor, once, in the north-west corner under the slates. You say where. No search is needed."
+          ]
+        }
+      },
+      {
+        "id": "crowtalk",
+        "mode": "fate",
+        "ability": "speak-animals",
+        "text": "Speak with Animals: ask the crows who comes here.",
+        "effects": {
+          "flag": {
+            "set": [
+              "crows-told"
+            ]
+          },
+          "say": [
+            "A crow drops onto the rail and tells it the crow way: men come by boat to the north cliff, and leave the boat under the overhang. No lamp."
+          ]
+        }
+      },
+      {
+        "id": "search",
+        "mode": "act",
+        "text": "Search the rubble. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "trapdoor-found"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "trapdoor-found"
+            ]
+          },
+          "reveal": {
+            "map": "surface",
+            "cells": [
+              "7,6"
+            ]
+          },
+          "say": [
+            "You shift slates and rotten beams for ten minutes. In the north-west corner: iron-bound oak, a ring handle, four feet square. Cold air breathes out of it. It smells of lamp oil and wet stone."
+          ]
+        }
+      },
+      {
+        "id": "climb",
+        "mode": "act",
+        "text": "Climb the stair for the view. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "scene": "s2-top"
+          }
+        }
+      },
+      {
+        "id": "down",
+        "mode": "act",
+        "text": "Lift the trapdoor and go down. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "trapdoor-found"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 12,
+            "y": 24,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "s2-search": {
+    "title": "Rubble",
+    "area": "S2",
+    "text": [
+      "You work through the rubble, square by square. Under the slates and beams, in the north-west corner of the floor: iron-bound oak, a ring handle, four feet square. Cold air breathes out of it. It smells of lamp oil and wet stone."
+    ],
+    "choices": [
+      {
+        "id": "down",
+        "mode": "act",
+        "text": "Lift the trapdoor and go down. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 12,
+            "y": 24,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "plan",
+        "text": "Mark the trapdoor on your map, then leave.",
+        "say": [
+          "Marked. You can walk into it from the corner."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "trapdoor-found"
+            ]
+          },
+          "reveal": {
+            "map": "surface",
+            "cells": [
+              "7,6"
+            ]
+          },
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ]
+  },
+  "s2-top": {
+    "title": "The Stair Top",
+    "area": "S2",
+    "text": [
+      "The stair is narrow and the crows do not like you. At the top the wall ends in broken teeth, forty feet up. The crows mob whoever climbs. That is noise.",
+      "You can see the whole isle: the jetty, the cottage at the tower's foot, the lamp-stones on the east point. At the north cliff, under the overhang, a boat-shaped shadow lies in the water."
+    ],
+    "choices": [
+      {
+        "id": "shadow",
+        "mode": "plan",
+        "text": "Look at the north cliff.",
+        "say": [
+          "Under the overhang, a shadow the length of a boat. No lamp. No one aboard that you can see. Whoever lands here hides the boat where The Fort's watch cannot see it."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-boat-shadow"
+            ]
+          }
+        }
+      },
+      {
+        "id": "stones",
+        "mode": "plan",
+        "text": "Count the lamp-stones along the shore.",
+        "say": [
+          "Three on the east point. Five more alone round the shore. Eight, in a ring."
+        ]
+      },
+      {
+        "id": "nest",
+        "mode": "act",
+        "text": "Search the crows' nest. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-ring"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "silver-ring": 1
+            }
+          },
+          "say": [
+            "In the nest: a silver ring stamped with a lamp and the numeral IX."
+          ],
+          "flag": {
+            "set": [
+              "took-ring"
+            ]
+          }
+        }
+      },
+      {
+        "id": "down",
+        "mode": "act",
+        "text": "Climb down. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "close": true
+          }
+        }
+      }
+    ],
+    "noLeave": true
+  },
+  "s3": {
+    "title": "The Keeper's Cottage",
+    "area": "S3",
+    "text": [
+      "A keeper's cottage, stone to the shoulder and open to the weather above. Someone has slept here lately: the hearth holds a grey drift of ash with no rain in it, and fish bones picked clean. On the door, in fresh chalk, an eye has been drawn and struck through with one hard line."
+    ],
+    "notes": [
+      "What this room teaches. Searching costs time, and you choose where. Six squares, six turns to search it all. The oil and salt are in plain view, free. The bed is a turn spent for nothing."
+    ],
+    "choices": [
+      {
+        "id": "chalk",
+        "mode": "plan",
+        "text": "Look at the chalk mark on the door.",
+        "say": [
+          "An eye with a line through it. The Minister knows it: \"Chalked on a crate in Old Harrow's cart. I thought it was a tally.\" It is not a tally. It is a Saltmen sign, and it means: keep out. It appears again in the cellars."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-chalk-eye"
+            ]
+          }
+        }
+      },
+      {
+        "id": "ash",
+        "mode": "plan",
+        "text": "Look at the hearth.",
+        "say": [
+          "Ash less than a week old. A broken clay pipe of coast make. Fish bones, picked clean. This is the only square in the room someone has used."
+        ]
+      },
+      {
+        "id": "oil",
+        "mode": "plan",
+        "text": "Take the tin of lamp oil from the shelf.",
+        "say": [
+          "A tin of lamp oil, two flasks' worth. In plain view, so it costs nothing."
+        ],
+        "if": {
+          "notFlags": [
+            "took-oil"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "oil-flask": 2
+            }
+          },
+          "flag": {
+            "set": [
+              "took-oil"
+            ]
+          }
+        }
+      },
+      {
+        "id": "salt",
+        "mode": "plan",
+        "text": "Take the dish of coarse salt.",
+        "say": [
+          "A stone dish of coarse salt. It strips leeches off a wader without harm."
+        ],
+        "if": {
+          "notFlags": [
+            "took-salt"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "salt": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "took-salt"
+            ]
+          }
+        }
+      },
+      {
+        "id": "hearth",
+        "mode": "act",
+        "text": "Search the hearth. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-key"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "iron-key": 1
+            }
+          },
+          "say": [
+            "A loose hearthstone. Under it, an iron key. It will open the locked door in the cellars."
+          ],
+          "flag": {
+            "set": [
+              "took-key"
+            ]
+          }
+        }
+      },
+      {
+        "id": "bed",
+        "mode": "act",
+        "text": "Search the bed frame. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "say": [
+            "Rotted rope. Under it, nothing. A turn spent for nothing is allowed."
+          ]
+        }
+      }
+    ]
+  },
+  "s3-search": {
+    "title": "Searching the Cottage",
+    "area": "S3",
+    "text": [
+      "Ten minutes of kicking at pine needles. You find nothing yet."
+    ],
+    "notes": [
+      "Six squares, six turns to search it all. Ask where someone has been."
+    ],
+    "choices": []
+  },
+  "s4": {
+    "title": "The Lamp-Stones",
+    "area": "S4",
+    "text": [
+      "Three standing stones lean together on the point like old men at a rail. Each bears one carved eye at the height of your own, and each wears a bronze dish on its head, crusted green and full of rain. Up close they hum, low, as a hive hums in winter. The hum is in your teeth before it is in your ears."
+    ],
+    "notes": [
+      "What this room teaches. The isle is one machine. The stones on the shore, the eyes in the cellars and the collar on the fish are parts of one thing. Reading the site starts on the surface."
+    ],
+    "choices": [
+      {
+        "id": "hum",
+        "mode": "plan",
+        "text": "Put your ear to a stone.",
+        "say": [
+          "The hum is louder at dawn and dusk. The Paladin feels it as the wards' pulse. The Druid hears the same note as the Shallows. It does not say names."
+        ]
+      },
+      {
+        "id": "eyes",
+        "mode": "plan",
+        "text": "Look at the carved eyes.",
+        "say": [
+          "The same carving as in the Gorgon Queen's chamber. Anyone who was there knows it on sight."
+        ]
+      },
+      {
+        "id": "fallen",
+        "mode": "plan",
+        "text": "Look at the fallen stone on the south shore.",
+        "say": [
+          "One of the five lone stones lies broken. Bronze wire runs out of the break and into the rock. The stones are posts in a fence, and the fence is wired."
+        ]
+      },
+      {
+        "id": "ring",
+        "mode": "plan",
+        "text": "Count the stones.",
+        "say": [
+          "Eight in all, in a ring round the shore. The Warden cannot pass outside them."
+        ]
+      },
+      {
+        "id": "dish",
+        "mode": "act",
+        "text": "Pour a flask of oil into a dish and light it. One turn.",
+        "turns": 1,
+        "if": {
+          "items": {
+            "oil-flask": 1
+          }
+        },
+        "once": true,
+        "effects": {
+          "item": {
+            "remove": {
+              "oil-flask": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "dish-lit"
+            ]
+          },
+          "say": [
+            "The stone's eye glows green. A swell turns in the water offshore and comes to that stone, and circles there. It is leaving the pool empty while it does.",
+            "It will not last. Six turns, no more."
+          ]
+        }
+      },
+      {
+        "id": "paladin",
+        "mode": "fate",
+        "ability": "oath-remembers",
+        "text": "The Oath Remembers: these are wards.",
+        "effects": {
+          "say": [
+            "The stones are wards. So is the ring in the cellars. Keeping them lit is in the oath. The knights of the order once relieved this post."
+          ]
+        }
+      },
+      {
+        "id": "gnome",
+        "mode": "fate",
+        "ability": "land-speaks",
+        "text": "The Land Speaks: the ground in a ring.",
+        "effects": {
+          "say": [
+            "The bronze wire runs through the rock. The ground in a ring round the isle is dead an inch down. The sickness is a collar, and it is worn by a fish."
+          ]
+        }
+      }
+    ]
+  },
+  "s5": {
+    "title": "The North Cliff",
+    "area": "S5",
+    "text": [
+      "The pines stop and the isle ends in a drop of grey rock to dark water. Below, the cliff foot is hollowed into a cave mouth, and in its throat a long open boat rides at a line, a man in an oilskin sitting in the stern with a rod. A cleft splits the cliff top beside you; a tarred rope, knotted every foot, is tied off to a pine root and drops into it."
+    ],
+    "notes": [
+      "What this room teaches. There is more than one way in. The rope reaches the grotto without passing a single cellar. It is the fast road to the climax and the worst one: it lands you at the Saltmen's front door, unprepared."
+    ],
+    "choices": [
+      {
+        "id": "boat",
+        "mode": "plan",
+        "text": "Look at the boat.",
+        "say": [
+          "Thirty feet, oars, a lug sail. The boat-shaped shadow seen from the tower. The Saltmen's only way off the isle."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-boat-shadow"
+            ]
+          }
+        }
+      },
+      {
+        "id": "rope",
+        "mode": "plan",
+        "text": "Look at the rope.",
+        "say": [
+          "Tarred, knotted every foot, tied off to a pine root. Fifty feet down to the ledge in the cave. In plate armour the climb takes two turns."
+        ]
+      },
+      {
+        "id": "boots",
+        "mode": "plan",
+        "text": "Look at the ground by the cleft.",
+        "say": [
+          "Bootprints, worn deep between the cleft and the cottage. A week of men going back and forth."
+        ]
+      },
+      {
+        "id": "watch",
+        "mode": "act",
+        "text": "Lie still at the edge and watch. One turn.",
+        "turns": 1,
+        "once": true,
+        "check": {
+          "inSix": 1
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "fisher-alert"
+              ]
+            },
+            "say": [
+              "The man in the boat looks up. He sees the edge of a face. He does not shout, yet."
+            ]
+          },
+          "fail": {
+            "say": [
+              "He ships his rod. He rings a small hand bell, twice, before he takes the oars. The bell matters here."
+            ]
+          }
+        }
+      },
+      {
+        "id": "go",
+        "mode": "plan",
+        "text": "To go down, walk into the cleft.",
+        "say": [
+          "The rope is the stair here. Climbing down takes one turn and needs no roll."
+        ]
+      }
+    ]
+  },
+  "c1-search": {
+    "title": "Searching the Landing",
+    "area": "C1",
+    "text": [
+      "Ten minutes at the stones of the landing, every one you can reach."
+    ],
+    "notes": [
+      "Searching is a roll, not a certainty: 1 in 6, and elves 2 in 6. A miss does not mean nothing is there. A hit shows in the log."
+    ],
+    "choices": []
+  },
+  "c1": {
+    "title": "The Cellar Stair",
+    "area": "C1",
+    "text": [
+      "The stair goes down into a cold that has been waiting a long time. Every ten feet an iron hook juts from the wall for a lamp that is no longer there. At the bottom, on a landing hardly bigger than a cupboard, an oak door stands shut, black with age and swollen in its frame."
+    ],
+    "notes": [
+      "Size: stair 10' wide, 30' long, falling 20'. A 10' landing at the bottom. The oak door at the bottom is stuck.",
+      "Listening: 1 in 6; demi-humans 2 in 6. Forcing: 1 or 2 on a d6, and STR adds. Each try is loud: the clock rolls, and the rats are not surprised.",
+      "What this room teaches. Listening and doors. Listen first, then force. Each try is a noise, and noise brings the clock."
+    ],
+    "choices": [
+      {
+        "id": "door",
+        "mode": "plan",
+        "text": "Look at the oak door.",
+        "say": [
+          "Black with age and swollen in its frame. Along the bottom edge: scratches, made from the other side."
+        ]
+      },
+      {
+        "id": "hooks",
+        "mode": "plan",
+        "text": "Look at the lamp hooks.",
+        "say": [
+          "Bronze, worth nothing. Each one is stamped IX."
+        ]
+      },
+      {
+        "id": "landing",
+        "mode": "plan",
+        "text": "Look at the walls of the landing.",
+        "say": [
+          "Close stone, ten feet apart. The east wall is cold to the touch and a little too clean. Searching the landing takes a turn."
+        ]
+      },
+      {
+        "id": "listen",
+        "mode": "act",
+        "text": "Listen at the door. No time passes.",
+        "turns": 0,
+        "once": true,
+        "check": {
+          "skill": "listen"
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "heard-rats"
+              ]
+            },
+            "say": [
+              "Scratching. Squeaks. Many small claws on stone."
+            ]
+          },
+          "fail": {
+            "say": [
+              "You hear nothing. That is not the same as nothing being there."
+            ]
+          }
+        }
+      },
+      {
+        "id": "fighter",
+        "mode": "fate",
+        "ability": "know-how-made",
+        "text": "I Know How This Was Made: look at how the door was hung.",
+        "effects": {
+          "flag": {
+            "set": [
+              "c1-door-silent"
+            ]
+          },
+          "say": [
+            "You lift, you shoulder, and the leaf comes up off its pins and swings in without a sound. Behind you it drops back into its frame and sticks."
+          ],
+          "goto": {
+            "map": "cellars",
+            "x": 12,
+            "y": 19,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "c2": {
+    "title": "The Oil Store",
+    "area": "C2",
+    "text": [
+      "Racks of clay oil jars line the walls, most of them broken, and the floor is a black skin of old spill that takes your bootprints like wax. The air is thick with the smell of it. Something heavy and many-footed scatters from your light into the racks, and then the squeaking starts."
+    ],
+    "notes": [
+      "Size: 30' × 20'.",
+      "Giant rats, five. AC 7 [12], bite 1d3, speed 120' (40'), swim 60' (20'), morale 8. They flee at 2 dead.",
+      "If you heard them at the door, you strike first. If not, they bite first.",
+      "What this room teaches. The clock is a monster. Every 2 turns it rolls a die: 1 in 6, and something comes.",
+      "Five at once. If a round goes badly, choose Run."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "floor",
+        "mode": "plan",
+        "text": "Look at the floor.",
+        "say": [
+          "Old oil, gummy and slow. It will not catch from a dropped torch. A fresh flask poured on it and lit would burn."
+        ]
+      },
+      {
+        "id": "nest",
+        "mode": "plan",
+        "text": "Look at the far corner.",
+        "say": [
+          "Shredded sacking and bones. Nothing of value."
+        ]
+      },
+      {
+        "id": "racks",
+        "mode": "plan",
+        "text": "Look along the racks.",
+        "say": [
+          "Most jars are smashed and their oil long gone into the floor."
+        ]
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight the rats.",
+        "effects": {
+          "goto": {
+            "encounter": "c2-rats"
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Back out through the doorway to the landing.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 12,
+            "y": 21,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "c2-after": {
+    "title": "The Oil Store, After",
+    "area": "C2",
+    "text": [
+      "The squeaking is gone. The dead lie on the oily floor, and the rest will not come back tonight. In the far corner a hole in the wall leads up and south, gnawed through old mortar. Toward the cottage hearth, you guess."
+    ],
+    "choices": [
+      {
+        "id": "hole",
+        "mode": "plan",
+        "text": "Look at the hole in the far wall.",
+        "say": [
+          "A run, gnawed through the mortar, climbing up and south. A drain. More rats may come up it."
+        ]
+      },
+      {
+        "id": "racks",
+        "mode": "plan",
+        "text": "Look along the racks.",
+        "say": [
+          "Most jars are smashed. One rack, at the north wall, is stone and not wood."
+        ]
+      },
+      {
+        "id": "paladin",
+        "mode": "fate",
+        "ability": "oath-remembers",
+        "text": "The Oath Remembers: the stone rack.",
+        "if": {
+          "notFlags": [
+            "took-flasks"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "oil-flask": 5
+            }
+          },
+          "flag": {
+            "set": [
+              "took-flasks"
+            ]
+          },
+          "say": [
+            "The keepers kept their oil in stone. You know the pattern. You lift the lid on the north rack without a search: five flasks, sound, sealed."
+          ]
+        }
+      },
+      {
+        "id": "search",
+        "mode": "act",
+        "text": "Search the racks. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-flasks"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "oil-flask": 5
+            }
+          },
+          "say": [
+            "The stone rack, at the north wall. Five flasks of lamp oil, sound and sealed."
+          ],
+          "flag": {
+            "set": [
+              "took-flasks"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c3": {
+    "title": "The Flooded Stair",
+    "area": "C3",
+    "text": [
+      "A broad stair keeps going down where the cellar should end, step after step into water as black and still as ink in a well. Your light lies on it and does not go in. As you watch, the water creeps up one step, quietly, as if it had been waiting for you to look away."
+    ],
+    "notes": [
+      "Each turn you stay, roll a d6. On 1 or 2 the lake is restless and the water rises a step.",
+      "What this room teaches. The dungeon moves. The water is a door with a timer, not a trap. It doesn't hurt you; it makes you choose: swim now, or find the way to drain it."
+    ],
+    "choices": [
+      {
+        "id": "water",
+        "mode": "plan",
+        "text": "Look at the water.",
+        "say": [
+          "Black and still. It rises a step, then falls back. Something is feeding it. From the twelfth step down, the stair is flooded all the way to the grotto, about thirty feet of it under water."
+        ]
+      },
+      {
+        "id": "rope",
+        "mode": "plan",
+        "text": "Think about the swim.",
+        "say": [
+          "To swim it you want two rounds of held breath and a rope line tied off at the top. Without a rope: a save, or you come up in the wrong place."
+        ]
+      },
+      {
+        "id": "watch",
+        "mode": "act",
+        "text": "Watch the water. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "say": [
+            "The water creeps up one step, quietly, and holds. Then it falls back over a turn. Something controls it."
+          ]
+        }
+      },
+      {
+        "id": "minister",
+        "mode": "fate",
+        "ability": "archives-deep",
+        "text": "The Archives Are Deep: what is this stair?",
+        "effects": {
+          "flag": {
+            "set": [
+              "fact-minister-c3"
+            ]
+          },
+          "say": [
+            "Lamp Station Nine. The water is the lock. A lock has a key, and a key has a hand: somewhere in the station a wheel turns the lake on and off."
+          ]
+        }
+      }
+    ]
+  },
+  "c3-swim": {
+    "title": "The Flooded Stair",
+    "area": "C3",
+    "text": [
+      "The stair goes down into the water. The far end is the grotto, thirty feet under."
+    ],
+    "notes": [
+      "This is a door with a timer, not a trap. It does not hurt you. It makes you choose: swim now, or find the way to drain it."
+    ],
+    "choices": [
+      {
+        "id": "rope",
+        "mode": "act",
+        "text": "Tie a rope off at the top and swim down it. One turn.",
+        "turns": 1,
+        "if": {
+          "items": {
+            "rope": 1
+          }
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "rope": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "c3-rope-set"
+            ]
+          },
+          "say": [
+            "Two rounds, holding your breath, hand over hand. The rope stays tied off behind you."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 2,
+            "y": 18,
+            "facing": 1
+          }
+        }
+      },
+      {
+        "id": "swim",
+        "mode": "act",
+        "text": "Swim it without a line. One turn.",
+        "turns": 1,
+        "check": {
+          "save": "D"
+        },
+        "on": {
+          "success": {
+            "say": [
+              "You come up where the stair comes up, lungs burning."
+            ],
+            "goto": {
+              "map": "grotto",
+              "x": 2,
+              "y": 18,
+              "facing": 1
+            }
+          },
+          "fail": {
+            "say": [
+              "You come up in the wrong place and lose a turn. Back on the steps."
+            ]
+          }
+        }
+      },
+      {
+        "id": "walk",
+        "mode": "act",
+        "text": "Walk down the drained stair. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c3-drained"
+          ]
+        },
+        "effects": {
+          "say": [
+            "A wet slope, knee-deep at the bottom. The iron gate stands open under it."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 2,
+            "y": 18,
+            "facing": 1
+          }
+        }
+      }
+    ]
+  },
+  "c4": {
+    "title": "The Lamp Hall",
+    "area": "C4",
+    "text": [
+      "A long hall with a niche every ten feet down both walls, and in every niche a bronze lamp, cold, its wick long since eaten. Halfway along, a slate is bolted to the wall, scored with rows of tally marks in groups of six. The far ends of the hall are out of your light. Somewhere along it, water drips with the patience of a clock."
+    ],
+    "notes": [
+      "What this room teaches. Most rooms are empty, and the clock still runs. Five exits from one hall. Choose, map, and come back."
+    ],
+    "choices": [
+      {
+        "id": "lamps",
+        "mode": "plan",
+        "text": "Look at the bronze lamps.",
+        "say": [
+          "Twenty, cold. 5 gp each to a tinker. Each weighs as much as 50 coins."
+        ]
+      },
+      {
+        "id": "slate",
+        "mode": "plan",
+        "text": "Look at the slate.",
+        "say": [
+          "The keepers' tally of turns. Every sixth mark is circled: they rested on the sixth. Do the same."
+        ]
+      },
+      {
+        "id": "drain",
+        "mode": "plan",
+        "text": "Look at the grate in the floor.",
+        "say": [
+          "A grate at the middle of the hall. Rats come up through it."
+        ]
+      },
+      {
+        "id": "cone",
+        "mode": "plan",
+        "text": "Take the bronze ear-trumpet from its hook by the slate.",
+        "say": [
+          "A bronze ear-trumpet. The keepers held it to a door on their rounds."
+        ],
+        "if": {
+          "notFlags": [
+            "took-cone"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "listening-cone": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "took-cone"
+            ]
+          }
+        }
+      },
+      {
+        "id": "lamps-take",
+        "mode": "act",
+        "text": "Take the twenty bronze lamps. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-lamps"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "bronze-lamp": 20
+            }
+          },
+          "say": [
+            "Twenty lamps. They clink."
+          ],
+          "flag": {
+            "set": [
+              "took-lamps"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c5": {
+    "title": "The Keepers' Dormitory",
+    "area": "C5",
+    "text": [
+      "Twelve bunks in two rows, and in four of them the sleepers have not got up for a very long time. They lie on their backs in imperial harness gone green, hands crossed over spears, and on each breastbone a small bronze plate is riveted to the bone. As your light reaches them, the plates warm to a dull glow, and one by one they sit up."
+    ],
+    "notes": [
+      "Skeletons, four. AC 7 [12], spear 1d6, speed 60' (20'), morale 12. Immune to sleep. Turned on 7 or more.",
+      "What this room teaches. Undead are the station's staff, not its monsters. They are still doing their job. The rite in the study can end it for all of them."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "plates",
+        "mode": "plan",
+        "text": "Look at the plates.",
+        "say": [
+          "Bronze, riveted to each breastbone, stamped with a name and IX. Vane wired them into the ward current. They are cold when pried off a fallen skeleton."
+        ]
+      },
+      {
+        "id": "fighter",
+        "mode": "fate",
+        "ability": "know-how-made",
+        "text": "I Know How This Was Made: the rivets.",
+        "effects": {
+          "flag": {
+            "set": [
+              "plate-popped"
+            ]
+          },
+          "say": [
+            "The rivet is soft. One tap with a hammer and it pops. You know where to put the tap: the skeletons will find you ready."
+          ]
+        }
+      },
+      {
+        "id": "turn-min",
+        "mode": "fate",
+        "ability": "turn-undead",
+        "text": "Turn the dead (a cleric holds up a symbol).",
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "c5-turned",
+                "c5-calm"
+              ]
+            },
+            "say": [
+              "The plates flare, then go dull. The dead lie back down in their bunks."
+            ],
+            "goto": {
+              "scene": "c5-after"
+            }
+          },
+          "fail": {
+            "say": [
+              "The plates glow. The dead keep coming."
+            ]
+          }
+        }
+      },
+      {
+        "id": "rite",
+        "mode": "act",
+        "text": "Walk among them. The rite holds.",
+        "if": {
+          "flags": [
+            "rite-said"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "c5-calm"
+            ]
+          },
+          "say": [
+            "The plates are cold. The dead lie still."
+          ],
+          "goto": {
+            "scene": "c5-after"
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight the skeletons.",
+        "if": {
+          "notFlags": [
+            "rite-said"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "encounter": "c5-skeletons"
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Back out and close the door.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 6,
+            "y": 13,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c5-after": {
+    "title": "The Dormitory, After",
+    "area": "C5",
+    "text": [
+      "Twelve bunks in two rows. Eight are empty. The other keepers are in the shrine, or in the lake. Three footlockers stand at the bunk-feet, still shut."
+    ],
+    "choices": [
+      {
+        "id": "bunks",
+        "mode": "plan",
+        "text": "Look at the empty bunks.",
+        "say": [
+          "Eight. The other keepers are in C11, or in the lake."
+        ]
+      },
+      {
+        "id": "lockers",
+        "mode": "act",
+        "text": "Open the footlockers. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c5-calm"
+          ],
+          "notFlags": [
+            "took-lockers"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 74,
+              "service-medal": 1
+            }
+          },
+          "say": [
+            "140 silver in the first, 60 gold in a knotted sock in the second, a silver service medal on a ribbon in the third."
+          ],
+          "flag": {
+            "set": [
+              "took-lockers"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c6": {
+    "title": "The Ward Room",
+    "area": "C6",
+    "text": [
+      "Eight walls, and on every wall carved eyes, dozens of them, lids wide, each with a bead of glass for a pupil. A ring of bronze is set into the floor, and in its middle a plinth holds a hooded lantern in a cradle of green-stained metal. As you step toward it, every eye in the room turns its glass a fraction, and your torch flame bows flat as if a door had opened."
+    ],
+    "notes": [
+      "Any flame that is not green gutters out inside the ring. Infravision works.",
+      "What this room teaches. Light is a resource, and a site has rules. This room plants a tool before anyone explains it."
+    ],
+    "choices": [
+      {
+        "id": "eyes",
+        "mode": "plan",
+        "text": "Look at the eyes.",
+        "say": [
+          "Sensor eyes and wards at once: they see heat and colour and hold what they are told to hold. The same make as in the Gorgon Queen's chamber. Hers went dark when she died. These are open."
+        ]
+      },
+      {
+        "id": "wires",
+        "mode": "plan",
+        "text": "Look at the floor ring.",
+        "say": [
+          "Bronze wires run from the ring into the walls, toward the lamp-stones and toward the pool."
+        ]
+      },
+      {
+        "id": "lamp",
+        "mode": "plan",
+        "text": "Look at the lantern on the plinth.",
+        "say": [
+          "A bronze hooded lantern with a lens of green crystal, in a cradle of green-stained metal. It burns ordinary oil, 24 turns a flask. Light green, thirty feet."
+        ]
+      },
+      {
+        "id": "elf",
+        "mode": "fate",
+        "ability": "remember-when",
+        "text": "I Remember When: the lamp stations.",
+        "effects": {
+          "say": [
+            "You remember lamp stations lit across the lake at night, a chain of green. The sign you were told to watch for is a green light on the isle. This lamp is it."
+          ]
+        }
+      },
+      {
+        "id": "lamp-take",
+        "mode": "act",
+        "text": "Lift the lamp from its cradle. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "has-lamp"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "warden-lamp": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "has-lamp",
+              "ring-dead"
+            ]
+          },
+          "say": [
+            "Every eye in the room closes at once. The ring goes dead. The lamp is warm in your hand, and heavy."
+          ]
+        }
+      },
+      {
+        "id": "bash",
+        "mode": "act",
+        "text": "Break down the locked door to the south. Three turns, each loud.",
+        "turns": 3,
+        "if": {
+          "notFlags": [
+            "took-bash"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "iron-key": 1
+            }
+          },
+          "say": [
+            "The lock gives on the third blow. The door hangs open."
+          ],
+          "flag": {
+            "set": [
+              "took-bash"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c7": {
+    "title": "The Lampwright's Study",
+    "area": "C7",
+    "text": [
+      "A study, square and dry, the only room down here that still smells of paper. A man sits at the desk in a quilted robe gone the colour of tea, and he has been bones for longer than The Fort has stood. His skull rests on his folded arms as if he had laid it down to think. Before him, squared neatly, a stack of notes; at his elbow, a brass tube on a stand, aimed at a wall that is not there."
+    ],
+    "notes": [
+      "Each finding takes one turn to read. The Minister reads hymn-script and can read the notes. Without her, only the Elf Minister and the Paladin read at that pace. Others need two turns a finding.",
+      "What this room teaches. Reading a site's history pays. Six turns of reading, three wandering checks, and the climax changes shape. The trade at the heart of old-school play: time for knowledge."
+    ],
+    "choices": [
+      {
+        "id": "vane",
+        "mode": "plan",
+        "text": "Look at Ostrel Vane.",
+        "say": [
+          "A bronze signet on his finger, stamped with a lamp and IX. He is not undead. He is bones in a chair, and he has been patient."
+        ]
+      },
+      {
+        "id": "glass",
+        "mode": "plan",
+        "text": "Look at the brass tube.",
+        "say": [
+          "An instrument on a stand. Through the eyepiece the water's depth and the Door's state show as rings of green light. Heavy."
+        ]
+      },
+      {
+        "id": "doors",
+        "mode": "plan",
+        "text": "Look at the doors.",
+        "say": [
+          "West: plain on this side, unlocked. The passage beyond ends in a blank wall with a lever: the back of the secret door at the stair. East: barred from inside with an iron bar. On the far side, Saltmen chalk: the eye with the line. They have never opened it."
+        ]
+      },
+      {
+        "id": "f1",
+        "mode": "act",
+        "text": "Read the notes: the lamp. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-lamp"
+            ]
+          },
+          "say": [
+            "The lamp. \"The green light is the keeper's face. Shown it, the Warden remembers it is a servant.\""
+          ]
+        }
+      },
+      {
+        "id": "f2",
+        "mode": "act",
+        "text": "Read the notes: the collar. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-collar"
+            ]
+          },
+          "say": [
+            "The collar. A drawing: the control collar, a bronze keystone at the throat. \"Break the stone and it is only a fish again. Pray no one does.\""
+          ]
+        }
+      },
+      {
+        "id": "f3",
+        "mode": "act",
+        "text": "Read the notes: the bell. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-bell"
+            ]
+          },
+          "say": [
+            "The bell. A feeding roster: \"Salt fish, at the bell, at the east ledge. It comes to the bell.\""
+          ]
+        }
+      },
+      {
+        "id": "f4",
+        "mode": "act",
+        "text": "Read the notes: the tremble. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-tremble"
+            ]
+          },
+          "say": [
+            "The tremble. \"It hears with its skin. Stand still on dry stone and you are not there.\""
+          ]
+        }
+      },
+      {
+        "id": "f5",
+        "mode": "act",
+        "text": "Read the notes: the stones. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-stones"
+            ]
+          },
+          "say": [
+            "The stones. A map of the isle, eight marks round the shore. \"A lit dish calls it to its post.\""
+          ]
+        }
+      },
+      {
+        "id": "f6",
+        "mode": "act",
+        "text": "Read the notes: the last page. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-rite"
+            ]
+          },
+          "say": [
+            "The last page. \"Beneath the lake the Door is shut, and faces north, toward the Deep. I am the keeper of its keeper. When I am gone, let someone say the words for us, and the rounds will end.\" Then a phrase in Imperial Common."
+          ]
+        }
+      },
+      {
+        "id": "rite",
+        "mode": "act",
+        "text": "Say the words for the dead over Vane's bones. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "knows-rite"
+          ],
+          "notFlags": [
+            "rite-said"
+          ]
+        },
+        "effects": {
+          "say": [
+            "You read the phrase aloud. Somewhere down the halls, plates click and go quiet. The rounds end. The bound dead of the cellars lie down."
+          ],
+          "flag": {
+            "set": [
+              "rite-said"
+            ]
+          }
+        }
+      },
+      {
+        "id": "desk",
+        "mode": "plan",
+        "text": "Turn to the desk and the doors.",
+        "say": [
+          "The drawer, the tube, the papers, the iron bar on the east door."
+        ],
+        "effects": {
+          "goto": {
+            "scene": "c7-desk"
+          }
+        }
+      }
+    ]
+  },
+  "c7-desk": {
+    "title": "The Study: The Desk and the Doors",
+    "area": "C7",
+    "text": [
+      "A desk with a drawer. A brass tube on a stand. Papers in a fine hand. The iron bar across the east door. Take what you want. Reading the notes is a turn each."
+    ],
+    "choices": [
+      {
+        "id": "purse",
+        "mode": "act",
+        "text": "Open the desk drawer. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-purse"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 200
+            }
+          },
+          "say": [
+            "In the drawer: forty platinum pieces. Two hundred gold, in all."
+          ],
+          "flag": {
+            "set": [
+              "took-purse"
+            ]
+          }
+        }
+      },
+      {
+        "id": "glass-take",
+        "mode": "act",
+        "text": "Take the lake-glass.",
+        "if": {
+          "notFlags": [
+            "took-glass"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "lake-glass": 1
+            }
+          },
+          "say": [
+            "Heavy. A buyer will pay 250 gp."
+          ],
+          "flag": {
+            "set": [
+              "took-glass"
+            ]
+          }
+        }
+      },
+      {
+        "id": "scroll",
+        "mode": "act",
+        "text": "Take the spell papers.",
+        "if": {
+          "notFlags": [
+            "took-scroll"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "vane-scroll": 1
+            }
+          },
+          "say": [
+            "Two spells in Vane's hand, copied on a scroll: light and detect magic."
+          ],
+          "flag": {
+            "set": [
+              "took-scroll"
+            ]
+          }
+        }
+      },
+      {
+        "id": "notes",
+        "mode": "act",
+        "text": "Take Vane's notes.",
+        "if": {
+          "notFlags": [
+            "has-notes"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "vane-notes": 1
+            }
+          },
+          "say": [
+            "Six findings, squared neatly. The Wizard can spend a week copying them."
+          ],
+          "flag": {
+            "set": [
+              "has-notes"
+            ]
+          }
+        }
+      },
+      {
+        "id": "chalk",
+        "mode": "act",
+        "text": "Draw the eye and the line on the east door. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "saw-chalk-eye"
+          ],
+          "notFlags": [
+            "sign-drawn"
+          ]
+        },
+        "effects": {
+          "say": [
+            "The eye first, then the line, as it was on the cottage door. If they ever open it from the other side, they will read it."
+          ],
+          "flag": {
+            "set": [
+              "sign-drawn"
+            ]
+          }
+        }
+      },
+      {
+        "id": "unbar",
+        "mode": "act",
+        "text": "Lift the iron bar and open the east door. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "unbarred"
+          ]
+        },
+        "effects": {
+          "reveal": {
+            "map": "cellars",
+            "cells": [
+              "22,19"
+            ]
+          },
+          "say": [
+            "The bar comes off its brackets with a groan. Beyond the door: a passage, forty feet, and at its end warm light. The Saltmen post is close."
+          ],
+          "flag": {
+            "set": [
+              "unbarred"
+            ]
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Back to the notes.",
+        "effects": {
+          "goto": {
+            "scene": "c7"
+          }
+        }
+      }
+    ]
+  },
+  "c8": {
+    "title": "The Lens Workshop",
+    "area": "C8",
+    "text": [
+      "Two grinding wheels of grey stone stand on their axles, a trough of grit between them, and on a bench a lens the size of a cartwheel lies half-ground and milky. A square flue in the ceiling corner breathes cold air and a little daylight. From up inside it comes a dry rustle, like someone leafing very quickly through a book."
+    ],
+    "notes": [
+      "Stirges, three. AC 7 [12], beak 1d3, then 1d3 blood each round while attached. +2 to hit on the first attack. Morale 9.",
+      "What this room teaches. The loop. C8 joins the west loop: C4, C5, C10, C8, C4. Walk it all the way round and find out whether your map is right."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "flue",
+        "mode": "plan",
+        "text": "Look at the flue.",
+        "say": [
+          "A square flue in the ceiling corner. An iron damper with a lever beside the bench can shut it."
+        ]
+      },
+      {
+        "id": "grit",
+        "mode": "plan",
+        "text": "Look at the grit trough.",
+        "say": [
+          "Green glass dust. Thrown in a stirge's face it blinds it for a round."
+        ]
+      },
+      {
+        "id": "damper",
+        "mode": "act",
+        "text": "Shut the damper quietly. One turn.",
+        "turns": 1,
+        "once": true,
+        "check": {
+          "inSix": 5
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "stirges-trapped",
+                "c8-calm"
+              ]
+            },
+            "say": [
+              "The lever grates once, and holds. Up in the flue the rustling turns to frantic scratching. They are shut in for good."
+            ],
+            "goto": {
+              "scene": "c8-after"
+            }
+          },
+          "fail": {
+            "say": [
+              "The lever shrieks. The rustle stops. Then they come."
+            ],
+            "goto": {
+              "encounter": "c8-stirges"
+            }
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight them in the room.",
+        "effects": {
+          "goto": {
+            "encounter": "c8-stirges"
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Back out.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 12,
+            "y": 10,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "c8-after": {
+    "title": "The Workshop, After",
+    "area": "C8",
+    "text": [
+      "The wheels stand on their axles. The trough is full of green grit. On the bench, a padded case."
+    ],
+    "choices": [
+      {
+        "id": "great",
+        "mode": "plan",
+        "text": "Look at the great lens.",
+        "say": [
+          "Half-ground, milky, the size of a cartwheel. Too heavy to move. Worth nothing unfinished."
+        ]
+      },
+      {
+        "id": "lens",
+        "mode": "act",
+        "text": "Take the case of finished lenses. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c8-calm"
+          ],
+          "notFlags": [
+            "took-lens"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "lens": 12
+            }
+          },
+          "say": [
+            "Twelve finished lenses, palm-sized, 10 gp each. Fragile."
+          ],
+          "flag": {
+            "set": [
+              "took-lens"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c9": {
+    "title": "The Blind Stair",
+    "area": "C9",
+    "text": [
+      "The passage runs on into the dark and then up a stair, and the stair stops being a stair halfway, choked with fallen blocks and splintered beams. Air moves through the gaps. High above, a needle of daylight comes through and lies on a single step."
+    ],
+    "notes": [
+      "What this room teaches. Not every way goes somewhere. A dead end. Map it, mark it, and don't come back."
+    ],
+    "choices": [
+      {
+        "id": "rubble",
+        "mode": "plan",
+        "text": "Look at the rubble.",
+        "say": [
+          "The tower's inner stair, choked when the floors fell. Clearing it is six turns of work for three people, loud."
+        ]
+      },
+      {
+        "id": "boot",
+        "mode": "plan",
+        "text": "Take the keeper's boot.",
+        "say": [
+          "A keeper's boot in the rubble. Three gold in the toe."
+        ],
+        "if": {
+          "notFlags": [
+            "took-boot"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 3
+            }
+          },
+          "flag": {
+            "set": [
+              "took-boot"
+            ]
+          }
+        }
+      },
+      {
+        "id": "listen",
+        "mode": "act",
+        "text": "Listen at the rubble. No time passes.",
+        "turns": 0,
+        "once": true,
+        "check": {
+          "skill": "listen"
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "c9-dead-end"
+              ]
+            },
+            "say": [
+              "Wind and crows. It only goes up to the tower. Mark it a dead end."
+            ]
+          },
+          "fail": {
+            "say": [
+              "Wind, or something like wind."
+            ]
+          }
+        }
+      },
+      {
+        "id": "dig",
+        "mode": "act",
+        "text": "Dig through the rubble. Six turns, loud.",
+        "turns": 6,
+        "if": {
+          "notFlags": [
+            "dug"
+          ]
+        },
+        "effects": {
+          "say": [
+            "Six turns of lifting beams. The stair comes out under the rubble in the tower, where the trapdoor already is."
+          ],
+          "goto": {
+            "map": "surface",
+            "x": 8,
+            "y": 7,
+            "facing": 2
+          },
+          "flag": {
+            "set": [
+              "dug"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c10": {
+    "title": "The Cistern",
+    "area": "C10",
+    "text": [
+      "A square basin fills most of this vault, brimming with black water that smells of the lake. A bronze pipe as thick as a man's waist comes out of the far wall and pours into it with a steady sound like a long sigh. In the corner beside the pipe, a spoked iron wheel is set into the wall. The water near the wheel is very still."
+    ],
+    "notes": [
+      "Giant crab, one. AC 2 [17], two pincers 2d6, speed 60' (20'), morale 7. It stays in the water. It attacks anyone at the basin's edge within 10' of the wheel, or in the water.",
+      "What this room teaches. Water is an obstacle with a handle. The flooded stair has a cause, and the cause can be turned off."
+    ],
+    "choices": [
+      {
+        "id": "wheel",
+        "mode": "plan",
+        "text": "Look at the wheel.",
+        "say": [
+          "A spoked iron wheel set in the north-east corner, at the basin's edge. It takes two people and one turn to turn, and it is loud. Turned, it drains the flooded stair in two turns."
+        ]
+      },
+      {
+        "id": "pipe",
+        "mode": "plan",
+        "text": "Look at the bronze pipe.",
+        "say": [
+          "Feeds from the lake. The crab came up it when it was small."
+        ]
+      },
+      {
+        "id": "basin",
+        "mode": "plan",
+        "text": "Look at the basin floor.",
+        "say": [
+          "A keeper's purse on the bottom. Fifty gold. Diving for it puts the diver next to the crab."
+        ]
+      },
+      {
+        "id": "food",
+        "mode": "act",
+        "text": "Throw the crab a salt fish, then turn the wheel. One turn.",
+        "turns": 1,
+        "if": {
+          "items": {
+            "salt-fish": 1
+          },
+          "notFlags": [
+            "c3-drained"
+          ]
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "salt-fish": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "c3-drained"
+            ]
+          },
+          "say": [
+            "The crab seizes the fish and sinks to eat it. You turn the wheel. Somewhere far off, iron grinds and water begins to pour away. The stair will be dry in two turns."
+          ]
+        }
+      },
+      {
+        "id": "haft",
+        "mode": "act",
+        "text": "Turn the wheel with a spear haft through the spokes, from ten feet away. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "c3-drained"
+          ]
+        },
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "c3-drained"
+              ]
+            },
+            "say": [
+              "The haft bends and holds. The wheel turns. Far off, iron grinds and water begins to pour away."
+            ]
+          },
+          "fail": {
+            "say": [
+              "The haft slips. The splash brings the crab."
+            ],
+            "goto": {
+              "encounter": "c10-crab"
+            }
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight the crab at the wheel.",
+        "if": {
+          "notFlags": [
+            "c10-crab-dead"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "encounter": "c10-crab"
+          }
+        }
+      },
+      {
+        "id": "turn",
+        "mode": "act",
+        "text": "Turn the wheel now that the crab is dead. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c10-crab-dead"
+          ],
+          "notFlags": [
+            "c3-drained"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "c3-drained"
+            ]
+          },
+          "say": [
+            "Two of you on the spokes. The wheel turns. The stair will be dry in two turns."
+          ]
+        }
+      },
+      {
+        "id": "purse",
+        "mode": "act",
+        "text": "Dive for the purse. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c10-crab-dead"
+          ],
+          "notFlags": [
+            "took-purse10"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 50
+            }
+          },
+          "say": [
+            "Fifty gold in a keeper's purse, green with lake."
+          ],
+          "flag": {
+            "set": [
+              "took-purse10"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c11": {
+    "title": "The Station Shrine",
+    "area": "C11",
+    "text": [
+      "A small shrine, and in it a screen set into a stone plinth, a twin of the one at The Fort but dead: its glass is grey and cracked across like ice on a puddle. Two figures stand guard on either side of it, wrapped from head to foot in oilcloth, with bronze plates showing through the wrappings at the chest. A bowl at the plinth's foot holds old gold coins."
+    ],
+    "notes": [
+      "Zombies, two. AC 8 [11], claw 1d8, morale 12. Immune to sleep. They always lose initiative. They act only if the plinth or the bowl is touched.",
+      "What this room teaches. Look before you take. The guards guard. They do nothing to people who only look. Restraint is the safe play."
+    ],
+    "choices": [
+      {
+        "id": "screen",
+        "mode": "plan",
+        "text": "Look at the screen.",
+        "say": [
+          "Station Nine's Terminal. Dead, not dark. Cracked across like ice on a puddle."
+        ]
+      },
+      {
+        "id": "bowl",
+        "mode": "plan",
+        "text": "Look at the bowl.",
+        "say": [
+          "Twelve imperial gold coins, old mint. A collector would pay 5 gp each. The guards stand still, so long as you only look."
+        ]
+      },
+      {
+        "id": "font",
+        "mode": "plan",
+        "text": "Look at the font.",
+        "say": [
+          "A stone font, dry. A cleric who blesses lake water in it makes two vials of holy water."
+        ]
+      },
+      {
+        "id": "minister",
+        "mode": "fate",
+        "ability": "terminal-remembers",
+        "text": "The Terminal Remembers: wake the screen.",
+        "effects": {
+          "flag": {
+            "set": [
+              "screen-woken"
+            ]
+          },
+          "say": [
+            "The glass lights for one breath: NINE. KEEPER ABSENT. DOOR SHUT. WARDEN ON COLLAR. Then it is dead again. The guards do not move."
+          ]
+        }
+      },
+      {
+        "id": "elfmin",
+        "mode": "fate",
+        "ability": "archives-deep",
+        "text": "The Archives Are Deep: lay your screen-fragment on the plinth.",
+        "effects": {
+          "flag": {
+            "set": [
+              "screen-woken"
+            ]
+          },
+          "say": [
+            "The fragment is warm. The glass lights for one breath: NINE. KEEPER ABSENT. DOOR SHUT. WARDEN ON COLLAR. A Terminal, closer than anyone thinks. The guards do not move."
+          ]
+        }
+      },
+      {
+        "id": "turn",
+        "mode": "fate",
+        "ability": "turn-undead",
+        "text": "Turn the guards before you touch the bowl.",
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "c11-turned"
+              ]
+            },
+            "say": [
+              "The guards bow their heads. Their plates go dull."
+            ]
+          },
+          "fail": {
+            "say": [
+              "The plates glow. The guards do not turn. They do not move, either. Not yet."
+            ]
+          }
+        }
+      },
+      {
+        "id": "take-rite",
+        "mode": "act",
+        "text": "Take the gold from the bowl. The rite holds.",
+        "if": {
+          "flags": [
+            "rite-said"
+          ],
+          "notFlags": [
+            "took-coins"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "imperial-coin": 12
+            }
+          },
+          "say": [
+            "The guards do not stir. Their plates are cold. Twelve old gold coins."
+          ],
+          "flag": {
+            "set": [
+              "took-coins"
+            ]
+          }
+        }
+      },
+      {
+        "id": "take",
+        "mode": "act",
+        "text": "Take the gold from the bowl.",
+        "if": {
+          "notFlags": [
+            "rite-said",
+            "took-coins",
+            "c11-turned"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "encounter": "c11-zombies"
+          }
+        }
+      },
+      {
+        "id": "take-turned",
+        "mode": "act",
+        "text": "Take the gold from the bowl. The guards are turned.",
+        "if": {
+          "flags": [
+            "c11-turned"
+          ],
+          "notFlags": [
+            "took-coins"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "imperial-coin": 12
+            }
+          },
+          "say": [
+            "The guards stand bowed. Twelve old gold coins."
+          ],
+          "flag": {
+            "set": [
+              "took-coins"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "c12-talk-2": {
+    "title": "They Will Talk",
+    "area": "C12",
+    "text": [
+      "Harl lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to see Vosk.",
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-talk-3": {
+    "title": "They Will Talk",
+    "area": "C12",
+    "text": [
+      "Harl lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to see Vosk.",
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-talk-4": {
+    "title": "They Will Talk",
+    "area": "C12",
+    "text": [
+      "Harl lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to see Vosk.",
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-talk-5": {
+    "title": "They Will Talk",
+    "area": "C12",
+    "text": [
+      "Harl lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to see Vosk.",
+        "check": {
+          "inSix": 5
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-cold": {
+    "title": "Turn Round",
+    "area": "C12",
+    "noLeave": true,
+    "text": [
+      "Crossbows up. Harl says it without heat: \"Turn round. Go back up your hole.\" They will fight if they are pushed."
+    ],
+    "choices": [
+      {
+        "id": "offer",
+        "mode": "act",
+        "text": "Make a better offer: 10 gp on the barrel.",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-uncertain"
+            },
+            "say": [
+              "The coins vanish. A good offer moves them one row down."
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "say": [
+              "The coins vanish. The crossbows do not lower."
+            ]
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Draw weapons.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "say": [
+            "Harl is up. The horn is in his hand."
+          ],
+          "goto": {
+            "encounter": "c12-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-uncertain": {
+    "title": "They Want a Reason",
+    "area": "C12",
+    "noLeave": true,
+    "text": [
+      "\"We do not know you.\" Harl does the talking. They want a reason: a name, a bribe, a story."
+    ],
+    "choices": [
+      {
+        "id": "pay",
+        "mode": "act",
+        "text": "Pay 10 gp for a way in.",
+        "if": {
+          "gold": 10
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "gold": 10
+            }
+          },
+          "goto": {
+            "scene": "c12-willing"
+          },
+          "say": [
+            "\"That will do.\""
+          ]
+        }
+      },
+      {
+        "id": "story",
+        "mode": "act",
+        "text": "Tell a good story.",
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-willing"
+            },
+            "say": [
+              "They laugh. \"All right. All right.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "Nobody laughs. \"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Draw weapons.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "say": [
+            "Harl is up. The horn is in his hand."
+          ],
+          "goto": {
+            "encounter": "c12-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-willing": {
+    "title": "They Let You In",
+    "area": "C12",
+    "noLeave": true,
+    "text": [
+      "Bored, cold, glad of news. Harl will take you down to Vosk, under guard, for a price or a good story. Cobb will not meet your eye."
+    ],
+    "choices": [
+      {
+        "id": "go",
+        "mode": "act",
+        "text": "Go down the ladder with them, under guard.",
+        "effects": {
+          "flag": {
+            "set": [
+              "guest"
+            ]
+          },
+          "say": [
+            "Forty feet of rope ladder. Harl goes first. Cobb comes last, with the crossbow."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 28,
+            "y": 16,
+            "facing": 2
+          }
+        }
+      },
+      {
+        "id": "cobb",
+        "mode": "act",
+        "text": "Take Cobb aside.",
+        "once": true,
+        "check": {
+          "inSix": 1
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "knows-last-run",
+                "knows-bell",
+                "cobb-talked"
+              ]
+            },
+            "say": [
+              "Cobb wants out. For a seat in your rowboat home he will tell you the boat's last run is on the fourth night, and that the ledger ends every batch the same way, up the Old Road to the Readers. He says the fish comes to the bell for salt fish."
+            ]
+          },
+          "fail": {
+            "say": [
+              "Cobb looks at his boots. Harl looks at you."
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12": {
+    "title": "The Saltmen Post",
+    "area": "C12",
+    "text": [
+      "Warm light, and the smell of tar and fried fish. Three people in salt-white oilskins sit on crates round a brazier, dicing on an upturned barrel, crossbows propped within reach. Behind them a square shaft drops through the floor with a winch over it and a rope ladder going down. All three look up at once, and the dice stop rolling."
+    ],
+    "notes": [
+      "Saltmen, three: Ude Harl, mate (HD 2) and the hands Cobb and Little Pell. AC 7 [12], cutlass or crossbow 1d6, morale 8 and 9. Orders: keep anyone from the tower out of the grotto.",
+      "What this room teaches. The first parley. Not every room of people is a fight. Roll the reaction, read the faces, make an offer. One roll, five answers."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "brazier",
+        "mode": "plan",
+        "text": "Look at the room.",
+        "say": [
+          "Three cots, a water cask, a crate of salt fish, a horn for the alarm. A square shaft in the floor with a winch over it and a rope ladder going down, forty feet, to the grotto."
+        ]
+      },
+      {
+        "id": "horn",
+        "mode": "plan",
+        "text": "Look at the horn.",
+        "say": [
+          "A brass horn on a nail by the cots. If trouble comes, they blow it."
+        ]
+      },
+      {
+        "id": "in",
+        "mode": "act",
+        "text": "Go in. The post is quiet.",
+        "if": {
+          "flags": [
+            "c12-cleared"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 26,
+            "y": 19,
+            "facing": 1
+          }
+        }
+      },
+      {
+        "id": "in-guest",
+        "mode": "act",
+        "text": "Go in with your escort.",
+        "if": {
+          "flags": [
+            "guest"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 26,
+            "y": 19,
+            "facing": 1
+          }
+        }
+      },
+      {
+        "id": "speak",
+        "mode": "act",
+        "text": "Speak to them.",
+        "if": {
+          "notFlags": [
+            "c12-cleared"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "scene": "c12-open"
+          }
+        }
+      },
+      {
+        "id": "attack",
+        "mode": "act",
+        "text": "Draw weapons and attack.",
+        "if": {
+          "notFlags": [
+            "c12-cleared"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "say": [
+            "Harl is up. The horn is in his hand."
+          ],
+          "goto": {
+            "encounter": "c12-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "c12-open": {
+    "title": "Speak to the Saltmen",
+    "area": "C12",
+    "text": [],
+    "notes": [
+      "You can talk instead of fighting. How they greet you depends on what you do. Name Harrow. Offer food, drink or 10 gp. Show the sign: the eye, then the line. Draw a weapon and they shoot.",
+      "One roll, five answers: hostile, unfriendly, uncertain, willing, eager."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "speak-plain",
+        "mode": "act",
+        "text": "Hold your hands open and speak.",
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-talk-2"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-harrow",
+        "mode": "act",
+        "text": "Say that Harrow sent you. (+1)",
+        "check": {
+          "inSix": 5
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-talk-3"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-gift",
+        "mode": "act",
+        "text": "Offer food, drink or 10 gp. (+1)",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 5
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-talk-3"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-both",
+        "mode": "act",
+        "text": "Name Harrow and offer 10 gp. (+2)",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 6
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-talk-4"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-sign",
+        "mode": "act",
+        "text": "Draw the eye, then the line, and knock. (+2)",
+        "if": {
+          "flags": [
+            "sign-drawn"
+          ]
+        },
+        "check": {
+          "inSix": 6
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "c12-talk-4"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-all",
+        "mode": "act",
+        "text": "The sign, Harrow's name and 10 gp. (+4)",
+        "if": {
+          "gold": 10,
+          "flags": [
+            "sign-drawn"
+          ]
+        },
+        "check": {
+          "inSix": 6
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-talk-5"
+            },
+            "say": [
+              "Harl looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "c12-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "attack",
+        "mode": "act",
+        "text": "Draw weapons and attack.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "say": [
+            "Harl is up. The horn is in his hand."
+          ],
+          "goto": {
+            "encounter": "c12-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away slowly down the passage.",
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 24,
+            "y": 19,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "g1": {
+    "title": "The Water Gate",
+    "area": "G1",
+    "text": [
+      "The cliff opens like a mouth with the lake for a tongue. Water slaps and sucks at the rock and the sound comes back from the dark ahead a moment late, as if something were repeating you. The long boat rides at its line in the channel, nets heaped in its bilge. A crab the size of a cart wheel, mottled like the rocks, lifts one claw from the shallows under the ledge."
+    ],
+    "notes": [
+      "Giant crab, one. AC 2 [17], two pincers 2d6, speed 60' (20'), morale 7. It lives on Saltmen scraps and guards the ledge foot where the rope comes down.",
+      "What this room teaches. The front door is guarded. Coming in by the rope is fast, and you arrive where the Saltmen expect visitors."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "boat",
+        "mode": "plan",
+        "text": "Look at the boat.",
+        "say": [
+          "Thirty feet, six oars, a lug sail. Under the nets, an empty false bottom sized for crates. Cutting the boat loose would strand the Saltmen."
+        ]
+      },
+      {
+        "id": "ledge",
+        "mode": "plan",
+        "text": "Look at the ledge.",
+        "say": [
+          "Wet rock, thirty feet wide at the mouth, narrowing south into the dock. By day, one of the dock hands sits in the boat, fishing. He shouts unless he is dealt with first."
+        ]
+      },
+      {
+        "id": "feed",
+        "mode": "act",
+        "text": "Drop a salt fish off the far end of the ledge and slip past. One turn.",
+        "turns": 1,
+        "once": true,
+        "if": {
+          "items": {
+            "salt-fish": 1
+          }
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "salt-fish": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "crab-fed"
+            ]
+          },
+          "say": [
+            "The crab goes after the fish. You are past it before the first bite."
+          ],
+          "goto": {
+            "close": true
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight the crab at the ledge foot.",
+        "effects": {
+          "goto": {
+            "encounter": "g1-crab"
+          }
+        }
+      },
+      {
+        "id": "cut",
+        "mode": "act",
+        "text": "Cut the boat loose. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "boat-cut"
+          ]
+        },
+        "effects": {
+          "say": [
+            "The line parts. The long boat turns, slow, and drifts toward the open lake. The Saltmen have no way off the isle now, and will want to talk."
+          ],
+          "flag": {
+            "set": [
+              "boat-cut"
+            ]
+          }
+        }
+      },
+      {
+        "id": "up",
+        "mode": "act",
+        "text": "Climb back up the rope. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "map": "surface",
+            "x": 6,
+            "y": 1,
+            "facing": 2
+          }
+        }
+      }
+    ]
+  },
+  "g2": {
+    "title": "The Saltmen's Dock",
+    "area": "G2",
+    "text": [
+      "Lantern light on wet stone, a timber dock along the channel, a winch, a stack of crates breathing out the smell of salt fish. Five people in white-crusted oilskins are at work: mending a net, stacking, arguing over a tally. Past the dock the cave opens south onto a wide black water that takes the lantern light and gives none of it back."
+    ],
+    "notes": [
+      "What this room teaches. Parley scales. Five people are too many to fight at level 1 without a plan. Talk, sleep, a bluff, or another way."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "guests",
+        "mode": "act",
+        "text": "Walk the dock as a guest.",
+        "if": {
+          "flags": [
+            "guest"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "scene": "g2-guest"
+          }
+        }
+      },
+      {
+        "id": "alone",
+        "mode": "act",
+        "text": "Face the dock as intruders.",
+        "if": {
+          "notFlags": [
+            "guest"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "scene": "g2-intruders"
+          }
+        }
+      }
+    ]
+  },
+  "g2-talk-1": {
+    "title": "They Will Talk",
+    "area": "G2",
+    "text": [
+      "Sefa Garr lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to be taken to Vosk.",
+        "check": {
+          "inSix": 1
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-talk-2": {
+    "title": "They Will Talk",
+    "area": "G2",
+    "text": [
+      "Sefa Garr lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to be taken to Vosk.",
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-talk-4": {
+    "title": "They Will Talk",
+    "area": "G2",
+    "text": [
+      "Sefa Garr lowers the crossbow an inch. They will hear you out. They want to know what you are worth."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "ask",
+        "mode": "act",
+        "text": "Ask to be taken to Vosk.",
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-willing"
+            },
+            "say": [
+              "\"Fine. Not here.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-uncertain"
+            },
+            "say": [
+              "\"Not so fast.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-cold": {
+    "title": "Turn Round",
+    "area": "G2",
+    "noLeave": true,
+    "text": [
+      "Crossbows come up all along the dock. Garr, flat: \"You are not expected. Turn round.\""
+    ],
+    "choices": [
+      {
+        "id": "offer",
+        "mode": "act",
+        "text": "Make a better offer: 10 gp on the barrel.",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-uncertain"
+            },
+            "say": [
+              "The coins vanish. A good offer moves them one row down."
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "say": [
+              "The coins vanish. The crossbows do not lower."
+            ]
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Draw weapons.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "goto": {
+            "encounter": "g2-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-uncertain": {
+    "title": "They Want a Reason",
+    "area": "G2",
+    "noLeave": true,
+    "text": [
+      "\"We do not know you.\" Garr does the talking. They want a reason: a name, a bribe, a story."
+    ],
+    "choices": [
+      {
+        "id": "pay",
+        "mode": "act",
+        "text": "Pay 10 gp for a way in.",
+        "if": {
+          "gold": 10
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "gold": 10
+            }
+          },
+          "goto": {
+            "scene": "g2-willing"
+          },
+          "say": [
+            "\"That will do.\""
+          ]
+        }
+      },
+      {
+        "id": "story",
+        "mode": "act",
+        "text": "Tell a good story.",
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-willing"
+            },
+            "say": [
+              "They laugh. \"All right. All right.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "Nobody laughs. \"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Draw weapons.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "goto": {
+            "encounter": "g2-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-willing": {
+    "title": "They Let You In",
+    "area": "G2",
+    "noLeave": true,
+    "text": [
+      "Garr tilts her head at the plank bridge. They will take you across to Vosk, under guard, and watch your hands."
+    ],
+    "choices": [
+      {
+        "id": "go",
+        "mode": "act",
+        "text": "Cross the plank bridge to Vosk, under guard.",
+        "effects": {
+          "flag": {
+            "set": [
+              "guest"
+            ]
+          },
+          "goto": {
+            "map": "grotto",
+            "x": 14,
+            "y": 8,
+            "facing": 3
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-intruders": {
+    "title": "The Dock",
+    "area": "G2",
+    "text": [],
+    "notes": [
+      "Five Saltmen: Sefa Garr, mate (HD 2), and four hands. AC 7 [12], cutlass or crossbow 1d6, morale 8 and 9. Two dead, or Sefa down: the rest check morale.",
+      "You come as intruders. The reaction is at minus 2."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "fish",
+        "mode": "plan",
+        "text": "Look at the crates.",
+        "say": [
+          "Six crates of salt fish. Bait for the bell. Also enough salt to strip every leech in the drowned landing."
+        ]
+      },
+      {
+        "id": "bridge",
+        "mode": "plan",
+        "text": "Look at the plank bridge.",
+        "say": [
+          "Three planks lashed together, forty feet across the channel to Vosk's room."
+        ]
+      },
+      {
+        "id": "tally",
+        "mode": "plan",
+        "text": "Look at the tally board.",
+        "say": [
+          "Chalk marks: crates in, crates out, and four eggs drawn as small circles."
+        ]
+      },
+      {
+        "id": "speak-plain",
+        "mode": "act",
+        "text": "Hold your hands open and speak. (-2)",
+        "check": {
+          "inSix": 3
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-talk-1"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-harrow",
+        "mode": "act",
+        "text": "Say that Harrow sent you. (+1)",
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-talk-2"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-gift",
+        "mode": "act",
+        "text": "Offer food, drink or 10 gp. (+1)",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-talk-2"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-both",
+        "mode": "act",
+        "text": "Name Harrow and offer 10 gp. (+2)",
+        "if": {
+          "gold": 10
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-talk-2"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-sign",
+        "mode": "act",
+        "text": "Draw the eye, then the line, and knock. (+2)",
+        "if": {
+          "flags": [
+            "sign-drawn"
+          ]
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "goto": {
+              "scene": "g2-talk-2"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "speak-all",
+        "mode": "act",
+        "text": "The sign, Harrow's name and 10 gp. (+4)",
+        "if": {
+          "gold": 10,
+          "flags": [
+            "sign-drawn"
+          ]
+        },
+        "check": {
+          "inSix": 6
+        },
+        "on": {
+          "success": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-talk-4"
+            },
+            "say": [
+              "Sefa Garr looks at you a moment too long. \"Say your piece.\""
+            ]
+          },
+          "fail": {
+            "item": {
+              "remove": {
+                "gold": 10
+              }
+            },
+            "goto": {
+              "scene": "g2-cold"
+            },
+            "say": [
+              "\"Turn round.\""
+            ]
+          }
+        }
+      },
+      {
+        "id": "attack",
+        "mode": "act",
+        "text": "Attack the dock.",
+        "effects": {
+          "flag": {
+            "set": [
+              "alarmed"
+            ]
+          },
+          "goto": {
+            "encounter": "g2-saltmen"
+          }
+        }
+      },
+      {
+        "id": "away",
+        "mode": "act",
+        "text": "Back away to the ledge.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 24,
+            "y": 5,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g2-guest": {
+    "title": "The Dock, as Guests",
+    "area": "G2",
+    "text": [
+      "Tense, civil, watched. Sefa Garr falls in beside you. Hands look up from the net and down again."
+    ],
+    "choices": [
+      {
+        "id": "fish",
+        "mode": "plan",
+        "text": "Look at the crates.",
+        "say": [
+          "Six crates of salt fish. Bait for the bell. Also enough salt to strip every leech in the drowned landing."
+        ]
+      },
+      {
+        "id": "tally",
+        "mode": "plan",
+        "text": "Look at the tally board.",
+        "say": [
+          "Chalk marks: crates in, crates out, and four eggs drawn as small circles."
+        ]
+      },
+      {
+        "id": "cross",
+        "mode": "act",
+        "text": "Cross the plank bridge to Vosk. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 14,
+            "y": 8,
+            "facing": 3
+          }
+        }
+      }
+    ]
+  },
+  "g2-search": {
+    "title": "Searching the Dock",
+    "area": "G2",
+    "text": [
+      "You look along the passage mouth to the east. A cord at ankle height, across the passage, tied off to a bell-cord that runs away west. Stepping through it rings a bell in Vosk's room."
+    ],
+    "choices": [
+      {
+        "id": "string",
+        "mode": "plan",
+        "text": "Step over the cord.",
+        "say": [
+          "You step over the cord. Nothing rings."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "string-found"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "g3": {
+    "title": "The Cache",
+    "area": "G3",
+    "text": [
+      "A dry pocket of the cave, stacked with what the lake is too honest to carry by day: bolts of dyed cloth wrapped in oilskin, a cask with an imperial brand, a crate of green bronze fittings pried from old buildings. On top of a straw-packed box, four grey eggs lie in a row, each warm to the touch, each as heavy as a stone."
+    ],
+    "notes": [
+      "What this room teaches. Treasure has weight. The coffer alone weighs as much as 3,500 coins. Getting rich means more trips, or a boat."
+    ],
+    "choices": [
+      {
+        "id": "cord",
+        "mode": "plan",
+        "text": "Think about how you came in.",
+        "say": [
+          "If you stepped through a cord at ankle height in the passage, a bell rang in Vosk's room, and she is ready."
+        ]
+      },
+      {
+        "id": "weight",
+        "mode": "plan",
+        "text": "Weigh the coffer in your hands.",
+        "say": [
+          "Heavy. You feel the weight of it in your wrists."
+        ]
+      },
+      {
+        "id": "eggs",
+        "mode": "act",
+        "text": "Take the four eggs. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "has-eggs"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "cockatrice-egg": 4
+            }
+          },
+          "say": [
+            "Four grey eggs, each warm, each as heavy as a stone, in straw, in a box stamped with Harrow's mark. Drop one and it breaks. They may be Biddy's kin."
+          ],
+          "flag": {
+            "set": [
+              "has-eggs"
+            ]
+          }
+        }
+      },
+      {
+        "id": "cloth",
+        "mode": "act",
+        "text": "Take the six bolts of cloth. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-cloth"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "cloth-bolt": 6
+            }
+          },
+          "say": [
+            "Six bolts of dyed cloth in oilskin. 20 gp each."
+          ],
+          "flag": {
+            "set": [
+              "took-cloth"
+            ]
+          }
+        }
+      },
+      {
+        "id": "brandy",
+        "mode": "act",
+        "text": "Take the cask of brandy. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-brandy"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "brandy-cask": 1
+            }
+          },
+          "say": [
+            "An imperial cask. 80 gp. Heavy."
+          ],
+          "flag": {
+            "set": [
+              "took-brandy"
+            ]
+          }
+        }
+      },
+      {
+        "id": "fittings",
+        "mode": "act",
+        "text": "Take the crate of bronze fittings. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-fittings"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "bronze-fittings": 1
+            }
+          },
+          "say": [
+            "150 gp as metal. As heavy as 1,500 coins."
+          ],
+          "flag": {
+            "set": [
+              "took-fittings"
+            ]
+          }
+        }
+      },
+      {
+        "id": "coffer",
+        "mode": "act",
+        "text": "Break open the coffer. One turn, loud.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "took-coffer"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 800
+            }
+          },
+          "say": [
+            "Inside: 3,000 silver and 500 gold. Eight hundred gold in all."
+          ],
+          "flag": {
+            "set": [
+              "took-coffer"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "g4": {
+    "title": "Vosk's Room",
+    "area": "G4",
+    "text": [
+      "A hammock, a strongbox chained to an iron ring, and a chart table on trestles with a lamp burning low on it. A lean woman with a white braid looks up from a ledger without closing it, and a broad man beside the strongbox puts his hand on an axe. \"Well,\" she says, as if you were late. \"Sit down, or don't. Either way, mind the bridge.\""
+    ],
+    "notes": [
+      "Ketter Vosk (HD 3, AC 5 [14], sword 1d8, morale 9) and her bodyguard Moss (HD 2, AC 6 [13], axe 1d8, morale 10). She talks first. She opens low and comes up.",
+      "What this room teaches. The boss talks. The person at the bottom of the dungeon has wants. What she knows is worth more than what she carries."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "want",
+        "mode": "plan",
+        "text": "Ask what she wants.",
+        "say": [
+          "\"Out. Alive, with the boat and the strongbox.\""
+        ]
+      },
+      {
+        "id": "fear",
+        "mode": "plan",
+        "text": "Ask about the Readers.",
+        "say": [
+          "\"Polite people who don't blink.\" She lost two men learning that the fish cannot be swum past."
+        ]
+      },
+      {
+        "id": "bell",
+        "mode": "plan",
+        "text": "Ask about the bell.",
+        "say": [
+          "\"The fish comes to the bell. Salt fish, at the east ledge. Ring it with food in your hand and it goes to the feeding ledge and eats. Take it for free, if it gets you to the pool and away from me.\""
+        ],
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-bell"
+            ]
+          }
+        }
+      },
+      {
+        "id": "biddy",
+        "mode": "plan",
+        "text": "Ask what she would pay for Biddy.",
+        "say": [
+          "\"Two thousand, half now. A bird that stopped a queen. The Readers would give me a ship for it.\" She is watching your face."
+        ],
+        "once": true,
+        "effects": {
+          "flag": {
+            "set": [
+              "biddy-offer"
+            ]
+          }
+        }
+      },
+      {
+        "id": "chart",
+        "mode": "plan",
+        "text": "Look at the chart table.",
+        "say": [
+          "A lake chart. The Saltmen's route east. The isle is marked with eight dots and a circle."
+        ]
+      },
+      {
+        "id": "box",
+        "mode": "plan",
+        "text": "Look at the strongbox.",
+        "say": [
+          "Chained to an iron ring. The key hangs on a cord round her neck."
+        ]
+      },
+      {
+        "id": "offer",
+        "mode": "plan",
+        "text": "Make her an offer.",
+        "say": [
+          "She turns the ledger a quarter turn on the table and waits."
+        ],
+        "effects": {
+          "goto": {
+            "scene": "g4-deal"
+          }
+        }
+      },
+      {
+        "id": "attack",
+        "mode": "act",
+        "text": "Refuse, and attack.",
+        "effects": {
+          "goto": {
+            "encounter": "g4-vosk"
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Cross the bridge back to the dock.",
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 15,
+            "y": 8,
+            "facing": 1
+          }
+        }
+      }
+    ]
+  },
+  "g4-deal": {
+    "title": "Vosk Will Deal",
+    "area": "G4",
+    "text": [
+      "She talks first. She opens low and comes up. She does not rise from the table."
+    ],
+    "choices": [
+      {
+        "id": "read-ledger",
+        "mode": "plan",
+        "text": "Read the ledger.",
+        "say": [
+          "Eggs bought from Harrow by date and price. Every batch ends with the same line: \"up the Old Road to the Readers, left at the hum.\" The courier column says Dace every time; the last entry has no return date. Payments in faceless gold."
+        ],
+        "if": {
+          "items": {
+            "ledger": 1
+          }
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "read-ledger"
+            ]
+          }
+        }
+      },
+      {
+        "id": "read-letter",
+        "mode": "plan",
+        "text": "Read the Readers' letter.",
+        "say": [
+          "Polite, in an educated hand: \"Our thanks for the four. We shall need more. We hear The Fort keeps a bird that has already stopped a queen; name its price. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read.\" It quotes a hymn line backwards. Its closing uses an old knightly countersign."
+        ],
+        "if": {
+          "items": {
+            "readers-letter": 1
+          }
+        }
+      },
+      {
+        "id": "final",
+        "mode": "act",
+        "text": "Take her last offer: the ledger and the letter, for her life and her boat.",
+        "if": {
+          "notFlags": [
+            "vosk-deal"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "ledger": 1,
+              "readers-letter": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "vosk-deal",
+              "has-ledger",
+              "has-letter"
+            ]
+          },
+          "say": [
+            "She slides the ledger across the table, and the letter on top of it. \"My life and my boat. Nothing else. That is the last of it.\""
+          ]
+        }
+      },
+      {
+        "id": "tenth",
+        "mode": "act",
+        "text": "Take a tenth of the strongbox (180 gp) for safe passage out.",
+        "if": {
+          "notFlags": [
+            "vosk-deal"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 180
+            }
+          },
+          "say": [
+            "She counts it out herself, coin by coin, and does not look up."
+          ],
+          "flag": {
+            "set": [
+              "vosk-deal"
+            ]
+          }
+        }
+      },
+      {
+        "id": "lamp",
+        "mode": "act",
+        "text": "Sell her the Warden's Lamp for 500 gp.",
+        "if": {
+          "items": {
+            "warden-lamp": 1
+          },
+          "notFlags": [
+            "lamp-sold"
+          ]
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "warden-lamp": 1
+            },
+            "add": {
+              "gold": 500
+            }
+          },
+          "say": [
+            "\"The Readers would pay twice that,\" she says. She does not say who will carry it to them."
+          ],
+          "flag": {
+            "set": [
+              "lamp-sold"
+            ]
+          }
+        }
+      },
+      {
+        "id": "attack",
+        "mode": "act",
+        "text": "Refuse, and attack.",
+        "effects": {
+          "goto": {
+            "encounter": "g4-vosk"
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Say nothing for a while.",
+        "effects": {
+          "goto": {
+            "scene": "g4"
+          }
+        }
+      }
+    ],
+    "noLeave": true
+  },
+  "g4-after": {
+    "title": "Vosk's Room, After",
+    "area": "G4",
+    "text": [
+      "The lamp burns low on the chart table. The ledger lies open. Moss and Vosk are down. The bridge behind you is a thin ruled line over black water."
+    ],
+    "choices": [
+      {
+        "id": "ledger",
+        "mode": "plan",
+        "text": "Read the ledger.",
+        "say": [
+          "Eggs bought from Harrow by date and price. Every batch ends with the same line: \"up the Old Road to the Readers, left at the hum.\" The courier column says Dace every time; the last entry has no return date. Payments in faceless gold."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "read-ledger"
+            ]
+          }
+        }
+      },
+      {
+        "id": "letter",
+        "mode": "plan",
+        "text": "Read the Readers' letter.",
+        "say": [
+          "Polite, in an educated hand: \"Our thanks for the four. We shall need more. We hear The Fort keeps a bird that has already stopped a queen; name its price. We shall also need the way past the keeper's fish, and the ground before the Door kept clear. One of us will come to read it. Do not try to open what you cannot read.\" It quotes a hymn line backwards. Its closing uses an old knightly countersign."
+        ]
+      }
+    ]
+  },
+  "g5": {
+    "title": "The Shaft Foot",
+    "area": "G5",
+    "text": [
+      "The rope ladder ends on a floor of trodden sand, beside a basket on a winch line and a man asleep sitting up, his chin on his chest and his crossbow across his knees. A passage leads away toward voices and the knock of wood on wood."
+    ],
+    "notes": [
+      "What this room teaches. Surprise is earned. A party that came down quietly finds a sleeping man and a choice."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "sentry",
+        "mode": "plan",
+        "text": "Look at the sentry.",
+        "say": [
+          "Asleep 4 in 6 by day, awake at night. If the horn blew above, he is awake with his crossbow aimed up the shaft."
+        ]
+      },
+      {
+        "id": "voices",
+        "mode": "plan",
+        "text": "Listen to the voices.",
+        "say": [
+          "Voices and the knock of wood on wood, north-west, along the passage to the dock."
+        ]
+      },
+      {
+        "id": "basket",
+        "mode": "plan",
+        "text": "Look at the basket.",
+        "say": [
+          "Goods go up and down in it. Nobody in your party fits."
+        ]
+      },
+      {
+        "id": "escort",
+        "mode": "act",
+        "text": "Go on along the passage with your escort.",
+        "if": {
+          "flags": [
+            "guest"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "map": "grotto",
+            "x": 26,
+            "y": 13,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "slip",
+        "mode": "act",
+        "text": "Slip past him. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "alarmed",
+            "guest"
+          ]
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "say": [
+              "You are past him, and he does not stir."
+            ],
+            "goto": {
+              "map": "grotto",
+              "x": 26,
+              "y": 13,
+              "facing": 0
+            }
+          },
+          "fail": {
+            "say": [
+              "A boot scuffs. His eyes open."
+            ],
+            "goto": {
+              "encounter": "g5-sentry"
+            }
+          }
+        }
+      },
+      {
+        "id": "creep",
+        "mode": "act",
+        "text": "Creep up on him and strike first. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "alarmed",
+            "guest"
+          ]
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "sentry-asleep"
+              ]
+            },
+            "say": [
+              "He is still asleep."
+            ],
+            "goto": {
+              "encounter": "g5-sentry"
+            }
+          },
+          "fail": {
+            "say": [
+              "A boot scuffs. His eyes open."
+            ],
+            "goto": {
+              "encounter": "g5-sentry"
+            }
+          }
+        }
+      },
+      {
+        "id": "awake",
+        "mode": "act",
+        "text": "He is awake and aimed. Fight him.",
+        "if": {
+          "flags": [
+            "alarmed"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "encounter": "g5-sentry"
+          }
+        }
+      },
+      {
+        "id": "up",
+        "mode": "act",
+        "text": "Climb back up the ladder. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 29,
+            "y": 18,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g6": {
+    "title": "The Drowned Landing",
+    "area": "G6",
+    "text": [
+      "The stair comes up out of the water onto a broad, flooded shelf of rock, and the water here is warm as blood and full of slow ribbons that are not weed. To the east the shelf narrows to a ledge along a great dark pool. Out on the pool, without a sound, a wide ring spreads and fades."
+    ],
+    "notes": [
+      "What this room teaches. Hazards cost time, not lives. Leeches are a toll. Salt from the cottage pays it in a round."
+    ],
+    "choices": [
+      {
+        "id": "ring",
+        "mode": "plan",
+        "text": "Look at the ring on the pool.",
+        "say": [
+          "The Warden, turning over, far out. It does not come yet. It is on the other side of the shelf, and the rim ledge east leads straight to it."
+        ]
+      },
+      {
+        "id": "leeches",
+        "mode": "plan",
+        "text": "Look at the water around your legs.",
+        "say": [
+          "Slow ribbons that are not weed. Each of you has picked up 1d4 already."
+        ]
+      },
+      {
+        "id": "burn",
+        "mode": "act",
+        "text": "Salt or burn the leeches off. One turn.",
+        "turns": 1,
+        "once": true,
+        "effects": {
+          "say": [
+            "Salt, or a torch held low: they drop off whole. A round each, and no blood."
+          ]
+        }
+      },
+      {
+        "id": "tear",
+        "mode": "act",
+        "text": "Tear them off. Each costs 1 hp.",
+        "once": true,
+        "effects": {
+          "damage": {
+            "who": "party",
+            "amount": "1d4"
+          },
+          "say": [
+            "They come away with a wet sound, and take a little of you with them."
+          ]
+        }
+      }
+    ]
+  },
+  "g6-up": {
+    "title": "The Flooded Stair, Going Up",
+    "area": "G6",
+    "text": [
+      "The stair rises west into black water. The far end is the cellar, thirty feet above."
+    ],
+    "choices": [
+      {
+        "id": "rope",
+        "mode": "act",
+        "text": "Swim up the rope line. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c3-rope-set"
+          ]
+        },
+        "effects": {
+          "say": [
+            "Hand over hand, up the rope you tied off. The cellar air is dry and cold."
+          ],
+          "goto": {
+            "map": "cellars",
+            "x": 6,
+            "y": 18,
+            "facing": 1
+          }
+        }
+      },
+      {
+        "id": "swim",
+        "mode": "act",
+        "text": "Swim up without a line. One turn.",
+        "turns": 1,
+        "check": {
+          "save": "D"
+        },
+        "on": {
+          "success": {
+            "say": [
+              "You break the surface on the steps."
+            ],
+            "goto": {
+              "map": "cellars",
+              "x": 6,
+              "y": 18,
+              "facing": 1
+            }
+          },
+          "fail": {
+            "say": [
+              "You come up in the wrong place and lose a turn."
+            ]
+          }
+        }
+      },
+      {
+        "id": "walk",
+        "mode": "act",
+        "text": "Walk up the drained stair. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "c3-drained"
+          ]
+        },
+        "effects": {
+          "goto": {
+            "map": "cellars",
+            "x": 6,
+            "y": 18,
+            "facing": 1
+          }
+        }
+      }
+    ]
+  },
+  "g7": {
+    "title": "The Warden's Pool",
+    "area": "G7",
+    "text": [
+      "The cave opens into a hall of water so wide your light can't find its far side. Far down, something glows a dim, steady green, like a coal in a deep grate. Then the glow rises.",
+      "The water bulges, slides off a back as broad as a barn door, and a head comes up: whiskers thick as ship's cable, a mouth that could take a man to the waist, and round its neck a band of green bronze set with one dark stone."
+    ],
+    "notes": [
+      "The Warden. AC 4 [15], HD 8+3, bite 2d8 and four feelers 1d4, swim 90' (30'). Immune to sleep. 38 hp. Morale 8. The pool is 40 feet deep.",
+      "What this room teaches. The climax rewards what you did earlier. Every way past it comes from a choice made in another room. A party that read, watched and listened wins without a fight."
+    ],
+    "choices": [
+      {
+        "id": "collar",
+        "mode": "plan",
+        "text": "Look at the collar.",
+        "say": [
+          "A control collar of riveted bronze. The keystone at the throat is a dark stone. It glows green when the collar is working."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-warden"
+            ]
+          }
+        }
+      },
+      {
+        "id": "bell",
+        "mode": "plan",
+        "text": "Look at the bell.",
+        "say": [
+          "On a bronze frame on the feeding ledge. Ringing it is loud."
+        ]
+      },
+      {
+        "id": "rim",
+        "mode": "plan",
+        "text": "Look at the rim ledge.",
+        "say": [
+          "Wet and slick, five to ten feet wide, round the south and west sides. Running on it: save or slide into the water."
+        ]
+      },
+      {
+        "id": "shelf",
+        "mode": "plan",
+        "text": "Look under the feeding ledge.",
+        "say": [
+          "Ten feet down: the keepers' offerings and the Warden's leavings. Old coins."
+        ]
+      },
+      {
+        "id": "circuit",
+        "mode": "plan",
+        "text": "Ask what you know of it.",
+        "say": [
+          "Say what each of you knows. The answers change the fight."
+        ],
+        "effects": {
+          "goto": {
+            "scene": "g7-moments"
+          }
+        }
+      },
+      {
+        "id": "dive",
+        "mode": "act",
+        "text": "Dive for the feeding shelf. Three turns, 300 gp a turn.",
+        "turns": 3,
+        "if": {
+          "flags": [
+            "warden-clear"
+          ],
+          "notFlags": [
+            "took-shelf"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold": 900
+            }
+          },
+          "say": [
+            "Nine hundred gold in old coin, in three trips down the dark."
+          ],
+          "flag": {
+            "set": [
+              "took-shelf"
+            ]
+          }
+        }
+      },
+      {
+        "id": "collar-dive",
+        "mode": "act",
+        "text": "Raise the collar from the feeding shelf. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "warden-freed"
+          ],
+          "notFlags": [
+            "took-collar"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "warden-collar": 1
+            }
+          },
+          "say": [
+            "The bronze is cold and heavy. Five hundred gold, as metal."
+          ],
+          "flag": {
+            "set": [
+              "took-collar"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "g7-moments": {
+    "title": "What Each of You Knows",
+    "area": "G7",
+    "text": [
+      "Say it before the Warden does. Each of you has one true fact to give."
+    ],
+    "choices": [
+      {
+        "id": "fighter",
+        "mode": "fate",
+        "ability": "know-how-made",
+        "text": "I Know How This Was Made: the collar.",
+        "effects": {
+          "flag": {
+            "set": [
+              "fighter-collar",
+              "knows-collar"
+            ]
+          },
+          "say": [
+            "The keystone is set in soft solder. One blow at the seam."
+          ]
+        }
+      },
+      {
+        "id": "wizard",
+        "mode": "fate",
+        "ability": "read-about-this",
+        "text": "I've Read About This: the collar.",
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-collar"
+            ]
+          },
+          "say": [
+            "The collar is a lock, and the keystone is its seat. Break the stone and the fish is only a fish. Sleep will not touch something this old. A bolt of force at the keystone would, when the head is up."
+          ]
+        }
+      },
+      {
+        "id": "elfmin",
+        "mode": "fate",
+        "ability": "archives-deep",
+        "text": "The Archives Are Deep: what is the station for?",
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-lamp"
+            ]
+          },
+          "say": [
+            "The station watched the door below. The Warden is its watchman. The collar answers to the station's own green light: a lamp, held up, is a keeper's face."
+          ]
+        }
+      },
+      {
+        "id": "paladin",
+        "mode": "fate",
+        "ability": "oath-remembers",
+        "text": "The Oath Remembers: the Warden.",
+        "effects": {
+          "flag": {
+            "set": [
+              "knows-lamp"
+            ]
+          },
+          "say": [
+            "Your sense finds nothing evil in it. It is a servant, not a monster. The knights once rode here to relieve the keepers. Carry the lamp, and the oath to protect the keeper becomes an oath to protect the bearer."
+          ]
+        }
+      },
+      {
+        "id": "gnome-land",
+        "mode": "fate",
+        "ability": "land-speaks",
+        "text": "The Land Speaks: the pool.",
+        "effects": {
+          "say": [
+            "The pool runs north under the isle, toward the Deep. Is the collar a tool, a wound, or a conversation? The land says: ask the fish."
+          ]
+        }
+      },
+      {
+        "id": "gnome-talk",
+        "mode": "fate",
+        "ability": "speak-animals",
+        "text": "Speak with Animals: ask the Warden.",
+        "effects": {
+          "flag": {
+            "set": [
+              "warden-asked"
+            ]
+          },
+          "say": [
+            "It is old, hungry and tired. It does not want to hurt you. It wants the collar off, and the deep water."
+          ]
+        }
+      },
+      {
+        "id": "elf",
+        "mode": "fate",
+        "ability": "remember-when",
+        "text": "I Remember When: catfish like this.",
+        "effects": {
+          "say": [
+            "You have seen catfish this size in imperial harness, pulling barges. They were not wild, and they were not unhappy. You can stand on dry rock past ten feet from the edge, and it cannot reach you."
+          ]
+        }
+      },
+      {
+        "id": "minister",
+        "mode": "plan",
+        "text": "The Minister holds up her holy symbol.",
+        "say": [
+          "She holds up her lake-stone. It is the same stone as the lamp-stones. The Warden hesitates for one round.",
+          "She asks the hard question, to no one in particular: \"Do we free it, or do we keep it on its chain because we are afraid of the Door?\""
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-warden"
+            ]
+          }
+        }
+      },
+      {
+        "id": "back",
+        "mode": "act",
+        "text": "Look at the pool again.",
+        "effects": {
+          "goto": {
+            "scene": "g7"
+          }
+        }
+      }
+    ],
+    "noLeave": true
+  },
+  "g7-arm": {
+    "title": "The North Arm",
+    "area": "G7",
+    "text": [
+      "A ten-foot ledge beside deep water runs a hundred and twenty feet north to the Door. The Warden lies in the pool, and its head is turning toward the sound of you."
+    ],
+    "notes": [
+      "On any dry rock, standing still, it cannot find you. In the water it attacks. On the rim ledge, moving, it lunges. Within twenty feet of the Door it attacks, moving or not, unless shown the lamp."
+    ],
+    "choices": [
+      {
+        "id": "lamp",
+        "mode": "act",
+        "text": "Light the Warden's Lamp and show it the green light. One turn.",
+        "turns": 1,
+        "if": {
+          "items": {
+            "warden-lamp": 1,
+            "oil-flask": 1
+          }
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "oil-flask": 1
+            }
+          },
+          "light": {
+            "turns": 24
+          },
+          "flag": {
+            "set": [
+              "warden-stood-down",
+              "warden-clear",
+              "lamp-lit"
+            ]
+          },
+          "say": [
+            "The green light lies across the water between you. The Warden sinks, and lies still beneath it. It remembers a face. It lets you pass, for as long as the lamp burns, and it fights back if attacked."
+          ]
+        }
+      },
+      {
+        "id": "stones",
+        "mode": "act",
+        "text": "The lamp-stone dish is lit. Walk the arm while the pool is empty. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "dish-lit"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "unset": [
+              "dish-lit"
+            ],
+            "set": [
+              "warden-avoided"
+            ]
+          },
+          "say": [
+            "The pool is empty. The Warden has gone to its post at the lit stone. You walk."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 5,
+            "y": 6,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "circuit",
+        "mode": "act",
+        "text": "Wait out its circuit, then cross. Three turns.",
+        "turns": 3,
+        "if": {
+          "flags": [
+            "knows-circuit"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "warden-avoided"
+            ]
+          },
+          "say": [
+            "The swell leaves the pool and goes round the isle, clockwise. The water lies empty. You cross."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 5,
+            "y": 6,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "bell",
+        "mode": "act",
+        "text": "Ring the bell with a crate of salt fish in hand, then walk. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "knows-bell"
+          ],
+          "items": {
+            "salt-fish": 1
+          }
+        },
+        "effects": {
+          "item": {
+            "remove": {
+              "salt-fish": 1
+            }
+          },
+          "flag": {
+            "set": [
+              "warden-avoided"
+            ]
+          },
+          "say": [
+            "The bell is loud. The Warden goes to the feeding ledge and eats, and ignores everyone not in the water. You walk."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 5,
+            "y": 6,
+            "facing": 0
+          }
+        }
+      },
+      {
+        "id": "still",
+        "mode": "act",
+        "text": "Stand still. Only one of you moves at a time. Two turns.",
+        "turns": 2,
+        "if": {
+          "flags": [
+            "knows-tremble"
+          ]
+        },
+        "check": {
+          "inSix": 4
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "warden-avoided"
+              ]
+            },
+            "say": [
+              "It hears with its skin. You stand on dry stone, and you are not there. One at a time, you cross."
+            ],
+            "goto": {
+              "map": "grotto",
+              "x": 5,
+              "y": 6,
+              "facing": 0
+            }
+          },
+          "fail": {
+            "damage": {
+              "who": "random",
+              "amount": "2d8"
+            },
+            "say": [
+              "It finds the one who moved."
+            ]
+          }
+        }
+      },
+      {
+        "id": "sure",
+        "mode": "act",
+        "text": "Ask it to hold still. Break the keystone while it does. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "warden-asked",
+            "knows-collar"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "warden-freed",
+              "warden-clear"
+            ]
+          },
+          "say": [
+            "It lifts its head and holds still. The keystone shatters under the blow. The Warden thrashes for one round, then swims out through the water gate, north to the Deep, and does not come back. The lamp-stones go dark."
+          ]
+        }
+      },
+      {
+        "id": "seam",
+        "mode": "act",
+        "text": "Strike the seam in the solder. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "fighter-collar"
+          ]
+        },
+        "effects": {
+          "flag": {
+            "set": [
+              "warden-freed",
+              "warden-clear"
+            ]
+          },
+          "say": [
+            "The head comes up. One blow at the seam, and the keystone pops free. The Warden thrashes for one round, then swims out through the water gate, north to the Deep, and does not come back. The lamp-stones go dark."
+          ]
+        }
+      },
+      {
+        "id": "keystone",
+        "mode": "act",
+        "text": "Strike the keystone when its head comes up. One turn.",
+        "turns": 1,
+        "if": {
+          "flags": [
+            "knows-collar"
+          ]
+        },
+        "check": {
+          "inSix": 2
+        },
+        "on": {
+          "success": {
+            "flag": {
+              "set": [
+                "warden-freed",
+                "warden-clear"
+              ]
+            },
+            "say": [
+              "The blow lands. Ten points, and the stone breaks. The Warden thrashes for one round, then swims out through the water gate, north to the Deep, and does not come back. The lamp-stones go dark."
+            ]
+          },
+          "fail": {
+            "damage": {
+              "who": "leader",
+              "amount": "1d6"
+            },
+            "say": [
+              "The head comes up, and takes a bite at you as you strike. The stone holds."
+            ]
+          }
+        }
+      },
+      {
+        "id": "fight",
+        "mode": "act",
+        "text": "Fight it.",
+        "effects": {
+          "goto": {
+            "encounter": "warden"
+          }
+        }
+      },
+      {
+        "id": "walk",
+        "mode": "act",
+        "text": "Walk the north arm to the Door.",
+        "if": {
+          "flags": [
+            "warden-clear"
+          ]
+        },
+        "effects": {
+          "say": [
+            "You walk the rim and the arm, and nothing rises."
+          ],
+          "goto": {
+            "map": "grotto",
+            "x": 5,
+            "y": 6,
+            "facing": 0
+          }
+        }
+      }
+    ]
+  },
+  "g8": {
+    "title": "The Door Beneath the Lake",
+    "area": "G8",
+    "text": [
+      "The ledge ends in a low cave under the cliff, its far half flooded and still. Set into the north wall, across the water, is a door: a disc of black stone fifteen feet across, banded in bronze, its lower half sunk in the pool. Twelve eyes are carved round its rim, and every one of them is shut.",
+      "Beyond that wall there is only the lake, and then the Deep; the door is turned to face it, as if it expects to be knocked on from the other side."
+    ],
+    "notes": [
+      "This is as far as the delve goes. The Door stays shut.",
+      "What this room teaches. Not every door is for opening. Some are for knowing about."
+    ],
+    "noLeave": true,
+    "choices": [
+      {
+        "id": "door",
+        "mode": "plan",
+        "text": "Look at the Door.",
+        "say": [
+          "Black stone, bronze bands, no handle, no lock, no seam you can find. Reaching it from the dry ledge means a twenty-foot swim. It faces north, toward the Deep."
+        ],
+        "effects": {
+          "flag": {
+            "set": [
+              "saw-door"
+            ]
+          }
+        }
+      },
+      {
+        "id": "eyes",
+        "mode": "plan",
+        "text": "Count the eyes.",
+        "say": [
+          "Twelve, all shut. The same make as the eyes in the Gorgon Queen's chamber, and the open eyes of the ward room. These are shut, waiting."
+        ]
+      },
+      {
+        "id": "listen",
+        "mode": "plan",
+        "text": "Put your ear to the stone.",
+        "say": [
+          "Very far down, the singing of the Shallows."
+        ]
+      },
+      {
+        "id": "shelf",
+        "mode": "plan",
+        "text": "Look at the stone shelf.",
+        "say": [
+          "Keepers' offerings. A gold disc stamped with an open eye. And, if the Saltmen tried: a crowbar, bent, and a chalk copy of the eyes on a board. The Readers asked for it."
+        ]
+      },
+      {
+        "id": "elfmin",
+        "mode": "fate",
+        "ability": "archives-deep",
+        "text": "The Archives Are Deep: you know this door.",
+        "effects": {
+          "say": [
+            "This is the door beneath the lake. You know it on sight. The keeper in the warning may mean whoever holds the lamp. You speak first, and the others listen."
+          ]
+        }
+      },
+      {
+        "id": "gnome",
+        "mode": "fate",
+        "ability": "land-speaks",
+        "text": "The Land Speaks: what the rock remembers.",
+        "effects": {
+          "say": [
+            "The land remembers a city where the lake is now, and remembers the water coming in. The Door is the empire's work. The rock it is cut into is older, and the land has not forgiven either."
+          ]
+        }
+      },
+      {
+        "id": "disc",
+        "mode": "act",
+        "text": "Take the gold disc from the shelf.",
+        "if": {
+          "notFlags": [
+            "disc-taken"
+          ]
+        },
+        "effects": {
+          "item": {
+            "add": {
+              "gold-disc": 1
+            }
+          },
+          "say": [
+            "Four hundred gold. The Paladin says nothing, and looks at you."
+          ],
+          "flag": {
+            "set": [
+              "disc-taken"
+            ]
+          }
+        }
+      },
+      {
+        "id": "copy",
+        "mode": "act",
+        "text": "Copy the eyes onto your map. One turn.",
+        "turns": 1,
+        "if": {
+          "notFlags": [
+            "copied-eyes"
+          ]
+        },
+        "effects": {
+          "say": [
+            "Twelve eyes, each with one heavy lid. You ask yourself who else wants them open."
+          ],
+          "flag": {
+            "set": [
+              "copied-eyes"
+            ]
+          }
+        }
+      },
+      {
+        "id": "try",
+        "mode": "act",
+        "text": "Try to open the Door. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "scene": "g8-try-1"
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Leave it shut.",
+        "effects": {
+          "goto": {
+            "ending": "end-door"
+          }
+        }
+      }
+    ]
+  },
+  "g8-try-1": {
+    "title": "The Door",
+    "area": "G8",
+    "noLeave": true,
+    "text": [
+      "The eyes twitch under their lids."
+    ],
+    "choices": [
+      {
+        "id": "again",
+        "mode": "act",
+        "text": "Try again. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "scene": "g8-try-2"
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Leave it shut.",
+        "effects": {
+          "goto": {
+            "ending": "end-door"
+          }
+        }
+      }
+    ]
+  },
+  "g8-try-2": {
+    "title": "The Door",
+    "area": "G8",
+    "noLeave": true,
+    "text": [
+      "The water in the cave rises a foot."
+    ],
+    "choices": [
+      {
+        "id": "again",
+        "mode": "act",
+        "text": "Try again. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "scene": "g8-try-3"
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Leave it shut.",
+        "effects": {
+          "goto": {
+            "ending": "end-door"
+          }
+        }
+      }
+    ]
+  },
+  "g8-try-3": {
+    "title": "The Door",
+    "area": "G8",
+    "noLeave": true,
+    "text": [
+      "Far above you, the lamp-stones hum loud enough to hear down here."
+    ],
+    "choices": [
+      {
+        "id": "again",
+        "mode": "act",
+        "text": "Try again. One turn.",
+        "turns": 1,
+        "effects": {
+          "goto": {
+            "scene": "g8-try-4"
+          }
+        }
+      },
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Leave it shut.",
+        "effects": {
+          "goto": {
+            "ending": "end-door"
+          }
+        }
+      }
+    ]
+  },
+  "g8-try-4": {
+    "title": "The Door",
+    "area": "G8",
+    "noLeave": true,
+    "text": [
+      "Nothing more happens here. That night every one of you dreams of a long stair going down, north. No damage. No door."
+    ],
+    "choices": [
+      {
+        "id": "leave",
+        "mode": "act",
+        "text": "Leave it shut.",
+        "effects": {
+          "goto": {
+            "ending": "end-door"
+          }
+        }
+      }
+    ]
+  }
+}
