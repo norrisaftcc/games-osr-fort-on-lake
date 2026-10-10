@@ -156,6 +156,7 @@ export function validate(pack) {
   for (const [id, a] of Object.entries(pack.abilities || {})) {
     const w = `abilities.json ${id}`;
     if (!a.name || !a.kind) err(w, "needs name and kind");
+    if (a.text != null && typeof a.text !== "string") err(w, "text must be a string");
     if (!["rest", "delve"].includes(a.per)) err(w, `per must be "rest" or "delve"`);
     checkOutcome(w, a);
   }
@@ -166,6 +167,8 @@ export function validate(pack) {
     if (!s.title) err(w, "missing title");
     if (!Array.isArray(s.text)) err(w, "text must be an array of paragraphs");
     for (const t of s.text || []) if (t.length > 400) warn(w, `a paragraph is ${t.length} characters`);
+    if (s.notes != null && (!Array.isArray(s.notes) || s.notes.some(t => typeof t !== "string"))) err(w, "notes must be an array of strings");
+    for (const t of Array.isArray(s.notes) ? s.notes : []) if (t.length > 400) warn(w, `a note is ${t.length} characters`);
     if (!Array.isArray(s.choices)) { err(w, "choices must be an array"); continue; }
     const seen = new Set();
     for (const c of s.choices) {

@@ -14,6 +14,7 @@ A B/X teaching campaign set around **The Fort on the Lake**, a post-imperial fro
 | `generator/` | **The Forge**: a seeded dungeon generator (towers and ravines). Pure JS, no build. |
 | `demo/` | A single-file browser demo: six character intros and the first delve into the Drowned Tower. |
 | `classroom/` | **The First Delve** for first-year programming classes: seven stages in Python and C++ with byte-identical output. |
+| `crawler/` | **The Crawler**: a first-person party crawler for phones. One engine, a view, and data packs; `packs/drowned-tower` plays Module 2 (canon-bound: its pinned facts are checked on screen). Pure JS, no libraries. Contract: `crawler/SPEC.md`. |
 | `beta/` | The superseded pre-split setting document. Keep it; do not edit it. |
 
 ## Where canon comes from
@@ -50,6 +51,7 @@ Plain words. Short sentences, one idea each. Concrete nouns. Tables for anything
 | `generator/` | `node generator/test.mjs` | "All … checks passed" (a few minutes; uses Chromium) |
 | `demo/` | `node demo/test.mjs` (or `SEEDS=1,7 node demo/test.mjs` for a quick pass) | `PASS` |
 | `classroom/` | `bash classroom/check.sh` | `ALL CHECKS PASSED`. After a deliberate output change: `bash classroom/check.sh --regen`, then check the diff of `test_vectors/`. |
+| `crawler/` | `node crawler/tools/validate.mjs crawler/packs/<id>` for every pack; `node --test crawler/engine/test.mjs`; build each pack (`node crawler/tools/build.mjs crawler/packs/<id>`), then `node crawler/test.mjs` | `OK <id>` for every pack; engine tests `# fail 0`; `PASS`. The HTLL repository vendors `engine/`, `ui/`, `tools/` and `SPEC.md`: after a change, copy them over (see `crawler/README.md`) and run `check-vendor.mjs` there. |
 | A map in `dm/maps/` | Render the SVG to PNG with Playwright and look at it | Every keyed area labelled; exits match the module's key |
 | A module | Read every exit both ways; grep for the forbidden names | Exits reciprocal; no hits |
 

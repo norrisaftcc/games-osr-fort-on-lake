@@ -28,10 +28,14 @@ crawler/
   tools/load.mjs          reads a pack directory into one object
   tools/validate.mjs      node crawler/tools/validate.mjs <packdir>
   tools/build.mjs         node crawler/tools/build.mjs <packdir> [--out file]
+  tools/sim.mjs           node crawler/tools/sim.mjs <packdir>: balance simulator and rules audit (see its header)
   packs/<id>/             one directory per pack
   dist/<id>.html          built, single-file, opens from disk
-  test.mjs                Playwright acceptance walk (Phase 2)
+  test.mjs                Playwright acceptance walk: node crawler/test.mjs [dist files...]
+  README.md               what it is, how to play, how to make a pack, the checks
 ```
+
+A second repository may vendor `engine/`, `ui/`, `tools/`, `test.mjs`, this file and the two fixture packs, and build its own packs against them (HTLL does: `arcade/crawler/`). The Fort copy is the source. The vendored copy must match it byte for byte; `check-vendor.mjs` in the vendoring repo says so.
 
 No libraries, no network, no npm install. Node 22 and the global Playwright (`/opt/node22/lib/node_modules/playwright`, Chromium at `/opt/pw-browsers`) only.
 
@@ -79,14 +83,14 @@ Crawl.version                       → "0.1"
   const d = (s, n) => 1 + Math.floor(rand(s) * n);
   ```
   Same pack, same seed, same commands: same state, byte for byte. A replay is `{seed, commands[]}`.
-- **Never throws on a bad command.** An illegal command returns the same state and one event `{k:"refuse", text}`.
+- **Never throws on a bad command.** An illegal command returns the same state (the very same object) and one event `{k:"refuse", text}`. A catch-all turns any internal error into a refusal too.
 
 ### Commands
 
 | Command | Mode | Does |
 |---------|------|------|
 | `{t:"pick", ids:[...]}` | roster | Choose the party (exactly `rules.party.size`, default 4), in marching order. Goes to the hub. |
-| `{t:"hub", action}` | hub | Run a hub action by id (section 7) |
+| `{t:"hub", action}` | hub | Run a hub action by id (section 7). *Settled at integration:* a `roster` action takes `ids:[...]` (the new party, in marching order; with no `ids`, the places of the dead are filled from the bench); a `shop` action takes `buy:<item id>` or `sell:<treasure id>` and an optional `n` |
 | `{t:"turn", dir:"left"\|"right"\|"about"}` | map | Face a new way. No time. |
 | `{t:"move", dir:"forward"\|"back"\|"left"\|"right"}` | map | Step one cell. Left and right strafe. |
 | `{t:"act"}` | map | Act on the cell ahead: open or force a door, use a link |
@@ -94,9 +98,9 @@ Crawl.version                       → "0.1"
 | `{t:"listen"}` | map | Listen at the door ahead |
 | `{t:"rest"}` | map | Rest one turn |
 | `{t:"use", member, ability?, item?, target?}` | map, fight | Use an ability or item outside the orders flow |
-| `{t:"order", ids:[...]}` | map, hub | Change marching order |
+| `{t:"order", ids:[...]}` | map, hub | Change marching order. Name every member who is up, once |
 | `{t:"choose", id}` | scene | Pick a scene choice |
-| `{t:"orders", orders:[{member, act, target?, ability?, item?}]}` | fight | One round. `act`: `fight`, `ability`, `item`, `guard`, `run` |
+| `{t:"orders", orders:[{member, act, target?, ability?, item?}]}` | fight | One round. `act`: `fight`, `ability`, `item`, `guard`, `run`. `target` is a foe's index (its `i` in the view) when the target kind is `foe`, and a member id when it is `ally`. A member with no order fights (front rank, or ranged) or guards |
 | `{t:"reroll"}` | fight | Spend Fate to reroll the last missed attack |
 | `{t:"cheat"}` / `{t:"letgo"}` | deathDoor | Spend Fate to stay up, or go down |
 | `{t:"restart"}` | any | New game, same seed |
@@ -130,12 +134,15 @@ Crawl.version                       → "0.1"
   doors:   { "<map>": { "x,y": "open" | "found" } },   // "found": a secret door seen, now a closed door
   done:    { "<encounter id>": true },
   foes:    { "<encounter id>": [ { id, hp, marked, state } ] },  // survivors persist across a retreat
-  scene: null | { id, said: [], taken: [], from: "map" | "hub" },
-  fight: null | { enc, foes: [...], round, first, lastMiss: null | {member, order}, after },
+  scene: null | { id, said: [], taken: [], from: "map" | "hub", gate: bool },
+  fight: null | { enc, round, first, lastMiss: null | {member, order}, after, wander, nonLethal, morale },
+  queued: null | "<encounter id>",        // a wandering encounter rolled while a scene was open; it starts when the party is on the map again
   ending: null | "<ending id>",
   log: [],                                // last 50 log lines, for the view
 }
 ```
+
+`state.done` also holds engine markers that start with `@`: `@start`, `@gate`, `@dark`, `@search:<map>:<area>`, `@cell:<map>:<x,y>`, `@joined:<id>`, `@dead:<id>`. A member may carry `bonus: {next, fight}` (the `bonus` verb). A fight has no `foes` array: its foes live only in `state.foes[enc]`, so nothing can fall out of step. A wandering fight never sets `done[enc]` and deletes its foes when it ends.
 
 A fight's foes live in `state.foes[enc]` from the first round on, so a retreat and return finds the same monsters with the same hp, asleep or awake. (PR #1's review found exactly this bug in the classroom version. Do not repeat it.)
 
@@ -198,8 +205,10 @@ Stat mods from a score, the standard table: 3: −3; 4–5: −2; 6–8: −1; 9
 | Check `{skill}` | `rules.skills[skill]` gives `stat` and `difficulty`. The best living member rolls. | ladder |
 | Check `{stat, difficulty}` | The best living member rolls | ladder |
 | Member attacks | `attack.stat` vs the foe's `rating`. Style or success: the foe marks max(1, shifts). Tie: the foe marks 1 and the attacker marks 1 on `attack.costTrack` (default the first track). Fail: nothing. | ladder |
-| Foe attacks | The target rolls `rules.combat.defense` vs `attack.rating` (+2 if guarding). Style: the foe marks 1. Success: no harm. Tie: mark 1. Fail: mark −shifts. Marked on `attack.track`. | ladder |
+| Foe attacks | The target rolls `rules.combat.defense` vs `attack.rating`, and the roll gets +2 if the target is guarding (the rating is never raised). Style: the foe marks 1. Success: no harm. Tie: mark 1. Fail: mark −shifts. Marked on `attack.track`. | ladder |
 | Breaking | `breakAt: {dead: n}` or `{marked: n}` (total stress marked across the group) | — |
+
+*Settled at integration.* On `fate4df` a **tie** passes a `listen`, `search`, `forceDoor` or flee check (it is a success), so a pack sets those difficulties with ties counted. A scene outcome with no `tie` entry uses `success`; so does a missing `style`. A `bonus` adds to every roll the member makes (`fate4df`) or to the member's to-hit only (`ose`); `scope: "next"` is spent by the member's next roll, `scope: "fight"` ends with the fight. `rules.statMods` is read by the engine alone, so a `fate4df` pack must not set it. A member's own `fate` field wins over `rules.fate.start`; `rules.fate.bonus` is reserved and unused.
 
 **Harm and down.** A track has a maximum: `ose` from the member's `hp`; `fate4df` from the member's `tracks[id]` (default 3). Harm marks boxes; it never subtracts from a pool. When any track is full, the member is down. If the member has at least `fate.cheatDeath` Fate, the mode becomes `deathDoor` first: `cheat` spends it and leaves the member one box short of full; `letgo` puts them down. A down member drops out of the marching order. If every member is down, go to the ending named by `rules.endings.wipe`.
 
@@ -240,7 +249,7 @@ Stat mods from a score, the standard table: 3: −3; 4–5: −2; 6–8: −1; 9
 | `<` `>` | Stairs. Must have `cells["x,y"].link`. Moving into the cell, or `act` while facing it, uses the link. |
 | `~` | Water. Passable. The view hatches it. |
 
-`cells["x,y"]` may set `area`, `link`, `key`, and `event` (a scene that opens the first time the party steps on the cell). A `link` is `{map, x, y, facing}` or `{hub: true}` or `{scene: id}`.
+A secret door not yet found is a wall: `act` on it is refused even if the cell carries a `link` (the link works once the door is found). `cells["x,y"]` may set `area`, `link`, `key`, and `event` (a scene that opens the first time the party steps on the cell). A `link` is `{map, x, y, facing}` or `{hub: true}` or `{scene: id}`.
 
 **Areas.** Every lettered cell belongs to an area. Entering an area not yet visited costs `clock.newArea` turns; then its `enter` scene opens, if it has one. If the area has an `encounter` that is not done, the fight starts on entry, unless the area also has an `enter` scene: then the scene must start it with `goto: {encounter}`. `light` is `daylight`, `dim` or `dark`.
 
@@ -248,7 +257,7 @@ Stat mods from a score, the standard table: 3: −3; 4–5: −2; 6–8: −1; 9
 
 **Searching.** `search` costs `clock.search` turns. It rolls the `search` skill once for each unfound `S` cell next to (4-neighbour) any cell of the current area; a success finds it. If the area has a `search` scene, that opens once, after the roll.
 
-**Wandering monsters.** Every `clock.wander.every` turns, roll d6 ≤ `clock.wander.inSix`. A hit picks from the current map's `wander` table by weight. A wandering encounter with `"nonLethal": true` cannot take a member below one box from full.
+**Wandering monsters.** Every `clock.wander.every` turns, roll d6 ≤ `clock.wander.inSix`. A hit picks from the current map's `wander` table by weight. A wandering encounter with `"nonLethal": true` cannot take a member below one box from full. *Settled at integration:* the check does not roll during a fight or in the hub. A hit that lands while a scene is open (a search that opens a scene, a scene choice with `turns`, an area entry that opens its scene) is kept in `state.queued` and starts as a fight when the party is on the map again. Going home drops it. `clock.fight` is charged once, when a fight ends (a win, a break or a flee), not each round and not when it starts. A fight on the sixth turn is therefore not played TIRED; the party is tired after it.
 
 **Light.** In a `dark` area, if no light is lit, the engine lights the first carried item in `clock.light.order` (an item is carried if `state.items[id] > 0` and any `light.requires` item is also carried) and logs it. A lit source loses one turn per tick. At zero it is spent and the next is lit. If none is left in a dark area, the view shows nothing ahead and the `outScene` opens once. Entering a `daylight` area snuffs the source, keeping its turns in `light.stash`. An ability with a `light` effect lights `"spell"`.
 
@@ -261,6 +270,7 @@ Stat mods from a score, the standard table: 3: −3; 4–5: −2; 6–8: −1; 9
   "c1": {
     "title": "The Cellar Stair", "area": "C1",
     "text": [ "Read-aloud. Two to four sentences." ],
+    "notes": [ "Optional. Plain lines for the player that are not read-aloud: a size, a stat line, a rule." ],
     "choices": [
       { "id": "look-door", "mode": "plan", "text": "Look at the door.", "say": [ "Oak, swollen in its frame." ] },
       { "id": "listen", "mode": "act", "text": "Listen at the door.", "turns": 0,
@@ -285,9 +295,9 @@ Stat mods from a score, the standard table: 3: −3; 4–5: −2; 6–8: −1; 9
 
 The view names the gate the first time a scene shows both a `plan` and an `act` choice: *Planning is free. Acting costs time.* Use the Year Two words, **Planning** and **Execution**, in packs for the Fort.
 
-**Outcomes.** A choice has either `effects`, or `check` plus `on: {style?, success, tie?, fail}`. A missing `style` uses `success`. A missing `tie` uses `success` (fate4df: success at a cost; put the cost in `tie` when there is one). `say` lines are shown under the scene text and kept in `scene.said`. A choice with `"once": true` hides after it is taken.
+**Outcomes.** A choice has either `effects`, or `check` plus `on: {style?, success, tie?, fail}`. A missing `style` uses `success`. A missing `tie` uses `success` (fate4df: success at a cost; put the cost in `tie` when there is one). `say` lines are shown under the scene text and kept in `scene.said`. A choice with `"once": true` stays in its place after it is taken, greyed, with the reason *Done.*, so the number keys do not shift.
 
-**Leaving.** A scene opened from the map gets a last choice, *Step back* (`theme.labels.leave`), which closes it. Set `"noLeave": true` to remove it (a trap, a fight about to start). Hub and interrupt scenes must have their own way out.
+**Leaving.** A scene opened from the map gets a last choice, *Leave* (`theme.labels.leave`), which closes it. Set `"noLeave": true` to remove it (a trap, a fight about to start). The auto choice has the id `leave`; a scene that defines its own choice with that id gets no auto choice. Hub and interrupt scenes must have their own way out.
 
 **Conditions** (`"if": {...}` on a choice; an unmet choice is shown greyed, with `reason`, so number keys stay stable):
 `flags: []`, `notFlags: []`, `items: {id: n}`, `member: id` (in the party and up), `ability: id` (unused), `fate: n` (some member has n), `gold: n`, `visited: "<area>"`.
@@ -341,11 +351,13 @@ Only the front rank can make a melee attack or be attacked in melee. A back-rank
 
 `aura` (both resolvers): at the start of each round, each living member not using the `avoid` stance rolls `check` and on a fail gains `condition`. `{check: {...}, condition: "flagged", avoid: "guard"}`. Use sparingly.
 
+Both lines of a card, `oseLine` and `note5e`, are shown in the fight view, once for each kind of foe (`view.fight.foes[].card`).
+
 **Encounters** (`encounters.json`): `{foes: [{id, count?, hp?: [..]}], first: "party" | "foes" | {ifFlag, then, else}, reach?, nonLethal?, onWin?: effects, onFlee?: effects, after?: sceneId, text?: [..]}`. `first` decides only round one.
 
 **Items**: `{name, kind: "light"|"use"|"gear"|"treasure", value?, light?: {turns, requires?}, use?: {when: "map"|"fight"|"any", target, effects}}`.
 
-**Abilities**: `{name, kind: "spell"|"power"|"chrome"|"fate", per: "rest"|"delve", uses: 1, when: "map"|"fight"|"any"|"scene", target: "foe"|"foes"|"ally"|"party"|"self"|"none", effects, check?, on?}`. A `fate` ability is used only through a `fate`-mode scene choice.
+**Abilities**: `{name, text?, kind: "spell"|"power"|"chrome"|"fate", per: "rest"|"delve", uses: 1, when: "map"|"fight"|"any"|"scene", target: "foe"|"foes"|"ally"|"party"|"self"|"none", effects, check?, on?}`. A `fate` ability is used only through a `fate`-mode scene choice.
 
 **Hub** (`hub.json`): `{title, text, places: [{id, label, text, actions: [{id, label, kind, ...}]}], report: {title, lines: {flag: text}}}`. Kinds: `rest` (clears all marks and conditions, restores uses and Fate; `"recover"` packs raise the down; costs `price` gold), `shop` (`stock: [{item, price}]`, and sells treasure at `value`), `scene` (`scene: id`; how the party leaves for the dungeon), `roster` (swap bench members in, fill places left by the dead). When the party comes home, the hub shows `report.lines` for every set flag.
 
@@ -361,11 +373,11 @@ Only the front rank can make a melee attack or be attacked in melee. A back-rank
   "paletteDark": { "paper": "#14120F", "ink": "#E9E0C9", "accent": "#D0704E", "muted": "#9C927F" },
   "fonts": { "title": "Georgia, serif", "body": "Georgia, serif", "mono": "ui-monospace, Menlo, monospace" },
   "titleCaps": true,
-  "labels": { "leave": "Step back", "turn": "Turn", "light": "Light", "search": "Search", "rest": "Rest", "map": "Map" }
+  "labels": { "leave": "Leave", "turn": "Turn", "light": "Light", "search": "Search", "rest": "Rest", "map": "Map", "gold": "gp" }
 }
 ```
 
-System fonts only. The view fills any missing label with its English default.
+System fonts only. The view fills any missing label with its English default. `gold` names the money, in the HUD, the shops and the engine's "Not enough …" lines. The F1 help follows the pack's labels (section 9).
 
 ---
 
@@ -378,20 +390,25 @@ System fonts only. The view fills any missing label with its English default.
   mode,
   hud:   { turn, minutes, light: { label, left } | null, dark, tired, gold, area: { key, name } | null },
   party: [ { id, name, title, rank: "front"|"back", down, dead, fate,
-             tracks: [ { id, label, max, marked } ], cond: [], abilities: [ { id, name, left, usable } ] } ],
+             tracks: [ { id, label, max, marked } ], cond: [], abilities: [ { id, name, text, left, usable } ] } ],
   map:   { id, title, x, y, facing,                // facing 0..3
            ahead: [ [L, C, R], ... ],              // depth 0..3; each a cell kind
            can: { forward, back, left, right, act, search, listen, rest },
            automap: { w, h, rows: [ "string per row, unseen cells as space" ] } } | null,
-  scene: { id, title, text: [], said: [], choices: [ { id, text, mode, enabled, reason } ], gate: bool } | null,
-  fight: { round, foes: [ { i, name, state, hp: "label" } ], members: [ { id, acts: [ "fight", ... ], abilities: [...], items: [...] } ],
+  scene: { id, title, text: [], notes: [], said: [], choices: [ { id, text, mode, enabled, reason } ], gate: bool } | null,
+  fight: { round, foes: [ { i, name, state, hp: "label", marked, max, card: [ "stat line", "note" ] } ],   // state: awake | asleep | fled | dead
+           members: [ { id, acts: [ "fight", ... ], abilities: [ ids ], items: [ ids ] } ],
            canReroll, canRun } | null,
-  hub:   { title, text, places: [...], report: [ "lines" ] } | null,
+  hub:   { title, text, places: [ { id, label, text, actions: [ { id, label, kind, enabled, reason, price?, stock?: [ { item, name, price, count, enabled, reason } ], sell?: [ { item, name, value, count } ] } ] } ],
+           report: [ "lines" ], reportTitle, bench: [ roster cards of the living members not in the party ] } | null,
   roster:{ need, members: [ { id, name, title, text, npc, stats, card } ] } | null,
   ending:{ id, title, kind, text } | null,
+  door:  { who, cost } | null,                       // while mode is "deathDoor": whose box is full, and what Fate staying up costs
   log:   [ last 50 lines ]
 }
 ```
+
+`map` is non-null in the modes `map`, `fight` and `deathDoor`, and in a scene opened from the map; it is null in the hub and in hub scenes.
 
 Cell kinds in `ahead`: `wall`, `open`, `door`, `stuck`, `locked`, `stairs`, `water`. A secret door not yet found is `wall`. Out of bounds is `wall`. `ahead[0][1]` is the party's own cell. When dark, every kind except `ahead[0][1]` is `dark`.
 
@@ -415,20 +432,21 @@ Cell kinds in `ahead`: `wall`, `open`, `door`, `stuck`, `locked`, `stairs`, `wat
 ```
 
 - **Wireframe.** Canvas 2D, device-pixel-ratio aware. Lines only, in `ink` on `paper`: walls as trapezoids, doors as a frame inside the wall, stairs as a few steps, water as hatching. No fills except the paper. This is the Otus-ink house look; a theme's palette makes it duotone.
-- **Input.** Tap the arrows; swipe on the view (up forward, down back, left and right turn); keys: ↑/W forward, ↓/S back, ←/A and →/D turn, Q/E strafe, Space or Enter act, F search, L listen, R rest, M map, 1–9 choices and orders, Esc closes the map. Tap targets at least 44 px. No horizontal scroll at 360 px.
-- **The map.** An overlay draws `automap` and, under it, the moves as a turtle: `FORWARD 30 · RIGHT 90 · FORWARD 20` (10' per cell). This is Module 2's mapping lesson.
-- **Scenes.** Read-aloud in the title font; choices as buttons with the mode border; greyed choices show `reason`.
-- **Fight.** One member at a time: the view asks for each living member's order, then sends one `orders` command. Rolls appear in the log in mono: `Fighter d20 14 +1 = 15 vs AC 12 · hit · 1d8+1 = 6`.
+- **Input.** Tap the arrows; swipe on the view (up forward, down back, left and right turn); keys: ↑/W forward, ↓/S back, ←/A and →/D turn, Q/E strafe, Space or Enter act, F search, L listen, R rest, M map, 1–9 choices and orders, Esc closes the map. *Settled at integration:* in the hub, the number keys reach the places' own actions, in order; stall rows are tap, or Tab and Enter (so 1 to 9 always include the way out of a town with a long shop list). On the roster, Enter starts with the default party already picked. In a fight, the first number picks the member's act, and a second picks a foe when more than one can be hit. Tap targets at least 44 px. No horizontal scroll at 360 px.
+- **The map.** An overlay draws `automap`, cropped to the squares seen so far plus one square of margin and drawn at a whole-pixel cell size of at most 40 px, and under it the route as a turtle: `FORWARD 30 · RIGHT 90 · FORWARD 20` (10' per cell). The route is kept for each map. This is Module 2's mapping lesson.
+- **Scenes.** Read-aloud (`text`) in the title font. `notes` below it in the body font, small and muted: a size, a stat line, a rule, never read-aloud. Choices as buttons with the mode border; greyed choices show `reason`. A taken `once` choice stays, greyed, as *Done.*
+- **Fight.** One member at a time: the view asks for each living member's order, then sends one `orders` command. Rolls appear in the log in mono: `Fighter d20 14 +1 = 15 vs AC 12 · hit · 1d8+1 = 6`. On a portrait screen the orders sit in a sheet pinned to the bottom of the screen, two buttons to a row, with *Undo* and *Reroll* beside the question, so no order button is below the fold at 360 × 780. A round writes about nine lines, and the log shows three. So the sheet keeps the lines of the round just played above the next orders (*Last round*, until the next round plays), and when a step writes more than three lines outside a fight the log grows to seven lines and scrolls to the first new one.
+- **The hub.** The action that leaves for the dungeon (kind `scene`) is pinned to the bottom of the screen, so it is never below the fold. A stall row the party cannot pay for is greyed, and the line after a purchase shows under the stall.
 - **Light and dark.** CSS tokens on `:root` from `theme.palette`; `prefers-color-scheme: dark` uses `paletteDark`. Respect `prefers-reduced-motion`.
-- **Saves.** `localStorage["crawl.<pack id>"]` holds `{seed, commands}`, written after each step; the page replays it on load. Wrap every storage call in try/catch; the page must work without storage. `?seed=N` sets the seed; the footer shows it. A *New game* button clears the save.
-- **Frame bar.** `F1 How to play` (a `<details>` with the controls and the gate) in the static HTML, so it reads with scripting off.
+- **Saves.** `localStorage["crawl.<pack id>"]` holds `{seed, commands}`, written after each step; the page replays it on load. Wrap every storage call in try/catch; the page must work without storage. `?seed=N` sets the seed; the footer shows it. A *New game* button clears the save: tap it twice within four seconds (no dialog). The line *Planning is free. Acting costs time.* is shown once, and that is remembered in a second key, `crawl.<pack id>.gate`, which is not part of `{seed, commands}`.
+- **Frame bar.** `F1 How to play` (a `<details>` with the controls and the gate) in the static HTML, so it reads with scripting off. Words in it that are labels carry `data-l="<label key>"`; with scripting on, the view sets their text from the pack's labels, so the help says Hit where the button says Hit.
 - **Test hook.** `window.CRAWL = { pack, get state(), step(cmd), view(), replay({seed, commands}), seed }`.
 
 ---
 
 ## 10. Build and validate
 
-- `node crawler/tools/validate.mjs <packdir>`: prints `OK <id>` or a list of errors and exits non-zero. It checks: required fields; ids resolve (events, encounters, monsters, items, abilities, maps, endings, flags used in `if` against flags set anywhere); grid rows equal length; every glyph known; every lettered cell in an area that exists; every link lands on a passable cell; every area reachable from some entry, with secret doors counted as passable (and reports areas reachable only through a secret door); `plan` choices have no `turns` or `check`; resolver-specific monster and character fields; the default party is in the roster. Warnings (not errors): text lines over 400 characters, labels missing.
+- `node crawler/tools/validate.mjs <packdir>`: prints `OK <id>` or a list of errors and exits non-zero. It checks: required fields; ids resolve (events, encounters, monsters, items, abilities, maps, endings, flags used in `if` against flags set anywhere); grid rows equal length; every glyph known; every lettered cell in an area that exists; every link lands on a passable cell; every area reachable from some entry, with secret doors counted as passable (and reports areas reachable only through a secret door); `plan` choices have no `turns` or `check`; resolver-specific monster and character fields; the default party is in the roster. Scene `notes`, if present, are an array of strings. Warnings (not errors): text lines and notes over 400 characters, labels missing.
 - `node crawler/tools/build.mjs <packdir> [--out <file>]`: reads `ui/index.html` and replaces `<!-- @style -->`, `<!-- @pack -->`, `<!-- @engine -->`, `<!-- @view -->` with inline `<style>`/`<script>` blocks, and `{{title}}` with the pack title. Default output `crawler/dist/<id>.html`. It looks for `engine/` and `ui/` next to `tools/`, so a vendored copy builds the same way.
 
 ---
@@ -439,3 +457,39 @@ Cell kinds in `ahead`: `wall`, `open`, `door`, `stuck`, `locked`, `stairs`, `wat
 - **Wizardry is someone else's.** Take its structure (the grid, the party of ranks, the town, the camp) and nothing else: no names, spell words, places, monsters, art or text from any Wizardry game.
 - **HTLL.** Read `.claude/conventions/writing-style.md` and `design-principles.md` there. Stress is marked, not subtracted. Palettes are the playbooks' own. The pregens' facts come from their files.
 - **Style.** Plain words, short sentences. UI labels in Simplified Technical English. Read-aloud in the Wolfe and Vance register: dry, exact, odd, never explaining itself.
+
+---
+
+## 12. Settled at integration
+
+Four agents built the engine, the view and two packs at once, to this file. Where they answered a question differently, or the spec was silent, this is the answer. Items 1 to 16 are also written into the sections above. Items 17 to 22 are engine details, recorded here.
+
+| # | Question | Answer |
+|---|----------|--------|
+| 1 | How does a hub action swap the party, buy or sell? | `{t:"hub", action, ids}`; `{t:"hub", action, buy, n?}`; `{t:"hub", action, sell, n?}` (section 2). A bare roster action fills the places of the dead from the bench. A `pick` in the hub is the same swap. |
+| 2 | What does a fight `target` hold? | A foe's index for `foe`, a member id for `ally`. |
+| 3 | Who is at death's door? | `view.door = {who, cost}`. |
+| 4 | Are `fight.members[].abilities` and `items` objects? | Arrays of ids. The view reads names from the pack. |
+| 5 | Does a wandering hit during a scene vanish? | No. It is queued in `state.queued` and starts when the party is back on the map (section 5). |
+| 6 | Does `act` use a link on an unfound secret door? | No. It is a wall until found. |
+| 7 | Does a tie pass a check on `fate4df`? | Yes, for `listen`, `search`, `forceDoor` and flee. Packs set difficulties with ties counted. |
+| 8 | What does `bonus` add? | Every roll the member makes (`fate4df`); to-hit only (`ose`). |
+| 9 | Who is `self` in a plain scene choice? | The leader. In a `fate`-mode choice, the member who spent the ability. A pack that needs the Trouble's holder to be `self` makes two `fate`-mode choices on one ability. |
+| 10 | Can a scene mark an encounter done, or open a door? | Not yet. The effect vocabulary stays at ten verbs. Both packs ask for a `done` list on `goto`/effects; it is the first thing to add if a third pack wants it. |
+| 11 | Can a scene spend a spell? | Not yet. A scene-only spell is a `fate`-kind ability. |
+| 12 | Does the Fort need a calendar? | The engine has turns, not days. Night counts and the restock table are not modelled. |
+| 13 | How is the gate line remembered? | A second storage key, `crawl.<id>.gate`. |
+| 14 | How are foe stat cards shown? | `foes[].card`, once per kind, in the foe plate (section 7). |
+| 15 | Do the number keys reach a long hub? | Only the places' own actions; stall rows are tap, or Tab and Enter (section 9). |
+| 16 | New game: a dialog? | A second tap within four seconds. |
+| 17 | An area with an enter scene and an encounter, entered again? | The first entry opens the scene, which must start the fight. A later entry (after a `run`, say) starts the fight directly if it is not done. |
+| 18 | How is a round ordered? | A living member with no order fights (front rank, or ranged) or guards. One bad order refuses the whole command. `use` in a fight takes no round. If `first` is `foes`, they act before the party in round one. The party makes one flee roll a round, when the first member orders `run`; a successful run goes back to `state.prev` and ends the fight with the result `flee`. |
+| 19 | Whose morale? | The first foe of the group: its `breakAt`, else its `ml`. Broken foes flee and the fight counts as a win: `onWin` runs and `done[enc]` is set. |
+| 20 | Who is TIRED? | Everyone once `sinceRest` reaches `clock.tired.every`. A member holding the `tired` condition has the modifier too. |
+| 21 | Daylight and spell light? | Daylight snuffs a spell light into `light.stash.spell`. A stashed spell light is relit last, if nothing else is carried. A dark area with no light opens `outScene` once; the guard clears when a light is lit or the party reaches daylight or the hub. |
+| 22 | A foe with a condition? | It keeps the word in `foe.state`. `asleep` stops it acting; sleeping foes are still hit. |
+| 23 | Does guarding help on `fate4df`? | Yes: the guarding defender's roll gets +2. The rating is not raised (it used to be, which made Guard a trap). |
+| 24 | When is `clock.fight` charged? | When the fight ends, so a fight on the sixth turn is not played TIRED. A fight that never ends (a wipe) charges nothing. |
+| 25 | What happens to a taken `once` choice? | It stays in place, greyed, reason *Done.* The number keys do not shift. |
+| 26 | Where do a size, a stat line or a rule go? | In `notes[]`, not `text[]`. `text` is read-aloud only. |
+| 27 | Does the view model carry foe boxes? | Yes: `fight.foes[].marked` and `.max`. The `hp` label stays for screen readers. A stall row carries `enabled` and `reason`; an ability carries its one-line `text`. |

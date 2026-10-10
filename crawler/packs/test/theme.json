@@ -3,5 +3,5 @@
   "paletteDark": { "paper": "#14120F", "ink": "#E9E0C9", "accent": "#D0704E", "muted": "#9C927F" },
   "fonts": { "title": "Georgia, 'Times New Roman', serif", "body": "Georgia, 'Times New Roman', serif", "mono": "ui-monospace, Menlo, Consolas, monospace" },
   "titleCaps": true,
-  "labels": { "leave": "Step back", "light": "Torch", "search": "Search", "rest": "Rest", "map": "Map", "act": "Act", "town": "The Fort" }
+  "labels": { "leave": "Leave", "light": "Torch", "search": "Search", "rest": "Rest", "map": "Map", "act": "Act" }
 }
