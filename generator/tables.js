@@ -500,37 +500,37 @@ ForgeTables.tower.guardians = [
 
 /* Parley groups at the guard post. reaction: [2 or less, 3–5, 6–8, 9–11, 12+]. */
 ForgeTables.tower.npcGroups = [
-  { id: "oilers", name: "oil smugglers", monster: "bandit", count: [3, 4, 5], look: "Four or five people in oilcloth coats sit around a lantern, dice in hand. Their boss has a hook where her left hand should be.", boss: "a woman with a hook for a hand",
+  { id: "oilers", unit: "oil smugglers", name: "oil smugglers", monster: "bandit", count: [3, 4, 5], look: "Four or five people in oilcloth coats sit around a lantern, dice in hand. Their boss has a hook where her left hand should be.", boss: "a woman with a hook for a hand",
     want: "to move their oil and be left alone", know: "they know the guardian below, and what wakes it", offer: "safe passage for 10 gp a head, or for news of who is coming from the shore",
     reaction: ["They attack, aiming to drive the party back up the stair.", "Hands on knives. “Turn round.” They will fight if pushed.", "They watch, and wait to see what the party wants.", "“Pay the toll and go where you like.” They will talk.", "They offer a drink and tell what they know of the caves below."] },
-  { id: "salvagers", name: "salvagers from the fishing village", monster: "bandit", count: [3, 4, 6], look: "People in patched coats are stripping copper from the walls with crowbars. A heap of green wire sits by the stair.", boss: "an old man who calls everyone 'cousin'",
+  { id: "salvagers", unit: "salvagers", name: "salvagers from the fishing village", monster: "bandit", count: [3, 4, 6], look: "People in patched coats are stripping copper from the walls with crowbars. A heap of green wire sits by the stair.", boss: "an old man who calls everyone 'cousin'",
     want: "copper, and nobody else finding it", know: "they have seen the guardian and they know one trick that works on it", offer: "a share of the copper if the party clears the caves below",
     reaction: ["They swing crowbars and shout for help.", "“Our find. Get your own.” They block the stair.", "They stop work and stare.", "“Cousins! Seen any more copper?” They will deal.", "They share their bread and warn the party about the caves."] },
-  { id: "netmenders", name: "goblin net-menders", monster: "goblin", count: [4, 6, 8], look: "Goblins sit in a ring mending nets of copper wire. They wear imperial helmets with the visors cut away.", boss: "a goblin with three helmets stacked on its head",
+  { id: "netmenders", unit: "goblin net-menders", name: "goblin net-menders", monster: "goblin", count: [4, 6, 8], look: "Goblins sit in a ring mending nets of copper wire. They wear imperial helmets with the visors cut away.", boss: "a goblin with three helmets stacked on its head",
     want: "fish, and copper for their nets", know: "they fish the cave pools and know where the guardian sleeps", offer: "to guide the party past the water for a bag of salt or a good knife",
     reaction: ["They throw nets and attack.", "They brandish spears and hiss.", "They whisper among themselves and wait.", "“Trade? Trade!” They want anything shiny.", "They offer smoked fish and show the way down."] },
-  { id: "diggers", name: "kobold glass-diggers", monster: "kobold", count: [5, 7, 9], look: "Kobolds in leather aprons pick through a heap of broken screen-glass by candlelight. Every one wears gloves.", boss: "a kobold with a lens strapped over one eye",
+  { id: "diggers", unit: "kobold glass-diggers", name: "kobold glass-diggers", monster: "kobold", count: [5, 7, 9], look: "Kobolds in leather aprons pick through a heap of broken screen-glass by candlelight. Every one wears gloves.", boss: "a kobold with a lens strapped over one eye",
     want: "unbroken screen-glass, which they think is holy", know: "they have dug into every cave and know the safe way", offer: "a map scratched on a slate, for one whole screen",
     reaction: ["They fling glass and charge.", "They hide behind the heap and throw stones.", "They freeze and watch, candles shaking.", "“Glass? You have glass?” They will trade.", "They bow and offer a lens as a gift."] },
-  { id: "deserters", name: "deserters in imperial coats", monster: "bandit", count: [3, 5, 6], look: "Men and women in faded imperial coats sit with their backs to the wall, crossbows on their knees. Their coats have the badges cut off.", boss: "a tired sergeant with a burned face",
+  { id: "deserters", unit: "deserters", name: "deserters in imperial coats", monster: "bandit", count: [3, 5, 6], look: "Men and women in faded imperial coats sit with their backs to the wall, crossbows on their knees. Their coats have the badges cut off.", boss: "a tired sergeant with a burned face",
     want: "to stay hidden and to get news of the road", know: "they came down to hide and found the guardian; two of them did not come back", offer: "everything they know, for a promise to say nothing at The Fort",
     reaction: ["“Nobody saw us.” They shoot.", "Crossbows up. “Back off, slowly.”", "They hold still, fingers on triggers.", "“Sit. Talk. What's the news?”", "They lower their bows and ask for help getting home."] },
-  { id: "pilgrims", name: "hymn pilgrims", monster: "acolyte", count: [2, 3, 4], look: "People in white, armoured in old plate, kneel before a dead Terminal screen and sing. Their song is out of tune.", boss: "a young pilgrim with a cracked screen hung round her neck",
+  { id: "pilgrims", unit: "hymn pilgrims", name: "hymn pilgrims", monster: "acolyte", count: [2, 3, 4], look: "People in white, armoured in old plate, kneel before a dead Terminal screen and sing. Their song is out of tune.", boss: "a young pilgrim with a cracked screen hung round her neck",
     want: "to hear the station's Terminal speak once", know: "they have read the station's hymns and know a line that calms the guardian", offer: "the hymn line, if the party helps them reach the deepest cave",
     reaction: ["They take the party for Readers and attack.", "They draw maces and demand a hymn as proof of faith.", "They keep singing and ignore the party.", "They stop and ask the party's names.", "They bless the party and share their oil and bread."] },
-  { id: "surveyors", name: "a lost survey party", monster: "bandit", count: [3, 3, 4], look: "Three or four people in good boots argue over a chart by lantern light. One is bandaged.", boss: "a surveyor with a brass measuring chain",
+  { id: "surveyors", unit: "surveyors", name: "a lost survey party", monster: "bandit", count: [3, 3, 4], look: "Three or four people in good boots argue over a chart by lantern light. One is bandaged.", boss: "a surveyor with a brass measuring chain",
     want: "to get out alive with their charts", know: "they have measured the caves and know the water rises", offer: "a copy of their chart of the caves",
     reaction: ["They panic and fight.", "“Stay back!” They think the party are smugglers.", "They wait, nervous.", "They ask for help and offer to pay.", "They hand over a copy of their chart and ask to come along."] },
-  { id: "tolltakers", name: "orc toll-takers", monster: "orc", count: [3, 5, 6], look: "Orcs in mismatched imperial armour sit around a chest, which they use as a table. A board on the wall says TOLL in three bad hands.", boss: "an orc wearing a magister's hat",
+  { id: "tolltakers", unit: "orc toll-takers", name: "orc toll-takers", monster: "orc", count: [3, 5, 6], look: "Orcs in mismatched imperial armour sit around a chest, which they use as a table. A board on the wall says TOLL in three bad hands.", boss: "an orc wearing a magister's hat",
     want: "tolls, and respect", know: "they let the smugglers through and know what lives below", offer: "passage for a toll, and a warning",
     reaction: ["“No toll? Then blood.” They attack.", "“Toll is double for you.”", "They demand the toll and wait.", "“Toll, and we tell you a secret.”", "“You! Friends! Half toll!” They want to hear the party's stories."] },
-  { id: "readers", name: "Reader scouts", monster: "acolyte", count: [2, 3, 4], look: "Polite people in grey plate copy the wall inscriptions into books, reading them aloud from end to start.", boss: "a soft-spoken scholar with ink on his fingers",
+  { id: "readers", unit: "Reader scouts", name: "Reader scouts", monster: "acolyte", count: [2, 3, 4], look: "Polite people in grey plate copy the wall inscriptions into books, reading them aloud from end to start.", boss: "a soft-spoken scholar with ink on his fingers",
     want: "the station's hymn texts, to read them backward", know: "they know what the guardian is for, and they mean to set it free", offer: "help with the guardian, if the party lets them copy the study's books",
     reaction: ["They attack, very calmly.", "They ask the party to leave, and do not move aside.", "They keep reading and ignore the party.", "They are pleased to talk. They are very polite.", "They share tea and a warning that sounds like a threat."] },
-  { id: "eelfishers", name: "lizard-man eel fishers", monster: "lizardMan", count: [2, 3, 4], look: "Lizard men squat by a stair that runs down to water, with eel traps of woven reed. They watch without blinking.", boss: "the biggest, with a shell necklace",
+  { id: "eelfishers", unit: "lizard-man fishers", name: "lizard-man eel fishers", monster: "lizardMan", count: [2, 3, 4], look: "Lizard men squat by a stair that runs down to water, with eel traps of woven reed. They watch without blinking.", boss: "the biggest, with a shell necklace",
     want: "to fish in peace", know: "they know the water below and every hazard in it", offer: "a guide past the water for fish, salt or a blade",
     reaction: ["They hiss and attack.", "They stand and raise spears. A warning.", "They watch, still as stone.", "They make signs: trade.", "They offer eels and lead the way down."] },
-  { id: "wreckers", name: "wreckers", monster: "bandit", count: [4, 5, 6], look: "Rough people in dark clothes sit by a shuttered lantern. The lantern has a red glass, the kind used to lure boats onto rocks.", boss: "a smiling man with very white teeth",
+  { id: "wreckers", unit: "wreckers", name: "wreckers", monster: "bandit", count: [4, 5, 6], look: "Rough people in dark clothes sit by a shuttered lantern. The lantern has a red glass, the kind used to lure boats onto rocks.", boss: "a smiling man with very white teeth",
     want: "to keep their lantern trade secret", know: "they hid loot in the caves and lost a man to the guardian", offer: "a cut of their hidden loot if the party deals with the guardian",
     reaction: ["They draw and attack at once.", "They offer friendship and plan an ambush.", "They pretend to be fishers.", "They talk business.", "They ask to join the party, for a share."] }
 ];
@@ -575,6 +575,17 @@ ForgeTables.tower.dressing = {
     "The rock is cut square in places where the empire widened the cave."
   ]
 };
+
+/* Dressing for the inside of surface buildings and the tower. */
+ForgeTables.tower.dressing.surfaceInside = [
+  "Daylight falls in through the gaps in long bars.",
+  "Ivy has found every crack in the walls.",
+  "Birds have nested in the high corners.",
+  "The floor is gritty with fallen mortar.",
+  "A brass plate by the door gives the station's number.",
+  "Old soot streaks the walls.",
+  "Wind whistles through a broken window."
+];
 
 ForgeTables.tower.senses = {
   surface: ["The air smells of pine and lake water.", "Somewhere a crow calls, and another answers.", "The wind drops, and it is very quiet."],

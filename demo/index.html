@@ -334,7 +334,7 @@ const MAP_POS = { S1:[0,0,0], S2:[0,60,0], TOP:[0,60,40], S3:[30,60,0], C1:[0,80
 /* The rats of the Oil Store: the pinned numbers. */
 const RAT_HP = [2, 3, 1, 4, 2];
 const RAT_AC = 12;
-const RAT_LINE = "AC 7 [12] · HD ½ (hp 2, 3, 1, 4, 2) · Att 1 × bite (1d3) · THAC0 19 [+0] · MV 60' (20') · SV D14 W15 P16 B17 S18 · ML 8 · XP 5 each";
+const RAT_LINE = "AC 7 [12] · HD ½ (hp 2, 3, 1, 4, 2) · Att 1 × bite (1d3) · THAC0 19 [+0] · MV 120' (40'), swim 60' (20') · SV D12 W13 P14 B15 S16 (F1) · ML 8 · XP 5 each";
 
 /* ==========================================================================
    PART 2: THE STORY
@@ -1075,6 +1075,8 @@ const d = (s, n) => 1 + Math.floor(rand(s) * n);
 const sgn = n => n > 0 ? "+" + n : n < 0 ? "−" + (-n) : "+0";
 
 let S;   // the whole game state; plain data, so it can be saved and restored
+let quiet = false;   // the test walk steps without drawing
+const MECH_FLAGS = ["fi_spear", "fi_hammer", "wiz_scroll", "pal_keeper"];   // intro flags that change the rules
 
 function freshState() {
   return {
@@ -1164,7 +1166,7 @@ function wander(s) {
     hurtSoft(s, 1);
     if (s.light === "torch") { s.torchLeft--; if (s.torchLeft <= 0) { s.torchLeft = 0; nextLight(s, "The torch drowns."); } }
   } else {
-    note("A lone giant rat comes out of a crack in the wall. (AC 7 [12], HD ½, Att 1 × bite 1d3, THAC0 19 [+0], MV 60' (20'), ML 8.)");
+    note("A lone giant rat comes out of a crack in the wall. (AC 7 [12], HD ½, Att 1 × bite 1d3, THAC0 19 [+0], MV 120' (40'), swim 60' (20'), SV F1, ML 8.)");
     const a = d(s, 20), ac = CAST[s.char].ac;
     if (a >= ac) { const dmg = d(s, 3); rollLog("Rat bites: d20 → " + a + " vs AC " + ac + " · hit, d3 → " + dmg, true); hurtSoft(s, dmg); }
     else rollLog("Rat bites: d20 → " + a + " vs AC " + ac + " · miss");
@@ -1457,6 +1459,7 @@ const esc = t => String(t).replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", 
 const val = (v, s) => typeof v === "function" ? v(s) : v;
 
 function render(animate) {
+  if (quiet) return;
   const sc = STORY[S.scene];
   document.body.dataset.scene = S.scene;
   document.body.dataset.char = S.char || "";
@@ -1683,6 +1686,18 @@ window.DEMO = {
   restore: snap => { S = JSON.parse(snap); render(false); },
   // Signature of everything that can change what happens next (not the dice position or history).
   sig: () => { const { rng, trail, log, turtle, ...rest } = S; return stable(rest); },
+  // Coarse signature for the test walk: in the delve, keep only what changes the rules
+  // (flavour flags, counters and history are dropped; their text is checked separately).
+  mechSig: () => {
+    const { rng, trail, log, turtle, L, checks, wanderers, planRoom, flags, ...rest } = S;
+    const f = S.inDelve ? Object.fromEntries(Object.keys(flags).filter(k => MECH_FLAGS.includes(k)).map(k => [k, true])) : flags;
+    const fight = S.fight ? Object.assign({}, S.fight, { round: 0 }) : null;
+    return stable(Object.assign(rest, { flags: f, fight, doorTries: Math.min(S.doorTries, 3), resume: S.resume }));
+  },
+  // Apply choice i (0-based) through the same handler a click uses, without drawing.
+  step: i => { quiet = true; try { choose(visibleChoices(STORY[S.scene])[i]); } finally { quiet = false; } },
+  load: snap => { S = JSON.parse(snap); },
+  choiceCount: () => visibleChoices(STORY[S.scene]).length,
   cardText: () => cardText(S)
 };
 

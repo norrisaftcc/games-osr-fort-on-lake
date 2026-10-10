@@ -154,7 +154,7 @@ const PINNED = {
   s3: ["roof is gone", "less than a week old", "eye with a line through it"],
   s3_tin: ["Two flasks"],
   c1: ["twenty feet", "stuck", "Listen at a door", "Every try is loud"],
-  c2_door: ["thirty feet by twenty", "Five giant rats", "AC 7 [12]", "HD ½ (hp 2, 3, 1, 4, 2)", "1d3", "THAC0 19 [+0]", "MV 60' (20')", "ML 8", "flee at 2 dead"],
+  c2_door: ["thirty feet by twenty", "Five giant rats", "AC 7 [12]", "HD ½ (hp 2, 3, 1, 4, 2)", "1d3", "THAC0 19 [+0]", "MV 120' (40')", "swim 60' (20')", "SV D12 W13 P14 B15 S16", "ML 8", "flee at 2 dead"],
   c3: ["black water", "one step a turn"]
 };
 for (const [id, words] of Object.entries(PINNED)) {
