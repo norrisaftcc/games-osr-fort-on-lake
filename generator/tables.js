@@ -878,6 +878,18 @@ ForgeTables.ravine.areas = {
   ]
 };
 
+
+/* Mouth names by lesson. The engine picks one per lair. */
+ForgeTables.ravine.mouthNames = {
+  morale: ["the Rattle Mouth", "the Nail Mouth", "the Low Mouth", "the Foot Mouth", "the Gnawed Mouth", "the Little Mouth"],
+  reaction: ["the Fire Mouth", "the Bargain Mouth", "the Smoke Mouth", "the Drum Mouth", "the Trading Mouth"],
+  factions: [["the Left Twin", "the Right Twin"], ["the Elder Mouth", "the Younger Mouth"], ["the Sun Mouth", "the Shade Mouth"], ["the Upper Gallery", "the Lower Gallery"], ["the Horn Mouth", "the Bell Mouth"]],
+  alarm: ["the Barred Gate", "the Chain Mouth", "the Gong Mouth", "the Iron Mouth", "the Shut Mouth"],
+  deception: ["the Open Door", "the Welcome Mouth", "the Hearth Mouth", "the Lamp-Lit Mouth", "the Warm Mouth"],
+  avoidance: ["the High Mouth", "the Wet Mouth", "the Quiet Mouth", "the Bone Mouth", "the Torn Mouth"],
+  supply: ["the Empty Mouth", "the Dry Mouth", "the Swept Mouth"]
+};
+
 /* Lesson-specific pieces. */
 ForgeTables.ravine.hirelings = [
   { monster: "ogre", look: "An ogre sits on a heap of furs, eating a goat leg. It wears an imperial breastplate as a helmet.", price: "a barrel of salt fish a week, or 50 gp", turn: "It will switch sides for more, and says so." },
