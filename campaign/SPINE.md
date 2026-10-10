@@ -310,3 +310,12 @@ One offline page, Badge Zero pattern, five scenes per PC, 10–15 minutes each: 
 ### First session (`dm/Year_Two_First_Session_The_Hum.md`)
 
 Seeds 1 (*The Hum*, C4) and 10 (*The Hunter's Map*, C5) lead to the **outflow tunnel** (C3), "dry, long, and trapped", which opens near the Eval Chamber. Five keyed rooms, Floor 31 shape: a clock, two buyers (the B.I.A. at Mile-House 13 want the tunnel sealed and the map filed; the Quiet want the water to keep running past their shrines), and an ending with no correct answer. One **new** math puzzle that follows the puzzle rule and is not one of Halcyon's three (not function memory, not binary, not balance weights). Each PC's Year of Change and Fort Office has somewhere to matter. The session stops at the inner door; it does not enter Halcyon. Party: the three PCs at level 2, with a "Running the Party" table for adding the Paladin.
+
+### The Brush: science fantasy as an invitation
+
+Year Two tests whether the players want a science-fiction setting. So the science fantasy **brushes against** the Fort's world; it does not take it over.
+
+- **Show the edge; do not push through it.** Old machines appear at the edge of things: a hum in a milestone, a lamp that should not still burn, a screen that answers once. Each appearance is short, concrete, and can be left alone.
+- **Let each player choose the reading.** Where a scene shows the machine side, offer a choice between reading it as mystery (hymn, ward, spirit) and reading it as mechanism (signal, lock, engine). Both are true. The choice goes on the Fort Card as the **Lens** field, so the DM can see, card by card, who leans toward the machine.
+- **Follow the players.** In the first session, every machine element has two depths: **brush** (seen, named, left) and **lean in** (opened, explained a little, with a reward). A DM table says how to play each element at each depth. If the cards and the table lean in, Year Two can turn toward science fiction; if not, it stays fantasy with old ruins.
+- **All choices are made in the playable intros**: Year of Change, Fort Office, the Lens, the facts, the bond and the kit. The playbooks are the reference for what each choice does; the intros are where players choose.
