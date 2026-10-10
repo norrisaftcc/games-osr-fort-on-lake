@@ -211,6 +211,48 @@ var Forge = (function () {
     return cap(joinAnd(s)) + (e.label ? " (" + e.label + ")" : "");
   }
 
+  /* 5e note: the players read 5e, the DM runs OSE (SPINE, "Rules for Writers").
+   * Built only from the group's OSE fields, so it cannot disagree with the stat row.
+   * HD n -> the standard CR nearest n/2 (n is the number before any +, - or *; ties go up).
+   * [x] -> AC x. THAC0 [+b] -> attack +b. Riders that save vs. death or poison
+   * (paralysis, poison, disease) -> CON save DC 12; petrification -> DC 13. ML 7 or lower -> flees at half HP. */
+  var CRS = [0, 1 / 8, 1 / 4, 1 / 2].concat(Array.apply(null, Array(30)).map(function (x, i) { return i + 1; }));
+  function crFor(hd) {
+    var m = /^(½|\d+)/.exec(String(hd)), n = m ? (m[1] === "½" ? 0.5 : Number(m[1])) : 0, x = n / 2, best = CRS[0];
+    CRS.forEach(function (c) { if (Math.abs(c - x) <= Math.abs(best - x)) best = c; });
+    return best === 1 / 8 ? "1/8" : best === 1 / 4 ? "1/4" : best === 1 / 2 ? "1/2" : String(best);
+  }
+  function ascending(s) { var m = /\[([+-]?\d+)\]/.exec(String(s)); return m ? Number(m[1]) : null; }
+  function splitTop(s, sep) {
+    var out = [], depth = 0, cur = "";
+    for (var i = 0; i < s.length; i++) {
+      var ch = s.charAt(i);
+      if (ch === "(") depth++; else if (ch === ")") depth--;
+      if (depth === 0 && s.substr(i, sep.length) === sep) { out.push(cur); cur = ""; i += sep.length - 1; continue; }
+      cur += ch;
+    }
+    out.push(cur);
+    return out;
+  }
+  var SAVE_DC = { paralysis: 12, poison: 12, disease: 12, petrification: 13 };
+  function fiveE(g) {
+    var b = ascending(g.thac0), bonus = (b < 0 ? "" : "+") + b, riders = [];
+    var atts = splitTop(String(g.att), ", ").map(function (part) {
+      return splitTop(part, " or ").map(function (one) {
+        var m = /^(?:(\d+) × )?(.+?)\s*\(([^)]*)\)\s*$/.exec(one.trim());
+        if (!m) return one.trim() + " " + bonus;
+        var n = Number(m[1] || 1), pieces = m[3].split(" + "), dice = pieces.filter(function (p) { return /^\d+d\d+([+-]\d+)?$/.test(p.trim()); });
+        pieces.forEach(function (p) { p = p.trim(); if (SAVE_DC[p] && riders.indexOf(p) < 0) riders.push(p); });
+        return (n > 1 ? n + " " + m[2] + "s" : m[2]) + " " + bonus + " (" + (dice.length ? dice.join(" + ") : m[3]) + ")";
+      }).join(" or ");
+    }).join(", ");
+    if (/petrif|to stone/i.test(g.note || "") && riders.indexOf("petrification") < 0) riders.push("petrification");
+    var parts = ["CR " + crFor(g.hd), "AC " + ascending(g.ac), "hp " + g.hp.join(", "), atts];
+    riders.forEach(function (r) { parts.push("CON save DC " + SAVE_DC[r] + " vs. " + r); });
+    if (Number(g.ml) <= 7) parts.push("flees at half HP");
+    return "*5e: " + parts.join(" · ") + ".*";
+  }
+
   function treasureRoll(rng, L, magicChance) {
     var T = tables();
     var t = rng.pick(T.treasure);
@@ -1259,9 +1301,13 @@ var Forge = (function () {
       var e = r.encounter;
       o.push("**Encounter: " + encounterLabel(e) + ".**" + (e.tactics ? " " + e.tactics : ""));
       o.push("");
+      var who = function (g) { return g.proper ? g.name : cap(g.name) + (g.count > 1 ? " ×" + g.count : ""); };
       o.push(mdTable(["Creature", "AC", "HD", "hp", "Att", "THAC0", "MV", "SV", "ML", "XP"], e.groups.map(function (g) {
-        return [(g.proper ? g.name : cap(g.name) + (g.count > 1 ? " ×" + g.count : "")) + (g.statsAs ? " (as " + g.statsAs + ")" : ""), g.ac, g.hd, g.hp.join(", "), g.att, g.thac0, g.mv, g.sv, g.ml, g.count > 1 ? g.xpEach + " each (" + g.xp + ")" : String(g.xp)];
+        return [who(g) + (g.statsAs ? " (as " + g.statsAs + ")" : ""), g.ac, g.hd, g.hp.join(", "), g.att, g.thac0, g.mv, g.sv, g.ml, g.count > 1 ? g.xpEach + " each (" + g.xp + ")" : String(g.xp)];
       })));
+      o.push("");
+      if (e.groups.length === 1) o.push(fiveE(e.groups[0]));
+      else e.groups.forEach(function (g) { o.push("- **" + who(g) + ":** " + fiveE(g)); });
       var notes = e.groups.filter(function (g) { return g.note; }).map(function (g) { return cap(g.singular) + ": " + g.note; });
       if (notes.length) { o.push(""); o.push("*" + notes.join(" ") + "*"); }
       if (e.reaction) { o.push(""); o.push("**Reaction (2d6 + Charisma modifier):**"); o.push(""); o.push(mdTable(["2d6", "Result"], e.reaction)); }

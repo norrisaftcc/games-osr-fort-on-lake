@@ -210,6 +210,55 @@ function checkMarkdown(md, tag) {
   ok(/Art reference/.test(md), tag + ": an art reference");
 }
 
+// 5e notes (SPINE, "Rules for Writers"): every encounter's stat table is followed by one 5e line per creature row,
+// and each line agrees with its OSE row. Computed here from the Markdown alone, independently of forge.js.
+const STD_CR = [0, 1 / 8, 1 / 4, 1 / 2, ...Array.from({ length: 30 }, (_, i) => i + 1)];
+function nearestCR(hd) {
+  const m = /^(½|\d+)/.exec(hd), x = (m[1] === "½" ? 0.5 : Number(m[1])) / 2;
+  const d = STD_CR.map(c => Math.abs(c - x)), min = Math.min(...d);
+  return STD_CR[d.lastIndexOf(min)]; // a tie (HD 3 → 1.5) goes to the higher CR
+}
+function crValue(s) { const f = /^(\d+)\/(\d+)$/.exec(s); return f ? Number(f[1]) / Number(f[2]) : Number(s); }
+function bracket(s) { const m = /\[([+-]?\d+)\]/.exec(s); return m ? Number(m[1]) : NaN; }
+function checkFiveE(md, d, tag) {
+  const lines = md.split("\n");
+  let encounters = 0, fiveLines = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (!/^\*\*Encounter: /.test(lines[i])) continue;
+    encounters++;
+    let j = i + 1;
+    while (j < lines.length && !/^\| Creature \|/.test(lines[j])) j++;
+    const rows = [];
+    for (j += 2; j < lines.length && /^\|/.test(lines[j]); j++) rows.push(lines[j].slice(2, -2).split(" | "));
+    ok(lines[j] === "", tag + ": a blank line after the stat table at line " + (j + 1));
+    const notes = [];
+    if (rows.length === 1) notes.push(lines[j + 1]);
+    else for (let k = 0; k < rows.length; k++) {
+      const m = /^- \*\*(.+?):\*\* (.*)$/.exec(lines[j + 1 + k] || "");
+      ok(m && rows[k][0].startsWith(m[1]), tag + ": 5e list item " + (k + 1) + " names its creature (" + lines[j + 1 + k] + ")");
+      notes.push(m ? m[2] : lines[j + 1 + k]);
+    }
+    rows.forEach((row, k) => {
+      const [, ac, hd, hp, , thac0, , , ml] = row, note = notes[k] || "";
+      const m = /^\*5e: CR (\S+) · AC (\d+) · hp ([\d, ]+) · (.+?)\.\*$/.exec(note);
+      ok(m, tag + ": encounter at line " + (i + 1) + " row " + (k + 1) + " has a 5e line (" + note + ")");
+      if (!m) return;
+      fiveLines++;
+      ok(Number(m[2]) === bracket(ac), tag + ": 5e AC " + m[2] + " equals OSE ascending AC " + ac);
+      ok(crValue(m[1]) === nearestCR(hd), tag + ": 5e CR " + m[1] + " is the standard CR nearest HD " + hd + "/2");
+      ok(m[3] === hp, tag + ": 5e hp equal the OSE hp (" + m[3] + " vs " + hp + ")");
+      const b = bracket(thac0), bonuses = m[4].match(/ [+-]\d+ \(/g) || [];
+      ok(bonuses.length > 0 && bonuses.every(x => Number(x.trim().slice(0, -2)) === b), tag + ": 5e attack bonus equals THAC0 " + thac0 + " (" + m[4] + ")");
+      ok(/flees at half HP$/.test(m[4]) === (Number(ml) <= 7), tag + ": ML " + ml + " and 'flees at half HP' agree (" + note + ")");
+      if (/paralysis/.test(row[4])) ok(/CON save DC 12 vs\. paralysis/.test(m[4]), tag + ": paralysis gives CON save DC 12");
+      if (/poison/.test(row[4])) ok(/CON save DC 12 vs\. poison/.test(m[4]), tag + ": poison gives CON save DC 12");
+    });
+  }
+  const groups = d.rooms.reduce((n, r) => n + (r.encounter ? r.encounter.groups.length : 0), 0);
+  ok(encounters === d.rooms.filter(r => r.encounter).length, tag + ": every encounter is in the Markdown");
+  ok(fiveLines === groups && (md.match(/\*5e: /g) || []).length === groups, tag + ": one 5e line per creature row (" + fiveLines + " vs " + groups + ")");
+}
+
 const t0 = Date.now();
 const counts = {};
 for (const template of ["tower", "ravine"]) {
@@ -226,6 +275,7 @@ for (const template of ["tower", "ravine"]) {
       if (template === "tower") checkTower(d, tag); else checkRavine(d, tag);
       const md = Forge.toMarkdown(d);
       checkMarkdown(md, tag);
+      checkFiveE(md, d, tag);
       if (seed % 15 === 0 || seed <= 3) {
         const svg = Forge.toSVG(d);
         ok(svg === Forge.toSVG(again), tag + ": SVG deterministic");

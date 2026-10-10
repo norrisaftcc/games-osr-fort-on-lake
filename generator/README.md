@@ -17,6 +17,8 @@ A seeded dungeon generator for the Fort Country. Pick *Tower* or *Ravine*, give 
 2. **Print** gives the map on one page and the key after it, one tier or lair per page. **Download .md** and **Download .svg** save the text and the map. **Copy Markdown** puts the key on the clipboard (or shows it to copy by hand).
 3. Share a dungeon by its link: `index.html?template=tower&seed=42&level=2` always makes the same one, as long as nobody has changed the tables.
 
+Every encounter's OSE stat table is followed by one italic **5e line** per creature (CR nearest HD/2, ascending AC, the same hp, attack bonus from THAC0, CON save DC 12 or 13 for paralysis, poison, disease or petrification, and "flees at half HP" at morale 7 or lower), built from the same monster data so the two cannot disagree; see `campaign/SPINE.md`, "Rules for Writers".
+
 Each dungeon states a **clock** (what happens if the party is slow), ends on a choice between two buyers (tower) or three uses of a relic (ravine), and puts an **Art reference** on its climax room.
 
 ## Run the checks
@@ -27,7 +29,7 @@ node generator/test.mjs
 
 Needs Node 18+. The browser part uses Playwright with Chromium; it is skipped if Playwright is not installed. `FORGE_SEEDS=50` runs a shorter pass. Screenshots go to `/tmp/claude-0/forge-check/` (set `FORGE_SHOTS` to change it).
 
-What it checks: same seed gives identical output; every room is reachable from the entry; every exit has a matching exit back (kinds match, except the one-way secret door: `secret` on the near side, `door` on the far side); every lesson slot is present and each is deeper than the last, counting only doors a party can see; towers have a loop, a dead end, and a secret door that strictly shortens the walk from S1 to the climax; ravines have 7–8 mouths on alternating walls, two rival clans joined by a contested passage, and the temple last; no rooms overlap on a map panel; every fight has hp for each creature and XP, and the totals add up; read-aloud is two to four sentences; no names from the source books; the SVG is well-formed XML; and the page loads with no console errors and no sideways scroll at 360px.
+What it checks: same seed gives identical output; every room is reachable from the entry; every exit has a matching exit back (kinds match, except the one-way secret door: `secret` on the near side, `door` on the far side); every lesson slot is present and each is deeper than the last, counting only doors a party can see; towers have a loop, a dead end, and a secret door that strictly shortens the walk from S1 to the climax; ravines have 7–8 mouths on alternating walls, two rival clans joined by a contested passage, and the temple last; no rooms overlap on a map panel; every fight has hp for each creature and XP, and the totals add up; every encounter has a 5e line per creature whose AC, CR, hp, attack bonus and morale agree with its OSE row; read-aloud is two to four sentences; no names from the source books; the SVG is well-formed XML; and the page loads with no console errors and no sideways scroll at 360px.
 
 ## Add a table entry
 
