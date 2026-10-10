@@ -21,9 +21,9 @@ if (!chromium) {
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const FILE = pathToFileURL(path.join(here, "index.html")).href;
-const SEEDS = [1, 7, 42, 2026, 99991];
+const SEEDS = process.env.SEEDS ? process.env.SEEDS.split(",").map(Number) : [1, 7, 42, 2026, 99991];
 const MAX_DEPTH = 90;          // longest choice sequence we will follow
-const MAX_NODES = 400000;      // per seed, a safety valve only
+const DRAW_CAP = 150;          // states drawn and checked in the DOM per scene and character; the rest are stepped without drawing
 const CHARS = ["wizard", "elfMinister", "paladin", "gnome", "fighter", "elf"];
 
 let browser;
@@ -52,73 +52,107 @@ watch(page);
 const allScenes = new Set(), allEndings = new Set();
 const sceneText = {};
 const replays = [];
-let totalNodes = 0, totalEdges = 0, totalEndArrivals = 0;
+let totalNodes = 0, totalEdges = 0, totalEndArrivals = 0, totalDrawn = 0;
 const endingsByChar = {};
 
-for (const seed of SEEDS) {
-  await page.goto(FILE + "?seed=" + seed);
-  const r = await page.evaluate(({ MAX_DEPTH, MAX_NODES }) => {
-    const D = window.DEMO;
-    const out = { nodes: 0, edges: 0, endArrivals: 0, scenes: {}, endings: {}, dead: [], overflow: [], cardFail: [], deep: false,
-                  text: {}, samples: {}, endByChar: {} };
-    const seen = new Set();
-    const root = D.snapshot();
-    seen.add(D.sig());
-    let queue = [{ snap: root, path: [] }];
-    const html = document.documentElement;
-    while (queue.length) {
-      const next = [];
-      for (const node of queue) {
-        if (out.nodes >= MAX_NODES) { out.deep = true; break; }
-        out.nodes++;
-        D.restore(node.snap);
-        const st = D.state, id = st.scene, sc = STORY[id];
-        out.scenes[id] = (out.scenes[id] || 0) + 1;
-        if (!out.text[id]) out.text[id] = document.getElementById("card").innerText;
-        if (html.scrollWidth > html.clientWidth + 0) out.overflow.push(id + " (" + html.scrollWidth + "px) via " + node.path.join(""));
-        const n = document.querySelectorAll("#choices button").length;
-        if (sc.ending) {
-          out.endings[id] = (out.endings[id] || 0) + 1;
-          (out.endByChar[st.char] = out.endByChar[st.char] || {})[id] = true;
-          if (n) out.dead.push("ending with choices: " + id);
-          const card = document.getElementById("introcard");
-          if (sc.ending !== "dead") {
-            if (!card || !card.innerText.includes(CAST[st.char].name)) out.cardFail.push(id + " " + st.char);
-          } else if (card) out.cardFail.push("card on death ending");
-          const key = st.char + ":" + id;
-          if (!out.samples[key]) out.samples[key] = { path: node.path, sig: D.sig() };
-          continue;
-        }
-        if (n === 0) { out.dead.push("dead scene " + id + " via " + node.path.join("")); continue; }
-        if (node.path.length >= MAX_DEPTH) { out.deep = true; continue; }
-        for (let i = 0; i < n; i++) {
-          D.restore(node.snap);
-          document.querySelectorAll("#choices button")[i].click();
-          out.edges++;
-          if (STORY[D.state.scene].ending) out.endArrivals++;
-          const sig = D.sig();
-          if (seen.has(sig)) continue;
-          seen.add(sig);
-          next.push({ snap: D.snapshot(), path: node.path.concat(i + 1) });
-        }
-      }
-      queue = next;
-      if (out.deep && out.nodes >= MAX_NODES) break;
-    }
-    return out;
-  }, { MAX_DEPTH, MAX_NODES });
+// The abstraction the walk uses to decide "seen this before". The intro is
+// exact. In the delve, each phase keeps only what can still change a choice or
+// a roll in that phase; endings collapse to scene + character. Flavour flags
+// are checked separately (section 3b), so the walk does not multiply by them.
+function installWalker() {
+  const MECH = ["fi_spear", "fi_hammer", "wiz_scroll", "pal_keeper"];
+  window.ABSTRACT = s => {
+    const sc = STORY[s.scene];
+    if (sc.ending) return s.scene + "|" + s.char;
+    if (!s.inDelve) return [s.scene, s.char, Object.keys(s.flags).sort().join("+"), s.dusk].join("|");
+    const hp = s.hp >= s.maxHp ? "F" : s.hp <= 2 ? "L" : "H";
+    const rest = s.sinceRest < 4 ? 0 : s.sinceRest < 6 ? 1 : 2;
+    const inFight = s.fight && !s.fight.over;
+    const base = [s.scene, s.char, MECH.filter(k => s.flags[k]).join("+"), s.fateUsed, s.spellUsed, s.scrollUsed, s.resume,
+      s.light, inFight ? Math.ceil(s.torchLeft / 2) : s.torchLeft, s.torches > 0, s.lanternOil > 12 ? 2 : s.lanternOil > 0 ? 1 : 0, Math.min(s.flasks, 2), s.spellLight > 6 ? 2 : s.spellLight > 0 ? 1 : 0];
+    const f = s.fight;
+    if (s.zone === "surface") base.push("S", s.front, s.foundTrap, s.searchedS2, s.searchedS3, s.climbed, !!s.visited.s3, s.knowsRats, s.ratsAlert);
+    else if (!f) base.push("P", hp, rest, s.front, s.knowsRats, s.listened, s.heardRats, s.ratsAlert, Math.min(s.doorTries, 5), s.layUsed, s.ministerHealUsed);
+    else if (!f.over) base.push("F", hp, rest === 2, Math.min(s.fp, 2), s.layUsed, s.ministerHealUsed, s.javelinUsed, s.parleyTried,
+      f.rats.map(x => x > 0 ? 1 : 0).join(""), f.free, !!f.lastMiss, f.shutOnce, f.ready, s.doorShut);
+    else if (!s.reachedC3) base.push("A", hp === "F", rest, s.layUsed, s.ministerHealUsed, s.searchedC2);
+    else base.push("C", s.watched, s.lightReveal);
+    return base.join("|");
+  };
+  window.WALK = { seen: new Set([ABSTRACT(DEMO.state)]), queue: [{ snap: DEMO.snapshot(), path: [] }],
+    out: { nodes: 0, edges: 0, endArrivals: 0, scenes: {}, endings: {}, dead: [], overflow: [], cardFail: [], mismatch: [], deep: false, text: {}, samples: {}, endByChar: {} } };
+}
 
-  totalNodes += r.nodes; totalEdges += r.edges; totalEndArrivals += r.endArrivals;
+// One level of the walk. Every new state is drawn once (render + checks); its
+// choices are then applied with DEMO.step, the same handler a click calls.
+function walkLevel({ MAX_DEPTH, DRAW_CAP }) {
+  const D = window.DEMO, W = window.WALK, out = W.out, html = document.documentElement, next = [];
+  W.drawn = W.drawn || {};
+  for (const node of W.queue) {
+    out.nodes++;
+    D.load(node.snap);
+    const id0 = D.state.scene, dk = id0 + ":" + D.state.char + ":" + D.state.flags.fi_spear + D.state.flags.wiz_scroll;
+    W.drawn[dk] = (W.drawn[dk] || 0) + 1;
+    const draw = W.drawn[dk] <= DRAW_CAP || STORY[id0].ending && W.drawn[dk] <= DRAW_CAP * 4;
+    let n;
+    const st = D.state, id = st.scene, sc = STORY[id];
+    out.scenes[id] = (out.scenes[id] || 0) + 1;
+    if (draw) {
+      out.drawn = (out.drawn || 0) + 1;
+      D.restore(node.snap);
+      if (!out.text[id]) out.text[id] = document.getElementById("card").innerText;
+      if (html.scrollWidth > html.clientWidth) out.overflow.push(id + " (" + html.scrollWidth + "px) via " + node.path.join(""));
+      n = document.querySelectorAll("#choices button").length;
+      if (n !== D.choiceCount()) out.mismatch.push(id);
+    } else n = D.choiceCount();
+    if (sc.ending) {
+      out.endings[id] = (out.endings[id] || 0) + 1;
+      (out.endByChar[st.char] = out.endByChar[st.char] || {})[id] = true;
+      if (n) out.dead.push("ending with choices: " + id);
+      const card = document.getElementById("introcard");
+      if (!draw) {}
+      else if (sc.ending !== "dead") { if (!card || !card.innerText.includes(CAST[st.char].name)) out.cardFail.push(id + " " + st.char); }
+      else if (card) out.cardFail.push("card on death ending");
+      const key = st.char + ":" + id;
+      if (!out.samples[key]) out.samples[key] = { path: node.path, sig: D.sig() };
+      continue;
+    }
+    if (n === 0) { out.dead.push("dead scene " + id + " via " + node.path.join(",")); continue; }
+    if (node.path.length >= MAX_DEPTH) { out.deep = true; continue; }
+    for (let i = 0; i < n; i++) {
+      D.load(node.snap); D.step(i);
+      out.edges++;
+      if (STORY[D.state.scene].ending) out.endArrivals++;
+      const k = ABSTRACT(D.state);
+      if (W.seen.has(k)) continue;
+      W.seen.add(k);
+      next.push({ snap: D.snapshot(), path: node.path.concat(i + 1) });
+    }
+  }
+  W.queue = next;
+  return next.length;
+}
+
+for (const seed of SEEDS) {
+  const t0 = Date.now();
+  await page.goto(FILE + "?seed=" + seed);
+  await page.evaluate(installWalker);
+  let depth = 0;
+  while (await page.evaluate(walkLevel, { MAX_DEPTH, DRAW_CAP })) { if (++depth > MAX_DEPTH + 2) break; }
+  const r = await page.evaluate(() => window.WALK.out);
+  totalNodes += r.nodes; totalDrawn += r.drawn; totalEdges += r.edges; totalEndArrivals += r.endArrivals;
   Object.keys(r.scenes).forEach(s => allScenes.add(s));
   Object.keys(r.endings).forEach(s => allEndings.add(s));
-  Object.assign(sceneText, Object.fromEntries(Object.entries(r.text).filter(([k]) => !sceneText[k])));
+  for (const [k, v] of Object.entries(r.text)) if (!sceneText[k]) sceneText[k] = v;
   for (const [c, e] of Object.entries(r.endByChar)) { endingsByChar[c] = endingsByChar[c] || new Set(); Object.keys(e).forEach(x => endingsByChar[c].add(x)); }
-  r.dead.forEach(x => fails.push("seed " + seed + ": " + x));
+  r.dead.slice(0, 5).forEach(x => fails.push("seed " + seed + ": " + x));
   r.overflow.slice(0, 5).forEach(x => fails.push("seed " + seed + ": horizontal overflow at 360px in " + x));
   r.cardFail.slice(0, 5).forEach(x => fails.push("seed " + seed + ": intro card missing or wrong on " + x));
-  if (r.deep) fails.push("seed " + seed + ": walk hit the depth or node bound");
+  [...new Set(r.mismatch)].slice(0, 5).forEach(x => fails.push("seed " + seed + ": drawn buttons differ from visible choices in " + x));
+  if (r.deep) fails.push("seed " + seed + ": walk hit the depth bound");
   for (const [key, v] of Object.entries(r.samples)) replays.push({ seed, key, ...v });
-  console.log(`seed ${seed}: ${r.nodes} states, ${r.edges} choices clicked, ${r.endArrivals} arrivals at an ending, endings ${JSON.stringify(r.endings)}`);
+  console.log(`seed ${seed}: ${r.nodes} states (${r.drawn} drawn), ${r.edges} choices taken, ${r.endArrivals} arrivals at an ending, ${depth} levels, ${Math.round((Date.now() - t0) / 1000)}s · ` +
+    Object.entries(r.endings).map(([k, v]) => k + " " + v).join(", "));
 }
 
 const meta = await page.evaluate(() => ({ scenes: Object.keys(STORY), endings: ENDING_IDS, start: START }));
@@ -160,6 +194,41 @@ const PINNED = {
 for (const [id, words] of Object.entries(PINNED)) {
   const t = (sceneText[id] || "").toLowerCase();
   for (const w of words) if (!t.includes(w.toLowerCase())) fails.push("pinned fact missing in " + id + ": " + w);
+}
+
+/* ---------------------------------------------------------------------------
+   3b. Every intro choice pays off. For each character and each pair of intro
+   choices, play the intro, then follow a plain policy down to C3 and climb out.
+   The ending must print the payoff line for both intro flags.
+   ------------------------------------------------------------------------- */
+const POLICY = [/Get up/, /Cast Light on the Minister|Fill the lantern by feel|scroll of Light by feel/, /Row straight/, /You go first/,
+  /I Remember When|Search the rubble/, /Lift the trapdoor/, /Listen at the door/, /I Know How This Was Made|Force the door/,
+  /Cast Sleep|Speak to the rats|Brace|Attack with/, /Go on, through/, /cast Light down|Cast Light down/, /Mark the step/,
+  /docks|Take the oars|Row on/];
+let payoffChecked = 0;
+for (let c = 1; c <= 6; c++) for (let a = 1; a <= 3; a++) for (let b = 1; b <= 3; b++) {
+  let ok = false, last = "";
+  for (let seed = 1; seed <= 30 && !ok; seed++) {
+    await page.goto(FILE + "?seed=" + seed);
+    for (const k of [c, a, b]) await page.keyboard.press(String(k));
+    const res = await page.evaluate(srcs => {
+      const pol = srcs.map(x => new RegExp(x));
+      for (let step = 0; step < 80; step++) {
+        const bs = [...document.querySelectorAll("#choices button")];
+        if (!bs.length) break;
+        let idx = -1;
+        for (const re of pol) { idx = bs.findIndex(b => re.test(b.innerText)); if (idx >= 0) break; }
+        bs[Math.max(0, idx)].click();
+      }
+      const st = DEMO.state, txt = document.getElementById("text").innerText;
+      const flags = Object.keys(st.flags).filter(k => PAYOFF[k]);
+      const missing = flags.filter(k => !txt.includes(typeof PAYOFF[k] === "function" ? PAYOFF[k](st) : PAYOFF[k]));
+      return { scene: st.scene, flags, missing };
+    }, POLICY.map(r => r.source));
+    last = JSON.stringify(res);
+    if (res.scene === "end_water") { ok = res.flags.length === 2 && !res.missing.length; if (!ok) break; payoffChecked++; }
+  }
+  if (!ok) fails.push(`payoff check failed for character ${c}, choices ${a}/${b}: ${last}`);
 }
 
 /* ---------------------------------------------------------------------------
@@ -251,52 +320,43 @@ if ((await page.textContent("#tracker")) !== "endings found: 0 of " + meta.endin
    5. Optional screenshots.
    ------------------------------------------------------------------------- */
 if (process.env.SHOTS) {
-  fs.mkdirSync(process.env.SHOTS, { recursive: true });
-  const fightPath = (await page.evaluate(() => 0), null);
-  // Paths: select; an intro scene; the C2 fight; an ending.
-  const shots = {
-    select: [],
-    intro: ["3", "1"],
-    // Fighter (sword, plow), docks, crossing (row straight), S1 go first, S2 search, trapdoor, force door until open, brace / attack
-    fight: null,
-    ending: null
+  const dir = process.env.SHOTS;
+  fs.mkdirSync(dir, { recursive: true });
+  const sample = (test) => Object.values(pick).find(test);
+  const water = sample(r => r.key === "paladin:end_water") || sample(r => r.key.endsWith(":end_water"));
+  // Walk a recorded path until a scene is reached (or the path ends).
+  const playTo = async (seed, keys, stopAt) => {
+    await page.goto(FILE + "?seed=" + seed);
+    for (const k of keys) {
+      if (stopAt && (await page.evaluate(() => document.body.dataset.scene)) === stopAt) break;
+      await page.keyboard.press(String(k));
+    }
   };
-  const findPath = (want) => Object.values(pick).find(r => r.key.endsWith(want));
-  for (const w of [1280, 360]) {
-    await page.setViewportSize({ width: w, height: 900 });
-    for (const [name, keys] of Object.entries(shots)) {
-      let seed = 1, path = keys;
-      if (name === "ending") { const r = findPath("end_water"); seed = r.seed; path = r.path; }
-      if (name === "fight") {
-        const r = Object.values(pick).find(x => x.key.startsWith("paladin") && x.key.endsWith("end_water")) || findPath("end_water");
-        seed = r.seed; path = r.path;
-        await page.goto(FILE + "?seed=" + seed);
-        for (const k of path) { await page.keyboard.press(String(k)); if ((await page.evaluate(() => document.body.dataset.scene)) === "c2_fight") break; }
-      } else {
-        await page.goto(FILE + "?seed=" + seed);
-        for (const k of path) await page.keyboard.press(String(k));
-      }
-      await page.evaluate(() => { document.getElementById("card").classList.remove("fade"); window.scrollTo(0, 0); });
-      await page.screenshot({ path: path_join(process.env.SHOTS, `${name}-${w}.png`), fullPage: true });
+  const shoot = async name => {
+    await page.evaluate(() => { document.getElementById("card").classList.remove("fade"); window.scrollTo(0, 0); });
+    await page.screenshot({ path: path.join(dir, name + ".png"), fullPage: true });
+  };
+  for (const [scheme, widths] of [["light", [1280, 360]], ["dark", [360]]]) {
+    await page.emulateMedia({ colorScheme: scheme });
+    for (const w of widths) {
+      await page.setViewportSize({ width: w, height: 900 });
+      const tag = "-" + w + (scheme === "dark" ? "-dark" : "");
+      await playTo(1, []); await shoot("select" + tag);
+      await playTo(1, [3, 1]); await shoot("intro" + tag);
+      await playTo(water.seed, water.path, "c2_fight"); await shoot("fight" + tag);
+      await playTo(water.seed, water.path, "c3"); await shoot("c3" + tag);
+      await playTo(water.seed, water.path); await shoot("ending" + tag);
     }
   }
-  for (const scheme of ["dark"]) {
-    await page.emulateMedia({ colorScheme: scheme });
-    await page.setViewportSize({ width: 360, height: 900 });
-    const r = findPath("end_water");
-    await page.goto(FILE + "?seed=" + r.seed);
-    for (const k of r.path.slice(0, -1)) await page.keyboard.press(String(k));
-    await page.screenshot({ path: path_join(process.env.SHOTS, `c3-dark-360.png`), fullPage: true });
-  }
+  console.log("screenshots saved to " + dir);
 }
-function path_join(a, b) { return path.join(a, b); }
 
 await browser.close();
 
 const summary = {
   seeds: SEEDS, scenes: meta.scenes.length, endings: meta.endings.length,
-  statesWalked: totalNodes, choicesClicked: totalEdges, pathsToEndings: totalEndArrivals,
-  keyboardReplays: replayed, unreached, missingEnd,
+  statesWalked: totalNodes, statesDrawn: totalDrawn, choicesClicked: totalEdges, pathsToEndings: totalEndArrivals,
+  keyboardReplays: replayed, introCombosPaidOff: payoffChecked, unreached, missingEnd,
   tracker, errs: errs.slice(0, 10), fails: fails.slice(0, 30)
 };
 console.log(summary);

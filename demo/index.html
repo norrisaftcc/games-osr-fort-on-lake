@@ -40,7 +40,7 @@
 
   /* The Dungeon Clock */
   #clock { margin:14px 0 0; border:1px solid var(--rule); background:var(--card);
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(96px, 1fr)); }
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
   #clock div { padding:6px 10px; border-right:1px solid var(--soft); border-bottom:1px solid var(--soft); min-width:0; }
   #clock dt { font:.62rem var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); }
   #clock dd { margin:0; font:600 .9rem/1.35 var(--mono); overflow-wrap:anywhere; }
@@ -197,7 +197,7 @@ const CAST = {
   gnome:       { name:"The Gnome Druid", sub:"The One Who Listens", cls:"Gnome Druid 1", hp:6, ac:12, acText:"7 [12]", hd:"1d6", mv:"90' (30')",
                  strMod:-1, weapon:"quarterstaff", die:6, edge:"Speaks with burrowing beasts", fate:"The Land Speaks", hear:2, door:1, torches:0, sight:"infravision 60'", first:"gn_1" },
   fighter:     { name:"The Fighter", sub:"The Next Blacksmith", cls:"Fighter 1", hp:8, ac:15, acText:"4 [15]", hd:"1d8", mv:"120' (40')",
-                 strMod:1, weapon:"sword", die:8, edge:"Weapon: sword d8, spear d6 or hammer d6", fate:"I Know How This Was Made", hear:1, door:3, torches:3, sight:"needs light", first:"fi_1" },
+                 strMod:1, weapon:"sword", die:8, edge:"Your weapon: sword 1d8, spear 1d6 or hammer 1d6", fate:"I Know How This Was Made", hear:1, door:3, torches:3, sight:"needs light", first:"fi_1" },
   elf:         { name:"The Elf", sub:"The One Who Stayed", cls:"Elf 1", hp:6, ac:14, acText:"5 [14]", hd:"1d6", mv:"120' (40')",
                  strMod:0, weapon:"longsword", die:8, edge:"Spell: Light", fate:"I Remember When", hear:2, door:2, torches:0, sight:"infravision 60'", first:"elf_1" }
 };
@@ -868,7 +868,7 @@ const STORY = {
       s => "Round " + (s.fight.round + 1) + ". " + ratLine(s),
       "The doorway is narrow. Only two rats can reach you at once. The rest wait their turn.",
       { stat:"<b>Giant rat</b> " + RAT_LINE },
-      s => "<b>You</b> AC " + CAST[s.char].acText + " · HP " + s.hp + "/" + s.maxHp + " · THAC0 19 [+0] · melee " + sgn(atkBonus(s)) + " · " + weapon(s).name + " 1d" + weapon(s).die + (dmgBonus(s) ? sgn(dmgBonus(s)) : "") + " · MV " + CAST[s.char].mv
+      { stat: s => "<b>You</b> AC " + CAST[s.char].acText + " · HP " + s.hp + "/" + s.maxHp + " · THAC0 19 [+0] · melee " + sgn(atkBonus(s)) + " · " + weapon(s).name + " 1d" + weapon(s).die + (dmgBonus(s) ? sgn(dmgBonus(s)) : "") + " · MV " + CAST[s.char].mv }
     ],
     extra: [
       { when: f => f.elf_monsters, text:"They break when two fall. You have seen it before." }
@@ -986,7 +986,7 @@ const STORY = {
 
   /* ------------------------------- ENDINGS -------------------------------- */
   end_water: {
-    ending: "good", title: "The Water Rises", place: "Ending",
+    ending: "good", title: "The Water Rises", place: "Home again",
     text: [
       "You chalk a line on the step where the water stands. Then you climb: the stair, the door, the trapdoor, the tower, the jetty.",
       "You row home under the stars. Behind you the Shallows are singing. Neither of you speaks until The Fort's fires come up out of the dark.",
@@ -995,7 +995,7 @@ const STORY = {
     choices: []
   },
   end_retreat: {
-    ending: "back", title: "Turned Back", place: "Ending",
+    ending: "back", title: "Turned Back", place: "Home again",
     text: [
       "You go back to the boat and row for home. The Minister does not argue. Her hands are steady on the oars.",
       "This is not a failure. Retreat is one of the lessons. A dungeon is a place you visit more than once, and you come back knowing more.",
@@ -1004,7 +1004,7 @@ const STORY = {
     choices: []
   },
   end_dark: {
-    ending: "back", title: "Turned Back in the Dark", place: "Ending",
+    ending: "back", title: "Turned Back in the Dark", place: "Home again",
     text: [
       "You take the Minister's hand and lead her up, one step at a time, counting. The trapdoor is a square of stars. The boat is where you left it.",
       "The light ran out. That is how most people learn to count turns. Next time you will carry more, or find oil, or spend less time.",
@@ -1014,7 +1014,7 @@ const STORY = {
     choices: []
   },
   end_dead: {
-    ending: "dead", title: "The Lake Keeps You", place: "Ending",
+    ending: "dead", title: "The Lake Keeps You", place: "The jetty",
     text: [
       "The rats are small and there are only five of them. It does not matter. In B/X, a first-level character is one bad round from the end.",
       "The Minister drags you up the stair alone. She reads the hymns over you on the jetty, with the Shallows singing behind her.",
@@ -1076,7 +1076,6 @@ const sgn = n => n > 0 ? "+" + n : n < 0 ? "−" + (-n) : "+0";
 
 let S;   // the whole game state; plain data, so it can be saved and restored
 let quiet = false;   // the test walk steps without drawing
-const MECH_FLAGS = ["fi_spear", "fi_hammer", "wiz_scroll", "pal_keeper"];   // intro flags that change the rules
 
 function freshState() {
   return {
@@ -1528,18 +1527,19 @@ function render(animate) {
   renderClock(); renderMap(); renderTrail();
   const found = loadFound().filter(id => ENDING_IDS.includes(id));
   $("tracker").textContent = "endings found: " + found.length + " of " + ENDING_IDS.length;
-  $("seedline").textContent = "seed " + rngSeed + " · same seed, same dice · try ?seed=N";
+  $("seedline").innerHTML = "<span style=\"white-space:nowrap\">seed " + rngSeed + "</span> · <span style=\"white-space:nowrap\">same seed, same dice</span> · <span style=\"white-space:nowrap\">try ?seed=N</span>";
 
   const card = $("card"); card.classList.remove("fade");
   if (animate) { void card.offsetWidth; card.classList.add("fade"); window.scrollTo(0, 0); }
 }
 
+const nw = t => "<span style=\"white-space:nowrap\">" + esc(t) + "</span>";
 function cardHTML(id, n) {
   const c = CAST[id];
   return "<span class=\"cc-name\"><kbd>" + n + "</kbd> " + esc(c.name) + "</span>" +
     "<span class=\"cc-sub\">" + esc(c.sub) + "</span>" +
-    "<span class=\"cc-stats\">" + esc(c.cls) + "<br>HP " + c.hp + " · AC " + esc(c.acText) + " · THAC0 19 [+0]<br>" +
-      esc(c.weapon === "sword" ? "Weapon of your choice" : c.weapon[0].toUpperCase() + c.weapon.slice(1) + " 1d" + c.die) + " · " + esc(c.edge) + "<br>MV " + esc(c.mv) + " · " + esc(c.sight) + "</span>" +
+    "<span class=\"cc-stats\">" + nw(c.cls) + "<br>" + [nw("HP " + c.hp), nw("AC " + c.acText), nw("THAC0 19 [+0]"), nw("MV " + c.mv)].join(" · ") + "<br>" +
+      (id === "fighter" ? "" : esc(c.weapon[0].toUpperCase() + c.weapon.slice(1) + " 1d" + c.die) + "<br>") + esc(c.edge) + "<br>" + esc(c.sight) + "</span>" +
     "<span class=\"cc-fate\">Fate: <i>" + esc(c.fate) + "</i></span>";
 }
 
@@ -1552,14 +1552,14 @@ function renderClock() {
   const spare = (S.torches ? S.torches + " torch" + (S.torches > 1 ? "es" : "") : "no torches") + (S.flasks ? ", " + S.flasks + " oil" : "");
   const next = S.turn % 2 === 0 ? S.turn + 2 : S.turn + 1;
   const cells = [
-    ["Turn", S.turn + " (" + S.turn * 10 + " min)"],
+    ["Turn", S.turn + " · " + S.turn * 10 + " min"],
     ["Light", lightText, S.light === "torch" && S.torchLeft <= 2 || S.light === "none"],
     ["Spare", spare],
-    ["Wander check", "turn " + next + " · d6, 1 = trouble"],
-    ["Rest", tired(S) ? "TIRED −1" : "due in " + Math.max(0, 6 - S.sinceRest), tired(S)],
+    ["Wander check (1 in 6)", "next: turn " + next],
+    ["Rest (1 turn in 6)", tired(S) ? "TIRED −1" : "due in " + Math.max(0, 6 - S.sinceRest), tired(S)],
     ["HP", S.hp + " / " + S.maxHp, S.hp <= Math.ceil(S.maxHp / 3)],
     ["Fate Points", "●".repeat(S.fp) + "○".repeat(Math.max(0, 3 - S.fp)) + " " + S.fp],
-    ["Fate ability", (S.fateUsed ? "used" : "ready") + " · " + CAST[S.char].fate]
+    ["Fate: " + CAST[S.char].fate, S.fateUsed ? "used" : "ready, once"]
   ];
   c.innerHTML = "<div class=\"cap\">Dungeon Clock · 1 turn = 10 minutes</div>" +
     cells.map(([k, v, w]) => "<div><dt>" + esc(k) + "</dt><dd" + (w ? " class=\"warn\"" : "") + ">" + esc(v) + "</dd></div>").join("");
@@ -1686,14 +1686,6 @@ window.DEMO = {
   restore: snap => { S = JSON.parse(snap); render(false); },
   // Signature of everything that can change what happens next (not the dice position or history).
   sig: () => { const { rng, trail, log, turtle, ...rest } = S; return stable(rest); },
-  // Coarse signature for the test walk: in the delve, keep only what changes the rules
-  // (flavour flags, counters and history are dropped; their text is checked separately).
-  mechSig: () => {
-    const { rng, trail, log, turtle, L, checks, wanderers, planRoom, flags, ...rest } = S;
-    const f = S.inDelve ? Object.fromEntries(Object.keys(flags).filter(k => MECH_FLAGS.includes(k)).map(k => [k, true])) : flags;
-    const fight = S.fight ? Object.assign({}, S.fight, { round: 0 }) : null;
-    return stable(Object.assign(rest, { flags: f, fight, doorTries: Math.min(S.doorTries, 3), resume: S.resume }));
-  },
   // Apply choice i (0-based) through the same handler a click uses, without drawing.
   step: i => { quiet = true; try { choose(visibleChoices(STORY[S.scene])[i]); } finally { quiet = false; } },
   load: snap => { S = JSON.parse(snap); },
