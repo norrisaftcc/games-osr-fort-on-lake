@@ -143,7 +143,7 @@ Captain Maren waits at the docks. The boat leaves at noon.
 | C++ | `int dagger_average = 2.5;` | Stores 2. A whole-number box cannot hold .5. | Use `double`. |
 | C++ | Forgetting `noshowpos` | Every number after it gets a `+`: the stats print as `STR +8   INT +15`. | Turn it off right after use. |
 | C++ | `cout << setw(2) << a << b;` and expecting both padded | `setw` only lasts for the next item. | Put `setw` before each item. |
-| C++ | Using a variable before you give it a value | Garbage output. C++ does not set it for you. | Give every variable a value where you declare it. |
+| C++ | Using a variable before you give it a value | Undefined behaviour. C++ does not set it for you, and reading it lets the program do anything: print nonsense, print the right number by luck, or crash. The compiler may warn (`-Wuninitialized`), but often only with optimisation on. | Give every variable a value where you declare it. |
 | Python | `print("Gold: " + gold)` | `TypeError`: you cannot add text and a number. | Use an f-string: `f"Gold: {gold}"`. |
 | Both | A typo in a variable name | Python: `NameError` when that line runs. C++: a compile error before anything runs. | Read the error message: it names the line. |
 

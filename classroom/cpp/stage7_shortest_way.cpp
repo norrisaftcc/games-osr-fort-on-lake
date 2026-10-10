@@ -101,6 +101,7 @@ struct Game {  // a struct can hold other structs and vectors
     int turn;
     int torch;
     vector<int> rat_hp;
+    vector<bool> rat_asleep;  // kept here, so the rats stay asleep if you leave and come back
     bool rats_fled;
     bool over;
 };
@@ -164,7 +165,7 @@ string fight_rats(Game& game) {
     Hero& hero = game.hero;          // a reference: another name, not a copy
     vector<int>& rats = game.rat_hp;
     int count = int(rats.size());
-    vector<bool> asleep(rats.size(), false);
+    vector<bool>& asleep = game.rat_asleep;  // a reference too: Sleep lasts past a retreat
     cout << "You hold the doorway. Only two rats can reach you at a time." << endl;
     while (true) {
         cout << "You: " << hero.hp << " hp. Rats:";
@@ -488,7 +489,7 @@ int main() {
     } else {
         hero = {"the Wizard", 4, 10, -1, 4, true};
     }
-    Game game = {hero, make_rooms(), JETTY, 0, 6, {2, 3, 1, 4, 2}, false, false};
+    Game game = {hero, make_rooms(), JETTY, 0, 6, {2, 3, 1, 4, 2}, {false, false, false, false, false}, false, false};
     cout << "You are " << game.hero.name << ". Captain Maren rows you to the Isle of Old" << endl;
     cout << "Stone at sunset. You light a torch. It will burn 6 turns." << endl;
     describe(game);

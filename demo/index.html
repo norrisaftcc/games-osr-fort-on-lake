@@ -1112,9 +1112,10 @@ function arriveS1(s) {
   move(s, "S1");
 }
 function enterCellar(s) {
-  tick(s, 1);
+  // Light the torch and step below before the turn passes, so the descent burns torch time and its wandering check is a cellar one.
   s.zone = "cellar";
   if (s.light === "day") { s.light = "torch"; note("At the top of the stair the Minister lights her torch. From here on, light is time."); }
+  tick(s, 1);
   move(s, "C1");
 }
 function tick(s, n) {

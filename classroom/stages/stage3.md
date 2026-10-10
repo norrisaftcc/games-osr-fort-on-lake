@@ -302,7 +302,7 @@ the boat. The delve is over for today.
 | Both | `turn % 2 == 1` for "every second turn" | Checks on turns 1, 3, 5 instead of 2, 4, 6. | `turn % 2 == 0`. |
 | Both | Checking the torch before the tick | The hero acts one turn in the dark. | Tick, then check. |
 | Both | `torch == 0` as the end test | A wanderer can drop the torch from 1 to -1, past 0, and the game goes on. | `torch <= 0`. |
-| C++ | `int torch;` with no value, then `torch = torch - 1` | Garbage: the variable started with whatever was in memory. | `int torch = 6;` |
+| C++ | `int torch;` with no value, then `torch = torch - 1` | Undefined behaviour: reading a variable that was never given a value. The torch may seem to work, burn from nonsense, or end the game at once, and it can change between compilers. | `int torch = 6;` |
 
 ## Python and C++ side by side
 

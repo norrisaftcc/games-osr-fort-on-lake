@@ -204,7 +204,7 @@ END OF STAGE 4.
 | Language | Mistake | What happens | Fix |
 |----------|---------|--------------|-----|
 | Both | Calling `check` without the parentheses: `if check:` / `if (check)` | Python: always true (a function is not empty). C++: a warning, and always true. | `check(1)` |
-| Both | Forgetting `return` | Python returns `None`, which counts as false. C++: a warning, and garbage. | Every path through the function must `return` a value. |
+| Both | Forgetting `return` | Python returns `None`, which counts as false. C++: flowing off the end of a value-returning function is undefined behaviour. `-Wall` warns (`-Wreturn-type`), so with this course's `-Werror` it will not compile. | Every path through the function must `return` a value. |
 | Python | `tick(turn, torch)` without using the result | `turn` and `torch` never change in `main`. | `turn, torch = tick(turn, torch)` |
 | C++ | `void tick(int turn, int torch)` without `&` | The function changes its own copies. The caller's values never change. | `int& turn, int& torch` |
 | C++ | Calling a function above where it is written | Compile error: not declared in this scope. | Write the function above `main`, or put a prototype at the top. |

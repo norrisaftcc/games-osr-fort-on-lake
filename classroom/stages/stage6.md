@@ -392,6 +392,118 @@ The first delve ends here, on turn 3. END OF STAGE 6.
 
 </details>
 
+### wizard sleep retreat
+
+Input, one line per prompt (`test_vectors/stage6_wizard_sleep_retreat.in`). The first line is the seed:
+
+```text
+5
+1
+1
+s
+3
+f
+2
+3
+2
+2
+1
+1
+```
+
+<details><summary>Expected output, 86 lines (`test_vectors/stage6_wizard_sleep_retreat.out`)</summary>
+
+```text
+Seed? 5
+
+THE FIRST DELVE - Stage 6: rooms as data
+  1. The Wizard: 4 hp, AC 9 [10], dagger 1d4, STR -1, one Sleep spell
+  2. The Fighter: 8 hp, AC 4 [15], sword 1d8, STR +1
+Pick 1 or 2: 1
+You are the Wizard. Captain Maren rows you to the Isle of Old
+Stone at sunset. You light a torch. It will burn 6 turns.
+
+S1. The Broken Jetty
+Half the jetty lies in the lake. A rope burn on a post is fresh:
+someone else lands here. Out past the end, a long shadow moves
+under the water, and is gone.
+[S1] Turn 0. Torch: 6 of 6. HP: 4.
+  1. Go to S2 The Tower Shell
+What do you do? 1
+
+S2. The Tower Shell
+A round shell of stone, thirty feet across, open to the sky.
+Rubble covers the floor. A stair climbs the wall to a broken top.
+Crows watch you with the calm of tax collectors.
+[S2] Turn 0. Torch: 6 of 6. HP: 4.
+  1. Go to S1 The Broken Jetty
+  2. Go to S3 The Keeper's Cottage
+  s. Search the rubble (1 turn)
+  c. Climb the stair (1 turn)
+What do you do? s
+You shift stones for ten minutes. Under them lies a trapdoor.
+Ten minutes pass.
+[S2] Turn 1. Torch: 5 of 6. HP: 4.
+  1. Go to S1 The Broken Jetty
+  2. Go to S3 The Keeper's Cottage
+  3. Go to C1 The Cellar Stair
+  c. Climb the stair (1 turn)
+What do you do? 3
+
+C1. The Cellar Stair
+A stone stair goes down twenty feet to an oak door, swollen in
+its frame. It is stuck.
+[C1] Turn 1. Torch: 5 of 6. HP: 4.
+  1. Go to S2 The Tower Shell
+  l. Listen at the door
+  f. Force the door (1 turn)
+What do you do? f
+Force: d6 = 1, need 1 or less: yes.
+The door bursts open with a crack like a dropped plank.
+Ten minutes pass.
+Wandering check: d6 = 2, need 1 or less: no.
+[C1] Turn 2. Torch: 4 of 6. HP: 4.
+  1. Go to S2 The Tower Shell
+  2. Go to C2 The Oil Store
+What do you do? 2
+
+C2. The Oil Store
+Racks of broken oil jars. The floor is tacky. Five giant rats,
+each the size of a cat, lift their heads from the spill.
+You hold the doorway. Only two rats can reach you at a time.
+You: 4 hp. Rats: 2 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run, 3 cast Sleep: 3
+You speak the word of Sleep. 2d8 = 13.
+You: 4 hp. Rats: z z z z z   (x dead, z asleep)
+1 fight, 2 run: 2
+You back up the stair. The rats do not follow.
+Ten minutes pass.
+[C1] Turn 3. Torch: 3 of 6. HP: 4.
+  1. Go to S2 The Tower Shell
+  2. Go to C2 The Oil Store
+What do you do? 2
+
+C2. The Oil Store
+You hold the doorway. Only two rats can reach you at a time.
+You: 4 hp. Rats: z z z z z   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 1. It is asleep. One blow kills it.
+You: 4 hp. Rats: x z z z z   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. It is asleep. One blow kills it.
+The pack breaks. The rest flee down the far stair.
+In one rack, five flasks of oil are still whole. You take them.
+Ten minutes pass.
+Wandering check: d6 = 4, need 1 or less: no.
+[C2] Turn 4. Torch: 2 of 6. HP: 4.
+  1. Go to C1 The Cellar Stair
+  2. Go to C3 The Flooded Stair
+What do you do? 
+(No more input. You put out your torch and row home.)
+```
+
+</details>
+
 <!-- END TEST VECTORS -->
 
 ## Common mistakes

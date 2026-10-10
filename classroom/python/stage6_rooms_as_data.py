@@ -87,6 +87,7 @@ class Game:  # NEW: an object can hold other objects and lists
     turn: int
     torch: int
     rat_hp: list
+    rat_asleep: list   # kept here, so the rats stay asleep if you leave and come back
     rats_fled: bool
     over: bool
 
@@ -138,7 +139,7 @@ def fight_rats(game):
     """The C2 fight, as in stage 5. Returns "won", "ran" or "dead"."""
     hero = game.hero
     rats = game.rat_hp  # the same list as game.rat_hp, not a copy
-    asleep = [False] * len(rats)
+    asleep = game.rat_asleep  # the same list too: Sleep lasts past a retreat
     print("You hold the doorway. Only two rats can reach you at a time.")
     while True:
         print(f"You: {hero.hp} hp. Rats:", end="")
@@ -335,7 +336,7 @@ def main():
         hero = Hero("the Fighter", 8, 15, 1, 8, False)  # NEW: build an object
     else:
         hero = Hero("the Wizard", 4, 10, -1, 4, True)
-    game = Game(hero, make_rooms(), JETTY, 0, 6, [2, 3, 1, 4, 2], False, False)
+    game = Game(hero, make_rooms(), JETTY, 0, 6, [2, 3, 1, 4, 2], [False] * 5, False, False)
     print(f"You are {game.hero.name}. Captain Maren rows you to the Isle of Old")
     print("Stone at sunset. You light a torch. It will burn 6 turns.")
     describe(game)
