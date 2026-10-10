@@ -1705,7 +1705,7 @@ window.DEMO = {
 Object.keys(STORY).forEach(id => {
   const s = STORY[id];
   if (!s.ending && !s.choices.length) console.warn("Dead end:", id);
-  s.choices.forEach(c => { if (!STORY[c.to]) console.warn("Missing scene", c.to, "in", id); });
+  s.choices.forEach(c => { if (c.to && !STORY[c.to]) console.warn("Missing scene", c.to, "in", id); });
 });
 
 newGame();
