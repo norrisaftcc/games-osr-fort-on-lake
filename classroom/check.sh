@@ -100,6 +100,56 @@ for input in test_vectors/*.in; do
 done
 echo "Vectors: $vectors run in Python and C++, with and without echo"
 
+# 5. The stage guides embed every vector. With --regen, rewrite them;
+#    otherwise fail if a guide no longer matches its vector files.
+if ! python3 - "${1:-check}" <<'EOF'
+import glob, os, re, sys
+mode = sys.argv[1]
+START, END = "<!-- TEST VECTORS -->", "<!-- END TEST VECTORS -->"
+
+def block(stage):
+    parts = [START, ""]
+    for inp in sorted(glob.glob(f"test_vectors/{stage}_*.in")):
+        name = os.path.basename(inp)[:-3]
+        out = inp[:-3] + ".out"
+        lines = open(inp).read()
+        expected = open(out).read()
+        n = expected.count("\n")
+        parts += [f"### {name[len(stage) + 1:].replace('_', ' ')}", "",
+                  f"Input, one line per prompt (`test_vectors/{name}.in`). The first line is the seed:", "",
+                  "```text", lines.rstrip("\n"), "```", ""]
+        summary = f"Expected output, {n} lines (`test_vectors/{name}.out`)"
+        if n <= 30:
+            parts += [summary + ":", "", "```text", expected.rstrip("\n"), "```", ""]
+        else:
+            parts += [f"<details><summary>{summary}</summary>", "", "```text",
+                      expected.rstrip("\n"), "```", "", "</details>", ""]
+    parts.append(END)
+    return "\n".join(parts)
+
+bad = 0
+for md in sorted(glob.glob("stages/stage*.md")):
+    stage = os.path.basename(md)[:-3]
+    text = open(md).read()
+    if START not in text:
+        print("no test vector block in", md); bad += 1; continue
+    if END in text:
+        old = text[text.index(START):text.index(END) + len(END)]
+    else:
+        old = START
+    new = block(stage)
+    if mode == "--regen":
+        open(md, "w").write(text.replace(old, new))
+    elif old != new:
+        print(md, "does not match its test vectors (run ./check.sh --regen)"); bad += 1
+sys.exit(1 if bad else 0)
+EOF
+then
+    fail "stage guides out of date"
+else
+    echo "Docs: every stage guide embeds its current test vectors"
+fi
+
 if [ "$failures" -eq 0 ]; then
     echo "ALL CHECKS PASSED"
     exit 0

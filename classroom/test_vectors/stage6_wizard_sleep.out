@@ -26,7 +26,7 @@ Crows watch you with the calm of tax collectors.
   c. Climb the stair (1 turn)
 What do you do? s
 You shift stones for ten minutes. Under them lies a trapdoor.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 [S2] Turn 1. Torch: 5 of 6. HP: 4.
   1. Go to S1 The Broken Jetty
   2. Go to S3 The Keeper's Cottage
@@ -44,7 +44,7 @@ its frame. It is stuck.
 What do you do? f
 Force: d6 = 1, need 1 or less: yes.
 The door bursts open with a crack like a dropped plank.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 Wandering check: d6 = 2, need 1 or less: no.
 [C1] Turn 2. Torch: 4 of 6. HP: 4.
   1. Go to S2 The Tower Shell
@@ -64,9 +64,9 @@ You strike at rat 1. It is asleep. One blow kills it.
 You: 4 hp. Rats: x z z z z   (x dead, z asleep)
 1 fight, 2 run: 1
 You strike at rat 2. It is asleep. One blow kills it.
-The pack breaks. Every rat that can run flees into a hole.
+The pack breaks. The rest flee down the far stair.
 In one rack, five flasks of oil are still whole. You take them.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 [C2] Turn 3. Torch: 3 of 6. HP: 4.
   1. Go to C1 The Cellar Stair
   2. Go to C3 The Flooded Stair

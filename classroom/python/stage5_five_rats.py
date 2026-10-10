@@ -143,7 +143,7 @@ def fight_rats(hp, ac, bonus, die, has_sleep):
             if rat_hp[i] <= 0:
                 dead = dead + 1
         if dead >= RAT_FLEE:
-            print(f"{dead} rats lie dead. The pack breaks. Every rat that can run flees.")
+            print(f"{dead} rats lie dead. The pack breaks. The rest flee down the far stair.")
             return "won"
 
         biters = 0

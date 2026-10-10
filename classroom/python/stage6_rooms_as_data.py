@@ -184,7 +184,7 @@ def fight_rats(game):
             if hp <= 0:
                 dead = dead + 1
         if dead >= 2:
-            print("The pack breaks. Every rat that can run flees into a hole.")
+            print("The pack breaks. The rest flee down the far stair.")
             return "won"
         biters = 0
         for i in range(len(rats)):
@@ -288,30 +288,41 @@ def execute(game, choices, answer):
     return 0
 
 
-def turn(game):
-    """One exploration turn, written as the spine's Logo procedure:
-        TO TURN
-          PLAN      ; look, talk, think. Free.
-          EXECUTE   ; one declared action. It may cost time.
-          TICK      ; the clock moves and the torch burns
-          CHECK     ; every second turn, roll for wanderers
-        END
-    main() does the REPEAT."""
+def wander(game):
+    """WANDER: d6, and on a 1 something comes."""
+    print("Wandering check: ", end="")
+    if check(1):
+        print("Something wet drags itself past in the dark. You wait.")
+        game.torch = game.torch - 1
+
+
+# The Turn Is a Procedure. Module 2 writes the exploration turn in Logo:
+#   TO TURN
+#     PLAN                                  ; talk, look, ask: no dice, no time
+#     EXECUTE                               ; the caller says it; one action each
+#     MAKE "CLOCK :CLOCK + 1                ; tick a box: ten minutes pass
+#     BURN 1                                ; every lit torch loses a turn
+#     IF 0 = REMAINDER :CLOCK 2 [WANDER]    ; d6, and on a 1 something comes
+#     IF 0 = REMAINDER :CLOCK 6 [REST]      ; rest now, or -1 to hit and damage
+#     IF FIGHTING? [ROUNDS]                 ; a fight runs in rounds
+#     IF BELOW? [TURN]                      ; do it again until the party climbs out
+#   END
+# turn() below follows it line by line.
+def turn(game):  # NEW: one function for one whole turn
     choices = plan(game)                                     # PLAN
-    used = execute(game, choices, ask("What do you do? "))  # EXECUTE
-    if used == 0 or game.over:
-        return
-    game.turn = game.turn + 1                                # TICK
-    game.torch = game.torch - 1
-    print("Ten minutes pass. The torch burns lower.")
-    if game.turn % 2 == 0:                                   # CHECK
-        print("Wandering check: ", end="")
-        if check(1):
-            print("Something wet drags itself past in the dark. You wait.")
-            game.torch = game.torch - 1
+    used = execute(game, choices, ask("What do you do? "))  # EXECUTE (a fight runs
+    if used == 0 or game.over:                               #   its ROUNDS in here)
+        return  # looking and walking are free: no time passes
+    game.turn = game.turn + 1                                # MAKE "CLOCK :CLOCK + 1
+    print("Ten minutes pass.")
+    game.torch = game.torch - 1                              # BURN 1
+    if game.turn % 2 == 0:                                   # IF 0 = REMAINDER :CLOCK 2
+        wander(game)                                         #   [WANDER]
+    # IF 0 = REMAINDER :CLOCK 6 [REST]: one torch dies by turn 6, so we leave it out.
     if game.torch <= 0:
         print("Your torch gutters out. You feel your way back to the boat.")
         game.over = True
+    # IF BELOW? [TURN]: Logo calls TURN again. main() uses a while loop instead.
 
 
 def main():

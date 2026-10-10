@@ -41,7 +41,7 @@ S2. The Tower Shell
   c. Climb the stair (1 turn)
 What do you do? s
 You shift stones for ten minutes. Under them lies a trapdoor.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 [S2] Turn 1. Torch: 5 of 6. HP: 8.
   1. Go to S1 The Broken Jetty
   2. Go to S3 The Keeper's Cottage
@@ -66,7 +66,7 @@ You hear only water, dripping somewhere.
 What do you do? f
 Force: d6 = 3, need 3 or less: yes.
 The door bursts open with a crack like a dropped plank.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 Wandering check: d6 = 3, need 1 or less: no.
 [C1] Turn 2. Torch: 4 of 6. HP: 8.
   1. Go to S2 The Tower Shell
@@ -105,9 +105,9 @@ You: 6 hp. Rats: x 3 1 4 2   (x dead, z asleep)
 You strike at rat 2. d20 = 15, total 16 vs AC 12: hit.
 You deal 7 damage.
 Rat 2 dies.
-The pack breaks. Every rat that can run flees into a hole.
+The pack breaks. The rest flee down the far stair.
 In one rack, five flasks of oil are still whole. You take them.
-Ten minutes pass. The torch burns lower.
+Ten minutes pass.
 [C2] Turn 3. Torch: 3 of 6. HP: 6.
   1. Go to C1 The Cellar Stair
   2. Go to C3 The Flooded Stair

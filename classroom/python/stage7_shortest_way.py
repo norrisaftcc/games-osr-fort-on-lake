@@ -58,7 +58,10 @@ COTTAGE = 2
 STAIR = 3
 STORE = 4
 FLOODED = 5
-CHUTE = 6  # NEW: a secret way. Not on any map until you find it.
+PASSAGE = 6  # NEW: four more rooms from Module 2's map. Only the passage
+STUDY = 7    # and the study can be walked in this game; the hall and
+HALL = 8     # the ward room are past doors the demo does not open.
+WARD = 9
 
 
 @dataclass
@@ -69,6 +72,7 @@ class Room:  # one object holds every fact about one room
     exits: list    # the indexes of the rooms you can walk to
     is_open: bool  # False until you find it or force your way in
     visited: bool
+    secret: bool   # NEW: True if only a found secret door leads here
 
 
 @dataclass
@@ -94,35 +98,41 @@ class Game:  # an object can hold other objects and lists
 
 
 def make_rooms():
-    return [  # a list of Room objects. The exits make the map.
+    return [  # The exits make the map. It now has a loop in it.
         Room("S1", "The Broken Jetty",
              "Half the jetty lies in the lake. A rope burn on a post is fresh:\n"
              "someone else lands here. Out past the end, a long shadow moves\n"
-             "under the water, and is gone.", [TOWER, CHUTE], True, False),
+             "under the water, and is gone.", [TOWER], True, False, False),
         Room("S2", "The Tower Shell",
              "A round shell of stone, thirty feet across, open to the sky.\n"
              "Rubble covers the floor. A stair climbs the wall to a broken top.\n"
              "Crows watch you with the calm of tax collectors.",
-             [JETTY, COTTAGE, STAIR], True, False),
+             [JETTY, COTTAGE, STAIR], True, False, False),
         Room("S3", "The Keeper's Cottage",
              "No roof. Ash in the hearth, less than a week old. A tin of lamp\n"
              "oil. On the door, a chalked eye with a line through it.",
-             [TOWER], True, False),
+             [TOWER], True, False, False),
         Room("C1", "The Cellar Stair",
              "A stone stair goes down twenty feet to an oak door, swollen in\n"
-             "its frame. It is stuck.", [TOWER, STORE], False, False),
+             "its frame. It is stuck.", [TOWER, STORE, PASSAGE], False, False, False),
         Room("C2", "The Oil Store",
              "Racks of broken oil jars. The floor is tacky. Five giant rats,\n"
              "each the size of a cat, lift their heads from the spill.",
-             [STAIR, FLOODED, CHUTE], False, False),
+             [STAIR, FLOODED, HALL], False, False, False),
         Room("C3", "The Flooded Stair",
              "A second stair goes down into black water. As you watch, the\n"
              "water climbs one step, as if the lake took a breath.",
-             [STORE], True, False),
-        Room("CH", "The Oil Chute",  # NEW: a classroom room, not in the module
-             "A stone chute, black with old oil, slopes up through the rock.\n"
-             "Boats once filled the store this way. It ends at a hatch under\n"
-             "the jetty.", [STORE, JETTY], False, False),
+             [STORE], True, False, False),
+        Room("VP", "Vane's Passage",  # NEW
+             "A narrow passage, dry and dark, runs fifty feet east to a\n"
+             "plain door.", [STAIR, STUDY], False, False, True),
+        Room("C7", "The Lampwright's Study",  # NEW
+             "A square, dry room that smells of paper. At the desk sits a man\n"
+             "in a quilted robe, long since bones, his skull on his folded\n"
+             "arms. His notes are for Module 2. The north door is locked.",
+             [PASSAGE, WARD], True, False, False),
+        Room("C4", "The Lamp Hall", "", [STORE, WARD], False, False, False),  # NEW
+        Room("C6", "The Ward Room", "", [HALL, STUDY], False, False, False),  # NEW
     ]
 
 
@@ -190,7 +200,7 @@ def fight_rats(game):
             if hp <= 0:
                 dead = dead + 1
         if dead >= 2:
-            print("The pack breaks. Every rat that can run flees into a hole.")
+            print("The pack breaks. The rest flee down the far stair.")
             return "won"
         biters = 0
         for i in range(len(rats)):
@@ -207,11 +217,11 @@ def fight_rats(game):
 
 
 # NEW: the whole of shortest_path() is new in this stage.
-def shortest_path(rooms, start, goal, see_all):
-    """Breadth-first search. Visit rooms in rings: every room one step
-    away, then every room two steps away, and so on. The first time a room
-    is reached, it is reached by a shortest path. If see_all is True, count
-    closed and secret rooms too. Returns room indexes from start to goal."""
+def shortest_path(rooms, start, goal, use_secrets):
+    """Breadth-first search over the whole map. Visit rooms in rings: every
+    room one step away, then every room two steps away, and so on. The first
+    time a room is reached, it is reached by a shortest path. Secret rooms
+    count only if use_secrets is True. Returns room indexes, start to goal."""
     came_from = [-1] * len(rooms)  # came_from[r]: the room we stepped to r from
     seen = [False] * len(rooms)
     seen[start] = True
@@ -219,7 +229,7 @@ def shortest_path(rooms, start, goal, see_all):
     while len(queue) > 0:
         r = queue.popleft()  # NEW: take from the front: first in, first out
         for nxt in rooms[r].exits:
-            if not seen[nxt] and (rooms[nxt].is_open or see_all):
+            if not seen[nxt] and (use_secrets or not rooms[nxt].secret):
                 seen[nxt] = True
                 came_from[nxt] = r
                 queue.append(nxt)  # NEW: add to the back
@@ -267,15 +277,19 @@ def walk(game, to):
             game.over = True
         return 1  # a fight and the breath after it take a turn
     if to == FLOODED:
-        known = shortest_path(game.rooms, FLOODED, JETTY, False)  # NEW: what you know
-        full = shortest_path(game.rooms, FLOODED, JETTY, True)    # NEW: the whole truth
-        print("The water climbs another step. Which way is shortest to the boat?")
-        print("Your map:  " + path_text(game.rooms, known))
-        print("True map:  " + path_text(game.rooms, full))
-        if game.rooms[CHUTE].is_open:
-            print("You found the chute, so your map is as short as it gets.")
+        found = game.rooms[PASSAGE].is_open
+        long_way = shortest_path(game.rooms, STUDY, JETTY, False)  # NEW: no secret door
+        short_way = shortest_path(game.rooms, STUDY, JETTY, True)  # NEW: through it
+        print("The water climbs another step. Time to think about the way home.")
+        from_here = shortest_path(game.rooms, FLOODED, JETTY, found)
+        print("From here:              " + path_text(game.rooms, from_here))
+        print("Module 2's map goes on. From the study, C7, deep in the cellars:")
+        print("  the long way:         " + path_text(game.rooms, long_way))
+        print("  by the secret door:   " + path_text(game.rooms, short_way))
+        if found:
+            print("You found the secret door on the C1 landing.")
         else:
-            print(f"A secret door you never found would save {len(known) - len(full)} move.")
+            print("You never found the secret door. It is in the C1 landing's east wall.")
         print()
         print("WHAT YOU LEARNED")
         print("- Light is time. The torch is a clock you can see.")
@@ -283,7 +297,7 @@ def walk(game, to):
         print("- Listen before you open a door. Forcing it makes noise.")
         print("- Every second turn, the dungeon rolls against you.")
         print("- Monsters run when the fight turns against them.")
-        print("- A secret door makes the map shorter. BFS finds the shortest way.")
+        print("- A secret door can turn a long way home into a short one.")
         print(f"The first delve ends here, on turn {game.turn}. END OF STAGE 7.")
         game.over = True
     return 0
@@ -306,8 +320,8 @@ def plan(game):
     if game.here == STAIR and not rooms[STORE].is_open:
         print("  l. Listen at the door")
         print("  f. Force the door (1 turn)")
-    if game.here == STORE and game.rats_fled and not rooms[CHUTE].is_open:  # NEW
-        print("  s. Search where the rats went (1 turn)")
+    if game.here == STAIR and not rooms[PASSAGE].is_open:  # NEW
+        print("  s. Search the landing (1 turn)")
     print("  m. Ask your map: the shortest way to the jetty")
     return choices
 
@@ -340,45 +354,59 @@ def execute(game, choices, answer):
         else:
             print("The door shudders and holds. The noise rolls into the dark.")
         return 1
-    if game.here == STORE and answer == "s" and game.rats_fled and not rooms[CHUTE].is_open:
-        print("You search where the rats went: ", end="")
-        if check(2):  # you saw where they ran, so 2-in-6
-            print("Behind a rack, a slab swings inward. A secret door!")
-            rooms[CHUTE].is_open = True
+    if game.here == STAIR and answer == "s" and not rooms[PASSAGE].is_open:  # NEW
+        print("You search the landing: ", end="")
+        if check(1):  # secret doors: 1-in-6 (elves 2-in-6)
+            print("A stone panel in the east wall turns on an iron pin.")
+            print("A secret door! A dark passage runs east.")
+            rooms[PASSAGE].is_open = True
         else:
-            print("Only droppings and broken jars.")
+            print("Cold stone, and old lamp hooks stamped IX.")
         return 1
     if answer == "m":  # NEW: ask the BFS from where you stand
-        print("Your map: " + path_text(rooms, shortest_path(rooms, game.here, JETTY, False)))
+        found = rooms[PASSAGE].is_open
+        way = shortest_path(rooms, game.here, JETTY, found)
+        print("Shortest way to the jetty: " + path_text(rooms, way))
         return 0  # reading a map is free
     print("You cannot do that here.")
     return 0
 
 
+def wander(game):
+    """WANDER: d6, and on a 1 something comes."""
+    print("Wandering check: ", end="")
+    if check(1):
+        print("Something wet drags itself past in the dark. You wait.")
+        game.torch = game.torch - 1
+
+
+# The Turn Is a Procedure. Module 2 writes the exploration turn in Logo:
+#   TO TURN
+#     PLAN                                  ; talk, look, ask: no dice, no time
+#     EXECUTE                               ; the caller says it; one action each
+#     MAKE "CLOCK :CLOCK + 1                ; tick a box: ten minutes pass
+#     BURN 1                                ; every lit torch loses a turn
+#     IF 0 = REMAINDER :CLOCK 2 [WANDER]    ; d6, and on a 1 something comes
+#     IF 0 = REMAINDER :CLOCK 6 [REST]      ; rest now, or -1 to hit and damage
+#     IF FIGHTING? [ROUNDS]                 ; a fight runs in rounds
+#     IF BELOW? [TURN]                      ; do it again until the party climbs out
+#   END
+# turn() below follows it line by line.
 def turn(game):
-    """One exploration turn, written as the spine's Logo procedure:
-        TO TURN
-          PLAN      ; look, talk, think. Free.
-          EXECUTE   ; one declared action. It may cost time.
-          TICK      ; the clock moves and the torch burns
-          CHECK     ; every second turn, roll for wanderers
-        END
-    main() does the REPEAT."""
     choices = plan(game)                                     # PLAN
-    used = execute(game, choices, ask("What do you do? "))  # EXECUTE
-    if used == 0 or game.over:
-        return
-    game.turn = game.turn + 1                                # TICK
-    game.torch = game.torch - 1
-    print("Ten minutes pass. The torch burns lower.")
-    if game.turn % 2 == 0:                                   # CHECK
-        print("Wandering check: ", end="")
-        if check(1):
-            print("Something wet drags itself past in the dark. You wait.")
-            game.torch = game.torch - 1
+    used = execute(game, choices, ask("What do you do? "))  # EXECUTE (a fight runs
+    if used == 0 or game.over:                               #   its ROUNDS in here)
+        return  # looking and walking are free: no time passes
+    game.turn = game.turn + 1                                # MAKE "CLOCK :CLOCK + 1
+    print("Ten minutes pass.")
+    game.torch = game.torch - 1                              # BURN 1
+    if game.turn % 2 == 0:                                   # IF 0 = REMAINDER :CLOCK 2
+        wander(game)                                         #   [WANDER]
+    # IF 0 = REMAINDER :CLOCK 6 [REST]: one torch dies by turn 6, so we leave it out.
     if game.torch <= 0:
         print("Your torch gutters out. You feel your way back to the boat.")
         game.over = True
+    # IF BELOW? [TURN]: Logo calls TURN again. main() uses a while loop instead.
 
 
 def main():

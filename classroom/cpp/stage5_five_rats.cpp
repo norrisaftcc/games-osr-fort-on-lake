@@ -170,7 +170,7 @@ string fight_rats(int hp, int ac, int bonus, int die, bool has_sleep) {
             }
         }
         if (dead >= RAT_FLEE) {
-            cout << dead << " rats lie dead. The pack breaks. Every rat that can run flees." << endl;
+            cout << dead << " rats lie dead. The pack breaks. The rest flee down the far stair." << endl;
             return "won";
         }
 
