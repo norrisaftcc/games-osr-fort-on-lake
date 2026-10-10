@@ -273,3 +273,40 @@ One file, `demo/index.html`. No build step, no network, no libraries. Opens from
 4. **Ending:** at C3, the water rises; the screen says what the player learned (the lessons, named plainly) and points to the module.
 
 A `demo/SPEC.md` describes the scene graph and flags, in the same way as `team-ycbbb/spooks/mirror-universe/SPEC.md`. A `demo/test.mjs` (Node, Playwright) walks every path and fails on a dead scene, a console error, or an unreached scene.
+
+---
+
+## Year Two PC Materials — Pinned Facts
+
+Materials for the three Year Two PCs: a Year Two playbook each, a Badge Zero–style solo intro for each, and a first session for the party (issue #2). Writers of all three read this section; it wins over their own choices.
+
+### Common to all three
+
+| Item | Pinned |
+|------|--------|
+| **Level** | 2 by default. The DM may set another. Playbooks show levels 1–4. |
+| **House conventions** | Keep the Year One playbooks' conventions: cleric and druid have one spell at level 1; XP to the next level is the class base plus the race surcharge, as the Year One playbooks state it. |
+| **Fate** | 3 points; refresh at each Fort Turn and at the start of a session. Spend 1: reroll; +4 to a save; or state one true fact in your lane. Spend 2: cheat death. **Year Two:** spending 1 with a spell or an N/day power also lets the player write part of its effect. |
+| **The Fort Card** | Replaces Badge Zero's badge. Fields: name; class and level; 3d6 in order; HP; AC; THAC0; saves; Year of Change; Fort Office; Fate ability and lane; **public fact** (typed, one sentence); **secret fact** (typed, one sentence); **bond**; gear; class block (thief skills, or spells); a **5e line** for players who read 5e. |
+| **Registers** | **Elmore paint** = witnessed: the Fort, Cassandra or the Terminal saw it, and the public fact comes from such a scene. **Otus ink** = unwitnessed: the secret fact comes from such a scene. |
+| **Bonds** | Each card names one bond: another PC, or an NPC (Cassandra, Wick, the Paladin, Maren, the Minister, the Glamourist, Biddy). Mutual PC bonds give each 1 extra Fate, spent only to help that partner. |
+| **Year of Change** (Player Guide; proposed numbers, marked for the DM to confirm) | **Gnome:** *Green Hand*: plants grow faster near you; once a year, Stores +1 at a Fort Turn. *Lake-Speaker*: once a day, ask the fish or the birds one question; they answer truly, as far as they know. *Small Friend*: a small animal follows you (a stoat, a crow or a toad; HD ½, 1 hp, cannot fight); once per hex it scouts ahead and the party cannot be surprised there. **Thief:** *Locksmith's Eye*: once per room, ask the DM one question about a lock or a trap; the answer is true. *Quiet Feet*: Move Silently +20%, and old stone never gives you away. *Fence*: Trade directives roll +1, and loot sells for 10% more. **Cleric:** *Hymn of Rest*: when you sing at camp, each ally who rests heals 1d4 extra, once a night. *Hymn of Calling*: once a season, read the Terminal and ask it one question; the DM answers truly and briefly. *Lake Stone*: your holy symbol tingles within 30' of old machines. |
+| **Fort Office** (Player Guide) | *Warden*: Walls +1 when you take the Defend directive. *Scout*: one extra clue per hex you explore. *Steward*: you see the Fort's tracks before the DM reports them. *Lorekeeper*: one free hint per puzzle. |
+| **5e** | Player-facing: a "For 5e players" box in each playbook and a 5e line on each card, in the DM Guide's terms. DM-facing stat blocks: the full OSE line plus one 5e line. |
+| **Privacy** | Nothing about the real players goes in any file. |
+
+### The three PCs
+
+| PC | Playbook (Year Two) | Base | Fate ability | Pinned |
+|----|--------------------|------|--------------|--------|
+| **The elven thief** | `player/year-two/Playbook_Elven_Thief.md` (new) | OSE Advanced: Thief class, Elf race. Thief skills at L1–4 from OSE; backstab +4 to hit, ×2 damage. Elf: infravision 60', immune to ghoul paralysis, detect secret doors 2-in-6 when searching, hear noise 2-in-6. | ***I Was Already Here*** (named in Module 1's DM Guide): declare one true fact about a place before the DM describes it, as if you scouted it earlier. | Year One: was in the Gorgon Caves. Holds the Pen in Summer of the Year Between. |
+| **The elf cleric** of the Order of the Sacred Terminal | `player/year-two/Playbook_Elf_Cleric.md` (Year Two update of `Playbook_Elf_Minister.md`) | As the Elf Minister playbook. | ***The Archives Are Deep*** (from the Elf Minister playbook). | Holy symbol: a smooth grey **lake stone**; the Terminal knew it. Do not say why (Lintel, the Quiet's claim and the Sleeper belong to the DM Guide). Holds the Pen in Autumn. |
+| **The gnome druid** | `player/year-two/Playbook_Gnome_Druid.md` (Year Two update) | As the Gnome Druid playbook. | ***The Land Speaks*** (from the Gnome Druid playbook). | Year One choice *"I heard the Terminal from underground"* stays available. Holds the Pen in Spring. |
+
+### Solo intros (`intro/index.html`)
+
+One offline page, Badge Zero pattern, five scenes per PC, 10–15 minutes each: (1) a Year One memory (origin), (2) the Year Between (Year of Change), (3) a witnessed or unwitnessed scene that produces the typed fact, (4) the Fort Office, (5) the bond and the kit. Then the card, HP roll, session-zero retcon, text export, print layout. Every intro ends at the same image: **the milestone on the Old Road hums, and Cassandra says one true thing to each of them.**
+
+### First session (`dm/Year_Two_First_Session_The_Hum.md`)
+
+Seeds 1 (*The Hum*, C4) and 10 (*The Hunter's Map*, C5) lead to the **outflow tunnel** (C3), "dry, long, and trapped", which opens near the Eval Chamber. Five keyed rooms, Floor 31 shape: a clock, two buyers (the B.I.A. at Mile-House 13 want the tunnel sealed and the map filed; the Quiet want the water to keep running past their shrines), and an ending with no correct answer. One **new** math puzzle that follows the puzzle rule and is not one of Halcyon's three (not function memory, not binary, not balance weights). Each PC's Year of Change and Fort Office has somewhere to matter. The session stops at the inner door; it does not enter Halcyon. Party: the three PCs at level 2, with a "Running the Party" table for adding the Paladin.
