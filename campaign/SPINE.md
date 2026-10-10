@@ -216,7 +216,7 @@ Getting there: the Isle of Old Stone is hex D2, about 12 miles north of The Fort
 
 ## Module 3: The Ravine of Mouths — Pinned Facts
 
-The Ravine of Mouths is a cleft in **the Ridge**, hex B3, about 12 miles northwest of The Fort by way of the Weirs (C3) or the Old Road (C4). Half a day on foot. Hex B2 beside it holds last year's dungeon, the Gorgon Caves. The Ravine's walls are dotted with cave mouths, each a lair; no birds nest on the Ridge. A footpath climbs the ravine floor. The Temple of the Unwritten is at the top, in an imperial building half-buried in the hill. The Fort itself is the home base, half a day back, as the Keep is in the source; there is no forward camp. Getting loot home, and the clans moving while the party is away, are the supply lesson.
+The Ravine of Mouths is a cleft in **the Ridge**, hex B3, about 12 miles northwest of The Fort by way of the Weirs (C3) or the Old Road (C4). Half a day on foot. Hex B2 beside it holds last year's dungeon, the Gorgon Caves. The Ravine's walls are dotted with cave mouths, each a lair; no birds nest on the Ridge. A footpath climbs the ravine floor. The Temple of the Unwritten is at the top, in an imperial building half-buried in the hill. The Fort itself is the home base, half a day back, as the borderland castle is in the source module; there is no forward camp. Getting loot home, and the clans moving while the party is away, are the supply lesson.
 
 **The lairs, in teaching order (low to high up the ravine):**
 
