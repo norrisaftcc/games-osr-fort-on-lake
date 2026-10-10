@@ -454,7 +454,7 @@ Check every 2 turns, 1-in-6. Every result has a reason to be here.
 
 | Monster | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |---------|----|---------|-----|-------|----|----|----|----|
-| Giant rat | 7 [12] | ½ (2, 1, 3, 2, 4, 1, 3, 2) | 1 × bite (1d3 + disease) | 19 [0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 8 | 5 each |
+| Giant rat | 7 [12] | ½ (2, 1, 3, 2, 4, 1, 3, 2) | 1 × bite (1d3 + disease) | 19 [0] | 120' (40'), swim 60' (20') | D12 W13 P14 B15 S16 (1) | 8 | 5 each |
 | Skeleton | 7 [12] | 1 (4, 6) | 1 × spear (1d6) | 19 [0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 12 | 10 each |
 | Stirge | 7 [12] | 1* (5, 3, 4) | 1 × beak (1d3, then 1d3 blood each round) | 19 [0] | 30' (10'), fly 180' (60') | D12 W13 P14 B15 S16 (2) | 9 | 13 each |
 | Saltman | 7 [12] | 1 (5, 4, 6) | 1 × cutlass (1d6) or crossbow (1d6) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 8 | 10 each |
@@ -642,7 +642,7 @@ Twenty feet under the tower. Dressed stone, low vaults, the smell of old oil. Ma
 
 | AC | HD (hp) | Att | THAC0 | MV | SV | ML | XP |
 |----|---------|-----|-------|----|----|----|----|
-| 7 [12] | ½ (2, 3, 1, 4, 2) | 1 × bite (1d3 + disease) | 19 [0] | 60' (20') | D12 W13 P14 B15 S16 (1) | 8 | 5 each |
+| 7 [12] | ½ (2, 3, 1, 4, 2) | 1 × bite (1d3 + disease) | 19 [0] | 120' (40'), swim 60' (20') | D12 W13 P14 B15 S16 (1) | 8 | 5 each |
 
 They flee at 2 dead, west down the C3 stair and into the water. A bite carries disease 1-in-20: the victim is sick for 1d6 days and can't heal naturally.
 
