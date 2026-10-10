@@ -79,7 +79,7 @@ Neither buyer is wrong. The **Ending** below says what each choice gives and cos
 | **The turn** | In the tunnel, Module 2's Dungeon Clock: a turn is 10 minutes; explore 120' a turn; a torch burns 6 turns; check for wanderers every 2 turns (1-in-6); rest one turn in six. The plain reaches between rooms have their own rule (see **The Outflow Tunnel**). | T1. |
 | **Fate** | 3 points each, refreshed at the start of each session and at each Fort Turn. **Spend 1:** reroll; +4 to a save after the roll; or state one true fact in your lane. **Spend 2:** cheat death. **Year Two:** spend 1 *with a spell or an N/day power* and the spell works, and the player also writes part of its effect. The DM may say "Tell me more" and shape it; the fact may add to the scene but never undoes what the DM has said. **Mutual bonds:** two cards whose bonds name each other give each player 1 extra Fate this session, spent only to help that partner. | The first spell cast, or the first fact declared. Prompt Fate abilities *before* you describe a place. |
 | **Witnessed or not** | A Fate fact stated at the Fort, before Cassandra or the Terminal, or in front of the Quiet is witnessed: the Fort learns it, and it may become a public fact. A fact stated in the tunnel is unwitnessed: only the party knows it, unless they tell. | The first Fate fact. |
-| **Traps** | Anyone who looks can see a trap's signs in Planning; each trap's table lists them. The thief who spends a turn looking rolls Find/Remove Traps (15% at level 2): success reads the trigger and the safe way, and a second roll disarms. Anyone searching a 10' square for a turn finds a trap's trigger on 1-in-6. | The bell-line in T1. |
+| **Traps** | Anyone who looks can see a trap's signs in Planning; each trap's table lists them. The **Read** line (the trigger and the safe way) comes from a turn of searching the right 10' square (1-in-6 each searcher), from the thief's Locksmith's Eye, from *I Was Already Here*, or from working it out aloud from the signs. Once read, anyone can spike or avoid it. The thief's Find/Remove Treasure Traps roll (15% at level 2) is for small traps on locks and chests, as the playbook says; room traps are searched for like anyone else. | The bell-line in T1. |
 | **The puzzle rule** | A puzzle has a rule you can find by trying small numbers. It gives feedback. It never blocks the way on. One hint comes from a Fate point, from Cassandra, or from the Lorekeeper. | T3. |
 
 > **Example: Fate with a spell.** At the Weirs, wolves come out of the reeds. The druid casts *Entangle* and spends a Fate point. The spell works as written. The player adds: "The reeds hold the wolves, and they lean over to point at the stone mouth in the bank." Now it is true, and the party knows where the mouth is without searching.
@@ -306,7 +306,7 @@ Roll when a hex check comes up. Every result has a reason to be here.
 | Junior Man in Red | 8 [11] | 1 (4, 5) | 1 × cudgel (1d4) | 19 [0] | 120' (40') | D12 W13 P14 B15 S16 (F1) | 6 | 10 each |
 | The Quiet | 9 [10] | ½ (3, 2, 4, 1) | 1 × fish gaff (1d4) | 19 [0] | 120' (40') | D14 W15 P16 B17 S18 (NH) | 6 | 5 each |
 | Will-o'-wisp | −8 [27] | 9* (41) | 1 × shock (2d8) | 12 [+7] | fly 180' (60') | D8 W9 P10 B10 S12 (9) | 12 | 1,600 |
-| Lost pilgrim | 9 [10] | ½ (3) | none | 19 [0] | 120' (40') | D14 W15 P16 B17 S18 (NH) | 5 | — |
+| Lost pilgrim | 9 [10] | ½ (3) | none | 19 [0] | 120' (40') | D14 W15 P16 B17 S18 (NH) | 5 | 5 (do not) |
 
 - Wolf: *5e: CR 1 · AC 12 · hp 11, 9, 14 · bite +2 (1d6) · flees at half HP while three or fewer.*
 - Boar: *5e: CR 2 · AC 12 · hp 13 · tusk +2 (2d4).*
@@ -401,10 +401,10 @@ They surprise on 1–4 unless seen. They leap from the basin onto anyone who wal
 | The numbers | Imperial numerals, 1 to 20: feet of depth. The weed hangs at **4**. At the flush, this hall fills to four feet. That is an elf's chest and over a gnome's head. Anyone who reads the numbers knows it. |
 | The float pit | A round pit 3' across in the south-west corner. In it, on a bronze rod, a hollow brass ball the size of a head: a float gauge. It unscrews. 30 gp as brass. |
 | The crawl pipe | A 2' pipe in the north-east corner, low down. It runs 40' beside the tube and comes out past the gate. A gnome walks it stooping. Anyone else crawls: 2 turns, no armour heavier than leather. Platt's map marks it. |
-| **Trap: the drop gate** | **Signs** (anyone who looks): the teeth in the slot; the dark slab, worn smooth in a different way from the rest; a chain running up into a shaft in the ceiling. **Read** (Find Traps, or Locksmith's Eye): the slab is the first 10' of the tube, wall to wall. A person's weight on it drops the gate at its east edge. A gnome who leaves the pack behind is too light. The counterweight is an oak beam in the shaft above. A spike driven into the gate's track holds it up for good. **Tripped:** the gate drops. Anyone at the slab's east edge saves vs. Paralysis or takes 1d8 and is pinned (a friend lifts it off in a round). Everyone on the slab or behind it is on the west side. The party is cut in two. |
+| **Trap: the drop gate** | **Signs** (anyone who looks): the teeth in the slot; the dark slab, worn smooth in a different way from the rest; a chain running up into a shaft in the ceiling. **Read** (search, Locksmith's Eye, or *I Was Already Here*): the slab is the first 10' of the tube, wall to wall. A person's weight on it drops the gate at its east edge. A gnome who leaves the pack behind is too light. The counterweight is an oak beam in the shaft above. A spike driven into the gate's track holds it up for good. **Tripped:** the gate drops. Anyone at the slab's east edge saves vs. Paralysis or takes 1d8 and is pinned (a friend lifts it off in a round). Everyone on the slab or behind it is on the west side. The party is cut in two. |
 | Raising the gate | A winch on the **east** side raises it: one turn, loud (wanderer check). From the west: lift it, 1-in-6 per lifter each turn, up to three lifters. Or crawl the pipe. |
 
-> **What This Room Teaches:** **Reading a trap before it reads you.** The signs are free in Planning. The thief's roll, the Locksmith's Eye, the Lake Stone and Platt's map each say more. A party that looks first walks round the slab. A party that steps first is split in two, and learns the crawl pipe.
+> **What This Room Teaches:** **Reading a trap before it reads you.** The signs are free in Planning. A turn of searching, the Locksmith's Eye, *I Was Already Here*, the Lake Stone and Platt's map each say more. A party that looks first walks round the slab. A party that steps first is split in two, and learns the crawl pipe.
 
 > **Design Note:** Obvious: walk on. Clever: take the crawl pipe and never touch the slab; spike the track; send the gnome across without a pack to work the winch; or let the gnome warp the beam with *Warp Wood* so it jams in the shaft. The thief with Quiet Feet walks across it: old stone never gives the thief away. Brush: a jaw in the ceiling. Lean in: a flood gate on a counterweight; tell the Machine-Lens player where the beam is.
 
@@ -464,7 +464,7 @@ Squares, for the DM: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 2
 | **The Lorekeeper** (free, once) | "Solve the little frame first. Then count the red knots." |
 | **A Fate point** (any PC, once) | "The long side is never an arm. And the big cord is the little one, three times." |
 
-**The Fate-point shortcut.** A PC spends 1 Fate and states a fact in their lane, and it is true: the cleric, *"The archives say imperial crews trued corners with a cord of three, four and five, and the stations test the same."* The thief, with *I Was Already Here*: *"I counted the pegs last time: nine along, twelve up."* The druid's *The Land Speaks* does not work here (the room is built, not grown) unless the druid is level 3. The lamp lights. No cost but the Fate. The math is the way through, not a lock on the story.
+**The Fate-point shortcut.** A PC uses a Fate ability (one of its free uses, or 1 Fate point after those) and states a fact in their lane, and it is true: the cleric, *"The archives say imperial crews trued corners with a cord of three, four and five, and the stations test the same."* The thief, with *I Was Already Here*: *"I counted the pegs last time: nine along, twelve up."* The druid's *The Land Speaks* does not work here (the room is built, not grown) unless the druid is level 3. The lamp lights. No cost but the Fate. The math is the way through, not a lock on the story.
 
 **It never blocks.** The east exit is open. A party that walks on without the crew lamp can still pass T4 and T5; it is only harder. Platt did exactly that.
 
@@ -494,7 +494,7 @@ Squares, for the DM: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 2
 | Feature | Detail |
 |---------|--------|
 | **Trap: the sweep** | **Signs:** the scratches; the blade parked in a recess at the east end; the metal floor (the **pan**, 10' wide, wall to wall, 30' from the west end); the niches; the sump. **Read:** weight on the pan trips the blade. **Tripped:** round 1, a clank and a rising whine (everyone gets one move); round 2, the blade runs the whole gallery west and tips what it meets into the sump; round 3, it runs back east and parks. The pan is ready again one turn later. Caught in the open: save vs. Breath to reach a niche within 10'. Fail: shoved into the sump, 1d6. Climbing out takes a turn (thieves climb it on their roll). |
-| Disarming | Remove Traps: a spike under the pan's lip holds it up. Spiking it is also possible for anyone who has read it: one turn. While the crew lamp is in the gallery, the blade stays parked. |
+| Disarming | A spike under the pan's lip holds it up. Anyone who has read the trap can drive it: one turn, standing at the pan's west edge. While the crew lamp is in the gallery, the blade stays parked. |
 | The pan by jumping | 10' with a run-up: roll under DEX on a d20. Fail: land on it. |
 | The niches | Crew niches, built to stand in while the blade runs. The blade passes them by. |
 | **Agent Platt** | In the south-east niche, 10' from the blade, on the far side of the pan from the party. 1 hp, left leg broken. See **What the DM Needs to Know**. |
@@ -513,7 +513,7 @@ Squares, for the DM: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 2
 
 What Platt says, in order, if they let him: "Senior Agent Platt. Bureau of Imperial Anomalies. Thank you. Did you file my map?" Then the pan, the flush, the brass custodian, and that he never solved the frame ("It hummed at me. It was not a cooperative apparatus."). He wants the tunnel sealed. He will say so until someone tells him the Quiet's side; then he goes quiet, and writes in his notebook.
 
-> **What This Room Teaches:** **A trap is a machine with a rule.** Everything needed to read it is in the read-aloud. The thief's roll and the Locksmith's Eye make it certain. The crew lamp from T3 makes it harmless. The climax rewards what you did earlier.
+> **What This Room Teaches:** **A trap is a machine with a rule.** Everything needed to read it is in the read-aloud. The Locksmith's Eye and *I Was Already Here* make it certain. The crew lamp from T3 makes it harmless. The climax rewards what you did earlier.
 
 > **Design Note:** Obvious: run across and hope. The pan is wall to wall; there is no way round. Clever: ask Platt how long the blade waits, trip it with a thrown pack, and cross in the reset; or bring the lamp. Small Friend sits down at the pan's edge and will not cross. The Lake Stone tingles at its lip. Brush: a stone blade that sweeps the gallery. Lean in: a debris plough on a pressure pan, with niches built for the crew; the station expects people here.
 
@@ -606,10 +606,10 @@ Read each row as changes to the Fort's tracks (Stores, Walls, Folk, Lamp; 0–6 
 | Where | Best play |
 |-------|-----------|
 | Before T1, T2, T4 | *I Was Already Here*: declare one true fact before the DM describes the room. "The dark slab is the only one that moves." "The niches are crew niches; the blade passes them by." |
-| T1 | Find the bell-line. Explain it to the table. The first, harmless read. |
+| T1 | Spot the bell-line's glint and explain it to the table. The first, harmless read. |
 | T2 | Read the gate. With Quiet Feet, walk across the slab and work the winch from the far side. With Locksmith's Eye: "What trips it?" |
 | T3 | Open the locker with Open Locks if nobody solves its frame. Or, with *I Was Already Here*: "I counted the pegs last time: nine along, twelve up." |
-| T4 | Read the pan; spike it (Remove Traps). Climb out of the sump on the climb roll. |
+| T4 | Read the pan (Locksmith's Eye: "What trips the blade?"), then spike its lip. Climb out of the sump on the climb roll (88%). |
 | T5 | Move Silently past the folded Tender to the wheel. Pick the chain's lock. Backstab (+4, double damage) if it comes to a fight. With Fence, haggle with the Bureau at the end. |
 
 ### The Elf Cleric of the Sacred Terminal
@@ -646,7 +646,7 @@ Read each row as changes to the Fort's tracks (Stores, Walls, Folk, Lamp; 0–6 
 | **Two PCs only** | One crab spider in T1. The Tender has 10 hp and folds up at half hp. Offer **Hale Tusker** (Module 3: fisherman, knows the Weirs, 9 [10], 6 hp, gaff 1d4, 1 gp a day and half a share) as a hireling. Platt can hop if healed at all. |
 | **Level 1** | Crab spider poison makes the victim helpless and sick for 1d4 turns instead of killing. The drop gate does 1d6. The Tender is HD 2 (9 hp), one hook. The sump fall does 1d4. |
 | **Level 3** | Three crab spiders in T1. Wolves come in fives. The Tender is AC 2 [17], 24 hp. The sweep's pan rearms in a round, not a turn. The druid's *The Land Speaks* works in the tunnel (built places) at level 3. |
-| **No thief** | Remove the bell-line. Trap signs are seen on 1–3 on a d6 by anyone who looks. Platt's map matters more. |
+| **No thief** | Remove the bell-line. A turn of searching reads a trap on 1–3 on a d6, not 1. Platt's map matters more. |
 | **No cleric** | Nobody heals Platt: he must be carried. No Lake Stone. *The Archives Are Deep* shortcut is gone; the Lorekeeper and Cassandra hints remain. |
 | **No druid** | No *Entangle* or *Heat Metal*. The Quiet react at −1 (no Green Hand). The Weirs' clue comes from the Scout or from the fisher's reeds. |
 | **No Lorekeeper** | One fewer free hint. Give Wick's slate to whoever is bonded to him, or to the cleric. |
