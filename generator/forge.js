@@ -330,10 +330,12 @@ var Forge = (function () {
       b.stairs.push({ to: a.key, dir: dirBA });
     }
   }
+  /* Sentences in a read-aloud. The house style wants two to four. */
+  function countSentences(s) { return s.trim().split(/(?<=[.!?][”"’)]?)\s+(?=[A-Z“"(])/).filter(Boolean).length; }
   function composeRA(rng, base, dressing, senses, senseChance) {
-    var parts = [base];
-    if (dressing) parts.push(dressing());
-    if (senses && rng.chance(senseChance == null ? 0.5 : senseChance)) parts.push(senses());
+    var parts = [base], n = countSentences(base);
+    if (dressing && n < 4) { parts.push(dressing()); n++; }
+    if (senses && n < 4 && rng.chance(senseChance == null ? 0.5 : senseChance)) { parts.push(senses()); n++; }
     return parts.join(" ");
   }
 
@@ -558,6 +560,7 @@ var Forge = (function () {
         r = newRoom({ key: "W" + (n + 1), name: hazard.name, tier: "The Water Cave", panel: "cave", shape: "cave", light: "Dark", x: p.x, y: p.y, w: w, h: h, c: cell.c, r: cell.r });
         r.water = true;
         r.readAloud = composeRA(rng, hazard.ra, null, sense.cave, 0.6);
+        if (countSentences(r.readAloud) < 2) r.readAloud += " " + dress.cave();
         r.features = [["The hazard", hazard.rule]];
         r.obvious = hazard.obvious; r.clever = hazard.clever;
         r.slot = "hazard"; r.lesson = lesson.hazard.teaches; r.designNote = lesson.hazard.note;
@@ -775,6 +778,7 @@ var Forge = (function () {
     var lesson = {}; LES.forEach(function (l) { lesson[l.slot] = l; });
     var rname = rng.pick(TR.names), history = rng.pick(TR.histories), clock = rng.pick(TR.clocks);
     var clanNameDeck = rng.deck(TR.clanNames), quirkDeck = rng.deck(TR.quirks);
+    var lairDress = rng.deck(TR.dressing.lair), templeDress = rng.deck(TR.dressing.temple);
     var wantDeck = rng.deck(TR.wants), fearDeck = rng.deck(TR.fears), tradeDeck = rng.deck(TR.trades);
 
     /* Which clans fill the slots. */
@@ -837,8 +841,11 @@ var Forge = (function () {
       var sz = rng.pick([[30, 20], [20, 30], [30, 30], [40, 30], [30, 40], [40, 40], [20, 20]]);
       var p = placeRect(rng, { c: cell.c + (offC || 0), r: cell.r }, LAIR_CELL, sz[0], sz[1]);
       var r = newRoom({ key: letter + num, name: entry.name, tier: tierName, panel: panelId, shape: panelId === "temple" ? "room" : "cave", light: entry.light || "Dark", x: p.x, y: p.y, w: sz[0], h: sz[1], c: cell.c + (offC || 0), r: cell.r });
-      var extraRA = dressFn ? dressFn() : "";
-      r.readAloud = entry.ra + (extraRA ? " " + extraRA : "");
+      var n = countSentences(entry.ra), parts = [entry.ra];
+      var extraRA = dressFn && n < 4 ? dressFn() : "";
+      if (extraRA) { parts.push(extraRA); n += countSentences(extraRA); }
+      if (n < 2) parts.push(panelId === "temple" ? templeDress() : lairDress());
+      r.readAloud = parts.join(" ");
       r.features = (entry.features || []).map(function (f) { return f.slice(); });
       r.obvious = entry.obvious || ""; r.clever = entry.clever || "";
       return r;
@@ -900,10 +907,23 @@ var Forge = (function () {
       put(bulk, left);
     }
 
-    function clanDress(clan) {
-      var said = false;
-      return function () { if (said) return ""; said = true; return clan.quirk; };
+    /* A clan's quirk, said about the clan by name, goes in the first room where the clan is met. */
+    function quirkLine(clan) {
+      var pl = clan.monster.plural;
+      return clan.quirk.replace(/^They /, "The " + pl + " here ").replace(/^Their /, "The " + pl + "' ").replace(/^Every one of them/, "Every one of the " + pl);
     }
+    function placeQuirk(clan, ordered) {
+      var line = quirkLine(clan);
+      for (var i = 0; i < ordered.length; i++) {
+        var r = ordered[i];
+        if (!r.encounter || !r.encounter.groups.some(function (g) { return g.monster === clan.type; })) continue;
+        if (countSentences(r.readAloud) + countSentences(line) > 4) continue;
+        r.readAloud += " " + line;
+        return;
+      }
+      ordered[0].features.push(["The clan's way", line]);
+    }
+    function clanDress() { return null; }
 
     var lairData = {};
     var slotIndex = 0;
@@ -918,7 +938,7 @@ var Forge = (function () {
         var la = buildLair({ letter: letA, cols: 3, rows: 2, n: nA, start: [2, 0], need: [2, 1] });
         var lb = buildLair({ letter: letB, cols: 3, rows: 2, n: nB, start: [0, 0], need: [0, 1] });
         var pid = "lair" + letA + letB;
-        panels.push({ id: pid, title: letA + " and " + letB + ": " + cap(names[0]) + " and " + cap(names[1]), kind: "cave", cols: 7, rows: 2, cell: LAIR_CELL, w: 7 * LAIR_CELL, h: 2 * LAIR_CELL, entries: [{ col: 2, from: node.key }, { col: 4, from: node.key }] });
+        panels.push({ id: pid, title: letA + " and " + letB + ": " + cap(names[0]) + " and " + names[1], kind: "cave", cols: 7, rows: 2, cell: LAIR_CELL, w: 7 * LAIR_CELL, h: 2 * LAIR_CELL, entries: [{ col: 2, from: node.key }, { col: 4, from: node.key }] });
         var twinSets = [[la, clanA, letA, 0, names[0], "West"], [lb, clanB, letB, 4, names[1], "East"]];
         var twinRooms = [];
         twinSets.forEach(function (ts) {
@@ -941,6 +961,7 @@ var Forge = (function () {
           clan.count = CLANS[clan.type].count[L - 1] + rng.int(2);
           clan.morale = "Morale " + T.monsters[clan.type].ml + ". Check at the first death and at half. A beaten band falls back through the contested passage to its rivals' door and begs, or fights.";
           populate(clan, clan.count, L2.order.map(function (i) { return aRooms[i]; }), roles);
+          placeQuirk(clan, L2.order.map(function (i) { return aRooms[i]; }));
           twinRooms.push({ rooms: aRooms, g: L2.g, clan: clan, letter: let_, name: ts[4], side: ts[5] });
           lairs.push({ letter: let_, name: cap(ts[4]), prose: ts[4], slot: "factions", clan: clan.id, side: ts[5], node: node.key, rooms: ordered.map(function (r) { return r.key; }), panel: pid });
         });
@@ -959,7 +980,6 @@ var Forge = (function () {
         if (rng.chance(0.6)) pass.encounter = encounter([group(rng, clanA.type, 2), group(rng, clanB.type, 2)], { tactics: "A patrol from each side, glaring across the line. Neither will strike first while the party watches." });
         rooms.push(pass);
         link(cRoomA, pass, "open"); link(pass, cRoomB, "open");
-        side = flip(side);
         return;
       }
       var letter = String.fromCharCode(letterCode++);
@@ -1129,6 +1149,7 @@ var Forge = (function () {
         byRole.porch.designNote = lesson.temple.note;
         lairData.temple.leader = leaderName; lairData.temple.relic = relic;
       }
+      if (clan) placeQuirk(clan, ordered);
       /* Treasure in chief rooms and stores. */
       ordered.forEach(function (r) {
         if (r._role === "chief" || r._role === "store") r.treasure = treasureRoll(rng, L, r._role === "chief" ? 0.3 : 0.05);

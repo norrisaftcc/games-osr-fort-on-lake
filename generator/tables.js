@@ -175,7 +175,11 @@ ForgeTables.tower.localNames = [
   { name: "the Black Tower", why: "it was burned once and the soot never washed off" },
   { name: "the Weeping Tower", why: "water runs down its inside walls all year" },
   { name: "the Wire Tower", why: "copper wires hang from its top into the water like fishing lines" },
-  { name: "the Quiet Tower", why: "birds go silent when they fly over it" }
+  { name: "the Quiet Tower", why: "birds go silent when they fly over it" },
+  { name: "the Drum Tower", why: "it booms when waves hit its foot" },
+  { name: "the Glass Tower", why: "its walls glitter with broken screen-glass set in the mortar" },
+  { name: "the Heron Tower", why: "herons stand on its broken top like sentries" },
+  { name: "the Hanging Tower", why: "a chain hangs from its top into the water, and something used to hang on it" }
 ];
 
 ForgeTables.tower.places = [
@@ -186,7 +190,13 @@ ForgeTables.tower.places = [
   "an island of tumbled stone in a reed-choked mere",
   "a steep islet at the mouth of a river, where the current is strong",
   "a flat island of birch and bramble, with the tower at its only high point",
-  "an island in a flooded valley, where the tops of drowned trees break the water"
+  "an island in a flooded valley, where the tops of drowned trees break the water",
+  "a long island of slate and heather, cut by a gully full of ferns",
+  "a rock in open water, with one twisted pine and a ring of reefs",
+  "a wooded island joined to the shore by a line of old piles where a bridge stood",
+  "an island whose shore is a wall of fitted stone, as if the whole of it were a fort",
+  "a small high island where the lake narrows between two hills",
+  "an island of black sand and birch, warm underfoot near the tower"
 ];
 
 ForgeTables.tower.fell = [
@@ -343,7 +353,11 @@ ForgeTables.tower.caveEntry = [
   { name: "The Cage Bottom", light: "Dark", ra: "The shaft opens into the roof of a cave. Below it, a pile of broken crates breaks the fall of anything dropped.", features: [["The crates", "Smugglers' crates, empty, with marks."], ["The roof", "Low. Tall people stoop."]], obvious: "Climb down onto the crates.", clever: "Read the crate marks: who shipped what, and to where." },
   { name: "The Spray Cave", light: "Dark", ra: "Spray from a fall somewhere ahead fills the cave with mist. Torches hiss and spit.", features: [["The mist", "Torches burn half as long here. Lanterns are fine."], ["The noise", "Too loud to hear anything coming."]], obvious: "Push on fast.", clever: "Cover the torches, or switch to a lantern." },
   { name: "The Old Pipe", light: "Dark", ra: "The stair ends in a great iron pipe, cut open, that runs into a cave. Water trickles along its bottom.", features: [["The pipe", "Big enough to walk in. Sound carries along it."], ["Bolts", "Huge. The pipe once ran all the way to the lake."]], obvious: "Walk out of the pipe.", clever: "Listen down the pipe. It brings sound from the far end of the caves." },
-  { name: "The Bone Shelf", light: "Dark", ra: "A shelf of rock at the foot of the stair is covered in small white bones. They crunch underfoot.", features: [["The bones", "Fish, birds, rats. Something eats here."], ["A gap", "In the bones, a clean path where something drags itself."]], obvious: "Walk through.", clever: "The clean path is where the big thing goes. Do not stand on it." }
+  { name: "The Bone Shelf", light: "Dark", ra: "A shelf of rock at the foot of the stair is covered in small white bones. They crunch underfoot.", features: [["The bones", "Fish, birds, rats. Something eats here."], ["A gap", "In the bones, a clean path where something drags itself."]], obvious: "Walk through.", clever: "The clean path is where the big thing goes. Do not stand on it." },
+  { name: "The Drowned Landing", light: "Dark", ra: "The stair ends in water to the knee, on a landing of fitted stone. The cave beyond is wider than the light can reach.", features: [["The water", "Cold, still, knee-deep. Waders go slowly."], ["A mooring post", "A rope on it, cut."]], obvious: "Wade on.", clever: "The rope was cut, not untied. Someone left in a hurry, by boat." },
+  { name: "The Grille Room", light: "Dark", ra: "An iron grille, rusted open, divides the stair foot from the caves. Brass eyes are set in its frame.", features: [["The eyes", "Wards. Dark now. A Minister can feel that they were watching outward, toward the caves."]], obvious: "Go through.", clever: "The wards watched the caves, not the stair. The danger was always below." },
+  { name: "The Echo Stair", light: "Dark", ra: "The last steps open onto a ledge above a wide dark cave. Every sound the party makes comes back from far away.", features: [["The ledge", "A good place to look before going down."], ["The echo", "Anything below hears you arrive."]], obvious: "Climb down.", clever: "Stop and listen. The echo carries sounds up from the caves too." },
+  { name: "The Boat Store", light: "Dark", ra: "Racks for small boats line a dry cave at the stair foot. One boat is still on its rack.", features: [["The boat", "A small skiff for two. It leaks a little."]], obvious: "Walk on.", clever: "Take the boat down to the water. It crosses one water hazard dry." }
 ];
 
 /* Hazards: water and obstacle, not damage-dealers. */
@@ -544,7 +558,7 @@ ForgeTables.tower.dressing = {
     "A path of crushed shell leads on, mostly grown over.",
     "Rusted wire runs along the ground and disappears into the earth.",
     "The ground underfoot sounds hollow in places.",
-    "Old soot streaks a nearby wall.",
+    "A tumbled stone wall runs along the slope, black with lichen.",
     "The water slaps the rocks below.",
     "A glass eye set in a post follows you with a faint click."
   ],
@@ -588,9 +602,9 @@ ForgeTables.tower.dressing.surfaceInside = [
 ];
 
 ForgeTables.tower.senses = {
-  surface: ["The air smells of pine and lake water.", "Somewhere a crow calls, and another answers.", "The wind drops, and it is very quiet."],
-  cellars: ["It smells of rats.", "Something scratches behind the walls.", "A low hum comes up through the floor, and stops.", "It smells of old lamp oil.", "Your torch flame leans toward the far door.", "The air tastes of wet stone."],
-  cave: ["The sound of water is everywhere.", "It smells of fish and wet stone.", "Your breath smokes in the cold.", "Far off, something splashes once.", "The water hums, very low, as if something under it sings."]
+  surface: ["The air smells of pine and lake water.", "Somewhere a crow calls, and another answers.", "The wind drops, and it is very quiet.", "Waves slap the rocks below.", "Smoke from a far shore drifts over the island.", "A bell-buoy clanks somewhere out on the water."],
+  cellars: ["It smells of rats.", "Something scratches behind the walls.", "A low hum comes up through the floor, and stops.", "It smells of old lamp oil.", "Your torch flame leans toward the far door.", "The air tastes of wet stone.", "Far off, a door bangs once.", "A faint clicking comes from the walls, like a clock."],
+  cave: ["The sound of water is everywhere.", "It smells of fish and wet stone.", "Your breath smokes in the cold.", "Far off, something splashes once.", "The water hums, very low, as if something under it sings.", "A cold draught comes off the water.", "Drips land on your neck."]
 };
 
 /* Keyed vermin and dead for filler rooms. count = dice at party level 1, 2, 3. */
@@ -670,7 +684,9 @@ ForgeTables.tower.clocks = [
   { what: "the Readers", steps: ["Day 2: two Reader scouts land and start copying the inscriptions.", "Day 5: they reach the study and take its books.", "Day 8: they wake the guardian and lead it out."] },
   { what: "the station's machine", steps: ["Turn 30 of the first visit: the hum in the walls grows louder.", "Day 3: the lights come on in the cellars, all at once, and every door unlocks.", "Day 6: the beacon fires once, and every boat on the lake sees it. Visitors come."] },
   { what: "the salvagers", steps: ["Day 2: they hear of the party's find in the village.", "Day 4: a dozen of them come with crowbars.", "Day 7: the cellars are stripped bare, and the guardian is loose in the caves."] },
-  { what: "the guardian", steps: ["Day 2: it is hungry. It hunts the caves.", "Day 4: it comes up into the cellars at night.", "Day 7: it reaches the surface. The keeper's cottage is wrecked."] }
+  { what: "the guardian", steps: ["Day 2: it is hungry. It hunts the caves.", "Day 4: it comes up into the cellars at night.", "Day 7: it reaches the surface. The keeper's cottage is wrecked."] },
+  { what: "the oil", steps: ["Day 1: the station's last oil store is found by someone else.", "Day 3: the cellars are dark: every lamp the party relied on is gone.", "Day 6: whoever took the oil lights the beacon, for their own boats."] },
+  { what: "the ward", steps: ["Day 2: the ward-eyes in the cellars blink, then close one by one.", "Day 5: the last ward fails. The guardian leaves its cave.", "Day 9: something else comes up through the water where the ward was."] }
 ];
 
 /* The two buyers for the climax prize. The engine picks two that differ. */
@@ -736,7 +752,13 @@ ForgeTables.ravine.names = [
   { name: "the Ravine of Faces", why: "great faces are carved round the cave mouths, worn half away" },
   { name: "the Dry Throat", why: "the stream in it dried up the year the empire fell" },
   { name: "the Horn Ravine", why: "the cave mouths are cut like the bells of horns" },
-  { name: "Ninefold Cleft", why: "nine mouths were counted once, though fewer are lived in now" }
+  { name: "Ninefold Cleft", why: "nine mouths were counted once, though fewer are lived in now" },
+  { name: "the Grinning Ravine", why: "the mouths on its walls look like teeth from below" },
+  { name: "Ridge Gap", why: "it is the only way through the Ridge for a mule" },
+  { name: "the Lamp Cut", why: "lamps once lined its path, and their posts still stand" },
+  { name: "the Ravine of Echoes", why: "a shout at the bottom comes back from every mouth" },
+  { name: "the Long Mouth", why: "the whole ravine looks like one great mouth from the Old Road" },
+  { name: "Copper Gully", why: "green copper stains run down every wall" }
 ];
 
 ForgeTables.ravine.histories = [
@@ -744,7 +766,10 @@ ForgeTables.ravine.histories = [
   "The empire bored galleries into both walls to mine copper. The cables ran up to a station at the head of the ravine that sent power down the Old Road.",
   "The ravine was an imperial proving ground. Machines were tested here, and old spells. The galleries were their sheds.",
   "A road ran up the ravine to a signal house at the top. Waystations were cut into the walls for the road's soldiers.",
-  "The ravine was a quarry, then a prison. The galleries were cells. The station at the top was the warden's house."
+  "The ravine was a quarry, then a prison. The galleries were cells. The station at the top was the warden's house.",
+  "The empire dug the ravine to bury something. The galleries were the guard posts, and the station at the top watched the grave.",
+  "The ravine was a road of horns: every mouth a speaker, the station at the top the voice. The empire talked to the whole valley from here.",
+  "A water works stood here once. The galleries were cisterns and pump rooms, and the station at the top kept the valley's water clean."
 ];
 
 ForgeTables.ravine.path = [
@@ -814,7 +839,7 @@ ForgeTables.ravine.quirks = [
   "They speak Imperial Common better than the party does, and sneer at mistakes.",
   "They paint tallies of their raids on their own arms in red.",
   "They carry their dead's skulls in net bags at their belts.",
-  "They hum. Always. The hum is a hymn, very slowed down.",
+  "They hum all the time, and the hum is a hymn, very slowed down.",
   "They keep ward-eyes taken from old doors in a jar, and say the eyes keep watch for them."
 ];
 
@@ -835,6 +860,31 @@ ForgeTables.ravine.trades = [
 ];
 
 /* Area roles, used to fill any lair. ra = one or two sentences. */
+/* One sentence of dressing for lair caves and the temple, used when an area's own text is short. */
+ForgeTables.ravine.dressing = {
+  lair: [
+    "Smoke has blackened the roof.",
+    "Bones crunch underfoot.",
+    "Copper wire is strung along the wall like a handrail.",
+    "Torches of rag and fat burn in iron brackets.",
+    "The floor is beaten earth over imperial tiles.",
+    "Old tool marks score the walls.",
+    "A dead glass tube hangs from the roof on a wire.",
+    "It stinks of smoke and sweat.",
+    "Furs and rags are heaped against the walls.",
+    "Clan marks are daubed on every wall."
+  ],
+  temple: [
+    "The walls are scraped smooth of any writing.",
+    "Grey cloth hangs over every doorway.",
+    "Clean lamps burn with a steady white light.",
+    "The floor is swept, and the air smells of ink.",
+    "Words are painted on the ceiling, backward.",
+    "Somewhere, many voices read aloud together, very softly.",
+    "Brass horns in the corners carry the sound of reading."
+  ]
+};
+
 ForgeTables.ravine.areas = {
   mouth: [
     { name: "The Mouth", ra: "A cave mouth opens in the wall, ringed by a carved face worn smooth. The ground before it is beaten bare.", features: [["The face", "Its stone lips are a horn. Inside, a cable runs into the dark."]], obvious: "Walk in.", clever: "Watch the mouth for a turn first. See who comes and goes." },
@@ -842,50 +892,75 @@ ForgeTables.ravine.areas = {
     { name: "The Low Mouth", ra: "A low cave mouth forces anyone tall to stoop. A curtain of hide hangs across it.", features: [["The curtain", "Bells sewn on the inside. Anyone pushing through rings them."]], obvious: "Push through.", clever: "Cut the curtain from the side, below the bells." },
     { name: "The Ledge Mouth", ra: "A ledge climbs to a cave mouth 20' up the wall. A ladder of lashed poles leans against it.", features: [["The ladder", "Can be pulled up from above in a round."]], obvious: "Climb the ladder.", clever: "Climb the rock beside it. The ladder is watched." },
     { name: "The Walled Mouth", ra: "Someone has walled up the cave mouth with stacked stones, leaving a door-gap. Spear points show over the top.", features: [["The wall", "Chest high, loose. Pushing it over takes a round."]], obvious: "Go through the gap.", clever: "Push the wall over onto whoever waits behind it." },
-    { name: "The Pipe Mouth", ra: "A great iron pipe juts from the wall, cut open, and its end serves as a door. It booms when anything walks inside.", features: [["The pipe", "Every footstep is heard deep in the lair."]], obvious: "Walk in.", clever: "Lay furs or cloaks along the pipe floor." }
+    { name: "The Pipe Mouth", ra: "A great iron pipe juts from the wall, cut open, and its end serves as a door. It booms when anything walks inside.", features: [["The pipe", "Every footstep is heard deep in the lair."]], obvious: "Walk in.", clever: "Lay furs or cloaks along the pipe floor." },
+    { name: "The Face Mouth", ra: "A carved imperial face fills the wall, and its open mouth is the door. Its eyes are glass, cracked and dark.", features: [["The eyes", "Ward-eyes. One still opens when a light comes near and shuts again."]], obvious: "Walk in through the mouth.", clever: "Cover the eyes first. Whatever they once told, they may still tell." },
+    { name: "The Cable Mouth", ra: "Three thick cables come out of the hill and down into the ravine through this cave mouth. The clan has tied rags to them as markers.", features: [["The cables", "Warm. Follow them in and they lead to the lair's heart."]], obvious: "Walk in.", clever: "Follow the cables: they run past the guards, not through them." },
+    { name: "The Stair Mouth", ra: "Cut steps climb to a square doorway with the stumps of iron hinges. Bones are piled on either side like a fence.", features: [["The bones", "Goat and dog, mostly. Some are fresh."]], obvious: "Climb the steps.", clever: "Count the fresh bones. The clan eats well, so it raids often." },
+    { name: "The Split Mouth", ra: "A crack in the rock is wide enough for one at a time. Warm air and the smell of smoke come out of it.", features: [["The crack", "One at a time. Anyone in plate scrapes and is heard."]], obvious: "Squeeze in.", clever: "Smoke goes out this way. A fire set here smokes the lair out instead." }
   ],
   guard: [
     { name: "The Guard Nook", ra: "A side cave holds a fire pit and a heap of furs. Spears lean against the wall.", features: [["The fire", "Kept low. Its smoke goes up a crack."]], obvious: "Rush them.", clever: "Block the crack. Smoke fills the nook in a turn." },
     { name: "The Watch Hole", ra: "A narrow cave has a slit that looks back down the passage. A stool stands by it.", features: [["The slit", "Whoever sits here sees anything coming."]], obvious: "Charge.", clever: "Douse the lights and come in the dark. They see by infravision, but not around corners." },
     { name: "The Gate Room", ra: "A gate of lashed poles closes the passage. A rope runs from it into the dark.", features: [["The rope", "Pulled, it rings a bell further in."]], obvious: "Break the gate.", clever: "Cut the rope first." },
     { name: "The Drum Room", ra: "A great drum made from a cut-down imperial boiler sits in a side cave. Two sticks lie on it.", features: [["The drum", "Beaten, it is heard through the whole lair."]], obvious: "Fight the guards.", clever: "Get to the drum first. Or cut its skin." },
-    { name: "The Spear Hall", ra: "A short hall bristles with spears set in the floor, points out. A path winds between them.", features: [["The spears", "Anyone who runs saves vs. paralysis or takes 1d4."]], obvious: "Walk the path.", clever: "Pull up spears to make a wider path, or use them." }
+    { name: "The Spear Hall", ra: "A short hall bristles with spears set in the floor, points out. A path winds between them.", features: [["The spears", "Anyone who runs saves vs. paralysis or takes 1d4."]], obvious: "Walk the path.", clever: "Pull up spears to make a wider path, or use them." },
+    { name: "The Murder Hole", ra: "The passage runs under a ledge with holes cut in it. Above, something shifts in the dark.", features: [["The holes", "Guards on the ledge drop stones: 1d4 to anyone below, each round."]], obvious: "Run under it.", clever: "Climb to the ledge from the side first." },
+    { name: "The Sentry Post", ra: "A barrel serves as a table for two guards and a game of bones. A horn hangs on a peg.", features: [["The horn", "Blown, it brings the lair."]], obvious: "Attack.", clever: "Take the horn off its peg before they reach it." },
+    { name: "The Turnstile", ra: "A wooden turnstile, made from a cart wheel, fills the passage. It squeals when it turns.", features: [["The turnstile", "Turning it is noise. Breaking it takes a round."]], obvious: "Push through.", clever: "Grease it, or climb over it." }
   ],
   common: [
     { name: "The Common Cave", ra: "A big cave holds sleeping furs, cook fires and the clutter of many lives. It smells of smoke and goat.", features: [["The clutter", "Pots, bones, scrap. Nothing worth much."]], obvious: "Fight.", clever: "Most of them are asleep by day." },
     { name: "The Hall of Hooks", ra: "Hooks line the walls, and from them hang packs, weapons and dried meat. Hammocks are slung across the roof.", features: [["The hooks", "A pack might hold anything: 1 in 6 holds 1d6 gp."]], obvious: "Fight.", clever: "Cut the hammock ropes. Sleepers fall." },
     { name: "The Long Gallery", ra: "An imperial gallery runs deep into the hill, lined with sleeping places cut into the walls. A cable runs along the ceiling.", features: [["The cable", "Live. It hums. Cut, it sparks: 1d6 damage to the cutter, and the gallery goes dark."]], obvious: "Fight in the gallery.", clever: "Fight at the gallery's mouth, where only two can come at once." },
     { name: "The Fire Hall", ra: "A great fire burns in the middle of a round cave, and its smoke climbs to a hole in the roof. Figures sit around it, eating.", features: [["The fire", "Kicking it scatters coals: 1d4 damage to anyone close."]], obvious: "Fight.", clever: "Talk. They are eating, and less eager to fight." },
-    { name: "The Old Shed", ra: "An imperial machine shed has become a home. Racks for tools now hold bedrolls.", features: [["The racks", "Climbable. A high place to fight from."]], obvious: "Fight.", clever: "Climb the racks." }
+    { name: "The Old Shed", ra: "An imperial machine shed has become a home. Racks for tools now hold bedrolls.", features: [["The racks", "Climbable. A high place to fight from."]], obvious: "Fight.", clever: "Climb the racks." },
+    { name: "The Sleeping Gallery", ra: "Sleeping shelves are cut into both walls, three high, each with a bundle of furs. The air is thick and warm.", features: [["The shelves", "By day most are full. By night most are empty."]], obvious: "Fight.", clever: "Come by day, when they sleep." },
+    { name: "The Mess Cave", ra: "Pots hang over a fire trench in a long cave. Bowls made from helmets sit stacked by the wall.", features: [["The fire trench", "Kicked, it fills the cave with smoke and sparks."]], obvious: "Fight.", clever: "Smoke them out." },
+    { name: "The Pillar Hall", ra: "Imperial pillars hold up the roof of a wide cave. The clan has hung its washing between them.", features: [["The washing lines", "A web of rope across the hall. –1 to hit for anyone fighting through it."]], obvious: "Fight.", clever: "Cut the lines on top of them." }
   ],
   chief: [
     { name: "The Chief's Cave", ra: "A cave hung with stolen cloth holds a seat made from an imperial chair. A chest stands behind it.", features: [["The chair", "Metal, padded with fur. Once an officer's."]], obvious: "Fight the chief.", clever: "Challenge the chief to single combat. The clan watches." },
     { name: "The High Seat", ra: "A seat of stone stands on a ledge above the cave floor. Weapons and trophies hang around it.", features: [["The trophies", "Helmets, a Fort militia badge, a Reader's grey sash."]], obvious: "Climb up and fight.", clever: "The badge and the sash mean the chief has dealt with both." },
     { name: "The Screen Room", ra: "A dead Terminal screen is set in the back wall, and the chief's furs are laid before it. Candles stand in front of the screen.", features: [["The screen", "Dark. The chief thinks it speaks to them."]], obvious: "Fight.", clever: "Make the screen 'speak'. The Minister can wake it for a moment." },
-    { name: "The Strong Cave", ra: "A small cave with a door of iron plate holds the chief and the clan's best things.", features: [["The door", "Bars from inside."]], obvious: "Break in.", clever: "Talk through the door." }
+    { name: "The Strong Cave", ra: "A small cave with a door of iron plate holds the chief and the clan's best things.", features: [["The door", "Bars from inside."]], obvious: "Break in.", clever: "Talk through the door." },
+    { name: "The Trophy Room", ra: "Shields of every make hang on the walls, and a throne of stacked shields sits at the end. Someone sits on it.", features: [["The shields", "One is a Fort militia shield, painted with a hen."]], obvious: "Fight.", clever: "Ask where the hen shield came from." },
+    { name: "The Chart Cave", ra: "A crude map of the ravine is scratched on the wall, with marks on every mouth. The chief stands before it.", features: [["The map", "It shows which clans the chief fears and which it plans to raid."]], obvious: "Fight.", clever: "Read the map first. Then talk about it." },
+    { name: "The Warm Room", ra: "A copper coil in the wall glows dull red and keeps this cave warm. Furs are heaped in front of it.", features: [["The coil", "Old power. Touching it burns (1d4). It is why this is the chief's room."]], obvious: "Fight.", clever: "Push the chief into the coil." },
+    { name: "The Counting Room", ra: "Sacks of scrap and faceless silver sit in rows, each marked with a tally. The chief counts them by candle.", features: [["The silver", "Reader pay. No faces on the coins."]], obvious: "Fight.", clever: "Ask who pays in silver with no faces." }
   ],
   store: [
     { name: "The Store Cave", ra: "Sacks, barrels and heaps of scrap fill a dry cave. Rats run from the light.", features: [["The stores", "Food for a month. Copper scrap, 40 gp worth, heavy."]], obvious: "Loot it.", clever: "Burn it, and the clan must raid or starve." },
     { name: "The Copper Heap", ra: "Coils of stripped copper are piled to the roof. Green dust covers everything.", features: [["The copper", "200 coins' weight is worth 20 gp. There is far more than anyone can carry."]], obvious: "Fill your packs.", clever: "Think about the walk home. Copper is heavy." },
     { name: "The Larder", ra: "Meat hangs from the roof on hooks. Some of it is goat.", features: [["The meat", "Goat, from The Fort's flocks."]], obvious: "Leave.", clever: "These are The Fort's goats. Maren will want to know." },
-    { name: "The Loot Pile", ra: "Raided goods lie in a heap: pots, cloth, a cart wheel, a cradle. Some of it is from The Fort.", features: [["The heap", "Search a turn: 3d10 gp in goods."]], obvious: "Search it.", clever: "Return the Fort goods. The Fort will remember." }
+    { name: "The Loot Pile", ra: "Raided goods lie in a heap: pots, cloth, a cart wheel, a cradle. Some of it is from The Fort.", features: [["The heap", "Search a turn: 3d10 gp in goods."]], obvious: "Search it.", clever: "Return the Fort goods. The Fort will remember." },
+    { name: "The Weapon Rack", ra: "Spears, clubs and rusted imperial swords lean in heaps against a wall. A whetstone sits on a block.", features: [["The weapons", "Enough to arm the clan twice."]], obvious: "Take the best.", clever: "Wreck them, and the clan cannot replace its losses." },
+    { name: "The Salt Store", ra: "Sacks of grey salt are stacked to the roof of a dry cave. Salt is money on the Ridge.", features: [["The salt", "Twenty sacks, 2 gp each, heavy."]], obvious: "Take some.", clever: "Salt buys hirelings and peace with other clans." },
+    { name: "The Scrap Pile", ra: "Imperial scrap lies in a heap: helmets, plates, glass, wire. A few pieces glow faintly.", features: [["The glowing pieces", "A glass tube (light as a candle) and a ward-eye that still blinks."]], obvious: "Dig through it.", clever: "Show the ward-eye to the Minister." }
   ],
   shrine: [
     { name: "The Shrine", ra: "A niche holds a heap of imperial scrap arranged like an altar. Fat candles burn in front of it.", features: [["The altar", "A helmet, a lamp, a screen. Offerings of food."]], obvious: "Take the scrap.", clever: "Leave it. Taking it makes the clan fight to the death." },
     { name: "The Horn Room", ra: "A great horn of carved stone comes through the wall into this cave. The clan has hung charms from it.", features: [["The horn", "On still nights it plays a hymn backward. The clan thinks it is a god."]], obvious: "Wreck the charms.", clever: "Speak into the horn. The clan will think it is the god." },
-    { name: "The Bone Shrine", ra: "Skulls sit in rows on shelves cut in the rock. Each has a coin in its mouth.", features: [["The coins", "One silver piece in each skull: 2d10 sp."]], obvious: "Take the coins.", clever: "Leave them. The dead are watched here." }
+    { name: "The Bone Shrine", ra: "Skulls sit in rows on shelves cut in the rock. Each has a coin in its mouth.", features: [["The coins", "One silver piece in each skull: 2d10 sp."]], obvious: "Take the coins.", clever: "Leave them. The dead are watched here." },
+    { name: "The Screen Shrine", ra: "A broken Terminal screen leans against the wall, its crack filled with gold paint. Bowls of food sit before it.", features: [["The screen", "Dark. The clan thinks its god sleeps inside."]], obvious: "Take the gold paint.", clever: "Leave it. Use it in a parley instead." },
+    { name: "The Helm Shrine", ra: "Imperial helmets sit in a pyramid, each holding a candle. Wax has run down them for years.", features: [["The helmets", "One has a name scratched inside it: a soldier from The Fort's old garrison."]], obvious: "Look inside the helmets.", clever: "Captain Maren would want that name." },
+    { name: "The Wire Saint", ra: "A figure twisted from copper wire stands taller than a man, with a lamp for a head. Offerings lie at its feet.", features: [["The figure", "Copper worth 30 gp, if broken up. The clan will hunt whoever does."]], obvious: "Break it up for copper.", clever: "Leave it, and swear by it in a parley." }
   ],
   pens: [
     { name: "The Pens", ra: "Pens of woven poles hold goats and a few thin dogs. The smell is strong.", features: [["The goats", "Six. Two have The Fort's brand."]], obvious: "Let them out.", clever: "Stampede them through the lair." },
-    { name: "The Kennel", ra: "Chains hang from rings in the wall, and some of them still hold dogs. The dogs bark at once.", features: [["The dogs", "War dogs, starving. Fed, they calm."]], obvious: "Fight the dogs.", clever: "Feed them." }
+    { name: "The Kennel", ra: "Chains hang from rings in the wall, and some of them still hold dogs. The dogs bark at once.", features: [["The dogs", "War dogs, starving. Fed, they calm."]], obvious: "Fight the dogs.", clever: "Feed them." },
+    { name: "The Pig Pen", ra: "Thin black pigs root in a muddy cave behind a wall of stakes. They squeal at strangers.", features: [["The pigs", "Loud. Anyone sneaking past rolls at –1."]], obvious: "Go past.", clever: "Let them out. Loose pigs in the lair are good cover." },
+    { name: "The Mule Cave", ra: "Three mules stand tied to rings in the wall, with packs of copper beside them. They are ready to go up the ravine.", features: [["The mules", "Pack animals for the Readers' copper. Useful for carrying loot home."]], obvious: "Steal the mules.", clever: "Steal the mules: they solve the walk home." }
   ],
   young: [
     { name: "The Nursery", ra: "A warm cave holds the clan's young and old. They scatter into the dark corners.", features: [["Non-combatants", "They do not fight. They will tell anything to anyone who spares them."]], obvious: "Leave.", clever: "Ask them questions." },
-    { name: "The Back Cave", ra: "A cave at the back holds the sick and the old on beds of straw. A fire burns low.", features: [["The sick", "Coughing. A Reader came and did not help."]], obvious: "Leave.", clever: "Heal one. The clan will hear of it." }
+    { name: "The Back Cave", ra: "A cave at the back holds the sick and the old on beds of straw. A fire burns low.", features: [["The sick", "Coughing. A Reader came and did not help."]], obvious: "Leave.", clever: "Heal one. The clan will hear of it." },
+    { name: "The Hearth Cave", ra: "Old ones and young ones sit around a low fire, mending nets and sorting copper. They go silent.", features: [["Non-combatants", "They do not fight. One of them will trade news for food."]], obvious: "Leave.", clever: "Trade food for news." }
   ],
   well: [
     { name: "The Water Hole", ra: "Water drips from the roof into a pool. Buckets sit beside it.", features: [["The pool", "The clan's only water."]], obvious: "Drink.", clever: "Whoever holds the water holds the lair." },
-    { name: "The Cistern", ra: "An imperial cistern lies under a grate. The clan lowers buckets through it.", features: [["The cistern", "A passage at its bottom leads under the hill."]], obvious: "Drink.", clever: "Climb down. It is another way in." }
+    { name: "The Cistern", ra: "An imperial cistern lies under a grate. The clan lowers buckets through it.", features: [["The cistern", "A passage at its bottom leads under the hill."]], obvious: "Drink.", clever: "Climb down. It is another way in." },
+    { name: "The Drip Pool", ra: "Water runs down a wall into a pool cut by the empire. A grating covers a drain at its bottom.", features: [["The drain", "Leads under the hill to the ravine floor. A back door, for something small."]], obvious: "Drink.", clever: "Send the smallest PC down the drain." },
+    { name: "The Pump", ra: "An imperial hand pump stands over a hole in the floor. A bucket sits beside it.", features: [["The pump", "It squeals. Every use is a wandering check."]], obvious: "Pump water.", clever: "Break the pump, and the clan must come out to the spring." }
   ]
 };
 
@@ -907,7 +982,9 @@ ForgeTables.ravine.hirelings = [
   { monster: "ogre", look: "An ogre in a coat made of sacks plays a game with knucklebones against itself.", price: "a cart wheel's weight in copper, or a working lamp", turn: "It wants to go home, to the hills. Pay it to go, and it goes." },
   { monster: "bugbear", look: "A bugbear sleeps, or seems to, by the far wall. One eye is open.", price: "30 gp and a steel blade", turn: "It is loyal to whoever paid last." },
   { monster: "gnoll", count: 2, look: "Two gnolls dice with knucklebones by the fire. They wear scraps of imperial uniform.", price: "20 gp each, or a sack of salt each", turn: "They despise the clan and say so in their own tongue." },
-  { monster: "ogre", look: "An ogre stands guard with a club made from an iron lamp-post. A glass globe is still on its end.", price: "anything that shines", turn: "It loves light. A lit lantern buys an hour of its time." }
+  { monster: "ogre", look: "An ogre stands guard with a club made from an iron lamp-post. A glass globe is still on its end.", price: "anything that shines", turn: "It loves light. A lit lantern buys an hour of its time." },
+  { monster: "ogre", look: "An ogre with a bandaged leg sits by the door, bored. It is chewing on a strap.", price: "a healer's work on its leg, or 40 gp", turn: "Heal it, and it will not fight the party." },
+  { monster: "gnoll", count: 2, look: "Two gnolls in matching red sashes sharpen their axes. They ignore the clan around them.", price: "30 gp for both, paid in silver", turn: "They work for coin only, and leave when it runs out." }
 ];
 
 ForgeTables.ravine.contested = [
@@ -967,7 +1044,8 @@ ForgeTables.ravine.beasts = [
   { monster: "giantCrab", count: 2, name: "The Wet Pool", ra: "Water fills the back of the cave, and the floor is littered with cracked shells. Two humped shapes lie still in the shallows.", cost: "Armour like plate. Two of them. The pool is deep.", reward: "A Reader's satchel at the bottom of the pool: {gp} gp of faceless silver." },
   { monster: "crabSpider", count: 3, name: "The Pale Cave", ra: "Pale webs hang in sheets in the cave mouth. Things are wrapped in them, and some of them were kobolds.", cost: "Poison that kills in turns. They strike first.", reward: "A wrapped body with {gp} gp in its belt." },
   { monster: "owlbear", count: 1, name: "The Nest", ra: "A nest of branches and imperial cable fills the cave, as big as a cart. Something feathered and huge sleeps in it.", cost: "Waking it is a fight to the death. It does not run.", reward: "An egg (100 gp to a mad buyer), and {gp} gp in scraps." },
-  { monster: "wolf", count: 5, name: "The Wolf Cave", ra: "A low cave holds a pack of wolves, lean and grey. They watch from the dark with green eyes.", cost: "Five of them, fast, and more come home at dusk.", reward: "Nothing but {gp} gp in a dead man's boot." }
+  { monster: "wolf", count: 5, name: "The Wolf Cave", ra: "A low cave holds a pack of wolves, lean and grey. They watch from the dark with green eyes.", cost: "Five of them, fast, and more come home at dusk.", reward: "Nothing but {gp} gp in a dead man's boot." },
+  { monster: "giantCrab", count: 2, name: "The Spring Cave", ra: "A spring fills a deep pool in the cave, and the rocks around it are cracked and scraped. Shells of eaten creatures lie in heaps.", cost: "Two of them, nearly as hard to hit as a knight in plate.", reward: "A drowned clan chief at the bottom of the pool, with {gp} gp of rings." }
 ];
 
 ForgeTables.ravine.supply = [
@@ -983,22 +1061,30 @@ ForgeTables.ravine.temple = {
   porch: [
     { name: "The Porch", ra: "Bronze doors stand under a carved lintel that once bore the station's number. Someone has chiselled out the number and carved new words backward.", features: [["The words", "Read forward, they are a hymn line. Read backward, they are the Readers' creed."], ["The doors", "Unlocked. A speaking-grille asks: “Who reads?”"]], obvious: "Open the doors.", clever: "Answer the grille with a line read backward. The door opens with a bow." },
     { name: "The Courtyard", ra: "A yard paved with screen-glass tiles lies inside the wall. Every tile is cracked, and lines of text crawl through the cracks.", features: [["The tiles", "Walking on them makes the text stop and follow your feet."]], obvious: "Cross.", clever: "Walk in the gutters. The tiles report footsteps to the hall." },
-    { name: "The Gatehouse", ra: "A gatehouse with a slot window guards the way in. A bell-rope hangs by the slot.", features: [["The slot", "A Reader looks out, politely."]], obvious: "Ring.", clever: "Say you are pilgrims." }
+    { name: "The Gatehouse", ra: "A gatehouse with a slot window guards the way in. A bell-rope hangs by the slot.", features: [["The slot", "A Reader looks out, politely."]], obvious: "Ring.", clever: "Say you are pilgrims." },
+    { name: "The Gate of Hands", ra: "Two bronze hands rise from the floor, palms out, on either side of the door. Each palm has a slot for a coin.", features: [["The slots", "A faceless silver coin in each opens the door quietly. Anything else rings a bell inside."]], obvious: "Force the door.", clever: "Use the clans' faceless silver." },
+    { name: "The Waiting Room", ra: "Benches line a bare hall before a closed door. A sign in neat letters asks visitors to wait.", features: [["The sign", "Read backward, it says: “You have been seen.”"]], obvious: "Wait.", clever: "Read the sign backward." }
   ],
   undead: [
     { name: "The Hall of the Kept", ra: "Niches line a long hall, each holding a body in grey. They step out of the niches together.", features: [["The niches", "Each has a brass plate with a name. The names are of clan dead and Fort dead."]], obvious: "Fight.", clever: "Turn them." },
     { name: "The Ossuary", ra: "Bones are stacked in patterns that look like writing. Some of the bones get up.", features: [["The patterns", "A hymn, written in bone, backward."]], obvious: "Fight.", clever: "Turn them, then read the bones." },
-    { name: "The Choir Room", ra: "Rows of the dead stand in a choir loft, mouths open, as if singing. There is no sound until they move.", features: [["The loft", "Raised. They come down the steps in a line."]], obvious: "Fight.", clever: "Fight at the foot of the steps, where they come one at a time." }
+    { name: "The Choir Room", ra: "Rows of the dead stand in a choir loft, mouths open, as if singing. There is no sound until they move.", features: [["The loft", "Raised. They come down the steps in a line."]], obvious: "Fight.", clever: "Fight at the foot of the steps, where they come one at a time." },
+    { name: "The Standing Room", ra: "The dead stand in rows facing the wall, each with a slate hung round its neck. They turn round together.", features: [["The slates", "Each has one word on it. In order, the words are a hymn line, backward."]], obvious: "Fight.", clever: "Turn them." },
+    { name: "The Copying Dead", ra: "Dead clerks sit at desks, copying the same page over and over with dry pens. They rise when the door opens.", features: [["The pages", "Backward hymns. Thousands of them."]], obvious: "Fight.", clever: "Turn them, then read what they were made to copy." }
   ],
   trap: [
     { name: "The Long Corridor", ra: "A straight corridor runs a long way, its floor tiled in black and white. At the far end, a door.", features: [], obvious: "Walk.", clever: "Search." },
     { name: "The Reading Room", ra: "Lecterns stand in rows, each holding an open book. The books are all the same, and all blank.", features: [], obvious: "Look at the books.", clever: "Search before touching anything." },
-    { name: "The Stair of Erasure", ra: "A stair goes down between walls scraped smooth of any writing. Scrapers lie on each step.", features: [], obvious: "Go down.", clever: "Search the steps." }
+    { name: "The Stair of Erasure", ra: "A stair goes down between walls scraped smooth of any writing. Scrapers lie on each step.", features: [], obvious: "Go down.", clever: "Search the steps." },
+    { name: "The Mirror Hall", ra: "Sheets of polished screen-glass line both walls of a long hall. Your reflections walk a step behind you.", features: [], obvious: "Walk.", clever: "Search." },
+    { name: "The Silent Room", ra: "A square room has walls padded with grey felt. No sound carries here at all.", features: [], obvious: "Cross.", clever: "Search." }
   ],
   leader: [
     { name: "The Lector's Room", ra: "A study full of books and good lamps, with a table set for tea. A person in grey sits waiting.", features: [["The books", "Hymns, copied backward, with commentary."], ["The tea", "Not poisoned."]], obvious: "Attack.", clever: "Sit. Drink the tea. Listen." },
     { name: "The Chapter House", ra: "A round room with a ring of seats faces a lectern. The leader stands there, as if expecting a class.", features: [["The seats", "Ten. Each has a name scratched on it."]], obvious: "Attack.", clever: "Take a seat and ask a question." },
-    { name: "The Scriptorium", ra: "Desks with copying stands fill a long room. The leader is at work on a page and does not look up.", features: [["The page", "A copy of a hymn, backward, half done."]], obvious: "Attack.", clever: "Read the page over the leader's shoulder." }
+    { name: "The Scriptorium", ra: "Desks with copying stands fill a long room. The leader is at work on a page and does not look up.", features: [["The page", "A copy of a hymn, backward, half done."]], obvious: "Attack.", clever: "Read the page over the leader's shoulder." },
+    { name: "The Listening Room", ra: "Brass horns come through the walls from every part of the temple. The leader sits among them, listening.", features: [["The horns", "The leader has heard everything the party said since the porch."]], obvious: "Attack.", clever: "Speak first. Say you know it has been listening." },
+    { name: "The Garden Room", ra: "Pale plants grow in trays under a skylight of cracked glass. The leader is watering them.", features: [["The plants", "Healing herbs. A Reader grows what heals."]], obvious: "Attack.", clever: "Ask why a Reader grows healing herbs." }
   ],
   extras: [
     { name: "The Dormitory", ra: "Plain beds stand in two rows, each made tight. A book lies on every pillow.", features: [["The books", "Hymnals with the lines reversed in ink."]], obvious: "Search the beds.", clever: "Read the inside covers: each reader writes the date they joined." },
@@ -1031,10 +1117,12 @@ ForgeTables.ravine.temple = {
   relics: [
     { name: "the dark Terminal", ra: "A Terminal screen as tall as a door glows in the dark. The hymns crawl up it backward.", options: [["Smash it", "This node of the network dies. The Fort's Terminal goes quiet for a week, then shows a new line."], ["Reclaim it", "The Minister or Paladin sings it back into order. Costly: a spell lost for a month, and the Readers who live become enemies of The Fort forever."], ["Read it", "A PC learns where the Door Beneath the Lake leads. The DM decides the cost."]] },
     { name: "the backward bell", ra: "A bell cast from screen-glass hangs over a shaft. When it rings, the sound comes before the stroke.", options: [["Break it", "The horns in the ravine fall silent forever. The clans, who slept to its song, wake angry and lost."], ["Ring it forward", "A hymn in order runs down the ravine. Every undead in the Ridge falls still. The Readers who live hunt the bell-ringer."], ["Take it", "Heavy (500 coins). It rings by itself at night wherever it is kept, and sometimes it tells the truth."]] },
-    { name: "the Unwritten Book", ra: "A book on a lectern is blank, but letters appear on its pages from the bottom up, as if being unwritten.", options: [["Burn it", "The letters scream as they go. A PC who watches loses a memory of their choice."], ["Finish it", "A PC writes the last line. The DM decides what it unlocks."], ["Carry it home", "The Minister can read it slowly. Each page read gives a true answer and takes a night's sleep."]] },
-    { name: "the black lamp", ra: "A lamp of bronze on a pillar burns with a flame that gives darkness instead of light.", options: [["Put it out", "Every shadow in the temple falls on the party at once: each PC saves vs. spells or is blind for a turn."], ["Relight it white", "Costs a cleric spell and a hymn sung in order. The lamp becomes a beacon The Fort can see from the wall."], ["Take it", "It makes darkness wherever it is set down, which is useful, and draws Readers, which is not."]] },
+    { name: "the Unwritten Book", ra: "A book lies open on a lectern, and its pages are blank. As you watch, letters appear from the bottom up, as if being unwritten.", options: [["Burn it", "The letters scream as they go. A PC who watches loses a memory of their choice."], ["Finish it", "A PC writes the last line. The DM decides what it unlocks."], ["Carry it home", "The Minister can read it slowly. Each page read gives a true answer and takes a night's sleep."]] },
+    { name: "the black lamp", ra: "A lamp of bronze burns on a pillar in the middle of the room. Its flame gives darkness instead of light, and the room is dim around it.", options: [["Put it out", "Every shadow in the temple falls on the party at once: each PC saves vs. spells or is blind for a turn."], ["Relight it white", "Costs a cleric spell and a hymn sung in order. The lamp becomes a beacon The Fort can see from the wall."], ["Take it", "It makes darkness wherever it is set down, which is useful, and draws Readers, which is not."]] },
     { name: "the speaking head", ra: "A bronze head on a plinth speaks hymn lines backward in a calm voice. Its eyes are ward-eyes.", options: [["Silence it", "Its eyes go dark. Every ward-eye in the country blinks once; somewhere, a door unseals."], ["Turn it forward", "It speaks once in order, and answers one question truly. Then it never speaks again."], ["Carry it out", "It talks all the way home, and some of what it says is about the party."]] },
-    { name: "the cable loom", ra: "A frame of copper wire weaves a ward into noise, its shuttle moving by itself. Sparks run along the threads.", options: [["Cut it", "The ward it was unweaving snaps back. The Readers' dead fall; so does the temple roof, partly."], ["Reverse it", "It weaves the ward back. Takes a day. The Readers will not allow a day."], ["Steal the shuttle", "The loom stops. The shuttle hums in a pack, and the Terminal at The Fort wants it."]] }
+    { name: "the cable loom", ra: "A frame of copper wire weaves a ward into noise, its shuttle moving by itself. Sparks run along the threads.", options: [["Cut it", "The ward it was unweaving snaps back. The Readers' dead fall; so does the temple roof, partly."], ["Reverse it", "It weaves the ward back. Takes a day. The Readers will not allow a day."], ["Steal the shuttle", "The loom stops. The shuttle hums in a pack, and the Terminal at The Fort wants it."]] },
+    { name: "the stone choir", ra: "Seven statues stand in a half ring, mouths open. They were people, and the cockatrice eggs made them stone.", options: [["Break them", "The stone falls apart. Seven souls go free, or go out. Nobody can say which."], ["Wake them", "A cleric spell and a hymn sung in order. Each saves vs. petrification to come back. Those who fail are dust."], ["Leave them", "The Readers lose their guardians, but the stone keeps. Someone else will come for them."]] },
+    { name: "the reversed lens", ra: "A lens as tall as a man stands in a frame, and light that goes in comes out as dark. Behind it, the dark Terminal's glow is bent into a beam.", options: [["Shatter it", "The beam goes out. So does every light in the temple, for a day."], ["Turn it round", "The beam reverses. Every undead it touches falls still. It also burns a mark onto whoever turns it."], ["Take it", "Heavy (800 coins). At The Fort it would make a beacon, or a weapon."]] }
   ],
   leaderMonster: ["reader2", "reader3", "reader4"]
 };
@@ -1070,7 +1158,9 @@ ForgeTables.ravine.rumors = [
 ForgeTables.ravine.clocks = [
   { what: "the Readers' collection", steps: ["Week 1: the clans send the Readers the prisoners they hold.", "Week 2: the prisoner pens are empty; the prisoners are in the temple's cells.", "Week 3: the temple has what it needs. Its doors are barred and its dead walk the ravine floor.", "Week 4: the Readers walk down the Old Road toward the lake."] },
   { what: "the clan war", steps: ["Week 1: the twin bands fight in the contested passage.", "Week 2: one band wins and takes both lairs, doubling its numbers.", "Week 3: the winners raid the Fort's fields.", "Week 4: the losers' survivors come to The Fort begging, or burning."] },
-  { what: "the horns", steps: ["Week 1: the horns sing every night.", "Week 2: the clans stop sleeping and start fighting each other.", "Week 3: the horns can be heard at The Fort.", "Week 4: The Fort's Terminal begins to show its hymns backward."] }
+  { what: "the horns", steps: ["Week 1: the horns sing every night.", "Week 2: the clans stop sleeping and start fighting each other.", "Week 3: the horns can be heard at The Fort.", "Week 4: The Fort's Terminal begins to show its hymns backward."] },
+  { what: "the eggs", steps: ["Week 1: a load of cockatrice eggs goes up the ravine to the temple.", "Week 2: the first stone guardian stands at the temple door.", "Week 3: three guardians. The Readers send one down to the clan that pays least.", "Week 4: the guardians walk the ravine floor at night."] },
+  { what: "the winter", steps: ["Week 1: the first frost. The clans raid harder for food.", "Week 2: snow closes the Old Road for a week.", "Week 3: the weakest clan starves and joins the strongest.", "Week 4: the clans march together on the Fort's fields."] }
 ];
 
 ForgeTables.ravine.fortReacts = [
