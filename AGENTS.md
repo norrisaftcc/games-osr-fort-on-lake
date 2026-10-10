@@ -24,7 +24,7 @@ Use this order when sources disagree:
 2. **`campaign/SPINE.md`**, especially *The Fort Country (canon)*, *Play Record*, *Year Two Canon* and the pinned facts for each module.
 3. The modules themselves.
 
-Other sources the user has shared: the **"Fort on the Lake: Maps and Handouts"** design canvas (the Fort Country hex map, *The Year Between* zine, the tulip-fold sheet, the Reckoning card) and **Floor 31**, a sister scenario that is the model for the kind of adventure we want.
+Other sources the user has shared: the **"Fort on the Lake: Maps and Handouts"** design canvas (the Fort Country hex map, *The Year Between* zine, the tulip-fold sheet, the Reckoning card) **Floor 31**, a sister scenario that is the model for the kind of adventure we want; and **Badge Zero**, Floor 31's solo-intro page, the model for character intros (scenes whose choices write onto a card, typed public and secret facts, bonds, a session-zero retcon). Floor 31 and Badge Zero are in the user's "AlgoCratic OSR" Drive folder.
 
 Canon marked **ASSUMED** in the DM Guide (the basilisk is dead; Petra is restored; the Beast Pen cage is empty) may change. Write so a DM can replace it.
 
