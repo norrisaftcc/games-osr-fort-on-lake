@@ -51,7 +51,7 @@ If the party is slow, nobody answers the call, the stream dries, and the Bureau 
 | T4, the Sweep | The sweep runs once every turn of the flush. |
 | T1, T3, T5 | Wet floors. Nothing worse. |
 
-A party that leaves the Fort at dawn and goes straight to the Weirs has fourteen hours before the flush. A party that visits both Boar Hollow and the milestone arrives at half past four with seven and a half hours, or 45 turns. Walking the reaches carefully and doing every room takes about 35. That is enough, unless they rest long, retreat, or linger in T3.
+A party that leaves the Fort at dawn and goes straight to the Weirs has fourteen hours before the flush. Boar Hollow is two hexes from the Fort, by way of the Old Road. A party that visits both the milestone and Boar Hollow arrives at half past six with five and a half hours, or 33 turns. Walking every reach carefully and doing every room takes about 35. They must walk some reaches briskly, or meet the flush in the tunnel.
 
 ### Two Buyers
 
@@ -177,7 +177,7 @@ Year Two tests whether the players want a science-fiction setting. The science f
 
 | Element | Brush (seen, named, left) | Lean in (opened, explained a little) | Lean-in reward |
 |---------|---------------------------|--------------------------------------|----------------|
-| **The humming milestone** (C4) | A warm stone that sings in pulses: three, four, five, then long notes. | A relay post. An ear or the lake stone on it shows the pulses come from the north-east, from the Weirs. A bronze plate at its foot, under the moss, bears a wave and an arrow. | The 3-4-5 count, if Wick has not given it. The marker-stone path to the Weirs: an hour saved. |
+| **The humming milestone** (C4) | A warm stone that sings in pulses: three, four, five, then long notes. | A relay post. An ear or the lake stone on it shows the pulses come from the north, from the Weirs. A bronze plate at its foot, under the moss, bears a wave and an arrow. | The 3-4-5 count, if Wick has not given it. The marker-stone path to the Weirs: an hour saved. |
 | **The B.I.A.'s forms and gear** | Red coats, whistles, a satchel of forms, a chain for measuring. Funny and harmless. | The forms are printed, not written: every one the same, from a press nobody in the Fort country owns. The chain is imperial, marked in feet. Platt's map uses survey signs. | Platt's map read properly gives each reach's length in paces (see C5): the party can plan its time to the turn. |
 | **The outflow tunnel** (the waterworks) | A long dry tunnel with old stone and lime. | Imperial waterworks: a channel in the floor, depth marks in T2, numbered stations, crew niches in T4. The tunnel was built to carry water out of somewhere under the lake. | Knowing it is a drain tells the party the flush comes down it: they read the weed line in T2 and plan around midnight. |
 | **The drop gate** (T2) | A jaw of bronze teeth in the ceiling. | A flood gate on a counterweight, tripped by a pressure slab. | The thief or the druid jams it for good (spike, or *Warp Wood*). |
@@ -231,17 +231,17 @@ Leave at dawn (six o'clock). The flush is at midnight.
 |-------|-------|------|---------------------|-------|
 | **Straight to the Weirs** | D4 → C3 | 4 hours (reeds) | 10 o'clock | Time. Nothing else. |
 | **The hum** | D4 → C4 (road, 2 h) → milestone (½ h) → C3 (reeds, 4 h; 3 h by the marker stones) | 5½–6½ hours | Noon | The milestone; the count; the marker stones |
-| **The map** | D4 → C5 (forest, 3 h) → lodge (1 h) → C4 (forest, 3 h) → milestone (½ h) → C3 (3 h by the marker stones) | 10½ hours | Half past four | Platt's map (reach lengths, the slab warning), the milestone |
+| **The map** | D4 → C4 (road, 2 h) → milestone (½ h) → C5 (forest, 3 h) → lodge (1 h) → back to C4 (forest, 3 h) → C3 (3 h by the marker stones). Boar Hollow does not touch the Fort; the way runs through C4 both ways. | 12½ hours | Half past six | Platt's map (reach lengths, the slab warning), the milestone. Four hex checks, not two. |
 
-> **Design Note:** The route table is the hex lesson. Put it in front of the players in Planning. Every hex has a price in hours and a roll. The map route costs most and gives most. A party that takes it walks into the tunnel with six hours of clock and a map that tells them where the first trap is.
+> **Design Note:** The route table is the hex lesson. Put it in front of the players in Planning. Every hex has a price in hours and a roll. The map route costs most and gives most. A party that takes it walks into the tunnel at dusk with 33 turns of clock, which is not quite enough to be careful everywhere, and a map that tells them where the first trap is and how long each reach is. Let them do that sum at the arch.
 
 ### The Hexes
 
 | Hex | Key line | Terrain | What is there | Scout's clue |
 |-----|----------|---------|---------------|--------------|
 | **D4 The Fort** | Home. Biddy guards the henhouse. | — | The start. | — |
-| **C4 The Old Road** | A humming milestone. | Road; forest either side | The milestone (below). | A line of knee-high posts, one every thousand paces, runs from the milestone north-east to the Weirs. Each has a bronze cap cut with a wave. Following them cuts the walk to C3 to 3 hours. |
-| **C5 Boar Hollow** | A hunter's lodge. A map nailed inside. | Forest; lost on 1–2 without a guide | Tobin Ash's lodge, Platt's pony, the map (below). | Platt's boot prints by the spring, going north-west twice and coming back once. |
+| **C4 The Old Road** | A humming milestone. | Road; forest either side | The milestone (below). | A line of knee-high posts, one every thousand paces, runs from the milestone north to the Weirs. Each has a bronze cap cut with a wave. Following them cuts the walk to C3 to 3 hours. |
+| **C5 Boar Hollow** | A hunter's lodge. A map nailed inside. | Forest, south of the Old Road. Two hexes from the Fort, by C4. Lost on 1–2 without a guide; Tobin Ash walks a party back to the road for 1 gp. | Tobin Ash's lodge, Platt's pony, the map (below). | Platt's boot prints by the spring, going north twice and coming back once. |
 | **C3 The Weirs** | Old fish traps. New stakes. | Reeds | The fish traps, the Quiet's shrines, the new stream and the stone mouth (T1). | A flood line a hand high on the reeds, fresh: the water comes hard, and only for a short time. |
 
 ### C4. The Humming Milestone
@@ -251,7 +251,7 @@ A stone post as tall as a man, warm to the touch. Its hum is a note you feel in 
 | If the party | Then |
 |--------------|------|
 | Listens for a full turn | Anyone can count it: three, four, five, long. |
-| Puts an ear, a hand or the lake stone on it | **Lean in.** The pulses come from the north-east. The Lake Stone tingles. Under the moss at the foot, a bronze plate shows a wave and an arrow pointing north-east: the marker stones. |
+| Puts an ear, a hand or the lake stone on it | **Lean in.** The pulses come from the north. The Lake Stone tingles. Under the moss at the foot, a bronze plate shows a wave and an arrow pointing north: the marker stones. |
 | Spends Fate (*The Archives Are Deep*) | A fact about the old line: "Every milestone on this road was a relay for the waterworks." Make it matter in T3 or T5. |
 
 ### C5. Boar Hollow and the Hunter's Map

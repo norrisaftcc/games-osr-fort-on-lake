@@ -78,105 +78,103 @@
   <text x="560" y="128" font-size="11" font-style="italic" text-anchor="end" fill="#1b1b1b">1 hex = 6 miles</text>
   <rect x="30" y="142" width="530" height="378" fill="none" stroke="#1b1b1b" stroke-width="1"/>
   <g>
-    <polygon points="372.8,162.0 424.8,192.0 424.8,252.0 372.8,282.0 320.8,252.0 320.8,192.0" fill="url(#waterH)" stroke="none"/>
-    <polygon points="476.7,162.0 528.7,192.0 528.7,252.0 476.7,282.0 424.8,252.0 424.8,192.0" fill="url(#shallowH)" stroke="none"/>
-    <polygon points="165.0,162.0 216.9,192.0 216.9,252.0 165.0,282.0 113.0,252.0 113.0,192.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="372.8,162.0 424.8,192.0 424.8,252.0 372.8,282.0 320.8,252.0 320.8,192.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="476.7,162.0 528.7,192.0 528.7,252.0 476.7,282.0 424.8,252.0 424.8,192.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="113.0,252.0 165.0,282.0 165.0,342.0 113.0,372.0 61.0,342.0 61.0,282.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="424.8,252.0 476.7,282.0 476.7,342.0 424.8,372.0 372.8,342.0 372.8,282.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="165.0,342.0 216.9,372.0 216.9,432.0 165.0,462.0 113.0,432.0 113.0,372.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="372.8,342.0 424.8,372.0 424.8,432.0 372.8,462.0 320.8,432.0 320.8,372.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
-    <polygon points="268.9,162.0 320.8,192.0 320.8,252.0 268.9,282.0 216.9,252.0 216.9,192.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
-    <polygon points="216.9,252.0 268.9,282.0 268.9,342.0 216.9,372.0 165.0,342.0 165.0,282.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
-    <polygon points="268.9,342.0 320.8,372.0 320.8,432.0 268.9,462.0 216.9,432.0 216.9,372.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
-    <polygon points="320.8,252.0 372.8,282.0 372.8,342.0 320.8,372.0 268.9,342.0 268.9,282.0" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="323.0,198.8 297.7,242.6 247.1,242.6 221.8,198.8 247.1,155.0 297.7,155.0" fill="url(#waterH)" stroke="none"/>
+    <polygon points="171.2,286.4 145.9,330.3 95.3,330.3 70.0,286.4 95.3,242.6 145.9,242.6" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="171.2,374.1 145.9,417.9 95.3,417.9 70.0,374.1 95.3,330.3 145.9,330.3" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="323.0,198.8 297.7,242.6 247.1,242.6 221.8,198.8 247.1,155.0 297.7,155.0" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="323.0,374.1 297.7,417.9 247.1,417.9 221.8,374.1 247.1,330.3 297.7,330.3" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="398.9,242.6 373.6,286.5 323.0,286.5 297.7,242.6 323.0,198.8 373.6,198.8" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="398.9,330.3 373.6,374.1 323.0,374.1 297.7,330.3 323.0,286.4 373.6,286.4" fill="none" stroke="#1b1b1b" stroke-width="0.8" stroke-dasharray="3 3"/>
+    <polygon points="247.1,242.6 221.8,286.5 171.2,286.5 145.9,242.6 171.2,198.8 221.8,198.8" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="247.1,330.3 221.8,374.1 171.2,374.1 145.9,330.3 171.2,286.4 221.8,286.4" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="247.1,417.9 221.8,461.7 171.2,461.7 145.9,417.9 171.2,374.1 221.8,374.1" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
+    <polygon points="323.0,286.4 297.7,330.3 247.1,330.3 221.8,286.4 247.1,242.6 297.7,242.6" fill="none" stroke="#1b1b1b" stroke-width="2.2"/>
   </g>
-  <use xlink:href="#pine" x="178.9" y="294.0"/>
-  <use xlink:href="#pine" x="176.9" y="326.0"/>
-  <use xlink:href="#pine" x="250.9" y="338.0"/>
-  <use xlink:href="#pine" x="202.9" y="276.0"/>
-  <use xlink:href="#pine" x="230.9" y="352.0"/>
-  <use xlink:href="#pine" x="232.9" y="394.0"/>
-  <use xlink:href="#pine" x="238.9" y="422.0"/>
-  <use xlink:href="#pine" x="302.9" y="416.0"/>
-  <use xlink:href="#pine" x="256.9" y="368.0"/>
-  <use xlink:href="#pine" x="298.9" y="378.0"/>
-  <use xlink:href="#pine" x="93.0" y="312.0"/>
-  <use xlink:href="#pine" x="123.0" y="330.0"/>
-  <use xlink:href="#pine" x="127.0" y="294.0"/>
-  <use xlink:href="#pine" x="151.0" y="412.0"/>
-  <use xlink:href="#pine" x="181.0" y="394.0"/>
-  <use xlink:href="#pine" x="354.8" y="414.0"/>
-  <use xlink:href="#pine" x="392.8" y="406.0"/>
-  <use xlink:href="#reed" x="232.9" y="210.0"/>
-  <use xlink:href="#reed" x="242.9" y="192.0"/>
-  <use xlink:href="#reed" x="298.9" y="198.0"/>
-  <use xlink:href="#reed" x="226.9" y="230.0"/>
-  <use xlink:href="#reed" x="306.9" y="216.0"/>
-  <use xlink:href="#reed" x="238.9" y="250.0"/>
-  <g stroke="#1b1b1b" stroke-width="1.2"><line x1="282.88457268119896" y1="224" x2="282.88457268119896" y2="230"/><line x1="288.88457268119896" y1="227" x2="288.88457268119896" y2="233"/><line x1="294.88457268119896" y1="230" x2="294.88457268119896" y2="236"/><line x1="300.88457268119896" y1="233" x2="300.88457268119896" y2="239"/><line x1="306.88457268119896" y1="236" x2="306.88457268119896" y2="242"/></g>
-  <g fill="none" stroke="#1b1b1b" stroke-width="1"><path d="M136.96152422706632 228 q14 -18 28 0 q14 -18 28 0"/><path d="M144.96152422706632 212 q10 -12 20 0 q10 -12 20 0"/></g>
-  <g stroke="#1b1b1b" stroke-width="0.8"><line x1="400.76914536239786" y1="298" x2="448.76914536239786" y2="298"/><line x1="400.76914536239786" y1="305" x2="448.76914536239786" y2="305"/><line x1="400.76914536239786" y1="312" x2="448.76914536239786" y2="312"/><line x1="400.76914536239786" y1="319" x2="448.76914536239786" y2="319"/><line x1="400.76914536239786" y1="326" x2="448.76914536239786" y2="326"/></g>
-  <path d="M306.8460969082653 314 L238.92304845413264 310 L174.96152422706632 266" fill="none" stroke="#1b1b1b" stroke-width="5"/>
-  <path d="M306.8460969082653 314 L238.92304845413264 310 L174.96152422706632 266" fill="none" stroke="#F5EFE0" stroke-width="2.4"/>
-  <path d="M316.8460969082653 296 Q308.8460969082653 274 276.88457268119896 252" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <path d="M314.8460969082653 326 Q302.8460969082653 368 280.88457268119896 394" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <path d="M262.88457268119896 390 Q238.88457268119896 356 228.92304845413264 314" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <rect x="234.7" y="289.1" width="4.4" height="4.4" fill="#1b1b1b"/>
-  <rect x="240.7" y="280.5" width="4.4" height="4.4" fill="#1b1b1b"/>
-  <rect x="246.7" y="271.8" width="4.4" height="4.4" fill="#1b1b1b"/>
-  <rect x="252.7" y="263.1" width="4.4" height="4.4" fill="#1b1b1b"/>
-  <rect x="258.7" y="254.5" width="4.4" height="4.4" fill="#1b1b1b"/>
-  <g transform="translate(328.8460969082653,316)" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="1.6">
+  <use xlink:href="#pine" x="166.5" y="312.3"/>
+  <use xlink:href="#pine" x="162.5" y="342.3"/>
+  <use xlink:href="#pine" x="222.5" y="354.3"/>
+  <use xlink:href="#pine" x="226.5" y="324.3"/>
+  <use xlink:href="#pine" x="188.5" y="360.3"/>
+  <use xlink:href="#pine" x="166.5" y="407.9"/>
+  <use xlink:href="#pine" x="170.5" y="435.9"/>
+  <use xlink:href="#pine" x="226.5" y="433.9"/>
+  <use xlink:href="#pine" x="222.5" y="395.9"/>
+  <use xlink:href="#pine" x="190.5" y="387.9"/>
+  <use xlink:href="#pine" x="102.6" y="366.1"/>
+  <use xlink:href="#pine" x="132.6" y="388.1"/>
+  <use xlink:href="#pine" x="136.6" y="354.1"/>
+  <use xlink:href="#pine" x="252.4" y="378.1"/>
+  <use xlink:href="#pine" x="290.4" y="364.1"/>
+  <use xlink:href="#pine" x="276.4" y="396.1"/>
+  <use xlink:href="#reed" x="160.5" y="222.6"/>
+  <use xlink:href="#reed" x="220.5" y="218.6"/>
+  <use xlink:href="#reed" x="166.5" y="264.6"/>
+  <use xlink:href="#reed" x="326.3" y="230.6"/>
+  <use xlink:href="#reed" x="362.3" y="220.6"/>
+  <use xlink:href="#reed" x="368.3" y="250.6"/>
+  <use xlink:href="#reed" x="336.3" y="258.6"/>
+  <g stroke="#1b1b1b" stroke-width="1.2"><line x1="214.5" y1="240.63" x2="214.5" y2="246.63"/><line x1="219.5" y1="242.63" x2="219.5" y2="248.63"/><line x1="224.5" y1="244.63" x2="224.5" y2="250.63"/><line x1="229.5" y1="246.63" x2="229.5" y2="252.63"/><line x1="234.5" y1="248.63" x2="234.5" y2="254.63"/></g>
+  <g fill="none" stroke="#1b1b1b" stroke-width="1"><path d="M94.6 294.44499999999994 l9 -12 l9 12 l9 -12 l9 12 l9 -12"/><path d="M106.6 278.44499999999994 l7 -10 l7 10 l7 -10 l7 10"/></g>
+  <g fill="#1b1b1b"><circle cx="242.39999999999998" cy="260.44499999999994" r="0.9"/><circle cx="242.39999999999998" cy="312.44499999999994" r="0.9"/><circle cx="257.4" cy="260.44499999999994" r="0.9"/><circle cx="257.4" cy="312.44499999999994" r="0.9"/><circle cx="272.4" cy="260.44499999999994" r="0.9"/><circle cx="272.4" cy="312.44499999999994" r="0.9"/><circle cx="287.4" cy="260.44499999999994" r="0.9"/><circle cx="287.4" cy="312.44499999999994" r="0.9"/><circle cx="302.4" cy="260.44499999999994" r="0.9"/><circle cx="302.4" cy="312.44499999999994" r="0.9"/></g>
+  <g fill="#1b1b1b"><circle cx="318.29999999999995" cy="304.26" r="0.9"/><circle cx="318.29999999999995" cy="356.26" r="0.9"/><circle cx="333.29999999999995" cy="304.26" r="0.9"/><circle cx="333.29999999999995" cy="356.26" r="0.9"/><circle cx="348.29999999999995" cy="304.26" r="0.9"/><circle cx="348.29999999999995" cy="356.26" r="0.9"/><circle cx="363.29999999999995" cy="304.26" r="0.9"/><circle cx="363.29999999999995" cy="356.26" r="0.9"/><circle cx="378.29999999999995" cy="304.26" r="0.9"/><circle cx="378.29999999999995" cy="356.26" r="0.9"/></g>
+  <path d="M256.4 292.44499999999994 L206.5 326.26 L134.6 290.44499999999994" fill="none" stroke="#1b1b1b" stroke-width="5"/>
+  <path d="M256.4 292.44499999999994 L206.5 326.26 L134.6 290.44499999999994" fill="none" stroke="#F5EFE0" stroke-width="2.4"/>
+  <path d="M262.4 274.44499999999994 Q242.39999999999998 262.63 214.5 252.63" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <path d="M198.5 334.26 Q178.5 382.26 194.5 407.89" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="199.0" y="308.1" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="199.6" y="296.2" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="200.3" y="284.2" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="201.0" y="272.3" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <rect x="201.6" y="260.4" width="4.4" height="4.4" fill="#1b1b1b"/>
+  <g transform="translate(282.4,284.44499999999994)" fill="#F5EFE0" stroke="#1b1b1b" stroke-width="1.6">
     <rect x="-13" y="-10" width="26" height="20"/>
     <path d="M-13 -10 v-5 h5 v5 M-3 -10 v-5 h6 v5 M8 -10 v-5 h5 v5" fill="none"/>
     <rect x="-3" y="2" width="6" height="8" fill="#1b1b1b"/>
   </g>
-  <g transform="translate(230.92304845413264,300)" stroke="#1b1b1b" fill="none">
+  <g transform="translate(200.5,322.26)" stroke="#1b1b1b" fill="none">
     <path d="M-4 9 V-9 L0 -13 L4 -9 V9 Z" fill="#1b1b1b"/>
     <path d="M8 -6 q4 6 0 12 M12 -9 q6 9 0 18" stroke-width="1.1"/>
   </g>
-  <g transform="translate(270.88457268119896,398)" stroke="#1b1b1b" stroke-width="1.4" fill="#F5EFE0">
+  <g transform="translate(198.5,419.89)" stroke="#1b1b1b" stroke-width="1.4" fill="#F5EFE0">
     <path d="M-10 8 V-2 L0 -11 L10 -2 V8 Z"/><rect x="-3" y="1" width="6" height="7" fill="#1b1b1b"/>
   </g>
-  <g transform="translate(266.88457268119896,248)" stroke="#1b1b1b" stroke-width="1.6">
+  <g transform="translate(204.5,250.63)" stroke="#1b1b1b" stroke-width="1.6">
     <path d="M-8 6 V-2 A8 8 0 0 1 8 -2 V6" fill="#F5EFE0"/><path d="M-4 6 V0 M0 6 V-4 M4 6 V0" stroke-width="1"/>
   </g>
-  <path d="M276.88457268119896 240 L428.88457268119896 192" fill="none" stroke="#1b1b1b" stroke-width="1.6" stroke-dasharray="2 4"/>
-  <path d="M428.88457268119896 192 l-11 -1 l4 9 Z" fill="#1b1b1b"/>
-  <text x="268.9" y="182.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C3</text>
-  <text x="268.9" y="195.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Weirs</text>
-  <text x="216.9" y="342.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C4</text>
-  <text x="216.9" y="355.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Old Road</text>
-  <text x="268.9" y="430.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C5</text>
-  <text x="268.9" y="443.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Boar Hollow</text>
-  <text x="320.8" y="342.0" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D4</text>
-  <text x="320.8" y="355.0" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fort</text>
-  <text x="165.0" y="182.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B3</text>
-  <text x="165.0" y="195.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Ridge</text>
-  <text x="372.8" y="182.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D3</text>
-  <text x="372.8" y="195.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Shallows</text>
-  <text x="476.7" y="182.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E3</text>
-  <text x="476.7" y="195.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Reed Shore</text>
-  <text x="424.8" y="346.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E4</text>
-  <text x="424.8" y="359.0" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fields</text>
-  <text x="113.0" y="282.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B4</text>
-  <text x="165.0" y="372.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B5</text>
-  <text x="372.8" y="372.0" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D5</text>
+  <path d="M212.5 242.63 L280.4 168.815" fill="none" stroke="#1b1b1b" stroke-width="1.6" stroke-dasharray="2 4"/>
+  <path d="M280.4 168.815 l-10 5 l9 5 Z" transform="rotate(-62 280.4 168.815)" fill="#1b1b1b"/>
+  <path d="M286.4 166.815 L422.4 172.815" stroke="#1b1b1b" stroke-width="0.6"/>
+  <text x="190.5" y="208.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C3</text>
+  <text x="190.5" y="221.6" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Weirs</text>
+  <text x="196.5" y="352.3" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C4</text>
+  <text x="196.5" y="365.3" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Old Road</text>
+  <text x="196.5" y="437.9" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">C5</text>
+  <text x="196.5" y="450.9" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Boar Hollow</text>
+  <text x="272.4" y="308.4" font-size="12" font-weight="bold" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D4</text>
+  <text x="272.4" y="321.4" font-size="10.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fort</text>
+  <text x="120.6" y="258.4" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B3</text>
+  <text x="120.6" y="271.4" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Ridge</text>
+  <text x="120.6" y="346.1" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">B4</text>
+  <text x="272.4" y="204.8" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D3</text>
+  <text x="272.4" y="217.8" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Shallows</text>
+  <text x="272.4" y="346.1" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">D5</text>
+  <text x="348.3" y="214.6" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E3</text>
+  <text x="348.3" y="227.6" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">Reed Shore</text>
+  <text x="348.3" y="302.3" font-size="10.5" font-weight="normal" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,'Bitstream Charter',Georgia,serif">E4</text>
+  <text x="348.3" y="315.3" font-size="9.5" font-style="italic" text-anchor="middle" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">The Fields</text>
   <g font-size="10" font-style="italic" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke">
-    <text x="368.88457268119896" y="244">tunnel, under the lake,</text>
-    <text x="368.88457268119896" y="256">toward the Deep (D1)</text>
-    <text x="224.92304845413264" y="296" text-anchor="end">milestone</text>
-    <text x="284.88457268119896" y="402">lodge</text>
-    <text x="254.88457268119896" y="252" text-anchor="end">outflow mouth (T1)</text>
+    <text x="426.4" y="170.815">outflow tunnel, under the lake,</text>
+    <text x="426.4" y="182.815">toward the Deep (D1)</text>
+    <text x="190.5" y="346.26" text-anchor="end">milestone</text>
+    <text x="212.5" y="423.89">lodge</text>
+    <text x="192.5" y="248.63" text-anchor="end">outflow mouth (T1)</text>
   </g>
   <g font-size="10" fill="#1b1b1b" stroke="#F5EFE0" stroke-width="3" paint-order="stroke" font-family="Charter,Georgia,serif">
-    <text x="278" y="326" text-anchor="middle">road 2 h</text>
-    <text x="319" y="280">reeds 4 h</text>
-    <text x="265" y="282">markers 3 h</text>
-    <text x="319" y="372">forest 3 h</text>
-    <text x="219" y="378" text-anchor="end">forest 3 h</text>
+    <text x="228" y="330" text-anchor="middle">road 2 h</text>
+    <text x="250" y="252">reeds 4 h</text>
+    <text x="210" y="284">markers 3 h</text>
+    <text x="166" y="386" text-anchor="end">forest 3 h</text>
+    <text x="166" y="398" text-anchor="end">each way</text>
   </g>
   <g font-size="10.5" fill="#1b1b1b">
     <path d="M44 488 h34" stroke="#1b1b1b" stroke-width="5"/><path d="M44 488 h34" stroke="#F5EFE0" stroke-width="2.4"/>
@@ -187,7 +185,7 @@
     <text x="316" y="492">marker stones</text>
     <path d="M410 488 h34" stroke="#1b1b1b" stroke-width="1.6" stroke-dasharray="2 4"/>
     <text x="450" y="492">tunnel</text>
-    <text x="44" y="510" font-style="italic">Bold hexes are travelled this session. Times are for a party at 120'. Leave at dawn; the flush is at midnight.</text>
+    <text x="44" y="510" font-style="italic">Bold hexes are travelled this session. C5 is two hexes from the Fort, by C4. Times at 120'.</text>
   </g>
   <text x="600" y="128" font-size="15" font-variant="small-caps" letter-spacing="0.6" fill="#1b1b1b">Legend · Tunnel</text>
   <line x1="600" y1="134" x2="915" y2="134" stroke="#1b1b1b" stroke-width="1"/>
