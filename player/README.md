@@ -29,6 +29,16 @@ The split was the load-bearing iteration: separating *what every character knows
 | [Playbook_Gnome_Druid.md](Playbook_Gnome_Druid.md) | Player | OSE Advanced class+race. |
 | [Playbook_Shrine_Maiden.md](npc/Playbook_Shrine_Maiden.md) | Player + GM fallback | NPC version available if no player chooses the Minister role. |
 
+### Year Two
+
+Make choices in the Fort Cards intro ([`../intro/index.html`](../intro/index.html)); these playbooks say what each choice does.
+
+| File | Audience | Notes |
+|---|---|---|
+| [year-two/Playbook_Elven_Thief.md](year-two/Playbook_Elven_Thief.md) | Player | Year Two. OSE Advanced Thief + Elf, levels 1–4. New. |
+| [year-two/Playbook_Elf_Cleric.md](year-two/Playbook_Elf_Cleric.md) | Player | Year Two update of the Elf Minister, levels 1–4. |
+| [year-two/Playbook_Gnome_Druid.md](year-two/Playbook_Gnome_Druid.md) | Player | Year Two update of the Gnome Druid, levels 1–4. |
+
 ### Beta (pre-split)
 
 | File | Notes |
