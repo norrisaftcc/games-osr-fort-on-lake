@@ -89,7 +89,7 @@ The DM's hex map, *The Fort Country* (1 hex = 6 miles, art rule: Otus ink), fixe
 |-----|------|----------|---------|
 | D4 | The Fort | Home. Biddy guards the henhouse. | All |
 | D3 | The Shallows | Fish by day. Singing at night. | Module 2 (the crossing) |
-| D2 | Isle of Old Stone | A broken lamp-tower. A stair into the water. | **Module 2** |
+| D2 | Isle of Old Stone | A broken lamp-tower. A stair into the water. | **Module 2**. The Door Beneath the Lake is on the grotto's north side, facing the Deep. |
 | D1 | The Deep | No bottom. Halcyon lies below. | Module 2 hook: the Door Beneath the Lake faces it. Do not explain Halcyon. |
 | E3 | The Reed Shore | The Quiet's stilt huts. | Module 2 (the Quiet know the lake; guides or witnesses) |
 | C3 | The Weirs | Old fish traps. New stakes. | Module 3 (clan raids) |
@@ -155,6 +155,8 @@ The authored modules are the reference: a generated dungeon should read like a r
 | Session | What happened | What it fixes |
 |---------|---------------|---------------|
 | Module 1 | **The Gorgon Queen was defeated by a cockatrice.** | The queen is stone, turned by the very creature whose eggs Harrow buys. Read this as the "petrified" branch of Module 1's outcome table: the wards stay lit, she is contained, not destroyed. Word spreads that a cockatrice can beat a gorgon. That is why the eggs are now worth more, and why the Readers want them. |
+| Module 1 | **The cockatrice was the Beast Pen's own**, and the village has adopted it. It lives at The Fort, hooded: half pet, half mascot, wholly proven against a gorgon. | A buyer would pay a fortune for it. Vosk, Harrow and the Readers all know it exists. |
+| The Year Between | A one-year prologue played with *The Year Between* zine (in the "Fort on the Lake: Maps and Handouts" canvas). The Fort tracks **Stores, Walls, Folk, Lamp** (0–6 each; start 4/3/4/2), its **Size** (Camp, Hamlet, Village by Folk), a **Surplus**, a **Want** with Strain, an **Oath**, an **Enmity**, and **Footnotes** the DM must use. The year's heroes in play: **the Druid, the Thief, the Cleric**, with the Paladin and the gnome in the fiction. New people: **Cassandra** (true and rude), **Wick** (age 12, lamplighter), **the Glamourist** (trades one tag for the year's best story and one name), the Tin Dozen, the Quiet. | Year Two opens with the Fort's holdings set by that year. Each module's **The Fort Reacts** table should read as changes to those tracks and tags when Year Two adopts it. |
 
 The repo's Module 1 text calls her the Basilisk Queen and the hex map calls the site the Gorgon Caves. Use **the Gorgon Queen** in new writing.
 
