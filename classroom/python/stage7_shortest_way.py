@@ -183,12 +183,14 @@ def fight_rats(game):
                 damage = max(1, roll(hero.die) + hero.str_mod)
                 rats[target] = rats[target] - damage
                 print(f"You deal {damage} damage.")
+                if rats[target] <= 0:
+                    print(f"Rat {target + 1} dies.")
         dead = 0
         for hp in rats:  # loop over the values themselves, not the indexes
             if hp <= 0:
                 dead = dead + 1
         if dead >= 2:
-            print("The rest break and flee into a hole in the wall.")
+            print("The pack breaks. Every rat that can run flees into a hole.")
             return "won"
         biters = 0
         for i in range(len(rats)):

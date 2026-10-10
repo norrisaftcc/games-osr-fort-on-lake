@@ -1,0 +1,37 @@
+Seed? 3
+
+THE FIRST DELVE - Stage 6: rooms as data
+  1. The Wizard: 4 hp, AC 9 [10], dagger 1d4, STR -1, one Sleep spell
+  2. The Fighter: 8 hp, AC 4 [15], sword 1d8, STR +1
+Pick 1 or 2: 2
+You are the Fighter. Captain Maren rows you to the Isle of Old
+Stone at sunset. You light a torch. It will burn 6 turns.
+
+S1. The Broken Jetty
+Half the jetty lies in the lake. A rope burn on a post is fresh:
+someone else lands here. Out past the end, a long shadow moves
+under the water, and is gone.
+[S1] Turn 0. Torch: 6 of 6. HP: 8.
+  1. Go to S2 The Tower Shell
+What do you do? 1
+
+S2. The Tower Shell
+A round shell of stone, thirty feet across, open to the sky.
+Rubble covers the floor. A stair climbs the wall to a broken top.
+Crows watch you with the calm of tax collectors.
+[S2] Turn 0. Torch: 6 of 6. HP: 8.
+  1. Go to S1 The Broken Jetty
+  2. Go to S3 The Keeper's Cottage
+  s. Search the rubble (1 turn)
+  c. Climb the stair (1 turn)
+What do you do? c
+From the top: the whole island, and a boat-shaped shadow at the
+north cliff.
+Ten minutes pass. The torch burns lower.
+[S2] Turn 1. Torch: 5 of 6. HP: 8.
+  1. Go to S1 The Broken Jetty
+  2. Go to S3 The Keeper's Cottage
+  s. Search the rubble (1 turn)
+  c. Climb the stair (1 turn)
+What do you do? 
+(No more input. You put out your torch and row home.)

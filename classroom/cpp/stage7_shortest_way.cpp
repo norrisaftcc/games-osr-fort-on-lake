@@ -200,6 +200,9 @@ string fight_rats(Game& game) {
                 int damage = max(1, roll(hero.die) + hero.str_mod);
                 rats[target] = rats[target] - damage;
                 cout << "You deal " << damage << " damage." << endl;
+                if (rats[target] <= 0) {
+                    cout << "Rat " << target + 1 << " dies." << endl;
+                }
             }
         }
         int dead = 0;
@@ -209,7 +212,7 @@ string fight_rats(Game& game) {
             }
         }
         if (dead >= 2) {
-            cout << "The rest break and flee into a hole in the wall." << endl;
+            cout << "The pack breaks. Every rat that can run flees into a hole." << endl;
             return "won";
         }
         int biters = 0;

@@ -157,6 +157,9 @@ string fight_rats(int hp, int ac, int bonus, int die, bool has_sleep) {
                 int damage = max(1, roll(die) + bonus);
                 rat_hp[target] = rat_hp[target] - damage;
                 cout << "You deal " << damage << " damage." << endl;
+                if (rat_hp[target] <= 0) {
+                    cout << "Rat " << target + 1 << " dies." << endl;
+                }
             }
         }
 
@@ -167,7 +170,7 @@ string fight_rats(int hp, int ac, int bonus, int die, bool has_sleep) {
             }
         }
         if (dead >= RAT_FLEE) {
-            cout << dead << " rats lie dead. The rest break and flee into a hole in the wall." << endl;
+            cout << dead << " rats lie dead. The pack breaks. Every rat that can run flees." << endl;
             return "won";
         }
 
@@ -292,8 +295,7 @@ int main() {
     cout << endl;
     cout << "C3. THE FLOODED STAIR. A second stair goes down into black water." << endl;
     cout << "As you watch, the water climbs one step, as if the lake took a breath." << endl;
-    cout << "The first delve ends here, on turn " << turn << ", with " << torch
-         << " turns of light left." << endl;
+    cout << "The first delve ends here, on turn " << turn << ". Torch: " << torch << " of 6." << endl;
     cout << "END OF STAGE 5." << endl;
     return 0;
 }

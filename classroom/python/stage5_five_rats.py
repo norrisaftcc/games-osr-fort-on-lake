@@ -135,13 +135,15 @@ def fight_rats(hp, ac, bonus, die, has_sleep):
                 damage = max(1, roll(die) + bonus)
                 rat_hp[target] = rat_hp[target] - damage
                 print(f"You deal {damage} damage.")
+                if rat_hp[target] <= 0:
+                    print(f"Rat {target + 1} dies.")
 
         dead = 0
         for i in range(RAT_COUNT):  # NEW: count the items that pass a test
             if rat_hp[i] <= 0:
                 dead = dead + 1
         if dead >= RAT_FLEE:
-            print(f"{dead} rats lie dead. The rest break and flee into a hole in the wall.")
+            print(f"{dead} rats lie dead. The pack breaks. Every rat that can run flees.")
             return "won"
 
         biters = 0
@@ -248,7 +250,7 @@ def main():
     print()
     print("C3. THE FLOODED STAIR. A second stair goes down into black water.")
     print("As you watch, the water climbs one step, as if the lake took a breath.")
-    print(f"The first delve ends here, on turn {turn}, with {torch} turns of light left.")
+    print(f"The first delve ends here, on turn {turn}. Torch: {torch} of 6.")
     print("END OF STAGE 5.")
 
 

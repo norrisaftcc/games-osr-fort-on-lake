@@ -204,8 +204,7 @@ int main() {
     }
 
     cout << "In the dark beyond, five pairs of small red eyes turn toward you." << endl;
-    cout << "You reached the oil store on turn " << turn << ", with " << torch
-         << " turns of light left." << endl;
+    cout << "You reached the oil store on turn " << turn << ". Torch: " << torch << " of 6." << endl;
     cout << "END OF STAGE 3." << endl;
     return 0;
 }

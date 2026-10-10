@@ -1,0 +1,48 @@
+Seed? 5
+
+THE FIRST DELVE - Stage 5: five rats
+
+Who rows to the island?
+  1. The Wizard: 4 hp, AC 9 [10], dagger 1d4, STR -1, one Sleep spell
+  2. The Fighter: 8 hp, AC 4 [15], sword 1d8, STR +1
+Pick 1 or 2: 1
+You are the Wizard.
+
+The Fort docks. Captain Maren sends you to the Isle of Old Stone.
+S1. THE BROKEN JETTY. A fresh rope burn on a post. A shadow in the water.
+The sun sets. You light a torch. It will burn 6 turns.
+S2. THE TOWER SHELL. Rubble, a stair up the wall, and crows.
+What do you do? Each choice takes one turn.
+  1. Search the rubble   2. Climb the stair   3. Look in the cottage
+Pick 1, 2 or 3: 1
+Under the rubble lies a trapdoor of black oak.
+Turn 1. Torch: 5 of 6.
+
+C1. THE CELLAR STAIR. Twenty feet down, an oak door. It is stuck.
+Listen at the door? (y/n): n
+Force the door? It takes one turn. (y/n): y
+Force: d6 = 1, need 1 or less: yes.
+The door bursts open with a crack like a dropped plank.
+Turn 2. Torch: 4 of 6.
+Wandering check: d6 = 2, need 1 or less: no.
+
+C2. THE OIL STORE. Racks of broken oil jars. The floor is tacky.
+Five giant rats, each the size of a cat, lift their heads from the spill.
+You hold the doorway. Only two rats can reach you at a time.
+Round 1. You: 4 hp. Rats: 2 3 1 4 2   (x dead, z asleep)
+1 fight, 2 run, 3 cast Sleep: 3
+You speak the word of Sleep. 2d8 = 13.
+Round 2. You: 4 hp. Rats: z z z z z   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 1. It is asleep. One blow kills it.
+Round 3. You: 4 hp. Rats: x z z z z   (x dead, z asleep)
+1 fight, 2 run: 1
+You strike at rat 2. It is asleep. One blow kills it.
+2 rats lie dead. The pack breaks. Every rat that can run flees.
+Turn 3. Torch: 3 of 6.
+In one rack, five flasks of oil are still whole. You take them.
+
+C3. THE FLOODED STAIR. A second stair goes down into black water.
+As you watch, the water climbs one step, as if the lake took a breath.
+The first delve ends here, on turn 3. Torch: 3 of 6.
+END OF STAGE 5.

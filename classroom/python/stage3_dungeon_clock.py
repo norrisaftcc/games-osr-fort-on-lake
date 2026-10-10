@@ -180,7 +180,7 @@ def main():
             return
 
     print("In the dark beyond, five pairs of small red eyes turn toward you.")
-    print(f"You reached the oil store on turn {turn}, with {torch} turns of light left.")
+    print(f"You reached the oil store on turn {turn}. Torch: {torch} of 6.")
     print("END OF STAGE 3.")
 
 

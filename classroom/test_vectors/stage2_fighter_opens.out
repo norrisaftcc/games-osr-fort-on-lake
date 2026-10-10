@@ -1,0 +1,48 @@
+Seed? 5
+
+THE FIRST DELVE - Stage 2: choices
+
+Who rows to the island?
+  1. The Wizard: 4 hit points, AC 9 [10], STR 8
+  2. The Fighter: 8 hit points, AC 4 [15], STR 14
+Pick 1 or 2: 2
+You are the Fighter. Your STR modifier is +1.
+
+The Fort docks. Captain Maren coils a wet rope and does not smile.
+"Row to the Isle of Old Stone. Find out who lands there,
+and what moves in the water."
+Four hours of oars later, the sun is low and the island is close.
+
+S1. THE BROKEN JETTY
+A stone jetty runs out from the south shore. Half of it has fallen
+into the lake. On a mooring post, a rope burn shows pale and fresh:
+someone else lands here. Past the end of the jetty, something large
+moves under the water, a long shadow, and is gone.
+
+S2. THE TOWER SHELL
+A round tower, thirty feet across, open to the sky. Its upper floors
+fell in long ago and lie as rubble on the ground. A stair climbs the
+inside wall to a broken top forty feet up. Crows watch you from the
+rim with the calm of tax collectors.
+You shift stones for ten minutes. Under the rubble lies a trapdoor
+of black oak. Its iron ring is furred with rust.
+
+Look in the cottage first? (y/n): y
+S3. THE KEEPER'S COTTAGE
+A stone cottage beside the tower. The roof is gone. The hearth holds
+ash less than a week old. A tin of lamp oil sits on a shelf, enough for
+two flasks. On the door someone has chalked an eye with a line through
+it. It is not a greeting.
+
+C1. THE CELLAR STAIR
+Under the trapdoor a stone stair goes down twenty feet. The air smells
+of old oil and wet stone. At the bottom stands an oak door, swollen in
+its frame. It is stuck.
+Listen at the door? (y/n): y
+Listen: d6 = 1, need 1 or less.
+Scratching. Squeaks. Many small feet.
+Force the door? (y/n): y
+Force: d6 = 2, need 3 or less.
+The door bursts open with a crack like a dropped plank.
+In the dark beyond, five pairs of small red eyes turn toward you.
+END OF STAGE 2.
