@@ -1,0 +1,20 @@
+{
+  "end-dead": {
+    "title": "The Lake Keeps You",
+    "kind": "dead",
+    "text": [
+      "Nobody comes back up the stair.",
+      "At The Fort, Maren waits three days. On the fourth she puts the lake chart away. Wick lights the lamps on the wall early, and counts the boats.",
+      "The Isle of Old Stone keeps its light. Someone has learned your names."
+    ]
+  },
+  "end-door": {
+    "title": "The Door Stays Shut",
+    "kind": "good",
+    "text": [
+      "You do not open the Door. You copy the eyes if you can. You leave.",
+      "You row home with what you carry. At The Fort, Maren reads the report twice. The Door under the lake faces north, toward the Deep, and a tired fish is all that guards it, if it still guards it.",
+      "What will you do to survive out here? And what will you leave shut?"
+    ]
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "default": [
+    "fighter",
+    "paladin",
+    "elf",
+    "minister"
+  ],
+  "roster": {
+    "fighter": {
+      "name": "The Fighter",
+      "title": "The Next Blacksmith",
+      "npc": true,
+      "class": "Fighter",
+      "text": "Everyone expected you to take over the forge. Your hands know iron. When The Fort needed another sword on the wall, you picked one up instead.",
+      "stats": {
+        "str": 14,
+        "int": 9,
+        "wis": 10,
+        "dex": 11,
+        "con": 13,
+        "cha": 10
+      },
+      "ac": 15,
+      "hp": 8,
+      "attack": {
+        "name": "sword",
+        "bonus": 0,
+        "damage": "1d8",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 12,
+        "W": 13,
+        "P": 14,
+        "B": 15,
+        "S": 16
+      },
+      "skills": {
+        "listen": 1,
+        "forceDoor": 3,
+        "search": 1
+      },
+      "abilities": [
+        "know-how-made"
+      ],
+      "items": {
+        "torch": 3,
+        "rope": 1
+      },
+      "fate": 3,
+      "oseLine": "Fighter 1 · AC 4 [15] · HD 1d8 (8 hp) · THAC0 19 [+0] · SV D12 W13 P14 B15 S16 · sword 1d8, STR +1 · 3 Fate",
+      "note5e": "5e: Fighter 1 · AC 15 · hp 8 · sword (1d8+1) · force doors 3-in-6."
+    },
+    "paladin": {
+      "name": "The Paladin",
+      "title": "Warden of the Gate",
+      "npc": true,
+      "class": "Half-Elf Paladin",
+      "text": "There was an order, once. It is gone. The oath is not. You are Maren's heir, and you carry it the way a house carries a foundation.",
+      "stats": {
+        "str": 14,
+        "int": 11,
+        "wis": 13,
+        "dex": 10,
+        "con": 12,
+        "cha": 14
+      },
+      "ac": 15,
+      "hp": 8,
+      "attack": {
+        "name": "longsword",
+        "bonus": 0,
+        "damage": "1d8",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 10,
+        "W": 11,
+        "P": 12,
+        "B": 13,
+        "S": 14
+      },
+      "skills": {
+        "listen": 2,
+        "forceDoor": 3,
+        "search": 1
+      },
+      "abilities": [
+        "lay-on-hands",
+        "oath-remembers"
+      ],
+      "items": {
+        "torch": 3
+      },
+      "fate": 3,
+      "oseLine": "Half-Elf Paladin 1 · AC 4 [15] · HD 1d8 (8 hp) · THAC0 19 [+0] · SV D10 W11 P12 B13 S14 · longsword 1d8, STR +1, lay on hands 2 HP, infravision 30' · 3 Fate",
+      "note5e": "5e: Paladin 1 · AC 15 · hp 8 · longsword (1d8+1) · lay on hands 2 hp once a day."
+    },
+    "elf": {
+      "name": "The Elf",
+      "title": "The One Who Stayed",
+      "npc": true,
+      "class": "Elf",
+      "text": "There is one elf at The Fort. You. The others left, or you left them. You see in the dark. You brought no torches. The humans did.",
+      "stats": {
+        "str": 11,
+        "int": 14,
+        "wis": 10,
+        "dex": 13,
+        "con": 9,
+        "cha": 12
+      },
+      "ac": 14,
+      "hp": 6,
+      "attack": {
+        "name": "longsword",
+        "bonus": 0,
+        "damage": "1d8",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 12,
+        "W": 13,
+        "P": 13,
+        "B": 15,
+        "S": 15
+      },
+      "skills": {
+        "listen": 2,
+        "forceDoor": 2,
+        "search": 2
+      },
+      "abilities": [
+        "light",
+        "remember-when"
+      ],
+      "items": {},
+      "fate": 3,
+      "oseLine": "Elf 1 · AC 5 [14] · HD 1d6 (6 hp) · THAC0 19 [+0] · SV D12 W13 P13 B15 S15 · longsword 1d8, Light (12 turns), infravision 60', secret doors 2-in-6 · 3 Fate",
+      "note5e": "5e: Elf (fighter/mage) 1 · AC 14 · hp 6 · longsword (1d8) · cantrip light for 12 turns."
+    },
+    "minister": {
+      "name": "The Minister",
+      "title": "The Last Keeper",
+      "npc": true,
+      "class": "Cleric",
+      "text": "She tends the Terminal at the centre of The Fort, a screen set in stone that still scrolls hymns nobody fully understands. She goes with the party because someone has to.",
+      "stats": {
+        "str": 9,
+        "int": 12,
+        "wis": 15,
+        "dex": 10,
+        "con": 10,
+        "cha": 12
+      },
+      "ac": 12,
+      "hp": 6,
+      "attack": {
+        "name": "staff",
+        "bonus": 0,
+        "damage": "1d4",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 11,
+        "W": 12,
+        "P": 14,
+        "B": 16,
+        "S": 15
+      },
+      "skills": {
+        "listen": 1,
+        "forceDoor": 2,
+        "search": 1
+      },
+      "abilities": [
+        "cure-light-wounds",
+        "turn-undead",
+        "terminal-remembers"
+      ],
+      "items": {
+        "torch": 1,
+        "lantern": 1
+      },
+      "fate": 3,
+      "oseLine": "Cleric 1 · AC 7 [12] · HD 1d6 (6 hp) · THAC0 19 [+0] · SV D11 W12 P14 B16 S15 · staff 1d4, cure light wounds, turn undead 7+ skeletons, 9+ zombies · 3 Fate",
+      "note5e": "5e: Cleric 1 · AC 12 · hp 6 · staff (1d4) · cure wounds once a day · turns undead."
+    },
+    "wizard": {
+      "name": "The Wizard",
+      "title": "The Runaway Apprentice",
+      "npc": false,
+      "class": "Magic-User",
+      "text": "You left your master, your tower, your books. Magic is rare on the frontier. People need you. That is new.",
+      "stats": {
+        "str": 8,
+        "int": 15,
+        "wis": 12,
+        "dex": 11,
+        "con": 10,
+        "cha": 9
+      },
+      "ac": 10,
+      "hp": 4,
+      "attack": {
+        "name": "dagger",
+        "bonus": 0,
+        "damage": "1d4",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 13,
+        "W": 14,
+        "P": 13,
+        "B": 16,
+        "S": 15
+      },
+      "skills": {
+        "listen": 1,
+        "forceDoor": 1,
+        "search": 1
+      },
+      "abilities": [
+        "sleep",
+        "read-about-this"
+      ],
+      "items": {
+        "torch": 3
+      },
+      "fate": 3,
+      "oseLine": "Magic-User 1 · AC 9 [10] · HD 1d4 (4 hp) · THAC0 19 [+0] · SV D13 W14 P13 B16 S15 · dagger 1d4, STR -1, Sleep · 3 Fate",
+      "note5e": "5e: Wizard 1 · AC 10 · hp 4 · dagger (1d4-1) · sleep once a day."
+    },
+    "elf-minister": {
+      "name": "The Elf Minister",
+      "title": "The One Who Believes",
+      "npc": false,
+      "class": "Elf Cleric",
+      "text": "You are the thing that shouldn't exist: an elf who chose the Terminal. It took eleven years for the words on the screen to change. You are very, very patient.",
+      "stats": {
+        "str": 8,
+        "int": 14,
+        "wis": 16,
+        "dex": 11,
+        "con": 9,
+        "cha": 13
+      },
+      "ac": 12,
+      "hp": 6,
+      "attack": {
+        "name": "mace",
+        "bonus": 0,
+        "damage": "1d6",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 10,
+        "W": 11,
+        "P": 14,
+        "B": 16,
+        "S": 14
+      },
+      "skills": {
+        "listen": 2,
+        "forceDoor": 1,
+        "search": 2
+      },
+      "abilities": [
+        "cure-light-wounds",
+        "turn-undead",
+        "archives-deep"
+      ],
+      "items": {},
+      "fate": 3,
+      "oseLine": "Elf Cleric 1 · AC 7 [12] · HD 1d6 (6 hp) · THAC0 19 [+0] · SV D10 W11 P14 B16 S14 · mace 1d6, STR -1, cure light wounds, turn undead, infravision 60' · 3 Fate",
+      "note5e": "5e: Cleric 1 (elf) · AC 12 · hp 6 · mace (1d6-1) · cure wounds once a day · turns undead."
+    },
+    "gnome-druid": {
+      "name": "The Gnome Druid",
+      "title": "The One Who Listens",
+      "npc": false,
+      "class": "Gnome Druid",
+      "text": "Nobody heard you coming. You walked out of the deep forest barefoot, carrying a staff taller than you. You talk to things that don't have mouths.",
+      "stats": {
+        "str": 8,
+        "int": 13,
+        "wis": 15,
+        "dex": 12,
+        "con": 11,
+        "cha": 13
+      },
+      "ac": 12,
+      "hp": 6,
+      "attack": {
+        "name": "staff",
+        "bonus": 0,
+        "damage": "1d6",
+        "stat": "str"
+      },
+      "saves": {
+        "D": 10,
+        "W": 11,
+        "P": 12,
+        "B": 15,
+        "S": 14
+      },
+      "skills": {
+        "listen": 2,
+        "forceDoor": 1,
+        "search": 1
+      },
+      "abilities": [
+        "speak-animals",
+        "land-speaks"
+      ],
+      "items": {},
+      "fate": 3,
+      "oseLine": "Gnome Druid 1 · AC 7 [12] · HD 1d6 (6 hp) · THAC0 19 [+0] · SV D10 W11 P12 B15 S14 · staff 1d6, STR -1, speak with animals, infravision 60' · 3 Fate",
+      "note5e": "5e: Druid 1 (gnome) · AC 12 · hp 6 · staff (1d6-1) · speak with animals once a day."
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "title": "The Fort",
+  "text": [
+    "The Fort on the Lake. Smoke from the Hall, goats on the wall, a screen scrolling hymns in the Shrine. North, past the docks, lies the Shallows, and beyond them an island nobody visits."
+  ],
+  "places": [
+    {
+      "id": "hall",
+      "label": "The Hall",
+      "text": "Maren's table. The lake chart. Three cold cups.",
+      "actions": [
+        {
+          "id": "roster",
+          "label": "Change the party",
+          "kind": "roster"
+        },
+        {
+          "id": "job",
+          "label": "Ask Maren about the job",
+          "kind": "scene",
+          "scene": "maren-job"
+        },
+        {
+          "id": "report",
+          "label": "Report to Maren",
+          "kind": "scene",
+          "scene": "maren-report"
+        },
+        {
+          "id": "rumors",
+          "label": "Buy a drink and listen",
+          "kind": "scene",
+          "scene": "rumors"
+        }
+      ]
+    },
+    {
+      "id": "cart",
+      "label": "Harrow's Cart",
+      "text": "Harrow sells what you need, and buys what you carry. Ask him no questions.",
+      "actions": [
+        {
+          "id": "trade",
+          "label": "Trade",
+          "kind": "shop",
+          "stock": [
+            {
+              "item": "torch",
+              "price": 1
+            },
+            {
+              "item": "oil-flask",
+              "price": 2
+            },
+            {
+              "item": "lantern",
+              "price": 10
+            },
+            {
+              "item": "rope",
+              "price": 1
+            },
+            {
+              "item": "salt",
+              "price": 1
+            },
+            {
+              "item": "salt-fish",
+              "price": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shrine",
+      "label": "The Shrine",
+      "text": "The Terminal scrolls its hymns. The Minister keeps it. Cassandra sits by the door.",
+      "actions": [
+        {
+          "id": "rest",
+          "label": "Rest",
+          "kind": "rest",
+          "price": 0
+        },
+        {
+          "id": "cassandra",
+          "label": "Ask Cassandra",
+          "kind": "scene",
+          "scene": "cassandra"
+        }
+      ]
+    },
+    {
+      "id": "docks",
+      "label": "The Docks",
+      "text": "Two rowboats knock against the pilings. The lake is the colour of pewter.",
+      "actions": [
+        {
+          "id": "cross",
+          "label": "Cross to the Isle of Old Stone",
+          "kind": "scene",
+          "scene": "crossing"
+        }
+      ]
+    }
+  ],
+  "report": {
+    "title": "What you tell Maren",
+    "lines": {
+      "saw-rope-burn": "A fresh rope burn on the jetty post, tar fibres in the ring. Someone else lands there, and they tar their ropes.",
+      "saw-boat-shadow": "A boat-shaped shadow under the north cliff: a thirty-foot open boat with a lug sail, hidden where The Fort's watch cannot see it.",
+      "saw-chalk-eye": "A chalk eye with a line through it, on the cottage door. A smugglers' sign. It means keep out. It is on Harrow's crates too.",
+      "has-ledger": "The Saltmen's ledger: eggs bought from Harrow, by date and price. Every batch goes up the Old Road to the Readers, left at the hum. Maren reads it twice and goes to find Harrow.",
+      "saw-warden": "The thing in the water is a giant catfish in a bronze control collar, bound to guard the lake under the isle. It is not wild.",
+      "saw-door": "A round door of black stone in the grotto's north wall, eyes shut, facing the Deep. You did not open it. The Elf Minister sleeps for the first time since she arrived. Or she does not.",
+      "knows-circuit": "It circles the isle clockwise at dawn and dusk, and leaves the south water empty for a time.",
+      "has-eggs": "Eggs from the cache. Harrow offers a hundred each and does not ask where they came from. Maren wants them destroyed or locked up. The Minister asks what they are for.",
+      "has-letter": "The Readers' letter: polite, sure, and asking for the way past the fish and the ground before the Door kept clear.",
+      "has-lamp": "The Warden's Lamp. The Minister sets it before The Fort's Terminal. The Terminal shows a line in green for the first time in years, then goes back to the hymns. Wick asks to be the one who fills it.",
+      "biddy-offer": "Someone wants Biddy. Maren puts a guard on the Beast Pen. Wick, who keeps Biddy, starts counting everyone who walks past it.",
+      "has-notes": "Vane's notes. The Wizard can spend a week copying them. The last page: the rite works on any bound dead, once.",
+      "boat-cut": "The Saltmen's boat is adrift. The Fort may have a third boat soon, and the Saltmen have none. They will want it back.",
+      "vosk-deal": "Vosk bargained for her life and her boat. She is somewhere on the lake, afraid of the Readers.",
+      "warden-stood-down": "The Warden stood down for the lamp. Whoever holds the lamp is the station's keeper now. The Shallows stop singing for one night.",
+      "warden-freed": "Fishermen see a vast shape heading north past the isle. The next night the Shallows sing louder. The lamp-stones are dark.",
+      "warden-sunk": "The Warden went under and did not come up. The fishing is good for a month. The Door is unguarded."
+    }
+  }
+}

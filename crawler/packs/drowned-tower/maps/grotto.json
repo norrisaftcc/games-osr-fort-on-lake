@@ -1,0 +1,174 @@
+{
+  "id": "grotto",
+  "title": "The Grotto",
+  "tier": "Level 2",
+  "grid": [
+    "##################################",
+    "################AAAAAAAaaa########",
+    "#HHHHHHH########AAAAAAAaaa########",
+    "#HHHHHHH########AAAAAAAaaa########",
+    "#hhhhhhh########AAAAAAAaaa########",
+    "#hhhhhhh########AAAAAAAaaa########",
+    "#hhhhhhh#######BBBBbbbbbbb#ccccc##",
+    "########dddddd#BBBBbbbbbbb#ccccc##",
+    "########dddddd.....bbbbbbb.ccccc##",
+    "########dddddd#BBBBbbbbbbb#ccccc##",
+    "########dddddd#BBBBbbbbbbb.#######",
+    "###############BBBBbbbbbbb.#######",
+    "##########gGGGGGGGGGGGggg#.#######",
+    "#########>gGGGGGGGGGGGggg#.#######",
+    "##########gGGGGGGGGGGGggg#.eeeee##",
+    "##########gGGGGGGGGGGGggg##e<eee##",
+    "##########gGGGGGGGGGGGggg##eeeee##",
+    "##fffffffFgGGGGGGGGGGGggg##eeeee##",
+    "#<fffffffFgGGGGGGGGGGGggg##eeeee##",
+    "#<fffffffFgGGGGGGGGGGGggg#########",
+    "##fffffffFgGGGGGGGGGGGggg#########",
+    "##########ggggggggggggggg#########",
+    "##################################",
+    "##################################"
+  ],
+  "legend": {
+    "a": {
+      "area": "G1"
+    },
+    "A": {
+      "area": "G1",
+      "water": true
+    },
+    "b": {
+      "area": "G2"
+    },
+    "B": {
+      "area": "G2",
+      "water": true
+    },
+    "c": {
+      "area": "G3"
+    },
+    "d": {
+      "area": "G4"
+    },
+    "e": {
+      "area": "G5"
+    },
+    "f": {
+      "area": "G6",
+      "water": true
+    },
+    "F": {
+      "area": "G6"
+    },
+    "g": {
+      "area": "G7"
+    },
+    "G": {
+      "area": "G7",
+      "water": true
+    },
+    "h": {
+      "area": "G8"
+    },
+    "H": {
+      "area": "G8",
+      "water": true
+    }
+  },
+  "cells": {
+    "28,15": {
+      "area": "G5",
+      "link": {
+        "map": "cellars",
+        "x": 29,
+        "y": 18,
+        "facing": 0
+      }
+    },
+    "1,18": {
+      "area": "G6",
+      "link": {
+        "scene": "g6-up"
+      }
+    },
+    "1,19": {
+      "area": "G6",
+      "link": {
+        "scene": "g6-up"
+      }
+    },
+    "9,13": {
+      "area": "G7",
+      "link": {
+        "scene": "g7-arm"
+      }
+    },
+    "31,7": {
+      "link": {
+        "scene": "g3"
+      }
+    },
+    "11,8": {
+      "link": {
+        "scene": "g4"
+      }
+    },
+    "23,13": {
+      "link": {
+        "scene": "g7"
+      }
+    }
+  },
+  "areas": {
+    "G1": {
+      "name": "The Water Gate",
+      "light": "dim",
+      "enter": "g1"
+    },
+    "G2": {
+      "name": "The Saltmen's Dock",
+      "light": "dim",
+      "enter": "g2",
+      "search": "g2-search"
+    },
+    "G3": {
+      "name": "The Cache",
+      "light": "dark",
+      "enter": "g3"
+    },
+    "G4": {
+      "name": "Vosk's Room",
+      "light": "dim",
+      "enter": "g4"
+    },
+    "G5": {
+      "name": "The Shaft Foot",
+      "light": "dim",
+      "enter": "g5"
+    },
+    "G6": {
+      "name": "The Drowned Landing",
+      "light": "dark",
+      "enter": "g6"
+    },
+    "G7": {
+      "name": "The Warden's Pool",
+      "light": "dark",
+      "enter": "g7"
+    },
+    "G8": {
+      "name": "The Door Beneath the Lake",
+      "light": "dark",
+      "enter": "g8"
+    }
+  },
+  "wander": [
+    {
+      "weight": 1,
+      "encounter": "wander-crab"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-stirges"
+    }
+  ]
+}

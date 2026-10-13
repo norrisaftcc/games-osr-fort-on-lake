@@ -21,6 +21,10 @@ Open [`demo/index.html`](demo/index.html) in a browser. Pick one of six characte
 
 Test it with `node demo/test.mjs` (needs Playwright and Chromium).
 
+## Play the crawler
+
+[`crawler/`](crawler/) is a first-person party crawler for phones, with the Drowned Tower as its first pack: build it with `node crawler/tools/build.mjs crawler/packs/drowned-tower` and open `crawler/dist/drowned-tower.html`. See [`crawler/README.md`](crawler/README.md).
+
 ## For programming classes: The First Delve
 
 [`classroom/`](classroom/) holds the first descent into the Drowned Tower as a console game in **Python and C++**, built up in seven stages: variables, choices, loops, functions, arrays, structs and the room graph, then breadth-first search. Each stage runs on its own. Given the same seed and inputs, the Python and C++ versions print the same text byte for byte. Each stage has a PRIMM activity (Predict, Run, Investigate, Modify, Make), test vectors, and the common mistakes for that concept. Start with [`classroom/README.md`](classroom/README.md).

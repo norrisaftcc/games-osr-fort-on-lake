@@ -1,0 +1,31 @@
+{
+  "palette": {
+    "paper": "#F5EFE0",
+    "ink": "#1B1B1B",
+    "accent": "#7A2E1C",
+    "muted": "#6B6253"
+  },
+  "paletteDark": {
+    "paper": "#14120F",
+    "ink": "#E9E0C9",
+    "accent": "#D0704E",
+    "muted": "#9C927F"
+  },
+  "fonts": {
+    "title": "'Alegreya SC', 'Cormorant SC', Charter, 'Bitstream Charter', Georgia, serif",
+    "body": "Charter, 'Bitstream Charter', Georgia, 'Times New Roman', serif",
+    "mono": "ui-monospace, Menlo, Consolas, monospace"
+  },
+  "titleCaps": true,
+  "labels": {
+    "leave": "Leave",
+    "turn": "Turn",
+    "light": "Torch",
+    "search": "Search",
+    "rest": "Rest",
+    "map": "Map",
+    "act": "Act",
+    "gold": "gp",
+    "gate": "Planning is free. Execution costs time."
+  }
+}

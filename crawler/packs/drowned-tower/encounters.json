@@ -1,0 +1,452 @@
+{
+  "wander-crows": {
+    "foes": [
+      {
+        "id": "crow-mob",
+        "count": 3,
+        "hp": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "first": "foes",
+    "nonLethal": true,
+    "text": [
+      "A mob of crows boils up off the stones. They are loud. They are only crows."
+    ]
+  },
+  "wander-rats": {
+    "foes": [
+      {
+        "id": "giant-rat",
+        "count": 5,
+        "hp": [
+          2,
+          1,
+          3,
+          2,
+          4
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "Rats come up the drains. More than two. They are starving."
+    ]
+  },
+  "wander-skeletons": {
+    "foes": [
+      {
+        "id": "skeleton",
+        "count": 2,
+        "hp": [
+          4,
+          6
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "Two skeletons in imperial harness come walking their round. Spears level."
+    ]
+  },
+  "wander-stirges": {
+    "foes": [
+      {
+        "id": "stirge",
+        "count": 2,
+        "hp": [
+          5,
+          3
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "A dry rustle. Stirges drop out of the dark, beaks first."
+    ]
+  },
+  "wander-centipede": {
+    "foes": [
+      {
+        "id": "giant-centipede",
+        "count": 1,
+        "hp": [
+          2
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "Something long and pale comes out of an oily crack in the wall."
+    ]
+  },
+  "wander-zombie": {
+    "foes": [
+      {
+        "id": "zombie",
+        "count": 1,
+        "hp": [
+          10
+        ]
+      }
+    ],
+    "first": "party",
+    "text": [
+      "A drowned keeper comes down the passage with a cold lamp in its hand. It does not hurry."
+    ]
+  },
+  "wander-crab": {
+    "foes": [
+      {
+        "id": "giant-crab",
+        "count": 1,
+        "hp": [
+          14
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "A crab as big as a cart wheel comes up out of the shallows."
+    ]
+  },
+  "c2-rats": {
+    "foes": [
+      {
+        "id": "giant-rat-c2",
+        "count": 5,
+        "hp": [
+          2,
+          3,
+          1,
+          4,
+          2
+        ]
+      }
+    ],
+    "first": {
+      "ifFlag": "heard-rats",
+      "then": "party",
+      "else": "foes"
+    },
+    "text": [
+      "The rats break from the racks. They come low and fast."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "rats-gone"
+        ]
+      }
+    },
+    "after": "c2-after"
+  },
+  "c5-skeletons": {
+    "foes": [
+      {
+        "id": "skeleton-c5",
+        "count": 4,
+        "hp": [
+          5,
+          3,
+          7,
+          4
+        ]
+      }
+    ],
+    "first": {
+      "ifFlag": "plate-popped",
+      "then": "party",
+      "else": "foes"
+    },
+    "text": [
+      "The four dead stand. The plates on their breastbones burn dull orange."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "c5-cleared",
+          "c5-calm"
+        ]
+      }
+    },
+    "after": "c5-after"
+  },
+  "c8-stirges": {
+    "foes": [
+      {
+        "id": "stirge-c8",
+        "count": 3,
+        "hp": [
+          4,
+          6,
+          3
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "The rustle stops. Then they come down the flue all at once."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "c8-cleared",
+          "c8-calm"
+        ]
+      }
+    },
+    "after": "c8-after"
+  },
+  "c10-crab": {
+    "foes": [
+      {
+        "id": "giant-crab-c10",
+        "count": 1,
+        "hp": [
+          15
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "The water by the wheel opens. A crab rises out of it, claws wide."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "c10-crab-dead"
+        ]
+      }
+    }
+  },
+  "c11-zombies": {
+    "foes": [
+      {
+        "id": "zombie-c11",
+        "count": 2,
+        "hp": [
+          9,
+          11
+        ]
+      }
+    ],
+    "first": "party",
+    "text": [
+      "The oilcloth figures turn their heads. The bronze plates at their chests begin to glow."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "c11-cleared",
+          "took-coins"
+        ]
+      },
+      "item": {
+        "add": {
+          "imperial-coin": 12
+        }
+      },
+      "say": [
+        "The bowl is yours: twelve old gold coins."
+      ]
+    }
+  },
+  "c12-saltmen": {
+    "foes": [
+      {
+        "id": "harl",
+        "count": 1,
+        "hp": [
+          10
+        ]
+      },
+      {
+        "id": "saltman-c12",
+        "count": 2,
+        "hp": [
+          5,
+          6
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "Crossbows come up. Harl shouts for the horn."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "c12-cleared"
+        ]
+      },
+      "item": {
+        "add": {
+          "gold": 22
+        }
+      },
+      "say": [
+        "In Harl's coat: 18 gp and 40 sp."
+      ]
+    }
+  },
+  "g1-crab": {
+    "foes": [
+      {
+        "id": "giant-crab-g1",
+        "count": 1,
+        "hp": [
+          13
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "The crab comes out of the shallows under the ledge, one claw high."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "g1-crab-dead"
+        ]
+      }
+    }
+  },
+  "g2-saltmen": {
+    "foes": [
+      {
+        "id": "garr",
+        "count": 1,
+        "hp": [
+          11
+        ]
+      },
+      {
+        "id": "saltman-g2",
+        "count": 4,
+        "hp": [
+          5,
+          4,
+          6,
+          3
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "The dock goes loud. Nets drop. Cutlasses come out of the hammocks."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "g2-cleared"
+        ]
+      }
+    }
+  },
+  "g4-vosk": {
+    "foes": [
+      {
+        "id": "vosk",
+        "count": 1,
+        "hp": [
+          16
+        ]
+      },
+      {
+        "id": "moss",
+        "count": 1,
+        "hp": [
+          12
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "Vosk closes the ledger at last. Moss lifts the axe."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "vosk-dead",
+          "has-ledger",
+          "has-letter"
+        ]
+      },
+      "item": {
+        "add": {
+          "ledger": 1,
+          "readers-letter": 1,
+          "gold": 2000,
+          "gem-50": 1,
+          "gem-100": 2,
+          "healing-potion": 1
+        }
+      },
+      "say": [
+        "In the strongbox: 1,800 gold coins with the faces ground off, 2,000 silver, three gems. In her coat: a potion of healing. On the chart table: the ledger and the Readers' letter."
+      ]
+    },
+    "after": "g4-after"
+  },
+  "g5-sentry": {
+    "foes": [
+      {
+        "id": "saltman-g5",
+        "count": 1,
+        "hp": [
+          4
+        ]
+      }
+    ],
+    "first": {
+      "ifFlag": "sentry-asleep",
+      "then": "party",
+      "else": "foes"
+    },
+    "text": [
+      "The sentry comes up off the crate with his crossbow."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "sentry-down"
+        ]
+      }
+    }
+  },
+  "warden": {
+    "foes": [
+      {
+        "id": "warden",
+        "count": 1,
+        "hp": [
+          38
+        ]
+      }
+    ],
+    "first": "foes",
+    "text": [
+      "The water bulges. The head comes up, whiskers like cable, mouth open to the waist."
+    ],
+    "onWin": {
+      "flag": {
+        "set": [
+          "warden-sunk",
+          "warden-clear"
+        ]
+      },
+      "item": {
+        "add": {
+          "warden-collar": 1
+        }
+      },
+      "say": [
+        "The Warden rolls over, and sinks. The collar is yours if you can lift it."
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "drowned-tower",
+  "title": "The Drowned Tower",
+  "version": "0.1",
+  "credits": "Module 2 of the Fort on the Lake campaign, made playable. Original to The Fort; it glosses the ruined-tower sample dungeon of the 1977 Basic book as homage and takes structure only. Text, maps and stat lines follow dm/Module_2_The_Drowned_Tower.md.",
+  "start": {
+    "scene": "maren-job"
+  }
+}

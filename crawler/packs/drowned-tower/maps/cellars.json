@@ -1,0 +1,250 @@
+{
+  "id": "cellars",
+  "title": "The Lamp Cellars",
+  "tier": "Level 1",
+  "grid": [
+    "################################",
+    "#jjjjj##########################",
+    "#jJJJj##########################",
+    "#jJJJj##########################",
+    "#jJJJj##########################",
+    "#jjjjj...+hhhhh#################",
+    "#jjjjj####hhhhh#################",
+    "##.#######hhhhh####kkk##########",
+    "##.#######hhhhh####kkk##########",
+    "##+####i##hhhhh####kkk##########",
+    "#eeee##i####.#######.###########",
+    "#eeee##i####.#######+###########",
+    "#eeee##i####+######fff##########",
+    "#eeee+dddddddddd.+fffff#########",
+    "#eeee#dddddddddd##fffff#########",
+    "#eeee#######.#####fffff#########",
+    "############.######fff####lllll#",
+    "############+#######L#####lll>l#",
+    "#####>ccccbbb#####gggg####lllll#",
+    "#####>ccccbbb#####ggggS..>lllll#",
+    "############=#####gggg####lllll#",
+    "############aS...+gggg####lllll#",
+    "############a###################",
+    "############a###################",
+    "############a###################",
+    "############<###################",
+    "################################"
+  ],
+  "legend": {
+    "a": {
+      "area": "C1"
+    },
+    "b": {
+      "area": "C2"
+    },
+    "c": {
+      "area": "C3"
+    },
+    "d": {
+      "area": "C4"
+    },
+    "e": {
+      "area": "C5"
+    },
+    "f": {
+      "area": "C6"
+    },
+    "g": {
+      "area": "C7"
+    },
+    "h": {
+      "area": "C8"
+    },
+    "i": {
+      "area": "C9"
+    },
+    "j": {
+      "area": "C10"
+    },
+    "J": {
+      "area": "C10",
+      "water": true
+    },
+    "k": {
+      "area": "C11"
+    },
+    "l": {
+      "area": "C12"
+    }
+  },
+  "cells": {
+    "12,25": {
+      "link": {
+        "map": "surface",
+        "x": 8,
+        "y": 7,
+        "facing": 2
+      }
+    },
+    "10,18": {
+      "link": {
+        "scene": "c2-after"
+      }
+    },
+    "9,13": {
+      "link": {
+        "scene": "c4"
+      }
+    },
+    "1,15": {
+      "link": {
+        "scene": "c5-after"
+      }
+    },
+    "20,14": {
+      "link": {
+        "scene": "c6"
+      }
+    },
+    "19,19": {
+      "link": {
+        "scene": "c7"
+      }
+    },
+    "14,8": {
+      "link": {
+        "scene": "c8-after"
+      }
+    },
+    "5,1": {
+      "link": {
+        "scene": "c10"
+      }
+    },
+    "20,8": {
+      "link": {
+        "scene": "c11"
+      }
+    },
+    "5,18": {
+      "link": {
+        "scene": "c3-swim"
+      }
+    },
+    "5,19": {
+      "link": {
+        "scene": "c3-swim"
+      }
+    },
+    "29,17": {
+      "area": "C12",
+      "link": {
+        "map": "grotto",
+        "x": 28,
+        "y": 16,
+        "facing": 2
+      }
+    },
+    "20,17": {
+      "key": "iron-key"
+    },
+    "25,19": {
+      "link": {
+        "scene": "c12"
+      }
+    }
+  },
+  "areas": {
+    "C1": {
+      "name": "The Cellar Stair",
+      "light": "dark",
+      "enter": "c1",
+      "search": "c1-search"
+    },
+    "C2": {
+      "name": "The Oil Store",
+      "light": "dark",
+      "enter": "c2",
+      "encounter": "c2-rats",
+      "listen": {
+        "flag": "heard-rats",
+        "say": [
+          "Scratching. Squeaks. Many small claws on stone."
+        ]
+      }
+    },
+    "C3": {
+      "name": "The Flooded Stair",
+      "light": "dark",
+      "enter": "c3"
+    },
+    "C4": {
+      "name": "The Lamp Hall",
+      "light": "dark",
+      "enter": "c4"
+    },
+    "C5": {
+      "name": "The Keepers' Dormitory",
+      "light": "dark",
+      "enter": "c5"
+    },
+    "C6": {
+      "name": "The Ward Room",
+      "light": "dark",
+      "enter": "c6"
+    },
+    "C7": {
+      "name": "The Lampwright's Study",
+      "light": "dark",
+      "enter": "c7"
+    },
+    "C8": {
+      "name": "The Lens Workshop",
+      "light": "dim",
+      "enter": "c8",
+      "listen": {
+        "flag": "heard-stirges",
+        "say": [
+          "A dry rustle, like someone leafing very quickly through a book."
+        ]
+      }
+    },
+    "C9": {
+      "name": "The Blind Stair",
+      "light": "dim",
+      "enter": "c9"
+    },
+    "C10": {
+      "name": "The Cistern",
+      "light": "dark",
+      "enter": "c10"
+    },
+    "C11": {
+      "name": "The Station Shrine",
+      "light": "dark",
+      "enter": "c11"
+    },
+    "C12": {
+      "name": "The Saltmen Post",
+      "light": "dim"
+    }
+  },
+  "wander": [
+    {
+      "weight": 1,
+      "encounter": "wander-rats"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-skeletons"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-stirges"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-centipede"
+    },
+    {
+      "weight": 1,
+      "encounter": "wander-zombie"
+    }
+  ]
+}
