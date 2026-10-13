@@ -331,6 +331,9 @@ Fill this in by hand if you skip the intro. Values in the right column are for t
 | **THAC0** | 19 [+0] |
 | **Saves** | D11 W12 P14 B16 S15 (+2 vs. magic, WIS 16) |
 | **Year of Change** | ☐ Hymn of Rest ☐ Hymn of Calling ☐ Lake Stone |
+| **Autumn, the Year Between** (your Pen choice, from the zine) | ☐ A. The Harvest Feast (Oath: the Quiet owe a meal) ☐ B. The Hymn Aloud (Want: answers) ☐ C. The Gate-Tower (Enmity: the night-singers) |
+| **What the Terminal said** (the intro's *Seven Nights*; skipped the intro? the DM tells you) | |
+| **Cassandra asked:** *“What do you owe the voice that answers you?”* You answered: | |
 | **Fort Office** | ☐ Warden ☐ Scout ☐ Steward ☐ Lorekeeper |
 | **Lens** | Reads old things as: ☐ Hymn ☐ Machine ☐ Both |
 | **Fate ability and lane** | *The Archives Are Deep* — the Terminal network, the old empire |
