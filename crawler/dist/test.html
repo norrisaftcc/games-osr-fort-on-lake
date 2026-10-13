@@ -1,0 +1,2827 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Test Cellar</title>
+<noscript><style>#stage, #party, #log, #controls { display: none; }</style></noscript>
+<style>
+/* The Crawler: style. Ink lines on paper. Tokens come from theme.palette (view.js writes them). */
+:root {
+  --paper: #F2EAD3; --ink: #1B1712; --accent: #7A2E1C; --muted: #6B6253;
+  --font-title: Georgia, "Times New Roman", serif;
+  --font-body: Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+  --card: color-mix(in srgb, var(--ink) 6%, var(--paper));
+  --gutter: 16px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #14120F; --ink: #E9E0C9; --accent: #D0704E; --muted: #9C927F; }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; min-height: 100dvh;
+  font: 16px/1.4 var(--font-body); background: var(--paper); color: var(--ink);
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; }
+.mono { font-family: var(--font-mono); }
+.caps h1, .caps h2.title, .caps .title { font-variant: small-caps; letter-spacing: .04em; }
+
+/* Layout: portrait first */
+#app {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "hud" "stage" "party" "log" "controls" "frame";
+  gap: 8px; max-width: 560px; margin: 0 auto;
+  padding: 8px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+}
+#hud { grid-area: hud; } #stage { grid-area: stage; } #party { grid-area: party; }
+#log { grid-area: log; } #controls { grid-area: controls; } #frame { grid-area: frame; }
+
+@media (orientation: landscape) and (min-width: 640px) {
+  #app {
+    --stagew: min(calc(100vh - 110px), 56vw);
+    --stagew: min(calc(100dvh - 110px), 56vw);
+    max-width: 1120px;
+    grid-template-columns: max(var(--stagew), 260px) minmax(0, 1fr);
+    grid-template-areas: "hud hud" "stage party" "stage log" "stage controls" "stage ." "frame frame";
+    grid-template-rows: auto auto auto auto 1fr auto;
+    column-gap: 16px; align-items: start;
+  }
+  #stage { align-self: start; }
+  #app[data-stage="panel"] #stage { max-height: calc(100dvh - 120px); overflow: auto; }
+}
+
+/* Scenes and the door: choices come right after the text */
+#app[data-mode="scene"], #app[data-mode="deathDoor"] {
+  grid-template-areas: "hud" "stage" "controls" "log" "party" "frame";
+}
+@media (orientation: landscape) and (min-width: 640px) {
+  #app[data-mode="scene"], #app[data-mode="deathDoor"] {
+    grid-template-areas: "hud hud" "stage controls" "stage log" "stage party" "stage ." "frame frame";
+  }
+}
+
+/* Header */
+#hud {
+  display: flex; flex-wrap: nowrap; align-items: center; gap: 4px 6px;
+  height: 36px; padding-bottom: 6px; border-bottom: 1px solid var(--muted); font-size: .9rem;
+}
+.hud-area {
+  flex: 1 1 0; min-width: 3.5em; font-family: var(--font-title); font-weight: bold;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chip {
+  flex: none; font: .78rem/1.5 var(--font-mono); border: 1px solid var(--muted); border-radius: 3px;
+  padding: 0 5px; white-space: nowrap;
+}
+.chip.light { flex: 0 1 auto; max-width: 8.5em; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.chip.warn { border-color: var(--accent); color: var(--accent); font-weight: bold; }
+.chip.dark { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* Stage */
+#stage { position: relative; width: 100%; aspect-ratio: 1 / 1; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); overflow: hidden; }
+#app[data-stage="panel"] #stage { aspect-ratio: auto; border: 0; overflow: visible; border-radius: 0; }
+#wire { display: block; width: 100%; height: 100%; touch-action: none; }
+#app[data-stage="panel"] #wire { display: none; }
+#app[data-stage="wire"] #panel { display: none; }
+#plate {
+  position: absolute; left: 8px; right: 8px; bottom: 8px; max-height: 64%; overflow: auto;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; padding: 6px 8px; font-size: .85rem;
+}
+#plate .plate-title { font-family: var(--font-title); font-weight: bold; margin: 0 0 2px; }
+#plate ol { list-style: none; margin: 0; padding: 0; }
+#plate li { display: flex; gap: 8px; line-height: 1.5; }
+#plate li .n { font-family: var(--font-mono); min-width: 1.2em; }
+#plate li .st { margin-left: auto; font-family: var(--font-mono); font-size: .78rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+#plate .pip { width: 9px; height: 9px; }
+#plate li.gone { color: var(--muted); text-decoration: line-through; }
+#plate li.asleep .st { color: var(--accent); }
+#plate .foecard { margin-top: 6px; padding-top: 4px; border-top: 1px solid var(--muted); }
+#plate .foecard p { margin: 0 0 2px; font-size: .72rem; line-height: 1.35; overflow-wrap: anywhere; }
+#plate .foecard .fc-name { font-family: var(--font-title); font-weight: bold; font-size: .85rem; }
+
+/* Panels */
+#panel { padding: 2px 0 4px; }
+#panel h1 { font: bold 1.45rem/1.2 var(--font-title); margin: 4px 0 8px; }
+#panel h2 { font: bold 1.05rem/1.2 var(--font-title); margin: 16px 0 6px; }
+.read { font-family: var(--font-title); font-size: 1.08rem; line-height: 1.5; margin: 0 0 10px; }
+.note { font: .88rem/1.4 var(--font-body); color: var(--muted); margin: 0 0 8px; }
+.said { border-left: 3px solid var(--accent); padding: 0 0 0 10px; margin: 8px 0; font-size: .95rem; }
+.gate { font: .85rem/1.4 var(--font-mono); border: 1px solid var(--accent); color: var(--accent); padding: 6px 8px; margin: 10px 0; border-radius: 3px; }
+.dim { color: var(--muted); }
+.ending-kind { font: .8rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin: 0; }
+
+/* Buttons */
+.btn {
+  min-height: 44px; min-width: 44px; padding: 6px 10px; cursor: pointer; touch-action: manipulation;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--ink); border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.15;
+}
+.btn.small { min-height: 44px; padding: 4px 12px; font-size: .9rem; }
+.btn.primary { background: var(--ink); color: var(--paper); }
+.btn:active { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.btn[aria-disabled="true"], .btn:disabled { opacity: .42; }
+.btn.primary[aria-disabled="true"] { background: var(--paper); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.key { font: .7rem var(--font-mono); opacity: .7; margin-right: 6px; }
+
+/* Thumb zone */
+.thumbs { display: grid; grid-template-columns: repeat(3, 46px) repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, 48px); gap: 6px; }
+.thumbs .btn { min-height: 48px; padding: 2px; }
+.thumbs .arrow { font-size: 1.35rem; font-family: var(--font-body); }
+.thumbs .word { font-size: .76rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; line-height: 44px; padding: 0 2px; }
+.thumbs .act-col { margin-left: 6px; }
+.thumbs .wide { grid-column: span 2; }
+.thumbs .gap-left { margin-left: 6px; }
+
+/* Party cards */
+#party { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+#app[data-show-party="0"] #party { display: none; }
+.card {
+  position: relative; text-align: left; display: block; width: 100%; min-width: 0; min-height: 58px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--muted); border-left: 5px solid var(--muted);
+  border-radius: 6px; padding: 5px 8px 6px;
+}
+.card.front { border-left-color: var(--ink); }
+.card .name { display: block; font: bold .95rem/1.25 var(--font-title); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card .rank { font: .68rem var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.row { display: flex; align-items: center; gap: 6px; margin-top: 3px; min-height: 14px; }
+.lab { font: .68rem var(--font-mono); min-width: 2.6em; color: var(--muted); }
+.pips { display: flex; gap: 2px; flex-wrap: wrap; }
+.pip { width: 11px; height: 11px; border: 1.5px solid var(--ink); border-radius: 2px; background: transparent; }
+.pip.on { background: var(--ink); }
+.bar { flex: 1; height: 7px; border: 1.5px solid var(--ink); border-radius: 2px; min-width: 20px; }
+.bar > i { display: block; height: 100%; background: var(--ink); }
+.num { font: .78rem var(--font-mono); }
+.fate { font: .7rem var(--font-mono); color: var(--muted); }
+.tag { font: .68rem var(--font-mono); border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 0 4px; }
+.card.down { opacity: .55; }
+.card.dead .name { text-decoration: line-through; }
+.card.now { outline: 3px solid var(--accent); outline-offset: 1px; }
+
+/* Log */
+#log {
+  height: calc(3 * 1.4em * .9 + 12px); overflow-y: auto; font-size: .9rem; line-height: 1.4;
+  border-top: 1px solid var(--muted); border-bottom: 1px solid var(--muted); padding: 5px 0;
+  overscroll-behavior: contain;
+}
+#app[data-show-log="0"] #log { display: none; }
+#log p { margin: 0; }
+#log p.roll { font: .8rem/1.5 var(--font-mono); color: var(--muted); }
+#log p.refuse { color: var(--accent); }
+#log.tall { height: calc(7 * 1.4em * .9 + 12px); }
+
+/* Controls */
+#controls:empty { display: none; }
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choices.grid2 { display: grid; grid-template-columns: 1fr 1fr; }
+.choice {
+  display: block; width: 100%; text-align: left; min-height: 48px; padding: 9px 12px; cursor: pointer;
+  background: var(--paper); color: var(--ink); border-radius: 6px; font: inherit; border: 2px dashed var(--ink);
+}
+.choice.act { border: 2px solid var(--ink); }
+.choice.fate { border: 5px double var(--ink); padding: 6px 9px; }
+.choice .num { margin-right: 6px; opacity: .75; }
+.choice .mode { float: right; font: .68rem var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 3px 0 0 8px; }
+.choice .reason { display: block; font: .78rem/1.35 var(--font-mono); color: var(--muted); margin-top: 3px; }
+.choice[aria-disabled="true"] { opacity: .55; color: var(--muted); border-color: var(--muted); cursor: default; }
+.choice:active:not([aria-disabled="true"]) { background: var(--card); }
+.ask { font: bold 1rem var(--font-title); margin: 0 0 6px; }
+.ask .who { color: var(--accent); }
+.orders-so-far { font: .78rem var(--font-mono); color: var(--muted); margin: 0 0 6px; }
+.row-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.choice.quiet { border-style: solid; border-width: 1px; min-height: 44px; font-size: .92rem; }
+.apart { margin-top: 18px; }
+
+/* Fight orders: a sheet pinned to the bottom of a portrait screen, so no order button needs a scroll. */
+.ask-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 6px; }
+.ask-row .ask { margin: 0; min-width: 0; }
+.ask-btns { display: flex; gap: 6px; flex: none; }
+.ask-btns .btn { min-width: 64px; }
+.round { max-height: 9em; overflow-y: auto; margin: 0 0 8px; padding: 4px 8px; border: 1px solid var(--muted); border-radius: 4px; font-size: .84rem; line-height: 1.35; overscroll-behavior: contain; }
+.round p { margin: 0; }
+@media (max-height: 820px) { .round { max-height: 5.7em; } }
+.round p.roll { font: .74rem/1.45 var(--font-mono); color: var(--muted); }
+.round .round-title { font: .68rem var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+#controls.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; max-width: 560px; margin: 0 auto;
+  background: var(--paper); border-top: 3px solid var(--ink); box-shadow: 0 -6px 14px rgba(0, 0, 0, .18);
+  padding: 8px var(--gutter) calc(8px + env(safe-area-inset-bottom)); max-height: 58vh; max-height: 58dvh; overflow-y: auto;
+}
+#controls.sheet .choice { min-height: 44px; padding: 6px 10px; }
+#controls.sheet .choices { gap: 6px; }
+#app[data-mode="fight"] { padding-bottom: calc(var(--sheet-h, 0px) + 12px + env(safe-area-inset-bottom)); }
+#app[data-mode="fight"] #stage { aspect-ratio: 4 / 3; }
+@media (orientation: landscape) and (min-width: 640px) {
+  #controls.sheet { position: static; max-width: none; margin: 0; border-top: 0; box-shadow: none; padding: 0; max-height: none; overflow: visible; }
+  #app[data-mode="fight"] { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  #app[data-mode="fight"] #stage { aspect-ratio: 1 / 1; }
+}
+.row-btns .btn { flex: 1 1 auto; }
+
+/* Roster */
+.roster { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 8px 0; }
+@media (min-width: 520px) { .roster { grid-template-columns: 1fr 1fr; } }
+.rcard { position: relative; text-align: left; width: 100%; padding: 8px 10px 8px; cursor: pointer; background: var(--card); border: 2px solid var(--muted); border-radius: 6px; }
+.rcard[aria-pressed="true"] { border-color: var(--ink); border-width: 3px; padding: 7px 9px; }
+.rcard .nm { font: bold 1.05rem/1.2 var(--font-title); }
+.rcard .ti { font-style: italic; color: var(--muted); font-size: .9rem; }
+.rcard .tx { margin: 4px 0; font-size: .92rem; }
+.rcard .stats { display: flex; flex-wrap: wrap; gap: 3px 10px; font: .76rem var(--font-mono); margin: 4px 0; }
+.rcard .cardline { font: .72rem/1.35 var(--font-mono); color: var(--muted); }
+.badge {
+  position: absolute; top: 6px; right: 8px; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ink); color: var(--paper); font: bold .9rem/26px var(--font-mono); text-align: center;
+}
+.pickbar { position: sticky; bottom: 0; background: var(--paper); padding: 8px 0 4px; border-top: 1px solid var(--muted); display: flex; gap: 8px; align-items: center; }
+.pickbar .btn.primary { flex: 1; }
+
+/* Hub */
+.place { border: 1px solid var(--muted); border-radius: 6px; padding: 8px 10px; margin: 8px 0; background: var(--card); }
+.place h2 { margin: 0 0 2px; }
+.place p { margin: 0 0 6px; font-size: .92rem; }
+.place .btn { width: 100%; justify-content: flex-start; margin-top: 6px; }
+.stock { display: flex; flex-direction: column; gap: 6px; }
+.exitbar { position: sticky; bottom: 0; z-index: 5; margin-top: 14px; padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); background: var(--paper); border-top: 2px solid var(--ink); display: flex; flex-direction: column; gap: 8px; }
+.report { border-top: 2px solid var(--ink); margin-top: 14px; padding-top: 6px; }
+.report ul { margin: 4px 0; padding-left: 1.2em; }
+
+/* Overlays */
+#mapov { position: fixed; inset: 0; z-index: 20; background: var(--paper); overflow: auto; padding: 12px var(--gutter) 24px; }
+.ov-in { max-width: 560px; margin: 0 auto; }
+.ov-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.ov-head h1 { font: bold 1.2rem var(--font-title); margin: 0; }
+#mapcv { display: block; width: 100%; border: 2px solid var(--ink); border-radius: 4px; }
+.turtle { font: .85rem/1.7 var(--font-mono); margin: 12px 0 0; word-spacing: .1em; }
+.turtle b { font-weight: bold; }
+.turtle .sep { color: var(--muted); margin: 0 .3em; }
+.scale { font: .75rem var(--font-mono); color: var(--muted); margin: 6px 0 0; }
+#sheet { position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, .5); display: flex; align-items: flex-end; justify-content: center; }
+.sheet-in { background: var(--paper); border-top: 3px solid var(--ink); width: min(560px, 100%); max-height: 82vh; max-height: 82dvh; overflow: auto; padding: 14px var(--gutter) calc(14px + env(safe-area-inset-bottom)); border-radius: 10px 10px 0 0; }
+.sheet-in h1 { font: bold 1.25rem/1.2 var(--font-title); margin: 0; }
+.sheet-in .sub { font-style: italic; color: var(--muted); margin: 0 0 8px; }
+.sheet-in h2 { font: bold .95rem var(--font-title); margin: 14px 0 6px; }
+.abil { display: flex; flex-direction: column; gap: 6px; }
+.abil .btn { justify-content: space-between; text-align: left; gap: 8px; }
+.abil-name { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.abil-name .desc { font-size: .8rem; line-height: 1.3; color: var(--muted); }
+
+/* Footer */
+#frame { font-size: .85rem; }
+#frame summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-family: var(--font-mono); }
+.help-body { padding: 0 0 8px; }
+.help-body h2 { font: bold 1rem var(--font-title); margin: 12px 0 4px; }
+.help-body p { margin: 4px 0; }
+.help-body table { width: 100%; border-collapse: collapse; font-size: .78rem; table-layout: fixed; }
+.help-body th, .help-body td { border-bottom: 1px solid var(--muted); padding: 3px 4px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.frame-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--muted); padding-top: 4px; }
+#seedline { color: var(--muted); font-size: .78rem; overflow-wrap: anywhere; }
+.noscript { color: var(--accent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .choice, .card, .rcard { transition: background-color .12s, color .12s; }
+  #panel.enter > * { animation: rise .18s ease-out both; }
+  #plate { animation: rise .18s ease-out both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .card { min-height: 52px; padding-top: 3px; padding-bottom: 4px; }
+  #app { gap: 6px; }
+}
+
+</style>
+</head>
+<body>
+<div id="app" data-mode="boot">
+  <header id="hud" aria-label="Status"><span class="hud-area">Test Cellar</span></header>
+
+  <section id="stage" aria-label="View">
+    <canvas id="wire" role="img" aria-label="The view ahead"></canvas>
+    <div id="plate" hidden></div>
+    <div id="panel" hidden></div>
+  </section>
+
+  <section id="party" aria-label="Party"></section>
+
+  <div id="log" role="log" aria-live="polite" aria-relevant="additions" aria-label="Log" tabindex="0"></div>
+
+  <section id="controls" aria-label="Controls"></section>
+
+  <footer id="frame">
+    <details id="help">
+      <summary>F1 How to play</summary>
+      <div class="help-body">
+        <p>You lead a party of four through a grid of 10-foot squares. You see what is ahead. The cards show your party. The <span data-l="front">Front rank</span> is the top row. The <span data-l="back2">Back rank</span> is the bottom row.</p>
+        <h2>Move</h2>
+        <table>
+          <tr><th>Do</th><th>Tap</th><th>Key</th><th>Swipe</th></tr>
+          <tr><td>Move forward</td><td>Up arrow</td><td>Up, W</td><td>Up</td></tr>
+          <tr><td>Move back</td><td>Down arrow</td><td>Down, S</td><td>Down</td></tr>
+          <tr><td>Turn left or right</td><td>Turn arrows</td><td>Left, A and Right, D</td><td>Left, right</td></tr>
+          <tr><td>Move sideways</td><td>Side arrows</td><td>Q and E</td><td></td></tr>
+          <tr><td>Open or force a door, use stairs</td><td data-l="act">Act</td><td>Space, Enter</td><td></td></tr>
+          <tr><td>Search the area</td><td data-l="search">Search</td><td>F</td><td></td></tr>
+          <tr><td>Listen at the door ahead</td><td data-l="listen">Listen</td><td>L</td><td></td></tr>
+          <tr><td>Rest one turn</td><td data-l="rest">Rest</td><td>R</td><td></td></tr>
+          <tr><td>Map and route</td><td data-l="map">Map</td><td>M, Esc to close</td><td></td></tr>
+          <tr><td>Pick a choice or an order</td><td>The button</td><td>1 to 9</td><td></td></tr>
+          <tr><td>This page</td><td>F1 How to play</td><td>F1</td><td></td></tr>
+        </table>
+        <h2>Planning and acting</h2>
+        <p data-l="gate">Planning is free. Acting costs time.</p>
+        <p>A <strong>dashed</strong> choice is a plan: talk, look, think. It costs nothing. A <strong>solid</strong> choice is an act: it costs time and may roll dice. A <strong>double</strong> choice spends a Fate use.</p>
+        <h2>Time and light</h2>
+        <p>Each turn is ten minutes. Entering a new area takes a turn. Light burns down. In the dark you see nothing. A party that does not rest becomes tired.</p>
+        <h2>Fights</h2>
+        <p>Each member in turn gets an order: <span data-l="fight">Fight</span>, <span data-l="ability">Ability</span>, <span data-l="item">Item</span>, <span data-l="guard">Guard</span> or <span data-l="run">Run</span>. When all have one, the round plays. <span data-l="reroll">Reroll</span>: spend <span data-l="fate">Fate</span> to roll the last miss again.</p>
+        <h2>Cards and saves</h2>
+        <p>Tap a card for abilities and marching order. The game saves in this browser after each step. The seed in the footer repeats the same dice. <span data-l="newGame">New game</span> erases the save.</p>
+      </div>
+    </details>
+    <div class="frame-row">
+      <span id="seedline" class="mono">Seed</span>
+      <button type="button" id="newgame" class="btn small" data-l="newGame">New game</button>
+    </div>
+    <noscript><p class="noscript">This game needs JavaScript. The help above reads without it.</p></noscript>
+  </footer>
+
+  <div id="mapov" role="dialog" aria-modal="true" aria-label="Map" hidden></div>
+  <div id="sheet" role="dialog" aria-modal="true" hidden></div>
+</div>
+<script>
+window.PACK = {"id":"test","title":"Test Cellar","version":"0.1","credits":"Fixture for engine and view tests.","start":{"scene":"job"},"theme":{"palette":{"paper":"#F2EAD3","ink":"#1B1712","accent":"#7A2E1C","muted":"#6B6253"},"paletteDark":{"paper":"#14120F","ink":"#E9E0C9","accent":"#D0704E","muted":"#9C927F"},"fonts":{"title":"Georgia, 'Times New Roman', serif","body":"Georgia, 'Times New Roman', serif","mono":"ui-monospace, Menlo, Consolas, monospace"},"titleCaps":true,"labels":{"leave":"Leave","light":"Torch","search":"Search","rest":"Rest","map":"Map","act":"Act"}},"rules":{"resolver":"ose","party":{"size":4},"stats":[{"id":"str","label":"STR"},{"id":"int","label":"INT"},{"id":"wis","label":"WIS"},{"id":"dex","label":"DEX"},{"id":"con","label":"CON"},{"id":"cha","label":"CHA"}],"tracks":[{"id":"hp","label":"HP"}],"down":"dead","clock":{"turnMinutes":10,"newArea":1,"search":1,"fight":1,"rest":1,"listen":0,"wander":{"every":2,"inSix":1,"onNoise":true},"tired":{"every":6,"mod":-1},"light":{"order":["oil-flask","torch"],"outScene":"dark"}},"combat":{"front":2,"reach":2,"flee":{"inSix":4}},"fate":{"start":3,"reroll":1,"cheatDeath":2},"endings":{"wipe":"end-dead"},"skills":{"listen":{"inSix":1},"forceDoor":{"inSix":2},"search":{"inSix":1}},"statMods":"ose"},"party":{"default":["fighter","elf","paladin","minister"],"roster":{"fighter":{"name":"The Fighter","title":"The Next Blacksmith","npc":true,"class":"Fighter","text":"Your hands know iron. The forge is cold.","stats":{"str":14,"int":9,"wis":10,"dex":11,"con":13,"cha":10},"ac":15,"hp":8,"attack":{"name":"sword","bonus":0,"damage":"1d8","stat":"str"},"saves":{"D":12,"W":13,"P":14,"B":15,"S":16},"skills":{"listen":1,"forceDoor":3},"abilities":["know-how-made"],"items":{"torch":3},"fate":3},"elf":{"name":"The Elf","title":"The One Who Stayed","npc":true,"class":"Elf","text":"The others went. You did not.","stats":{"str":11,"int":13,"wis":10,"dex":12,"con":10,"cha":10},"ac":14,"hp":6,"attack":{"name":"longsword","bonus":0,"damage":"1d8","stat":"str"},"saves":{"D":12,"W":13,"P":13,"B":15,"S":15},"skills":{"listen":2,"forceDoor":2,"search":2},"abilities":["light","remember-when"],"items":{},"fate":3},"paladin":{"name":"The Paladin","title":"Warden of the Gate","npc":true,"class":"Paladin","text":"Maren's heir. The oath outlived the order.","stats":{"str":14,"int":10,"wis":12,"dex":9,"con":12,"cha":13},"ac":15,"hp":8,"attack":{"name":"longsword","bonus":0,"damage":"1d8","stat":"str"},"saves":{"D":10,"W":11,"P":12,"B":13,"S":14},"skills":{"listen":2,"forceDoor":3},"abilities":["lay-on-hands"],"items":{"torch":1},"fate":3},"minister":{"name":"The Minister","title":"The Last Keeper","npc":true,"class":"Cleric","text":"She tends the Terminal. It used to answer.","stats":{"str":9,"int":11,"wis":15,"dex":10,"con":10,"cha":12},"ac":13,"hp":6,"attack":{"name":"mace","bonus":0,"damage":"1d6","stat":"str"},"saves":{"D":11,"W":12,"P":14,"B":16,"S":15},"skills":{},"abilities":["cure-light-wounds"],"items":{"torch":1,"lantern":1},"fate":3},"wizard":{"name":"The Wizard","title":"The Runaway Apprentice","npc":false,"class":"Magic-User","text":"You left the tower with a book that was not yours.","stats":{"str":8,"int":16,"wis":11,"dex":12,"con":10,"cha":10},"ac":10,"hp":4,"attack":{"name":"dagger","bonus":0,"damage":"1d4","stat":"str"},"saves":{"D":13,"W":14,"P":13,"B":16,"S":15},"skills":{},"abilities":["sleep","read-about-this"],"items":{"torch":3},"fate":3}}},"bestiary":{"giant-rat":{"name":"Giant rat","ac":12,"hd":0.5,"hp":[2,3,1,4,2],"attack":{"bonus":0,"damage":"1d3"},"ml":8,"breakAt":{"dead":2},"xp":5,"oseLine":"AC 7 [12] · HD ½ · Att 1 × bite (1d3) · THAC0 19 [0] · MV 120' (40'), swim 60' (20') · SV D12 W13 P14 B15 S16 (1) · ML 8 · XP 5","note5e":"5e: CR 1/4 · AC 12 · bite +0 (1d3) · flees at 2 dead."}},"encounters":{"store-rats":{"foes":[{"id":"giant-rat","count":2,"hp":[2,3]}],"first":{"ifFlag":"heard-rats","then":"party","else":"foes"},"text":["Two rats the size of dogs come out of the racks."],"onWin":{"flag":{"set":["rats-gone"]},"item":{"add":{"gold":10}}}},"lone-rat":{"foes":[{"id":"giant-rat","count":1,"hp":[2]}],"first":"foes","nonLethal":true,"text":["A lone rat runs at the light."]}},"items":{"torch":{"name":"Torch","kind":"light","value":0,"light":{"turns":6}},"lantern":{"name":"Lantern","kind":"gear","value":10},"oil-flask":{"name":"Flask of oil","kind":"light","value":2,"light":{"turns":24,"requires":"lantern"},"use":{"when":"fight","target":"foes","check":{"inSix":3},"on":{"success":{"item":{"remove":{"oil-flask":1}},"damage":{"who":"nearest","n":2,"amount":"1d8"},"say":["The oil catches."]},"fail":{"item":{"remove":{"oil-flask":1}},"say":["The flask breaks short. Fire between you."]}}}},"stone-apple":{"name":"Stone apple","kind":"treasure","value":25}},"abilities":{"light":{"name":"Light","kind":"spell","per":"rest","uses":1,"when":"any","target":"none","effects":{"light":{"turns":12},"say":["Cold light gathers on the blade."]}},"sleep":{"name":"Sleep","kind":"spell","per":"rest","uses":1,"when":"fight","target":"foes","effects":{"condition":{"who":"foes","add":"asleep","budget":"2d8"}}},"cure-light-wounds":{"name":"Cure Light Wounds","kind":"spell","per":"rest","uses":1,"when":"any","target":"ally","effects":{"heal":{"who":"target","amount":"1d6+1"}}},"lay-on-hands":{"name":"Lay on Hands","kind":"power","per":"rest","uses":1,"when":"any","target":"ally","effects":{"heal":{"who":"target","amount":2}}},"know-how-made":{"name":"I Know How This Was Made","kind":"fate","per":"delve","uses":1,"when":"scene","target":"none","effects":{}},"remember-when":{"name":"I Remember When","kind":"fate","per":"delve","uses":1,"when":"scene","target":"none","effects":{}},"read-about-this":{"name":"I've Read About This","kind":"fate","per":"delve","uses":1,"when":"scene","target":"none","effects":{}}},"events":{"job":{"title":"The Captain's Job","text":["Maren puts a key on the table. \"The old cellar. Rats in the oil. Clear it.\""],"choices":[{"id":"ok","mode":"plan","text":"Take the job.","effects":{"goto":{"close":true}}}]},"gate":{"title":"The Gate","text":["The cellar is a short walk. The yard is in daylight."],"choices":[{"id":"go","mode":"act","text":"Go to the cellar.","effects":{"goto":{"map":"yard","x":1,"y":1,"facing":1}}},{"id":"stay","mode":"plan","text":"Not yet.","effects":{"goto":{"close":true}}}]},"yard":{"title":"The Yard","area":"A","text":["A yard of packed earth. A door east. A stuck hatch south."],"choices":[{"id":"look","mode":"plan","text":"Look at the hatch.","say":["Swollen oak. It will take a shoulder."],"once":true},{"id":"remember","mode":"fate","ability":"remember-when","text":"I Remember When.","effects":{"reveal":{"map":"yard","cells":["6,4"]},"say":["There was a door in the store's south wall once."]}}]},"nook-search":{"title":"The Nook","area":"D","text":["A shelf. Dust."],"choices":[{"id":"take","mode":"act","text":"Take what is on the shelf.","turns":1,"once":true,"effects":{"item":{"add":{"oil-flask":2,"stone-apple":1}},"say":["Two flasks of oil. An apple of stone."]}}]},"dark":{"title":"Dark","text":["The last light goes out."],"noLeave":true,"choices":[{"id":"feel","mode":"act","text":"Feel your way back.","effects":{"goto":{"hub":true}}}]},"store":{"title":"The Store","area":"B","text":["Racks of broken jars. Eyes in the dark."],"choices":[{"id":"fight","mode":"act","text":"Fight.","effects":{"goto":{"encounter":"store-rats"}}},{"id":"back","mode":"act","text":"Back out.","effects":{"goto":{"map":"yard","x":3,"y":1,"facing":3}}}],"noLeave":true},"draft":{"title":"A Draft","text":["Cold air from the north wall."],"choices":[{"id":"feel","mode":"plan","text":"Feel the wall.","say":["The mortar is newer here."],"once":true}]}},"hub":{"title":"The Fort","text":["Smoke, goats, the lake."],"places":[{"id":"hall","label":"The Hall","text":"Maren's table.","actions":[{"id":"roster","label":"Change the party","kind":"roster"}]},{"id":"shop","label":"Harrow's Cart","text":"Harrow sells, and buys.","actions":[{"id":"buy","label":"Trade","kind":"shop","stock":[{"item":"torch","price":1},{"item":"oil-flask","price":2}]}]},{"id":"shrine","label":"The Shrine","text":"The Terminal scrolls.","actions":[{"id":"rest","label":"Rest","kind":"rest","price":0}]},{"id":"gate","label":"The Gate","text":"The way out.","actions":[{"id":"go","label":"Go out","kind":"scene","scene":"gate"}]}],"report":{"title":"What you tell Maren","lines":{"rats-gone":"The rats are gone from the store.","heard-rats":"You heard them before you saw them."}}},"endings":{"end-dead":{"title":"The Cellar Keeps You","kind":"dead","text":["Nobody comes back."]}},"maps":{"yard":{"id":"yard","title":"The Old Cellar","tier":"Fixture","grid":["#########","#aaa+bbb#","#aaa#bbb#","#a<a#bbb#","##=###S##","#ccccc.d#","#########"],"legend":{"a":{"area":"A"},"b":{"area":"B"},"c":{"area":"C"},"d":{"area":"D"}},"cells":{"2,3":{"area":"A","link":{"hub":true}},"6,5":{"event":"draft"}},"areas":{"A":{"name":"The Yard","light":"daylight","enter":"yard"},"B":{"name":"The Store","light":"dark","encounter":"store-rats","enter":"store","listen":{"flag":"heard-rats","say":["Scratching. Squeaks. Two, maybe three."]}},"C":{"name":"The Passage","light":"dark"},"D":{"name":"The Nook","light":"dark","search":"nook-search"}},"wander":[{"weight":1,"encounter":"lone-rat"}]}}};
+</script>
+<script>
+/* The Crawler engine. Contract: crawler/SPEC.md.
+   One classic script. Browser: globalThis.Crawl. Node: module.exports.
+   Pure: step() clones the state and never touches the input. */
+(function (root) {
+"use strict";
+
+const VERSION = "0.1";
+const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+const BUILTIN = { "#": "wall", ".": "floor", "+": "door", "=": "stuck", L: "locked", S: "secret", "<": "stairs", ">": "stairs", "~": "water" };
+const DOORS = ["door", "stuck", "locked"];
+const AUTOMAP = { wall: "#", open: ".", door: "+", stuck: "=", locked: "L", stairs: "<", water: "~" };
+const LABELS = { leave: "Leave", light: "Light", turn: "Turn", search: "Search", rest: "Rest", map: "Map", gold: "gold" };
+
+class Refuse extends Error {}
+const no = text => { throw new Refuse(text); };
+const clone = o => JSON.parse(JSON.stringify(o));
+const sgn = n => (n < 0 ? "" + n : "+" + n);
+
+// ---- dice (SPEC section 2) ----
+function rand(s) {
+  let t = s.rng = (s.rng + 0x6D2B79F5) >>> 0;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+const d = (s, n) => 1 + Math.floor(rand(s) * n);
+const fudge = s => d(s, 3) - 2;
+
+function dice(s, expr) {
+  if (typeof expr === "number") return { dice: [], mod: expr, total: expr };
+  const m = /^(\d*)d(\d+)([+-]\d+)?$/.exec(String(expr).replace(/\s/g, ""));
+  if (!m) { const n = Number(expr) || 0; return { dice: [], mod: n, total: n }; }
+  const out = [];
+  for (let i = 0; i < (+m[1] || 1); i++) out.push(d(s, +m[2]));
+  const mod = +(m[3] || 0);
+  return { dice: out, mod, total: out.reduce((a, b) => a + b, 0) + mod };
+}
+const oseMod = n => (n <= 3 ? -3 : n <= 5 ? -2 : n <= 8 ? -1 : n <= 12 ? 0 : n <= 15 ? 1 : n <= 17 ? 2 : 3);
+const tier = shifts => (shifts >= 3 ? "style" : shifts >= 1 ? "success" : shifts === 0 ? "tie" : "fail");
+
+// ---- context: one per step. s is the working copy of the state. ----
+const mkCtx = (pack, s) => ({ pack, R: pack.rules, s, ev: [], pend: { wander: null, dark: false } });
+const emit = (c, e) => { c.ev.push(e); return e; };
+function log(c, text) {
+  const l = c.s.log;
+  c.ev.push({ k: "log", text });
+  l.push(text);
+  if (l.length > 50) l.splice(0, l.length - 50);
+}
+function say(c, lines) {
+  for (const t of lines || []) { log(c, t); if (c.s.scene && !c.s.scene.said.includes(t)) c.s.scene.said.push(t); }
+}
+const ose = c => c.R.resolver === "ose";
+const res = c => RESOLVERS[c.R.resolver];
+const label = (c, k) => c.pack.theme?.labels?.[k] || LABELS[k];
+const char = (c, id) => c.pack.party.roster[id];
+const mem = (c, id) => c.s.party.find(m => m.id === id);
+const nameOf = (c, id) => char(c, id).name;
+const statMod = (c, n) => (c.R.statMods === "ose" ? oseMod(n) : n);
+const maxOf = (c, m, t) => (ose(c) ? char(c, m.id).hp : char(c, m.id).tracks?.[t] ?? 3);
+const isFull = (c, m) => c.R.tracks.some(t => (m.marked[t.id] || 0) >= maxOf(c, m, t.id));
+const ups = c => c.s.order.map(id => mem(c, id)).filter(m => m && !m.down && !isFull(c, m));
+const front = c => ups(c).slice(0, c.R.combat.front);
+const have = (c, id) => (id === "gold" ? c.s.gold : c.s.items[id] || 0);
+function give(c, id, n) {
+  if (id === "gold") { c.s.gold = Math.max(0, c.s.gold + n); return; }
+  const v = Math.max(0, (c.s.items[id] || 0) + n);
+  if (v) c.s.items[id] = v; else delete c.s.items[id];
+}
+const isTired = (c, m) => c.s.sinceRest >= (c.R.clock.tired?.every ?? Infinity) || !!(m && m.cond.includes("tired"));
+const tiredMod = (c, m) => (isTired(c, m) ? c.R.clock.tired?.mod ?? -1 : 0);
+function bonusOf(m, take) {
+  const b = m.bonus;
+  if (!b) return 0;
+  const n = (b.next || 0) + (b.fight || 0);
+  if (take) b.next = 0;
+  return n;
+}
+
+// ---- maps ----
+const mapOf = c => c.pack.maps[c.s.pos.map];
+const key = (x, y) => x + "," + y;
+function info(m, x, y) {
+  const ch = m.grid[y]?.[x];
+  return ch === undefined ? null : { ch, ...(m.legend?.[ch] || {}), ...(m.cells?.[key(x, y)] || {}) };
+}
+function kindAt(c, mapId, x, y) {
+  const m = c.pack.maps[mapId], i = info(m, x, y);
+  if (!i) return "wall";
+  const k = i.wall ? "wall" : i.water ? "water" : BUILTIN[i.ch] || "floor";
+  const st = c.s.doors[mapId]?.[key(x, y)];
+  if (k === "stuck" || k === "locked") return st === "open" ? "door" : k;
+  if (k === "secret") return st ? "door" : "wall";
+  return k === "floor" ? "open" : k;
+}
+const passable = k => k === "open" || k === "door" || k === "stairs" || k === "water";
+const areaAt = (m, x, y) => info(m, x, y)?.area ?? null;
+const inDungeon = c => !!c.s.pos && (["map", "fight", "deathDoor"].includes(c.s.mode) || (c.s.mode === "scene" && c.s.scene.from === "map"));
+function here(c) {
+  if (!inDungeon(c)) return null;
+  const m = mapOf(c), k = areaAt(m, c.s.pos.x, c.s.pos.y);
+  return k ? { key: k, def: m.areas[k] } : null;
+}
+function markSeen(c) {
+  const p = c.s.pos, m = mapOf(c), seen = (c.s.seen[p.map] = c.s.seen[p.map] || {});
+  for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (info(m, p.x + dx, p.y + dy)) seen[key(p.x + dx, p.y + dy)] = 1;
+}
+function setDoor(c, mapId, x, y, st) { (c.s.doors[mapId] = c.s.doors[mapId] || {})[key(x, y)] = st; }
+
+// ---- clock and light (SPEC section 5) ----
+function tick(c, n) {
+  const s = c.s, w = c.R.clock.wander;
+  for (let i = 0; i < n; i++) {
+    s.turn++; s.sinceRest++;
+    emit(c, { k: "tick", turn: s.turn });
+    if (s.light.source && --s.light.left <= 0) {
+      log(c, `${s.light.source === "spell" ? "The light" : c.pack.items[s.light.source].name} burns out.`);
+      s.light.source = null; s.light.left = 0;
+    }
+    lightCheck(c);
+    if (w && s.turn % w.every === 0 && !c.pend.wander && !s.fight && inDungeon(c)) wanderCheck(c);
+  }
+}
+function wanderCheck(c) {
+  const w = c.R.clock.wander, roll = d(c.s, 6), hit = roll <= w.inSix;
+  emit(c, { k: "wander", roll, hit });
+  const table = mapOf(c).wander || [];
+  if (!hit || !table.length) return;
+  let r = d(c.s, table.reduce((a, e) => a + (e.weight || 1), 0));
+  for (const e of table) if ((r -= e.weight || 1) <= 0) { c.pend.wander = e.encounter; return; }
+}
+function lightItem(c) {
+  const L = c.s.light;
+  for (const id of c.R.clock.light.order) {
+    const it = c.pack.items[id];
+    if (!it?.light) continue;
+    if (L.stash[id] > 0 || (have(c, id) > 0 && (!it.light.requires || have(c, it.light.requires) > 0))) return id;
+  }
+  return L.stash.spell > 0 ? "spell" : null;
+}
+function lightUp(c, id, turns) {
+  const L = c.s.light;
+  if (L.source && L.source !== id && L.left > 0) L.stash[L.source] = L.left;
+  if (turns == null) {
+    if (L.stash[id] > 0) turns = L.stash[id];
+    else { turns = c.pack.items[id].light.turns; give(c, id, -1); }
+  }
+  delete L.stash[id];
+  L.source = id; L.left = turns;
+  delete c.s.done["@dark"];
+  const text = id === "spell" ? "A light kindles." : `You light the ${c.pack.items[id].name}.`;
+  emit(c, { k: "light", text }); log(c, text);
+}
+function snuff(c) {
+  const L = c.s.light;
+  if (L.source) { L.stash[L.source] = L.left; log(c, "You snuff the light."); }
+  L.source = null; L.left = 0;
+  delete c.s.done["@dark"];
+}
+function lightCheck(c) {
+  const a = here(c), s = c.s;
+  if (!a || a.def.light !== "dark" || s.light.source) return;
+  const id = lightItem(c);
+  if (id) return lightUp(c, id);
+  if (!s.done["@dark"]) { s.done["@dark"] = true; c.pend.dark = true; }
+}
+const dark = c => { const a = here(c); return !!a && a.def.light === "dark" && !c.s.light.source; };
+
+// ---- effects: the ten verbs (SPEC section 6) ----
+function refs(c, who, ctx, n) {
+  const s = c.s, u = ups(c), foes = foesOf(c), live = () => foes.map((f, i) => (alive(f) ? { f: i } : null)).filter(Boolean);
+  const mr = m => (m ? [{ m }] : []);
+  switch (who) {
+    case "self": return mr(mem(c, ctx.self));
+    case "target": return ctx.target != null ? mr(mem(c, ctx.target)) : ctx.foe != null && foes[ctx.foe] ? [{ f: ctx.foe }] : [];
+    case "leader": return u.slice(0, 1).map(m => ({ m }));
+    case "front": return front(c).map(m => ({ m }));
+    case "party": return u.map(m => ({ m }));
+    case "random": return u.length ? mr(u[d(s, u.length) - 1]) : [];
+    case "foes": return live();
+    case "foe": return ctx.foe != null && foes[ctx.foe] && alive(foes[ctx.foe]) ? [{ f: ctx.foe }] : [];
+    case "nearest": return live().slice(0, n || 1);
+    default: return [];
+  }
+}
+function apply(c, e, ctx = {}) {
+  const s = c.s;
+  if (!e) return;
+  if (e.flag) {
+    for (const f of e.flag.set || []) s.flags[f] = true;
+    for (const f of e.flag.unset || []) delete s.flags[f];
+  }
+  if (e.item) {
+    for (const [id, n] of Object.entries(e.item.add || {})) give(c, id, n);
+    for (const [id, n] of Object.entries(e.item.remove || {})) give(c, id, -n);
+  }
+  const w = x => x.who || (ctx.foe != null ? "foe" : ctx.target != null ? "target" : "leader");
+  if (e.damage) for (const r of refs(c, w(e.damage), ctx, e.damage.n)) res(c).harm(c, r, e.damage.track, dice(s, e.damage.amount).total);
+  if (e.heal) for (const r of refs(c, w(e.heal), ctx, e.heal.n)) heal(c, r, e.heal.track, dice(s, e.heal.amount).total);
+  if (e.condition) condition(c, e.condition, ctx);
+  if (e.bonus) {
+    for (const r of refs(c, e.bonus.who || "self", ctx).filter(r => r.m)) {
+      const b = (r.m.bonus = r.m.bonus || { next: 0, fight: 0 });
+      b[e.bonus.scope || "next"] += e.bonus.amount;
+    }
+  }
+  if (e.reveal) {
+    for (const k of e.reveal.cells || []) {
+      const [x, y] = k.split(",").map(Number), mp = c.pack.maps[e.reveal.map];
+      if (info(mp, x, y)?.ch === "S" && !s.doors[e.reveal.map]?.[k]) setDoor(c, e.reveal.map, x, y, "found");
+      (s.seen[e.reveal.map] = s.seen[e.reveal.map] || {})[k] = 1;
+    }
+  }
+  if (e.fate) for (const r of refs(c, e.fate.who || "self", ctx).filter(r => r.m)) r.m.fate = Math.max(0, r.m.fate + e.fate.amount);
+  if (e.light) { if (e.light.item) lightUp(c, e.light.item); else lightUp(c, "spell", e.light.turns); }
+  if (e.say) say(c, e.say);
+  if (e.goto) go(c, e.goto);
+}
+function heal(c, r, track, n) {
+  if (r.f != null) { const f = foesOf(c)[r.f]; f.marked = Math.max(0, f.marked - n); return; }
+  const m = r.m;
+  if (m.dead) return;
+  let left = n;
+  const ids = track ? [track] : c.R.tracks.map(t => t.id).sort((a, b) => (m.marked[b] || 0) - (m.marked[a] || 0));
+  for (const t of ids) {
+    const take = Math.min(left, m.marked[t] || 0);
+    if (!take) continue;
+    m.marked[t] -= take; left -= take;
+    emit(c, { k: "heal", who: m.id, track: t, amount: take });
+  }
+  if (m.down && !isFull(c, m)) { m.down = false; if (!c.s.order.includes(m.id)) c.s.order.push(m.id); }
+}
+function setCond(c, r, e) {
+  if (r.f != null) { const f = foesOf(c)[r.f]; f.state = e.add || "awake"; return; }
+  const cond = r.m.cond;
+  if (e.add && !cond.includes(e.add)) cond.push(e.add);
+  if (e.remove) r.m.cond = cond.filter(x => x !== e.remove);
+}
+function condition(c, e, ctx) {
+  if (e.who === "foes" && e.budget != null) {
+    const b = dice(c.s, e.budget);
+    emit(c, { k: "roll", who: ctx.self || "party", what: "budget", dice: b.dice, mod: b.mod, total: b.total, target: null, tier: null });
+    let left = b.total;
+    for (const r of refs(c, "foes", ctx)) {
+      const hd = c.pack.bestiary[foesOf(c)[r.f].id].hd ?? 1;
+      if (hd > left) break;
+      left -= hd; setCond(c, r, e);
+      log(c, `The ${foeName(c, r.f)} ${e.add === "asleep" ? "falls asleep" : "is " + e.add}.`);
+    }
+    return;
+  }
+  for (const r of refs(c, e.who || "self", ctx)) setCond(c, r, e);
+}
+
+// ---- goto and scenes ----
+function go(c, g) {
+  const s = c.s;
+  if (g.close) closeScene(c);
+  else if (g.scene) openScene(c, g.scene, s.mode === "hub" ? "hub" : "map");
+  else if (g.map) arrive(c, g);
+  else if (g.hub) toHub(c);
+  else if (g.encounter) { s.scene = null; startFight(c, g.encounter, {}); }
+  else if (g.ending) finish(c, g.ending);
+}
+function closeScene(c) {
+  const sc = c.s.scene;
+  if (!sc) return;
+  c.s.scene = null;
+  c.s.mode = sc.from === "hub" ? "hub" : "map";
+}
+function openScene(c, id, from) {
+  const s = c.s, def = c.pack.events[id];
+  if (!def) return;
+  from = s.scene ? s.scene.from : from;
+  s.scene = { id, said: [], taken: [], from, gate: false };
+  s.mode = "scene";
+  const modes = def.choices.map(x => x.mode);
+  if (modes.includes("plan") && modes.includes("act") && !s.done["@gate"]) { s.done["@gate"] = true; s.scene.gate = true; }
+  emit(c, { k: "scene", id });
+}
+function toHub(c) {
+  const s = c.s;
+  s.scene = null; s.fight = null; s.mode = "hub";
+  snuff(c);
+  log(c, "You are home.");
+}
+function finish(c, id) {
+  const s = c.s;
+  s.mode = "ending"; s.ending = id; s.scene = null; s.fight = null;
+  emit(c, { k: "ending", id });
+}
+function arrive(c, g) {
+  const s = c.s, fromDungeon = inDungeon(c);
+  s.scene = null; s.mode = "map";
+  const pos = { map: g.map, x: g.x, y: g.y, facing: g.facing || 0 };
+  s.prev = fromDungeon ? { ...s.pos } : { ...pos };
+  s.pos = pos;
+  land(c, null);
+}
+// The party is on a new cell: light, area entry, scene or fight, cell event.
+function land(c, oldArea, retreat) {
+  const s = c.s, p = s.pos, m = mapOf(c), k = areaAt(m, p.x, p.y), a = k && m.areas[k];
+  markSeen(c);
+  if (a && a.light === "daylight") snuff(c);
+  lightCheck(c);
+  if (retreat) return;
+  if (a && k !== oldArea) {
+    const first = !s.visited[p.map]?.[k];
+    if (first) {
+      (s.visited[p.map] = s.visited[p.map] || {})[k] = true;
+      tick(c, c.R.clock.newArea);
+    }
+    if (first && a.enter) openScene(c, a.enter, "map");
+    else if (a.encounter && !s.done[a.encounter] && !c.pend.wander) startFight(c, a.encounter, {});
+  }
+  const ev = m.cells?.[key(p.x, p.y)]?.event, ek = "@cell:" + p.map + ":" + key(p.x, p.y);
+  if (ev && !s.done[ek] && s.mode === "map") { s.done[ek] = true; openScene(c, ev, "map"); }
+}
+
+// ---- conditions on choices ----
+function unmet(c, w) {
+  const s = c.s;
+  if (!w) return null;
+  for (const f of w.flags || []) if (!s.flags[f]) return "Not yet.";
+  for (const f of w.notFlags || []) if (s.flags[f]) return "Too late.";
+  for (const [id, n] of Object.entries(w.items || {})) if (have(c, id) < n) return `Need ${n} ${c.pack.items[id]?.name || id}.`;
+  if (w.member && !ups(c).some(m => m.id === w.member)) return `${char(c, w.member)?.name || w.member} must be here.`;
+  if (w.ability && !fateUser(c, w.ability, true)) return `No ${c.pack.abilities[w.ability]?.name || w.ability} left.`;
+  if (w.fate != null && !s.party.some(m => !m.down && m.fate >= w.fate)) return `Need ${w.fate} Fate.`;
+  if (w.gold != null && s.gold < w.gold) return `Need ${w.gold} ${label(c, "gold")}.`;
+  if (w.visited && !Object.values(s.visited).some(v => v[w.visited])) return "Not seen yet.";
+  return null;
+}
+function fateUser(c, aid, anyKind) {
+  const a = c.pack.abilities[aid];
+  if (!a || (!anyKind && a.kind !== "fate")) return null;
+  return ups(c).find(m => char(c, m.id).abilities?.includes(aid) && (m.used[aid] || 0) < (a.uses || 1)) || null;
+}
+function sceneChoices(c) {
+  const sc = c.s.scene, def = c.pack.events[sc.id], out = [];
+  for (const ch of def.choices) {
+    let why = ch.once && sc.taken.includes(ch.id) ? "Done." : unmet(c, ch.if);   // a taken once-choice stays in place, greyed, so the numbers hold
+    if (!why && ch.mode === "fate" && !fateUser(c, ch.ability)) why = `No ${c.pack.abilities[ch.ability]?.name || ch.ability} left.`;
+    out.push({ def: ch, id: ch.id, text: ch.text, mode: ch.mode, enabled: !why, reason: why || "" });
+  }
+  if (sc.from === "map" && !def.noLeave && !def.choices.some(x => x.id === "leave")) {
+    out.push({ id: "leave", text: label(c, "leave"), mode: "plan", enabled: true, reason: "", leave: true });
+  }
+  return out;
+}
+const pickOn = (on, t) => (on ? on[t] || (t === "style" || t === "tie" ? on.success : null) : null);
+// A check plus on{} tiers, or plain effects. Used by choices, abilities and items.
+function resolve(c, x, ctx) {
+  if (x.check) {
+    const t = res(c).check(c, x.check, ctx);
+    apply(c, pickOn(x.on, t), ctx);
+  } else apply(c, x.effects, ctx);
+}
+function choose(c, cmd) {
+  const sc = c.s.scene, ch = sceneChoices(c).find(x => x.id === cmd.id);
+  if (!ch) no("No such choice.");
+  if (!ch.enabled) no(ch.reason || "Not now.");
+  if (ch.leave) return closeScene(c);
+  const def = ch.def, ctx = { self: ups(c)[0]?.id };
+  if (!sc.taken.includes(def.id)) sc.taken.push(def.id);
+  say(c, def.say);
+  if (def.mode === "plan") apply(c, def.effects, ctx);
+  else if (def.mode === "fate") {
+    const m = fateUser(c, def.ability);
+    m.used[def.ability] = (m.used[def.ability] || 0) + 1;
+    ctx.self = m.id;
+    log(c, `${nameOf(c, m.id)}: ${c.pack.abilities[def.ability].name}.`);
+    resolve(c, def, ctx);
+  } else { tick(c, def.turns || 0); resolve(c, def, ctx); }
+}
+
+// ---- map commands ----
+function facingCell(c) {
+  const p = c.s.pos, [dx, dy] = DIRS[p.facing];
+  return { x: p.x + dx, y: p.y + dy, dx, dy };
+}
+function move(c, dir) {
+  const s = c.s, p = s.pos, step = { forward: 0, right: 1, back: 2, left: 3 }[dir];
+  if (step == null) no("Move where?");
+  const [dx, dy] = DIRS[(p.facing + step) % 4], tx = p.x + dx, ty = p.y + dy, m = mapOf(c);
+  const k = kindAt(c, p.map, tx, ty), bump = text => { emit(c, { k: "bump", text }); log(c, text); };
+  if (k === "wall") return bump("A wall.");
+  if (k === "stuck") return bump("The door is stuck.");
+  if (k === "locked") return bump("The door is locked.");
+  const link = m.cells?.[key(tx, ty)]?.link;
+  if (link) return useLink(c, link);
+  if (k === "door" && s.doors[p.map]?.[key(tx, ty)] !== "open") { setDoor(c, p.map, tx, ty, "open"); log(c, "You open the door."); }
+  const oldArea = areaAt(m, p.x, p.y);
+  s.prev = { map: p.map, x: p.x, y: p.y, facing: p.facing };
+  p.x = tx; p.y = ty;
+  emit(c, { k: "move" });
+  land(c, oldArea);
+}
+function useLink(c, L) {
+  emit(c, { k: "move" });
+  if (L.hub) toHub(c);
+  else if (L.scene) openScene(c, L.scene, "map");
+  else arrive(c, L);
+}
+function act(c) {
+  const s = c.s, p = s.pos, m = mapOf(c), f = facingCell(c), k = kindAt(c, p.map, f.x, f.y), cell = m.cells?.[key(f.x, f.y)] || {};
+  if (k === "wall") no("Nothing to do here.");
+  if (cell.link) return useLink(c, cell.link);
+  const st = s.doors[p.map]?.[key(f.x, f.y)];
+  if (k === "stuck") {
+    const t = res(c).check(c, { skill: "forceDoor" });
+    if (t !== "fail") { setDoor(c, p.map, f.x, f.y, "open"); log(c, "The door gives way."); } else log(c, "The door holds.");
+    if (c.R.clock.wander?.onNoise) wanderCheck(c);
+  } else if (k === "locked") {
+    if (have(c, cell.key) > 0) { setDoor(c, p.map, f.x, f.y, "open"); log(c, "The key turns."); } else no("The door is locked.");
+  } else if (k === "door" && st !== "open") { setDoor(c, p.map, f.x, f.y, "open"); log(c, "You open the door."); }
+  else no("Nothing to do here.");
+}
+function search(c) {
+  const s = c.s, p = s.pos, m = mapOf(c), k = areaAt(m, p.x, p.y);
+  tick(c, c.R.clock.search);
+  let found = false;
+  if (k) {
+    for (let y = 0; y < m.grid.length; y++) for (let x = 0; x < m.grid[y].length; x++) {
+      if (info(m, x, y).ch !== "S" || s.doors[p.map]?.[key(x, y)]) continue;
+      if (!DIRS.some(([dx, dy]) => areaAt(m, x + dx, y + dy) === k)) continue;
+      if (res(c).check(c, { skill: "search" }) !== "fail") {
+        setDoor(c, p.map, x, y, "found"); found = true;
+        (s.seen[p.map] = s.seen[p.map] || {})[key(x, y)] = 1;
+        log(c, "You find a hidden door.");
+      }
+    }
+  }
+  if (!found) log(c, "You find nothing.");
+  const sk = "@search:" + p.map + ":" + k;
+  if (k && m.areas[k].search && !s.done[sk]) { s.done[sk] = true; openScene(c, m.areas[k].search, "map"); }
+}
+function listen(c) {
+  const p = c.s.pos, m = mapOf(c), f = facingCell(c);
+  if (!DOORS.includes(kindAt(c, p.map, f.x, f.y))) no("No door ahead.");
+  tick(c, c.R.clock.listen || 0);
+  if (res(c).check(c, { skill: "listen" }) !== "fail") {
+    const a = areaAt(m, f.x + f.dx, f.y + f.dy), L = a && m.areas[a].listen;
+    if (L) { if (L.flag) c.s.flags[L.flag] = true; return say(c, L.say); }
+  }
+  log(c, "You hear nothing.");
+}
+function rest(c) {
+  tick(c, c.R.clock.rest);
+  c.s.sinceRest = 0;
+  log(c, "You rest.");
+}
+
+// ---- abilities and items ----
+const useMode = c => (c.s.mode === "fight" ? "fight" : "map");
+function abilityBase(c, m, aid) {
+  const a = c.pack.abilities[aid];
+  if (!a || !char(c, m.id).abilities?.includes(aid)) return "Not known.";
+  if (a.kind === "fate") return "Only through a choice.";
+  if (a.when !== "any" && a.when !== useMode(c)) return "Not now.";
+  if ((m.used[aid] || 0) >= (a.uses || 1)) return "Used up.";
+  return null;
+}
+const abilityWhy = (c, m, aid, target) => abilityBase(c, m, aid) || targetWhy(c, c.pack.abilities[aid].target, target);
+function targetWhy(c, kind, target) {
+  const foes = foesOf(c);
+  if (kind === "ally" && !(mem(c, target) && !mem(c, target).dead)) return "Pick an ally.";
+  if (kind === "foe" && !(foes[target] && alive(foes[target]))) return "Pick a foe.";
+  if (kind === "foes" && !foes.some(alive)) return "No foes.";
+  return null;
+}
+function itemBase(c, id) {
+  const it = c.pack.items[id];
+  if (!it?.use || have(c, id) < 1) return "Cannot use that.";
+  if (it.use.when !== "any" && it.use.when !== useMode(c)) return "Not now.";
+  return null;
+}
+const itemWhy = (c, m, id, target) => itemBase(c, id) || targetWhy(c, c.pack.items[id].use.target, target);
+function useAbility(c, m, aid, target) {
+  const a = c.pack.abilities[aid];
+  m.used[aid] = (m.used[aid] || 0) + 1;
+  log(c, `${nameOf(c, m.id)}: ${a.name}.`);
+  resolve(c, a, { self: m.id, target: a.target === "ally" ? target : null, foe: a.target === "foe" ? target : null });
+}
+function useItem(c, m, id, target) {
+  const it = c.pack.items[id];
+  log(c, `${nameOf(c, m.id)} uses ${it.name}.`);
+  resolve(c, it.use, { self: m.id, target: it.use.target === "ally" ? target : null, foe: it.use.target === "foe" ? target : null });
+}
+function useCmd(c, cmd) {
+  const m = ups(c).find(x => x.id === cmd.member);
+  if (!m) no("That member cannot act.");
+  const why = cmd.ability ? abilityWhy(c, m, cmd.ability, cmd.target) : cmd.item ? itemWhy(c, m, cmd.item, cmd.target) : "Use what?";
+  if (why) no(why);
+  if (cmd.ability) useAbility(c, m, cmd.ability, cmd.target); else useItem(c, m, cmd.item, cmd.target);
+}
+
+// ---- harm, down, death's door ----
+function mark(c, r, track, n, max) {
+  const s = c.s;
+  if (r.f != null) {
+    const f = foesOf(c)[r.f], was = alive(f);
+    f.marked += n;
+    emit(c, { k: "harm", who: "enemy:" + r.f, track: track || c.R.tracks[0].id, amount: n });
+    if (was && !alive(f)) log(c, `The ${foeName(c, r.f)} falls.`);
+    return;
+  }
+  const m = r.m, before = m.marked[track] || 0, cap = s.fight?.nonLethal ? max - 1 : max;
+  const after = Math.max(before, Math.min(cap, before + n));
+  m.marked[track] = after;
+  if (after > before) emit(c, { k: "harm", who: m.id, track, amount: after - before });
+}
+function harm(c, r, track, n) {
+  const t = track || c.R.tracks[0].id;
+  mark(c, r, t, n, r.m ? maxOf(c, r.m, t) : 0);
+}
+function drop(c, m) {
+  m.down = true;
+  if (c.R.down === "dead") m.dead = true;
+  c.s.order = c.s.order.filter(id => id !== m.id);
+  emit(c, { k: "down", who: m.id });
+  log(c, `${nameOf(c, m.id)} ${m.dead ? "is dead" : "is down"}.`);
+}
+const atDoor = c => c.s.party.filter(m => !m.down && isFull(c, m));
+function cheat(c) {
+  const m = atDoor(c)[0];
+  m.fate -= c.R.fate.cheatDeath;
+  for (const t of c.R.tracks) if ((m.marked[t.id] || 0) >= maxOf(c, m, t.id)) m.marked[t.id] = maxOf(c, m, t.id) - 1;
+  log(c, `${nameOf(c, m.id)} stays up.`);
+}
+// After every command: who is down, who is at death's door, wipe, and what was queued.
+function settle(c) {
+  const s = c.s;
+  if (s.mode === "roster" || s.mode === "ending") return;
+  for (const m of s.party) if (!m.down && isFull(c, m) && m.fate < c.R.fate.cheatDeath) drop(c, m);
+  if (atDoor(c).length) { if (c.pend.wander) s.queued = c.pend.wander; s.mode = "deathDoor"; return; }
+  if (s.party.every(m => m.down)) return finish(c, c.R.endings.wipe);
+  if (s.mode === "deathDoor") s.mode = s.fight ? "fight" : s.scene ? "scene" : "map";
+  const queued = c.pend.wander || s.queued || null;
+  s.queued = null;
+  if (queued) {
+    if (s.mode === "map") startFight(c, queued, { wander: true });
+    else if (inDungeon(c)) s.queued = queued;
+  }
+  if (c.pend.dark) {
+    if (s.mode === "map") openScene(c, c.R.clock.light.outScene, "map"); else delete s.done["@dark"];
+  }
+}
+
+// ---- fights ----
+const alive = f => f.marked < f.hp && f.state !== "fled";
+const foesOf = c => (c.s.fight ? c.s.foes[c.s.fight.enc] : []);
+const foeName = (c, i) => c.pack.bestiary[foesOf(c)[i].id].name;
+function buildFoes(c, enc) {
+  const out = [], seen = {};
+  for (const e of enc.foes) {
+    const mon = c.pack.bestiary[e.id];
+    for (let i = 0; i < (e.count || 1); i++) {
+      const n = (seen[e.id] = (seen[e.id] || 0) + 1) - 1;
+      let hp = e.hp?.[i];
+      if (hp == null) hp = !ose(c) ? mon.stress : Array.isArray(mon.hp) ? mon.hp[n % mon.hp.length] : dice(c.s, mon.hp).total;
+      out.push({ id: e.id, hp, marked: 0, state: "awake" });
+    }
+  }
+  return out;
+}
+function startFight(c, id, o) {
+  const s = c.s, enc = c.pack.encounters[id];
+  if (!s.foes[id]) s.foes[id] = buildFoes(c, enc);
+  let first = enc.first || "party";
+  if (typeof first === "object") first = s.flags[first.ifFlag] ? first.then : first.else;
+  s.scene = null; s.mode = "fight";
+  s.fight = { enc: id, round: 0, first, lastMiss: null, after: enc.after || null, wander: !!o.wander, nonLethal: !!enc.nonLethal, morale: 0 };
+  for (const t of enc.text || []) log(c, t);
+  emit(c, { k: "fight", phase: "start" });
+}
+function endFight(c, result) {
+  const s = c.s, f = s.fight, enc = c.pack.encounters[f.enc];
+  tick(c, c.R.clock.fight);   // the fight's turn is charged when it ends, so a fight on turn 6 is not played tired
+  emit(c, { k: "fight", phase: "end", result });
+  for (const m of s.party) if (m.bonus) m.bonus.fight = 0;
+  s.fight = null; s.mode = "map";
+  if (result === "win" || f.wander) delete s.foes[f.enc];
+  if (result === "win") {
+    if (!f.wander) s.done[f.enc] = true;
+    apply(c, enc.onWin);
+    if (f.after && s.mode === "map") openScene(c, f.after, "map");
+  } else {
+    s.pos = { ...s.prev };
+    emit(c, { k: "move" });
+    land(c, null, true);
+    apply(c, enc.onFlee);
+  }
+}
+function checkFoes(c) {
+  const f = c.s.fight, foes = foesOf(c);
+  if (!foes.some(alive)) return endFight(c, "win");
+  const dead = foes.filter(x => x.marked >= x.hp).length, mon = c.pack.bestiary[foes[0].id], b = mon.breakAt;
+  let broken = false;
+  if (b && b.dead != null) broken = dead >= b.dead;
+  else if (b && b.marked != null) broken = foes.reduce((a, x) => a + x.marked, 0) >= b.marked;
+  else if (ose(c) && mon.ml != null && dead) {
+    const first = !(f.morale & 1), half = dead * 2 >= foes.length && !(f.morale & 2);
+    if (first || half) {
+      f.morale |= first ? 1 : 2;
+      if (dead * 2 >= foes.length) f.morale |= 2;
+      const r = dice(c.s, "2d6");
+      broken = r.total > mon.ml;
+      emit(c, { k: "roll", who: "enemy:0", what: "morale", dice: r.dice, mod: 0, total: r.total, target: mon.ml, tier: broken ? "fail" : "success" });
+    }
+  }
+  if (!broken) return;
+  foes.forEach(x => { if (alive(x)) x.state = "fled"; });
+  log(c, "The rest flee.");
+  endFight(c, "win");
+}
+const canMelee = (c, m) => front(c).includes(m) || !!char(c, m.id).attack.ranged;
+function checkOrder(c, m, o) {
+  const foes = foesOf(c);
+  if (o.act === "fight") {
+    if (!canMelee(c, m)) no(`${nameOf(c, m.id)} is in the back rank.`);
+    if (o.target != null && !(foes[o.target] && alive(foes[o.target]))) no("No such foe.");
+  } else if (o.act === "ability") {
+    const why = abilityWhy(c, m, o.ability, o.target);
+    if (why) no(why);
+  } else if (o.act === "item") {
+    const why = itemWhy(c, m, o.item, o.target);
+    if (why) no(why);
+  } else if (o.act !== "guard" && o.act !== "run") no("Unknown order.");
+}
+const firstFoe = c => foesOf(c).findIndex(alive);
+function strike(c, m, o) {
+  const foes = foesOf(c);
+  const fi = o.target != null && alive(foes[o.target]) ? o.target : firstFoe(c);
+  if (res(c).attack(c, m, fi) === "fail") c.s.fight.lastMiss = { member: m.id, order: { ...o, target: fi } };
+}
+function playRound(c, cmd) {
+  const s = c.s, f = s.fight, by = {};
+  if (!Array.isArray(cmd.orders)) no("Give orders.");
+  const acting = ups(c).filter(m => !m.cond.includes("asleep"));
+  for (const o of cmd.orders) {
+    const m = o && acting.find(x => x.id === o.member);
+    if (!m) no("That member cannot act.");
+    if (by[m.id]) no("One order for each member.");
+    checkOrder(c, m, o);
+    by[m.id] = o;
+  }
+  for (const m of acting) by[m.id] = by[m.id] || { member: m.id, act: canMelee(c, m) ? "fight" : "guard" };
+  f.round++; f.lastMiss = null;
+  const guards = new Set(Object.values(by).filter(o => o.act === "guard").map(o => o.member));
+  for (const foe of foesOf(c)) {
+    const au = c.pack.bestiary[foe.id].aura;
+    if (!au || !alive(foe) || foe.state === "asleep") continue;
+    for (const m of ups(c)) {
+      if (by[m.id]?.act === au.avoid) continue;
+      if (res(c).check(c, au.check, { who: m.id }) === "fail" && !m.cond.includes(au.condition)) m.cond.push(au.condition);
+    }
+  }
+  const foesFirst = f.round === 1 && f.first === "foes";
+  if (foesFirst) foePhase(c, guards);
+  if (partyPhase(c, by) === "flee") return endFight(c, "flee");
+  checkFoes(c);
+  if (s.fight && !foesFirst) { foePhase(c, guards); if (s.fight) checkFoes(c); }
+}
+function partyPhase(c, by) {
+  let fled = null;
+  for (const id of c.s.order.slice()) {
+    const m = mem(c, id), o = by[id];
+    if (!o || m.down || isFull(c, m)) continue;
+    if (!foesOf(c).some(alive)) break;
+    if (o.act === "fight") strike(c, m, o);
+    else if (o.act === "ability") useAbility(c, m, o.ability, retarget(c, c.pack.abilities[o.ability].target, o.target));
+    else if (o.act === "item") useItem(c, m, o.item, retarget(c, c.pack.items[o.item].use.target, o.target));
+    else if (o.act === "guard") log(c, `${nameOf(c, id)} guards.`);
+    else if (o.act === "run") {
+      if (fled == null) fled = res(c).check(c, c.R.combat.flee) !== "fail";
+      log(c, fled ? `${nameOf(c, id)} runs.` : `${nameOf(c, id)} cannot get away.`);
+      if (fled) return "flee";
+    }
+  }
+  return null;
+}
+const retarget = (c, kind, t) => (kind === "foe" && !alive(foesOf(c)[t]) ? firstFoe(c) : t);
+function foePhase(c, guards) {
+  const s = c.s, enc = c.pack.encounters[s.fight.enc], reach = enc.reach ?? c.R.combat.reach ?? c.R.combat.front;
+  foesOf(c).forEach((foe, i) => {
+    if (!alive(foe) || foe.state === "asleep") return;
+    const pool = ups(c).slice(0, reach);
+    if (pool.length) { const m = pool[d(s, pool.length) - 1]; res(c).defend(c, i, m, guards.has(m.id)); }
+  });
+}
+function reroll(c) {
+  const f = c.s.fight, lm = f.lastMiss, m = lm && ups(c).find(x => x.id === lm.member);
+  if (!m) no("Nothing to reroll.");
+  if (m.fate < c.R.fate.reroll) no("Not enough Fate.");
+  const foes = foesOf(c), fi = alive(foes[lm.order.target]) ? lm.order.target : firstFoe(c);
+  m.fate -= c.R.fate.reroll; f.lastMiss = null;
+  log(c, `${nameOf(c, m.id)} spends Fate and tries again.`);
+  res(c).attack(c, m, fi);
+  checkFoes(c);
+}
+
+// ---- the two resolvers: check, attack, defend, harm ----
+const rollEvt = (c, who, what, dice, mod, total, target, t) => emit(c, { k: "roll", who, what, dice, mod, total, target, tier: t });
+const symbols = ds => ds.map(x => (x > 0 ? "+" : x < 0 ? "-" : "0")).join("");
+
+const OSE = {
+  check(c, spec, ctx = {}) {
+    const s = c.s;
+    if (spec.save) {
+      const m = mem(c, ctx.who) || mem(c, spec.who) || mem(c, ctx.self) || ups(c)[0];
+      const need = char(c, m.id).saves[spec.save], r = d(s, 20), t = r >= need ? "success" : "fail";
+      rollEvt(c, m.id, "save " + spec.save, [r], 0, r, need, t);
+      return t;
+    }
+    let chance = spec.inSix, who = "party";
+    if (spec.skill) {
+      const pool = ctx.who ? [mem(c, ctx.who)] : ups(c);
+      const explicit = pool.map(m => char(c, m.id).skills?.[spec.skill]);
+      const best = Math.max(...explicit.map(n => (n == null ? -1 : n)));
+      chance = best >= 0 ? best : c.R.skills[spec.skill].inSix;
+      who = (pool[Math.max(0, explicit.indexOf(best))] || pool[0]).id;
+    }
+    const r = d(s, 6), t = r <= chance ? "success" : "fail";
+    rollEvt(c, who, spec.skill || "check", [r], 0, r, chance, t);
+    return t;
+  },
+  attack(c, m, fi) {
+    const s = c.s, ch = char(c, m.id), at = ch.attack, foe = foesOf(c)[fi], mon = c.pack.bestiary[foe.id];
+    const sm = statMod(c, ch.stats[at.stat || "str"] ?? 10), tm = tiredMod(c, m);
+    const mod = (at.bonus || 0) + sm + tm + bonusOf(m, true);
+    const r = d(s, 20), total = r + mod, hit = r === 20 || (r !== 1 && total >= mon.ac);
+    rollEvt(c, m.id, "attack", [r], mod, total, mon.ac, hit ? "success" : "fail");
+    let line = `${ch.name} d20 ${r} ${sgn(mod)} = ${total} vs AC ${mon.ac} · ${hit ? "hit" : "miss"}`;
+    if (hit) {
+      const dm = dice(s, at.damage), dmg = Math.max(1, dm.total + sm + tm);
+      rollEvt(c, m.id, "damage", dm.dice, dm.mod + sm + tm, dmg, null, null);
+      line += ` · ${at.damage}${sgn(sm + tm)} = ${dmg}`;
+      log(c, line);
+      harm(c, { f: fi }, null, dmg);
+    } else log(c, line);
+    return hit ? "success" : "fail";
+  },
+  defend(c, fi, m, guard) {
+    const s = c.s, foe = foesOf(c)[fi], at = c.pack.bestiary[foe.id].attack, ac = char(c, m.id).ac + (guard ? 2 : 0);
+    const r = d(s, 20), total = r + (at.bonus || 0), hit = total >= ac;
+    rollEvt(c, "enemy:" + fi, "attack", [r], at.bonus || 0, total, ac, hit ? "success" : "fail");
+    let line = `The ${foeName(c, fi)} d20 ${r} ${sgn(at.bonus || 0)} = ${total} vs AC ${ac} · ${hit ? "hit" : "miss"}`;
+    if (!hit) return log(c, line);
+    const dm = dice(s, at.damage);
+    rollEvt(c, "enemy:" + fi, "damage", dm.dice, dm.mod, dm.total, null, null);
+    log(c, line + ` · ${at.damage} = ${dm.total}`);
+    harm(c, { m }, at.track, dm.total);
+  },
+  harm,
+};
+
+function fateRoll(c, m, what, stat, target, extra = 0) {
+  const dd = [fudge(c.s), fudge(c.s), fudge(c.s), fudge(c.s)];
+  const mod = (char(c, m.id).stats[stat] || 0) + tiredMod(c, m) + bonusOf(m, true) + extra;
+  const total = dd.reduce((a, b) => a + b, 0) + mod, shifts = total - target, t = tier(shifts);
+  rollEvt(c, m.id, what, dd, mod, total, target, t);
+  return { tier: t, shifts, text: `4dF ${symbols(dd)} ${sgn(mod)} = ${total} vs ${target} · ${t}` };
+}
+const FATE = {
+  check(c, spec, ctx = {}) {
+    const sk = spec.skill ? c.R.skills[spec.skill] : spec;
+    const pool = ctx.who ? [mem(c, ctx.who)] : ups(c);
+    const score = m => (char(c, m.id).stats[sk.stat] || 0) + tiredMod(c, m) + bonusOf(m);
+    const best = pool.reduce((a, b) => (score(b) > score(a) ? b : a));
+    return fateRoll(c, best, spec.skill || sk.stat, sk.stat, sk.difficulty).tier;
+  },
+  attack(c, m, fi) {
+    const ch = char(c, m.id), at = ch.attack, foe = foesOf(c)[fi], mon = c.pack.bestiary[foe.id];
+    const r = fateRoll(c, m, "attack", at.stat, mon.rating);
+    log(c, `${ch.name} ${r.text}`);
+    if (r.tier === "style" || r.tier === "success") harm(c, { f: fi }, null, Math.max(1, r.shifts));
+    else if (r.tier === "tie") { harm(c, { f: fi }, null, 1); harm(c, { m }, at.costTrack || c.R.tracks[0].id, 1); }
+    return r.tier === "fail" ? "fail" : "success";
+  },
+  defend(c, fi, m, guard) {
+    const at = c.pack.bestiary[foesOf(c)[fi].id].attack, track = at.track || c.R.tracks[0].id;
+    const r = fateRoll(c, m, "defend", c.R.combat.defense, at.rating, guard ? 2 : 0);
+    log(c, `${nameOf(c, m.id)} ${r.text}`);
+    if (r.tier === "style") harm(c, { f: fi }, null, 1);
+    else if (r.tier === "tie") harm(c, { m }, track, 1);
+    else if (r.tier === "fail") harm(c, { m }, track, -r.shifts);
+  },
+  harm,
+};
+const RESOLVERS = { ose: OSE, fate4df: FATE };
+
+// ---- party, hub ----
+function fresh(c, id) {
+  const marked = {};
+  c.R.tracks.forEach(t => { marked[t.id] = 0; });
+  return { id, marked, fate: char(c, id).fate ?? c.R.fate.start, used: {}, cond: [], down: false, dead: false };
+}
+function join(c, id) {
+  if (c.s.done["@joined:" + id]) return;
+  c.s.done["@joined:" + id] = true;
+  for (const [it, n] of Object.entries(char(c, id).items || {})) give(c, it, n);
+}
+function rebench(c) {
+  const inParty = c.s.party.map(m => m.id);
+  c.s.bench = Object.keys(c.pack.party.roster).filter(id => !inParty.includes(id) && !c.s.done["@dead:" + id]);
+}
+function pick(c, cmd) {
+  const s = c.s, size = c.R.party?.size || 4, ids = cmd.ids, roster = c.pack.party.roster;
+  if (!Array.isArray(ids) || ids.length !== size) no(`Pick exactly ${size}.`);
+  if (new Set(ids).size !== ids.length) no("Pick each member once.");
+  for (const id of ids) {
+    if (!roster[id]) no("Unknown member.");
+    if (s.done["@dead:" + id] || mem(c, id)?.dead) no(`${roster[id].name} is dead.`);
+  }
+  const old = s.party;
+  for (const m of old) if (m.dead && !ids.includes(m.id)) s.done["@dead:" + m.id] = true;
+  s.party = ids.map(id => old.find(m => m.id === id) || fresh(c, id));
+  s.order = ids.filter(id => !mem(c, id).down);
+  ids.forEach(id => join(c, id));
+  rebench(c);
+}
+function replaceDead(c) {
+  const s = c.s;
+  for (const m of s.party.slice()) {
+    if (!m.dead) continue;
+    const id = s.bench.find(b => !s.done["@dead:" + b]);
+    if (!id) continue;
+    s.done["@dead:" + m.id] = true;
+    s.party[s.party.indexOf(m)] = fresh(c, id);
+    s.order.push(id);
+    join(c, id);
+    rebench(c);
+    log(c, `${nameOf(c, id)} takes the place of ${nameOf(c, m.id)}.`);
+  }
+}
+function hubRest(c) {
+  const s = c.s;
+  for (const m of s.party) {
+    if (m.dead) continue;
+    for (const [t, n] of Object.entries(m.marked)) if (n) emit(c, { k: "heal", who: m.id, track: t, amount: n });
+    c.R.tracks.forEach(t => { m.marked[t.id] = 0; });
+    m.cond = []; m.used = {}; m.fate = char(c, m.id).fate ?? c.R.fate.start; delete m.bonus;
+    if (m.down) m.down = false;
+  }
+  s.order = s.order.concat(s.party.filter(m => !m.dead && !s.order.includes(m.id)).map(m => m.id));
+  s.sinceRest = 0;
+  log(c, "The party rests.");
+}
+function hubCmd(c, cmd) {
+  const s = c.s;
+  let a = null;
+  for (const p of c.pack.hub.places) for (const x of p.actions) if (!a && x.id === cmd.action) a = x;
+  if (!a) no("No such action.");
+  const why = unmet(c, a.if);
+  if (why) no(why);
+  if (a.kind === "scene") return openScene(c, a.scene, "hub");
+  if (a.kind === "roster") return cmd.ids ? pick(c, cmd) : replaceDead(c);
+  if (a.kind === "rest") {
+    if (s.gold < (a.price || 0)) no(`Not enough ${label(c, "gold")}.`);
+    give(c, "gold", -(a.price || 0));
+    return hubRest(c);
+  }
+  if (a.kind !== "shop") no("Nothing to do.");
+  const n = Math.max(1, Math.floor(cmd.n || 1));
+  if (cmd.buy) {
+    const row = (a.stock || []).find(x => x.item === cmd.buy);
+    if (!row) no("Not for sale.");
+    if (s.gold < row.price * n) no(`Not enough ${label(c, "gold")}.`);
+    give(c, "gold", -row.price * n); give(c, row.item, n);
+    log(c, `You buy ${n} ${c.pack.items[row.item].name}.`);
+  } else if (cmd.sell) {
+    const it = c.pack.items[cmd.sell];
+    if (!it || it.kind !== "treasure") no("Only treasure sells here.");
+    if (have(c, cmd.sell) < n) no("You do not have that.");
+    give(c, cmd.sell, -n); give(c, "gold", (it.value || 0) * n);
+    log(c, `You sell ${n} ${it.name} for ${(it.value || 0) * n}.`);
+  } else no("Buy or sell what?");
+}
+
+// ---- create and step ----
+function create(pack, opts = {}) {
+  const seed = (opts.seed == null ? 1 : opts.seed) >>> 0;
+  return {
+    v: 1, seed, rng: seed, mode: "roster", turn: 0, sinceRest: 0,
+    light: { source: null, left: 0, stash: {} },
+    pos: null, prev: null, party: [], order: [], bench: [],
+    flags: {}, items: {}, gold: 0, visited: {}, seen: {}, doors: {}, done: {}, foes: {},
+    scene: null, fight: null, ending: null, queued: null, log: [],
+  };
+}
+const ALLOWED = {
+  pick: ["roster", "hub"], hub: ["hub"], turn: ["map"], move: ["map"], act: ["map"], search: ["map"], listen: ["map"], rest: ["map"],
+  use: ["map", "fight"], order: ["map", "hub"], choose: ["scene"], orders: ["fight"], reroll: ["fight"], cheat: ["deathDoor"], letgo: ["deathDoor"],
+};
+function run(c, cmd) {
+  const s = c.s;
+  if (!Object.prototype.hasOwnProperty.call(ALLOWED, cmd.t)) no("Unknown command.");
+  if (!ALLOWED[cmd.t].includes(s.mode)) no("Not now.");
+  switch (cmd.t) {
+    case "pick": {
+      const first = s.mode === "roster";
+      pick(c, cmd);
+      if (first) {
+        toHub(c);
+        if (c.pack.start?.scene && !s.done["@start"]) { s.done["@start"] = true; openScene(c, c.pack.start.scene, "hub"); }
+      }
+      break;
+    }
+    case "hub": hubCmd(c, cmd); break;
+    case "turn": {
+      const t = { left: 3, right: 1, about: 2 }[cmd.dir];
+      if (t == null) no("Turn which way?");
+      s.pos.facing = (s.pos.facing + t) % 4;
+      emit(c, { k: "turn" });
+      break;
+    }
+    case "move": move(c, cmd.dir); break;
+    case "act": act(c); break;
+    case "search": search(c); break;
+    case "listen": listen(c); break;
+    case "rest": rest(c); break;
+    case "use": useCmd(c, cmd); if (s.fight) checkFoes(c); break;
+    case "order": {
+      const ids = cmd.ids;
+      if (!Array.isArray(ids) || ids.length !== s.order.length || !s.order.every(id => ids.includes(id))) no("Name each member once.");
+      s.order = ids.slice();
+      break;
+    }
+    case "choose": choose(c, cmd); break;
+    case "orders": playRound(c, cmd); break;
+    case "reroll": reroll(c); break;
+    case "cheat": cheat(c); break;
+    case "letgo": drop(c, atDoor(c)[0]); break;
+  }
+}
+function step(pack, state, cmd) {
+  try {
+    if (!cmd || typeof cmd !== "object" || typeof cmd.t !== "string") no("Unknown command.");
+    if (cmd.t === "restart") return { state: create(pack, { seed: state.seed }), events: [] };
+    const c = mkCtx(pack, clone(state));
+    run(c, cmd);
+    settle(c);
+    return { state: c.s, events: c.ev };
+  } catch (e) {
+    return { state, events: [{ k: "refuse", text: e instanceof Refuse ? e.message : "That did not work." }] };
+  }
+}
+
+// ---- the view model (SPEC section 9) ----
+function rosterCard(c, id) {
+  const ch = char(c, id);
+  const line = ch.oseLine || (ose(c) ? `${ch.class} · AC ${ch.ac} · HP ${ch.hp}` : `${ch.class} · ${c.R.tracks.map(t => `${t.label} ${ch.tracks?.[t.id] ?? 3}`).join(" · ")}`);
+  return {
+    id, name: ch.name, title: ch.title || "", text: ch.text || "", npc: !!ch.npc,
+    stats: c.R.stats.map(st => ({ id: st.id, label: st.label, value: ch.stats[st.id] })),
+    card: [line, ch.note5e].filter(Boolean),
+  };
+}
+function sceneView(c) {
+  const sc = c.s.scene, def = c.pack.events[sc.id];
+  return {
+    id: sc.id, title: def.title, text: def.text, notes: def.notes || [], said: sc.said.slice(), gate: !!sc.gate,
+    choices: sceneChoices(c).map(x => ({ id: x.id, text: x.text, mode: x.mode, enabled: x.enabled, reason: x.reason })),
+  };
+}
+function mapView(c) {
+  const s = c.s, p = s.pos, m = mapOf(c), [fx, fy] = DIRS[p.facing], [rx, ry] = DIRS[(p.facing + 1) % 4];
+  const ahead = [], dk = dark(c);
+  for (let dep = 0; dep < 4; dep++) {
+    ahead.push([-1, 0, 1].map(l => (dk && !(dep === 0 && l === 0) ? "dark" : kindAt(c, p.map, p.x + fx * dep + rx * l, p.y + fy * dep + ry * l))));
+  }
+  const can = { forward: false, back: false, left: false, right: false, act: false, search: false, listen: false, rest: false };
+  if (s.mode === "map") {
+    const free = f => { const [dx, dy] = DIRS[(p.facing + f) % 4]; return passable(kindAt(c, p.map, p.x + dx, p.y + dy)); };
+    Object.assign(can, { forward: free(0), right: free(1), back: free(2), left: free(3), search: true, rest: true });
+    const f = facingCell(c), k = kindAt(c, p.map, f.x, f.y);
+    can.listen = DOORS.includes(k);
+    can.act = (k !== "wall" && !!m.cells?.[key(f.x, f.y)]?.link) || k === "stuck" || (k === "locked" && have(c, m.cells?.[key(f.x, f.y)]?.key) > 0)
+      || (k === "door" && s.doors[p.map]?.[key(f.x, f.y)] !== "open");
+  }
+  const seen = s.seen[p.map] || {}, W = m.grid[0].length, rows = [];
+  for (let y = 0; y < m.grid.length; y++) {
+    let row = "";
+    for (let x = 0; x < W; x++) {
+      if (!seen[key(x, y)]) { row += " "; continue; }
+      const k = kindAt(c, p.map, x, y);
+      row += k === "stairs" ? info(m, x, y).ch : AUTOMAP[k];
+    }
+    rows.push(row);
+  }
+  return { id: p.map, title: m.title, x: p.x, y: p.y, facing: p.facing, ahead, can, automap: { w: W, h: m.grid.length, rows } };
+}
+function foeLabel(c, f) {
+  return ose(c) ? `${Math.max(0, f.hp - f.marked)} hp` : `stress ${Math.min(f.marked, f.hp)} of ${f.hp}`;
+}
+function fightView(c) {
+  const s = c.s, f = s.fight, foes = foesOf(c), L = s.fight.lastMiss;
+  const members = ups(c).filter(m => !m.cond.includes("asleep")).map(m => {
+    const ch = char(c, m.id), acts = [];
+    const abilities = (ch.abilities || []).filter(a => !abilityBase(c, m, a));
+    const items = Object.keys(s.items).filter(i => !itemBase(c, i));
+    if (canMelee(c, m)) acts.push("fight");
+    if (abilities.length) acts.push("ability");
+    if (items.length) acts.push("item");
+    acts.push("guard", "run");
+    return { id: m.id, acts, abilities, items };
+  });
+  const lm = L && ups(c).find(m => m.id === L.member);
+  return {
+    round: f.round,
+    foes: foes.map((x, i) => {
+      const mon = c.pack.bestiary[x.id];
+      return { i, name: mon.name, state: x.marked >= x.hp ? "dead" : x.state, hp: foeLabel(c, x), marked: Math.min(x.marked, x.hp), max: x.hp, card: [mon.oseLine, mon.note5e].filter(Boolean) };
+    }),
+    members,
+    canReroll: !!(lm && lm.fate >= c.R.fate.reroll && foes.some(alive)),
+    canRun: true,
+  };
+}
+function hubView(c) {
+  const H = c.pack.hub, s = c.s;
+  const places = H.places.map(p => ({
+    id: p.id, label: p.label, text: p.text,
+    actions: p.actions.map(a => {
+      const why = unmet(c, a.if) || (a.kind === "rest" && s.gold < (a.price || 0) ? `Not enough ${label(c, "gold")}.` : null);
+      const out = { id: a.id, label: a.label, kind: a.kind, enabled: !why, reason: why || "" };
+      if (a.price != null) out.price = a.price;
+      if (a.kind === "shop") {
+        out.stock = (a.stock || []).map(r => ({ item: r.item, name: c.pack.items[r.item].name, price: r.price, count: have(c, r.item), enabled: s.gold >= r.price, reason: s.gold >= r.price ? "" : `Not enough ${label(c, "gold")}.` }));
+        out.sell = Object.keys(s.items).filter(i => c.pack.items[i]?.kind === "treasure")
+          .map(i => ({ item: i, name: c.pack.items[i].name, value: c.pack.items[i].value || 0, count: s.items[i] }));
+      }
+      return out;
+    }),
+  }));
+  const lines = H.report?.lines || {};
+  return {
+    title: H.title, text: H.text, places,
+    report: Object.keys(lines).filter(f => s.flags[f]).map(f => lines[f]),
+    reportTitle: H.report?.title || "",
+    bench: s.bench.map(id => rosterCard(c, id)),
+  };
+}
+function view(pack, state) {
+  const c = mkCtx(pack, state), s = state, R = pack.rules, a = here(c);
+  const door = s.mode === "deathDoor" ? atDoor(c)[0] : null;
+  const party = s.party.slice().sort((x, y) => {
+    const i = s.order.indexOf(x.id), j = s.order.indexOf(y.id);
+    return (i < 0 ? 99 : i) - (j < 0 ? 99 : j);
+  }).map(m => {
+    const ch = char(c, m.id), rank = s.order.indexOf(m.id);
+    return {
+      id: m.id, name: ch.name, title: ch.title || "", rank: rank >= 0 && rank < R.combat.front ? "front" : "back",
+      down: m.down, dead: m.dead, fate: m.fate,
+      tracks: R.tracks.map(t => ({ id: t.id, label: t.label, max: maxOf(c, m, t.id), marked: m.marked[t.id] || 0 })),
+      cond: m.cond.slice(),
+      abilities: (ch.abilities || []).map(id => {
+        const ab = pack.abilities[id], left = Math.max(0, (ab.uses || 1) - (m.used[id] || 0));
+        const usable = !m.down && left > 0 && (ab.kind === "fate" ? s.mode === "scene" : s.mode !== "roster" && (ab.when === "any" ? s.mode === "map" || s.mode === "fight" : ab.when === s.mode));
+        return { id, name: ab.name, text: ab.text || "", left, usable };
+      }),
+    };
+  });
+  return {
+    mode: s.mode,
+    hud: {
+      turn: s.turn, minutes: s.turn * R.clock.turnMinutes,
+      light: s.light.source ? { label: s.light.source === "spell" ? label(c, "light") : pack.items[s.light.source].name, left: s.light.left } : null,
+      dark: dark(c), tired: isTired(c), gold: s.gold, area: a ? { key: a.key, name: a.def.name } : null,
+    },
+    party,
+    map: inDungeon(c) ? mapView(c) : null,
+    scene: s.scene ? sceneView(c) : null,
+    fight: s.fight ? fightView(c) : null,
+    hub: s.mode === "hub" ? hubView(c) : null,
+    roster: s.mode === "roster" ? { need: R.party?.size || 4, members: Object.keys(pack.party.roster).map(id => rosterCard(c, id)) } : null,
+    ending: s.ending ? { id: s.ending, ...pack.endings[s.ending] } : null,
+    door: door ? { who: door.id, cost: R.fate.cheatDeath } : null,
+    log: s.log.slice(-50),
+  };
+}
+
+const Crawl = { version: VERSION, create, step, view, tier };
+if (typeof module !== "undefined" && module.exports) module.exports = Crawl;
+else root.Crawl = Crawl;
+})(typeof globalThis !== "undefined" ? globalThis : this);
+
+</script>
+<script>
+/* view.js: the screen. Reads window.PACK and window.Crawl. Holds {seed, commands} and the state.
+   Calls Crawl.step and Crawl.view. Draws only the view model. Sends only commands from SPEC section 2. */
+(function () {
+  "use strict";
+
+  const PACK = window.PACK;
+  const Crawl = window.Crawl;
+  const doc = document;
+  const $ = id => doc.getElementById(id);
+
+  // ---------------------------------------------------------------- labels and theme
+
+  const DEFAULT_LABELS = {
+    leave: "Leave", turn: "Turn", light: "Light", search: "Search", rest: "Rest", map: "Map",
+    act: "Act", listen: "Listen", plan: "Plan", fate: "Fate",
+    gate: "Planning is free. Acting costs time.",
+    fight: "Fight", ability: "Ability", item: "Item", guard: "Guard", run: "Run", foes: "Foes",
+    reroll: "Reroll", newGame: "New game", sure: "Tap again to erase the save", close: "Close",
+    start: "Start", clear: "Clear", back: "Cancel", undo: "Undo", dark: "Dark", tired: "Tired", gold: "gold",
+    report: "Report", deathDoor: "Near death", cheat: "Stay alive", letgo: "Let them die",
+    moves: "Route", noMoves: "No route on this map yet.", up: "Move up", down: "Move down",
+    abilities: "Abilities", order: "Marching order", chooseParty: "Choose the party",
+    pickN: "Pick", ending: "The end", seed: "Seed", buy: "Buy", sell: "Sell", target: "Target",
+    front: "Front rank", back2: "Back rank", downWord: "Down", deadWord: "Dead", asleep: "asleep", fled: "fled",
+    endGood: "Success", endBack: "Survived", endDead: "Lost", lastRound: "Last round",
+  };
+  const THEME = PACK.theme || {};
+  const LABELS = THEME.labels || {};
+  const L = key => (LABELS[key] != null ? LABELS[key] : DEFAULT_LABELS[key] != null ? DEFAULT_LABELS[key] : key);
+
+  const safeColor = s => (typeof s === "string" && /^[#a-zA-Z0-9(),.%\s/-]+$/.test(s) ? s : null);
+  const safeFont = s => (typeof s === "string" ? s.replace(/[;{}<>\\]/g, "") : null);
+
+  function applyTheme() {
+    const pal = THEME.palette || {}, dk = THEME.paletteDark || pal;
+    const vars = p => ["paper", "ink", "accent", "muted"].filter(k => safeColor(p[k])).map(k => `--${k}:${safeColor(p[k])}`).join(";");
+    const f = THEME.fonts || {};
+    const fonts = ["title", "body", "mono"].filter(k => safeFont(f[k])).map(k => `--font-${k}:${safeFont(f[k])}`).join(";");
+    const css = `:root{${vars(pal)};${fonts}}\n@media (prefers-color-scheme: dark){:root{${vars(dk)}}}`;
+    const st = doc.createElement("style");
+    st.id = "theme";
+    st.textContent = css;
+    doc.head.appendChild(st);
+    doc.documentElement.classList.toggle("caps", !!THEME.titleCaps);
+  }
+
+  const cssVar = name => getComputedStyle(doc.documentElement).getPropertyValue(name).trim() || "#000";
+  const reducedMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  // ---------------------------------------------------------------- tiny DOM helper
+
+  function h(tag, attrs, ...kids) {
+    const e = doc.createElement(tag);
+    if (attrs) {
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v == null || v === false) continue;
+        if (k === "class") e.className = v;
+        else if (k === "text") e.textContent = v;
+        else if (k === "style") e.style.cssText = v;
+        else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+        else e.setAttribute(k, v === true ? "" : String(v));
+      }
+    }
+    for (const c of kids.flat(2)) {
+      if (c == null || c === false) continue;
+      e.append(c.nodeType ? c : doc.createTextNode(String(c)));
+    }
+    return e;
+  }
+  const clear = e => { while (e.firstChild) e.removeChild(e.firstChild); return e; };
+
+  // ---------------------------------------------------------------- storage (every call in try/catch)
+
+  const SAVE_KEY = "crawl." + PACK.id;
+  const GATE_KEY = SAVE_KEY + ".gate";
+  let memGate = null;
+  function storeGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function storeSet(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* no storage: fine */ } }
+  function storeDel(key) { try { localStorage.removeItem(key); } catch (e) { /* no storage: fine */ } }
+
+  function loadSave() {
+    const raw = storeGet(SAVE_KEY);
+    if (!raw) return null;
+    try {
+      const rec = JSON.parse(raw);
+      if (rec && Number.isFinite(rec.seed) && Array.isArray(rec.commands)) return rec;
+    } catch (e) { /* bad save */ }
+    return null;
+  }
+  const writeSave = () => storeSet(SAVE_KEY, JSON.stringify({ seed, commands }));
+
+  // ---------------------------------------------------------------- game holder
+
+  let seed = 0;
+  let commands = [];
+  let state = null;
+  let vm = null;
+  let trails = {};            // map id -> turtle atoms
+  let logLines = [];          // { text, cls }
+  let names = {};             // member id -> name
+  let lastFoes = [];
+  let seedFromUrl = null;
+
+  const ui = {
+    mapOpen: false, sheet: null, draft: null, draftKey: "", picks: null, picksMode: "",
+    keys: [], newGameArmed: 0, bump: 0, round: null, toast: null,
+  };
+
+  const randomSeed = () => (Math.floor(Math.random() * 4294967296) >>> 0);
+
+  function begin(newSeed) {
+    seed = newSeed >>> 0;
+    commands = [];
+    trails = {};
+    state = Crawl.create(PACK, { seed });
+    ui.draft = null; ui.picks = null; ui.mapOpen = false; ui.sheet = null; ui.round = null; ui.toast = null;
+    logEl.classList.remove("tall");
+  }
+
+  function mapIdOf(v) { return v && v.map ? v.map.id : null; }
+
+  // Run one command through the engine. Returns the step result.
+  function applyStep(cmd, replaying) {
+    const before = Crawl.view(PACK, state);
+    const r = Crawl.step(PACK, state, cmd);
+    const events = r.events || [];
+    const refusedOnly = events.length > 0 && events.every(e => e.k === "refuse");
+    state = r.state;
+    if (!(refusedOnly && !replaying)) commands.push(cmd);
+    const after = Crawl.view(PACK, state);
+    trailUpdate(cmd, events, mapIdOf(before), mapIdOf(after));
+    vm = after;
+    return { events, before, after };
+  }
+
+  function send(cmd) {
+    const res = applyStep(cmd, false);
+    writeSave();
+    cacheNames();
+    const lines = eventLines(res.events);
+    const first = addLog(lines);
+    // A round of a fight writes about nine lines. The sheet keeps them above the next orders; after the fight ends the log grows to show them.
+    if (cmd.t === "orders") ui.round = lines.length ? lines : null;
+    else if (cmd.t === "reroll" && lines.length) ui.round = (ui.round || []).concat(lines);
+    if (!vm || vm.mode !== "fight") ui.round = null;
+    ui.toast = cmd.t === "hub" && lines.length ? { action: cmd.action, text: lines[lines.length - 1].text } : null;
+    const tall = lines.length > 3 && vm.mode !== "fight";
+    logEl.classList.toggle("tall", tall);
+    if (tall && first && logEl.firstChild) logEl.scrollTop = Math.max(0, first.offsetTop - logEl.firstChild.offsetTop - 2);
+    if (res.events.some(e => e.k === "bump") && !reducedMotion()) shake();
+    render();
+    return { state, events: res.events };
+  }
+
+  function replayRecord(rec) {
+    begin(rec.seed);
+    try {
+      for (const cmd of rec.commands) applyStep(cmd, true);
+    } catch (e) {
+      begin(rec.seed);
+    }
+    vm = Crawl.view(PACK, state);
+    cacheNames();
+    resetLog(vm.log || []);
+    render();
+  }
+
+  function newGame() {
+    storeDel(SAVE_KEY);
+    begin(seedFromUrl != null ? seedFromUrl : randomSeed());
+    vm = Crawl.view(PACK, state);
+    cacheNames();
+    resetLog(vm.log || []);
+    writeSave();
+    render();
+  }
+
+  function cacheNames() {
+    if (!vm) return;
+    for (const m of vm.party || []) names[m.id] = m.name;
+    if (vm.fight && vm.fight.foes) lastFoes = vm.fight.foes;
+  }
+
+  // ---------------------------------------------------------------- log
+
+  const logEl = $("log");
+
+  function whoName(w) {
+    if (typeof w === "string" && w.indexOf("enemy:") === 0) {
+      const i = parseInt(w.slice(6), 10);
+      const f = lastFoes.find(x => x.i === i) || lastFoes[i];
+      return f ? f.name : "Foe " + (i + 1);
+    }
+    if (names[w]) return names[w];
+    const r = PACK.party && PACK.party.roster && PACK.party.roster[w];
+    return r ? r.name : String(w);
+  }
+
+  function fmtRoll(e) {
+    const dice = Array.isArray(e.dice) ? e.dice : [];
+    const fate = dice.length === 4 && dice.every(d => d === -1 || d === 0 || d === 1);
+    const ds = fate ? dice.map(d => (d > 0 ? "+" : d < 0 ? "-" : "0")).join(" ") : dice.join("+");
+    const mod = Number.isFinite(e.mod) ? e.mod : 0;
+    const modText = mod !== 0 || dice.length > 1 || fate ? ` ${mod < 0 ? "-" : "+"}${Math.abs(mod)}` : "";
+    const parts = [`${whoName(e.who)} ${e.what || ""}`.trim() + ` ${ds}${modText}`];
+    if (e.total != null) parts[0] += ` = ${e.total}`;
+    if (e.target != null) parts[0] += ` vs ${e.target}`;
+    if (e.tier) parts.push(e.tier);
+    return parts.join(" · ");
+  }
+
+  const ROLLISH = /\bd\d+\b|\b\dd\d+\b|4dF| = -?\d+/;
+  function eventLines(events) {
+    const out = [];
+    events = events || [];
+    const logs = events.filter(e => e.k === "log" && e.text).map(e => e.text);
+    for (const e of events) {
+      switch (e.k) {
+        case "log": if (e.text) out.push({ text: e.text, cls: ROLLISH.test(e.text) && / = -?\d+/.test(e.text) ? "roll" : "" }); break;
+        case "light": case "bump": if (e.text) out.push({ text: e.text, cls: "" }); break;
+        case "refuse": if (e.text) out.push({ text: e.text, cls: "refuse" }); break;
+        case "roll": {
+          // The engine often logs the same roll as text. Show the roll event only when it did not.
+          const nm = whoName(e.who);
+          const told = logs.some(t => t.indexOf(nm) >= 0 && t.indexOf("= " + e.total) >= 0);
+          if (!told) out.push({ text: fmtRoll(e), cls: "roll" });
+          break;
+        }
+        default: break;
+      }
+    }
+    return out;
+  }
+
+  function addLog(lines) {
+    if (!lines.length) return null;
+    let first = null;
+    for (const l of lines) {
+      logLines.push(l);
+      const p = h("p", { class: l.cls || "", text: l.text });
+      if (!first) first = p;
+      logEl.appendChild(p);
+    }
+    while (logLines.length > 50) { logLines.shift(); if (logEl.firstChild) logEl.removeChild(logEl.firstChild); }
+    logEl.scrollTop = logEl.scrollHeight;
+    return first;
+  }
+
+  function resetLog(strings) {
+    clear(logEl);
+    logLines = [];
+    addLog(strings.slice(-50).map(t => ({ text: String(t), cls: "" })));
+  }
+
+  // ---------------------------------------------------------------- turtle trail
+
+  const mod360 = n => ((n % 360) + 360) % 360;
+  function pushAtom(arr, atom) {
+    arr.push(atom);
+    for (;;) {
+      const last = arr[arr.length - 1];
+      if (last.t === "T" && last.n === 0) { arr.pop(); if (!arr.length) return; }
+      const n = arr.length;
+      if (n >= 2 && arr[n - 2].t === arr[n - 1].t) {
+        const a = arr[n - 2], b = arr[n - 1];
+        arr.splice(n - 2, 2, { t: a.t, n: a.t === "T" ? mod360(a.n + b.n) : a.n + b.n });
+        continue;
+      }
+      if (arr[arr.length - 1].t === "T" && arr[arr.length - 1].n === 0) continue;
+      break;
+    }
+    if (arr.length > 400) arr.shift();
+  }
+
+  function trailUpdate(cmd, events, mapBefore, mapAfter) {
+    if (mapBefore) {
+      const t = trails[mapBefore] || (trails[mapBefore] = []);
+      const moved = events.some(e => e.k === "move"), turned = events.some(e => e.k === "turn");
+      if (cmd.t === "move" && moved) {
+        if (cmd.dir === "forward") pushAtom(t, { t: "F", n: 1 });
+        else if (cmd.dir === "back") pushAtom(t, { t: "B", n: 1 });
+        else if (cmd.dir === "left") { pushAtom(t, { t: "T", n: 270 }); pushAtom(t, { t: "F", n: 1 }); pushAtom(t, { t: "T", n: 90 }); }
+        else if (cmd.dir === "right") { pushAtom(t, { t: "T", n: 90 }); pushAtom(t, { t: "F", n: 1 }); pushAtom(t, { t: "T", n: 270 }); }
+      } else if (cmd.t === "turn" && turned) {
+        pushAtom(t, { t: "T", n: cmd.dir === "left" ? 270 : cmd.dir === "right" ? 90 : 180 });
+      }
+    }
+    if (mapAfter && mapAfter !== mapBefore && !trails[mapAfter]) trails[mapAfter] = [];
+  }
+
+  function turtleText(atoms) {
+    return atoms.map(a => {
+      if (a.t === "F") return "FORWARD " + a.n * 10;
+      if (a.t === "B") return "BACK " + a.n * 10;
+      return a.n > 180 ? "LEFT " + (360 - a.n) : "RIGHT " + a.n;
+    });
+  }
+
+  // ---------------------------------------------------------------- the wireframe
+
+  const wire = $("wire");
+  const wctx = wire.getContext("2d");
+  const DIRS = ["north", "east", "south", "west"];
+  const SOLID = { wall: 1, door: 1, stuck: 1, locked: 1, stairs: 1 };
+
+  function sizeCanvas(cv, cssW, cssH) {
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    cv.width = Math.round(cssW * dpr);
+    cv.height = Math.round(cssH * dpr);
+    const ctx = cv.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return ctx;
+  }
+
+  function drawWire(offsetX) {
+    const rect = wire.getBoundingClientRect();
+    const W = Math.round(rect.width), H = Math.round(rect.height);
+    if (W < 10 || H < 10) return;
+    if (wire.width !== Math.round(W * (window.devicePixelRatio || 1)) || wire.height !== Math.round(H * (window.devicePixelRatio || 1))) sizeCanvas(wire, W, H);
+    const ctx = wctx;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const ink = cssVar("--ink"), paper = cssVar("--paper"), muted = cssVar("--muted");
+    ctx.save();
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, W, H);
+    ctx.translate(offsetX || 0, 0);
+    ctx.strokeStyle = ink; ctx.fillStyle = ink;
+    ctx.lineJoin = "round"; ctx.lineCap = "round";
+    const map = vm && vm.map;
+    const ahead = map && map.ahead;
+    const dark = !!((vm && vm.hud && vm.hud.dark) || (ahead && ahead[1] && ahead[1][1] === "dark"));
+    if (!ahead || !ahead.length) { ctx.restore(); return; }
+    if (dark) {
+      ctx.fillStyle = muted;
+      ctx.font = `italic ${Math.round(W * 0.11)}px ${cssVar("--font-title")}`;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(L("dark"), W / 2, H / 2);
+      ctx.restore();
+      return;
+    }
+    const S = 1.08 * W, c = 0.5, cx = W / 2, cy = H / 2;
+    const px = (X, z) => cx + (X * S) / (z + c);
+    const py = (Y, z) => cy + (Y * S) / (z + c);
+    const base = Math.max(1.6, W / 150);
+    const line = (a, b) => { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); };
+    const poly = (pts, close) => {
+      ctx.beginPath();
+      pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])));
+      if (close) ctx.closePath();
+      ctx.stroke();
+    };
+    const P = (X, Y, z) => [px(X, z), py(Y, z)];
+    const kindAt = (d, i) => (ahead[d] && ahead[d][i]) || "wall";
+
+    // Floor hatching for water, on a floor patch from X0..X1, z0..z1.
+    const hatch = (X0, X1, z0, z1) => {
+      ctx.save();
+      ctx.lineWidth = base * 0.7;
+      for (let k = 1; k <= 3; k++) {
+        const z = z0 + ((z1 - z0) * k) / 4;
+        ctx.setLineDash([base * 3, base * 2.5]);
+        line(P(X0, 0.5, z), P(X1, 0.5, z));
+      }
+      ctx.restore();
+    };
+
+    // A door frame on a side wall: between z0+.2 and z0+.8.
+    const sideDoor = (X, z0, kind) => {
+      const a = z0 + 0.22, b = z0 + 0.78;
+      poly([P(X, 0.5, a), P(X, -0.25, a), P(X, -0.25, b), P(X, 0.5, b)], false);
+      if (kind === "stuck") { line(P(X, 0.02, z0 + 0.1), P(X, 0.02, z0 + 0.9)); line(P(X, 0.14, z0 + 0.1), P(X, 0.14, z0 + 0.9)); }
+      if (kind === "locked") poly([P(X, 0.0, z0 + 0.44), P(X, 0.0, z0 + 0.56), P(X, 0.14, z0 + 0.56), P(X, 0.14, z0 + 0.44)], true);
+    };
+
+    // A front face at depth z.
+    const front = (z, kind) => {
+      poly([P(-0.5, -0.5, z), P(0.5, -0.5, z), P(0.5, 0.5, z), P(-0.5, 0.5, z)], true);
+      if (kind === "door" || kind === "stuck" || kind === "locked") {
+        poly([P(-0.28, 0.5, z), P(-0.28, -0.3, z), P(0.28, -0.3, z), P(0.28, 0.5, z)], false);
+        if (kind === "stuck") {
+          poly([P(-0.4, 0.0, z), P(0.4, 0.0, z), P(0.4, 0.13, z), P(-0.4, 0.13, z)], true);
+          line(P(-0.28, -0.1, z), P(0.28, 0.35, z));
+        }
+        if (kind === "locked") {
+          poly([P(-0.07, 0.04, z), P(0.07, 0.04, z), P(0.07, 0.18, z), P(-0.07, 0.18, z)], true);
+          const r = Math.abs(px(0.05, z) - px(0, z));
+          ctx.beginPath(); ctx.arc(px(0, z), py(0.0, z), r, Math.PI, 0); ctx.stroke();
+        }
+        const kx = px(0.2, z), ky = py(0.12, z);
+        if (kind === "door") { ctx.beginPath(); ctx.arc(kx, ky, Math.max(1.5, base * 0.7), 0, 7); ctx.fill(); }
+      }
+      if (kind === "stairs") {
+        const pts = [];
+        const steps = 4;
+        for (let i = 0; i <= steps; i++) {
+          const X = -0.5 + i * (1 / steps), Y = 0.5 - i * (1 / steps);
+          if (i === 0) pts.push(P(-0.5, 0.5, z));
+          pts.push(P(X, i === 0 ? 0.5 : Y + 1 / steps, z));
+          pts.push(P(X, Y, z));
+        }
+        poly(pts, false);
+      }
+    };
+
+    let reached = true;
+    for (let d = 0; d <= 3; d++) {
+      const C = d === 0 ? "open" : kindAt(d, 1);
+      ctx.globalAlpha = 1 - 0.13 * d;
+      ctx.lineWidth = base * (1 - 0.1 * d);
+      if (d > 0 && SOLID[C]) { front(d, C); reached = false; break; }
+      for (const side of [-1, 1]) {
+        const K = kindAt(d, side < 0 ? 0 : 2);
+        const X = side * 0.5, z0 = d, z1 = d + 1;
+        if (SOLID[K]) {
+          poly([P(X, -0.5, z0), P(X, -0.5, z1), P(X, 0.5, z1), P(X, 0.5, z0)], true);
+          if (K === "door" || K === "stuck" || K === "locked") sideDoor(X, z0, K);
+          if (K === "stairs") {
+            for (let i = 1; i <= 3; i++) { const z = z0 + i / 4; line(P(X, 0.5 - i * 0.12, z), P(X, 0.5, z)); }
+          }
+        } else {
+          // Open to the side: jambs and the far edge of the opening.
+          line(P(X, -0.5, z1), P(X, 0.5, z1));
+          line(P(X, -0.5, z1), P(X + side * 0.45, -0.5, z1));
+          line(P(X, 0.5, z1), P(X + side * 0.45, 0.5, z1));
+          if (K === "water") hatch(X, X + side * 0.5, z0, z1);
+        }
+      }
+      if (C === "water" || (d === 0 && kindAt(0, 1) === "water")) hatch(-0.5, 0.5, d, d + 1);
+    }
+    ctx.globalAlpha = 1;
+    if (reached) {
+      // The corridor runs on past what you can see.
+      ctx.lineWidth = base * 0.6;
+      ctx.setLineDash([base * 2, base * 3]);
+      poly([P(-0.5, -0.5, 4), P(0.5, -0.5, 4), P(0.5, 0.5, 4), P(-0.5, 0.5, 4)], true);
+      ctx.setLineDash([]);
+    }
+    ctx.restore();
+  }
+
+  function describeView() {
+    const map = vm && vm.map;
+    if (!map) return "No view.";
+    const dir = DIRS[((map.facing % 4) + 4) % 4];
+    const dark = (vm.hud && vm.hud.dark) || (map.ahead && map.ahead[1] && map.ahead[1][1] === "dark");
+    if (dark) return `Facing ${dir}. ${L("dark")}.`;
+    const a = map.ahead || [];
+    let n = 0;
+    for (let d = 1; d < a.length; d++) {
+      const k = a[d][1];
+      if (k === "open" || k === "water") n++;
+      else return `Facing ${dir}. ${n ? n + (n === 1 ? " square" : " squares") + " open, then " : "Directly ahead: "}${k}.`;
+    }
+    return `Facing ${dir}. Open ahead.`;
+  }
+
+  function shake() {
+    const start = performance.now();
+    const tick = now => {
+      const t = (now - start) / 160;
+      if (t >= 1) { drawWire(0); return; }
+      drawWire(Math.sin(t * Math.PI * 4) * 6 * (1 - t));
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // Swipes on the view.
+  (function swipes() {
+    let sx = 0, sy = 0, st = 0, id = null;
+    wire.addEventListener("pointerdown", e => { sx = e.clientX; sy = e.clientY; st = e.timeStamp; id = e.pointerId; });
+    wire.addEventListener("pointerup", e => {
+      if (id !== e.pointerId || !vm || vm.mode !== "map" || ui.mapOpen || ui.sheet) return;
+      id = null;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 28 || e.timeStamp - st > 900) return;
+      if (Math.abs(dy) > Math.abs(dx)) send(dy < 0 ? { t: "move", dir: "forward" } : { t: "move", dir: "back" });
+      else send({ t: "turn", dir: dx < 0 ? "left" : "right" });
+    });
+    wire.addEventListener("pointercancel", () => { id = null; });
+  })();
+
+  // ---------------------------------------------------------------- hud
+
+  function renderHud() {
+    const hud = $("hud");
+    clear(hud);
+    const hv = vm.hud || {};
+    let area = PACK.title || "";
+    if (hv.area) area = (hv.area.key ? hv.area.key + " · " : "") + hv.area.name;
+    else if (vm.mode === "hub" && vm.hub) area = vm.hub.title;
+    else if (vm.mode === "roster") area = PACK.title || "";
+    else if (vm.mode === "ending" && vm.ending) area = L("ending");
+    hud.appendChild(h("span", { class: "hud-area", text: area, title: area }));
+    if (vm.mode === "roster" || vm.mode === "ending") return;
+    if (hv.turn != null) hud.appendChild(h("span", { class: "chip", text: "T " + hv.turn, title: hv.minutes != null ? hv.minutes + " min" : null }));
+    if (hv.dark) hud.appendChild(h("span", { class: "chip dark", text: L("dark") }));
+    else if (hv.light) hud.appendChild(h("span", { class: "chip light", title: (hv.light.label || L("light")) + " " + hv.light.left, text: (hv.light.label || L("light")) + " " + hv.light.left }));
+    if (hv.tired) hud.appendChild(h("span", { class: "chip warn", text: L("tired").toUpperCase() }));
+    if (hv.gold != null) hud.appendChild(h("span", { class: "chip", text: hv.gold + " " + L("gold") }));
+  }
+
+  // ---------------------------------------------------------------- party cards
+
+  const isOse = () => (PACK.rules && PACK.rules.resolver) !== "fate4df";
+
+  function pips(tr) {
+    const w = h("span", { class: "pips" });
+    for (let i = 0; i < tr.max; i++) w.appendChild(h("span", { class: "pip" + (i < tr.marked ? " on" : "") }));
+    return w;
+  }
+
+  function trackRow(tr, compact) {
+    if (isOse()) {
+      const cur = Math.max(0, tr.max - tr.marked);
+      const pct = tr.max ? Math.round((cur / tr.max) * 100) : 0;
+      return h("div", { class: "row" },
+        h("span", { class: "lab", text: tr.label }),
+        h("span", { class: "num", text: cur + "/" + tr.max }),
+        h("span", { class: "bar" }, h("i", { style: `width:${pct}%` })));
+    }
+    return h("div", { class: "row" }, h("span", { class: "lab", text: tr.label }), pips(tr));
+  }
+
+  function renderParty() {
+    const box = $("party");
+    clear(box);
+    const nowId = fightNowId();
+    (vm.party || []).forEach(m => {
+      const status = m.dead ? L("deadWord") : m.down ? L("downWord") : null;
+      const cls = ["card", m.rank === "front" ? "front" : "back", m.down ? "down" : "", m.dead ? "dead" : "", nowId === m.id ? "now" : ""].filter(Boolean).join(" ");
+      const trackText = (m.tracks || []).map(t => isOse() ? `${t.label} ${Math.max(0, t.max - t.marked)} of ${t.max}` : `${t.label} ${t.marked} of ${t.max} marked`).join(", ");
+      const aria = `${m.name}, ${m.rank} rank. ${trackText}. Fate ${m.fate}.${m.cond && m.cond.length ? " " + m.cond.join(", ") + "." : ""}${status ? " " + status + "." : ""} Open abilities.`;
+      const kids = [
+        h("span", { class: "name" }, m.name),
+        ...(m.tracks || []).map(t => trackRow(t)),
+        h("div", { class: "row" },
+          h("span", { class: "fate", text: L("fate") + " " + m.fate }),
+          status ? h("span", { class: "tag", text: status }) : null,
+          ...(m.cond || []).map(c => h("span", { class: "tag", text: c }))),
+      ];
+      box.appendChild(h("button", { type: "button", class: cls, "data-fk": "card:" + m.id, "aria-label": aria, onclick: () => openSheet(m.id) }, kids));
+    });
+  }
+
+  // ---------------------------------------------------------------- controls: buttons and keys
+
+  function actBtn(label, cmd, opts) {
+    opts = opts || {};
+    return h("button", {
+      type: "button", class: "btn " + (opts.cls || ""), "data-fk": opts.fk,
+      "aria-label": opts.aria, "aria-disabled": opts.off ? "true" : null,
+      onclick: () => { if (typeof cmd === "function") cmd(); else send(cmd); },
+    }, opts.word ? h("span", { class: "word" }, label) : label);
+  }
+
+  function renderThumbs(box) {
+    const m = vm.map || { can: {} };
+    const can = m.can || {};
+    const g = h("div", { class: "thumbs", role: "group", "aria-label": "Move" });
+    const arrow = (sym, aria, cmd, fk, off) => actBtn(sym, cmd, { cls: "arrow", aria, fk, off });
+    const cell = (btn, row, col, span) => { btn.style.gridRow = row; btn.style.gridColumn = span ? `${col} / span ${span}` : String(col); return btn; };
+    g.append(
+      cell(arrow("↶", L("turn") + " left", { t: "turn", dir: "left" }, "t:tl"), 1, 1),
+      cell(arrow("↑", "Move forward", { t: "move", dir: "forward" }, "t:f", can.forward === false), 1, 2),
+      cell(arrow("↷", L("turn") + " right", { t: "turn", dir: "right" }, "t:tr"), 1, 3),
+      cell(arrow("←", "Move left", { t: "move", dir: "left" }, "t:sl", can.left === false), 2, 1),
+      cell(arrow("↓", "Move back", { t: "move", dir: "back" }, "t:b", can.back === false), 2, 2),
+      cell(arrow("→", "Move right", { t: "move", dir: "right" }, "t:sr", can.right === false), 2, 3),
+      cell(actBtn(L("act"), { t: "act" }, { cls: "primary", word: true, fk: "t:act", off: can.act === false }), 1, 4),
+      cell(actBtn(L("search"), { t: "search" }, { word: true, fk: "t:search", off: can.search === false }), 1, 5),
+      cell(actBtn(L("listen"), { t: "listen" }, { word: true, fk: "t:listen", off: can.listen === false }), 1, 6),
+      cell(actBtn(L("rest"), { t: "rest" }, { word: true, fk: "t:rest", off: can.rest === false }), 2, 4),
+      cell(actBtn(L("map"), () => openMap(), { word: true, fk: "t:map" }), 2, 5, 2),
+    );
+    g.children[6].classList.add("act-col");
+    g.children[9].classList.add("act-col");
+    box.appendChild(g);
+  }
+
+  function choiceBtn(index, text, o) {
+    // o: { mode, enabled, reason, onclick, fk, tag }
+    const mode = o.mode || "plan";
+    const disabled = o.enabled === false;
+    const kids = [
+      o.tag ? h("span", { class: "mode", text: o.tag }) : null,
+      index != null ? h("span", { class: "num", text: index + "." }) : null,
+      h("span", { text }),
+      disabled && o.reason ? h("span", { class: "reason", text: o.reason }) : null,
+    ];
+    return h("button", {
+      type: "button", class: "choice " + mode + (o.cls ? " " + o.cls : ""), "data-fk": o.fk,
+      "aria-disabled": disabled ? "true" : null,
+      onclick: () => { if (!disabled) o.onclick(); },
+    }, kids);
+  }
+
+  // ---------------------------------------------------------------- scene
+
+  function gateLine(sc) {
+    if (!sc || !sc.gate) return null;
+    const seen = storeGet(GATE_KEY) || memGate;
+    if (seen && seen !== sc.id) return null;
+    if (!seen) { memGate = sc.id; storeSet(GATE_KEY, sc.id); }
+    return L("gate");
+  }
+
+  function renderScenePanel(p) {
+    const sc = vm.scene || {};
+    p.append(h("h1", { class: "title", text: sc.title || "" }));
+    (sc.text || []).forEach(t => p.append(h("p", { class: "read", text: t })));
+    (sc.notes || []).forEach(t => p.append(h("p", { class: "note", text: t })));
+    (sc.said || []).forEach(t => p.append(h("p", { class: "said", text: t })));
+    const gate = gateLine(sc);
+    if (gate) p.append(h("p", { class: "gate", text: gate }));
+  }
+
+  function renderSceneControls(box) {
+    const sc = vm.scene || {};
+    const wrap = h("div", { class: "choices" });
+    (sc.choices || []).forEach((c, i) => {
+      const mode = c.mode === "act" || c.mode === "fate" ? c.mode : "plan";
+      const fn = () => send({ t: "choose", id: c.id });
+      wrap.append(choiceBtn(i + 1, c.text, {
+        mode, enabled: c.enabled !== false, reason: c.reason, onclick: fn, fk: "c:" + c.id, tag: L(mode),
+      }));
+      ui.keys.push(c.enabled !== false ? fn : null);
+    });
+    box.append(wrap);
+  }
+
+  // ---------------------------------------------------------------- hub
+
+  function itemName(id) { const it = PACK.items && PACK.items[id]; return it && it.name ? it.name : id; }
+
+  // Does a scene lead out of town? True if any path through its choices ends in a goto to a map.
+  const exitCache = {};
+  function reachesMap(sceneId) {
+    if (sceneId in exitCache) return exitCache[sceneId];
+    const seen = {}, todo = [sceneId];
+    let found = false;
+    const walk = o => {
+      if (!o || typeof o !== "object") return;
+      if (Array.isArray(o)) { o.forEach(walk); return; }
+      if (o.goto && typeof o.goto === "object") {
+        if (o.goto.map) found = true;
+        else if (o.goto.scene && !seen[o.goto.scene]) { seen[o.goto.scene] = 1; todo.push(o.goto.scene); }
+      }
+      for (const k of Object.keys(o)) if (k !== "goto") walk(o[k]);
+    };
+    while (todo.length && !found) { const def = PACK.events && PACK.events[todo.pop()]; if (def) walk(def.choices); }
+    return (exitCache[sceneId] = found);
+  }
+  const hubActionDef = id => { for (const pl of (PACK.hub && PACK.hub.places) || []) for (const a of pl.actions || []) if (a.id === id) return a; return null; };
+
+  function renderHubPanel(p) {
+    const hb = vm.hub || {};
+    if (ui.swap) { renderSwapPanel(p); return; }
+    p.append(h("h1", { class: "title", text: hb.title || "" }));
+    (Array.isArray(hb.text) ? hb.text : hb.text ? [hb.text] : []).forEach(t => p.append(h("p", { class: "read", text: t })));
+    // Number keys reach the places' own actions. Stall rows are tap or Tab and Enter, so 1 to 9 always include the way out.
+    const isStall = a => a.kind === "shop" && Array.isArray(a.stock) && a.stock.length;
+    const plain = [];
+    (hb.places || []).forEach(pl => (pl.actions || []).forEach(a => { if (!isStall(a)) plain.push(a.id); }));
+    const numOf = id => plain.indexOf(id) + 1;
+    const exits = [];    // the way out to the dungeon is pinned to the bottom of the screen, so it is never three screens down
+    (hb.places || []).forEach(pl => {
+      const sec = h("section", { class: "place" }, h("h2", { class: "title", text: pl.label || pl.id }));
+      if (pl.text) sec.append(h("p", { text: pl.text }));
+      (pl.actions || []).forEach(a => {
+        const off = a.enabled === false;
+        if (isStall(a)) {
+          sec.append(h("p", { class: "dim", text: a.label || a.id }));
+          const st = h("div", { class: "stock" });
+          a.stock.forEach(s => {
+            const fn = () => send({ t: "hub", action: a.id, buy: s.item });
+            const have = s.count ? ` (${s.count})` : "";
+            const poor = s.enabled === false;
+            st.append(choiceBtn(null, `${L("buy")} ${s.name || itemName(s.item)} \u00b7 ${s.price} ${L("gold")}${have}`, { mode: "act", enabled: !off && !poor, reason: poor ? s.reason : a.reason, onclick: fn, fk: `h:${a.id}:${s.item}` }));
+          });
+          (a.sell || []).forEach(s => {
+            const fn = () => send({ t: "hub", action: a.id, sell: s.item });
+            st.append(choiceBtn(null, `${L("sell")} ${s.name || itemName(s.item)} \u00b7 ${s.value} ${L("gold")} (${s.count})`, { mode: "plan", enabled: !off, reason: a.reason, onclick: fn, fk: `h:${a.id}:sell:${s.item}` }));
+          });
+          if (ui.toast && ui.toast.action === a.id) st.append(h("p", { class: "said", role: "status", text: ui.toast.text }));
+          sec.append(st);
+        } else {
+          const fn = a.kind === "roster" && (hb.bench || []).length
+            ? () => { ui.swap = a.id; ui.picks = null; ui.picksMode = ""; render(); }
+            : () => send({ t: "hub", action: a.id });
+          const n = numOf(a.id);
+          const price = a.price ? ` \u00b7 ${a.price} ${L("gold")}` : "";
+          const btn = choiceBtn(n, (a.label || a.id) + price, { mode: a.kind === "scene" ? "act" : "plan", enabled: !off, reason: a.reason, onclick: fn, fk: `h:${a.id}` });
+          const def = a.kind === "scene" ? hubActionDef(a.id) : null;
+          if (def && reachesMap(def.scene)) exits.push(btn); else sec.append(h("div", { style: "margin-top:6px" }, btn));
+          if (ui.toast && ui.toast.action === a.id) sec.append(h("p", { class: "said", role: "status", text: ui.toast.text }));
+          ui.keys[n - 1] = off ? null : fn;
+        }
+      });
+      p.append(sec);
+    });
+    const rep = hb.report || [];
+    if (rep.length) {
+      const title = hb.reportTitle || (PACK.hub && PACK.hub.report && PACK.hub.report.title) || L("report");
+      p.append(h("div", { class: "report" }, h("h2", { class: "title", text: title }), h("ul", null, rep.map(t => h("li", { text: t })))));
+    }
+    if (exits.length) p.append(h("div", { class: "exitbar" }, exits));
+  }
+
+  // ---------------------------------------------------------------- roster
+
+  function pickerPanel(p, cfg) {
+    // cfg: { mode, need, members, initial, heading, onGo(ids), onCancel? }
+    const need = cfg.need || 4;
+    if (ui.picksMode !== cfg.mode || !ui.picks) {
+      ui.picks = cfg.initial.filter(id => cfg.members.some(m => m.id === id)).slice(0, need);
+      ui.picksMode = cfg.mode;
+    }
+    p.append(h("h1", { class: "title", text: cfg.heading }));
+    p.append(h("p", { class: "read", text: `${L("pickN")} ${need}. The first pick stands in front.` }));
+    const grid = h("div", { class: "roster" });
+    const toggle = id => {
+      const i = ui.picks.indexOf(id);
+      if (i >= 0) ui.picks.splice(i, 1);
+      else if (ui.picks.length < need) ui.picks.push(id);
+      render();
+    };
+    const labelOf = id => { const s = (PACK.rules.stats || []).find(x => x.id === id); return s ? s.label : id; };
+    cfg.members.forEach(m => {
+      const pos = ui.picks.indexOf(m.id);
+      const statList = Array.isArray(m.stats) ? m.stats : Object.keys(m.stats || {}).map(k => ({ id: k, value: m.stats[k] }));
+      const card = Array.isArray(m.card) ? m.card : m.card ? [m.card] : [];
+      grid.append(h("button", {
+        type: "button", class: "rcard", "aria-pressed": pos >= 0 ? "true" : "false", "data-fk": "r:" + m.id,
+        "aria-label": `${m.name}, ${m.title || ""}${pos >= 0 ? ", place " + (pos + 1) : ""}`, onclick: () => toggle(m.id),
+      },
+        pos >= 0 ? h("span", { class: "badge", text: pos + 1 }) : null,
+        h("div", { class: "nm", text: m.name }),
+        m.title ? h("div", { class: "ti", text: m.title }) : null,
+        m.text ? h("div", { class: "tx", text: m.text }) : null,
+        h("div", { class: "stats" }, statList.map(s => h("span", { text: `${s.label || labelOf(s.id)} ${s.value > 0 && !isOse() ? "+" : ""}${s.value}` }))),
+        card.map(line => h("div", { class: "cardline", text: line }))));
+      ui.keys.push(() => toggle(m.id));
+    });
+    p.append(grid);
+    const ready = ui.picks.length === need;
+    const go = () => { if (ready) { const ids = ui.picks.slice(); ui.picks = null; ui.picksMode = ""; cfg.onGo(ids); } };
+    p.append(h("div", { class: "pickbar" },
+      cfg.onCancel ? h("button", { type: "button", class: "btn", onclick: cfg.onCancel }, L("back")) : null,
+      h("button", { type: "button", class: "btn", onclick: () => { ui.picks = []; render(); } }, L("clear")),
+      h("button", { type: "button", class: "btn primary", "aria-disabled": ready ? null : "true", "data-fk": "r:go", onclick: go },
+        ready ? L("start") : `${ui.picks.length}/${need}`)));
+    ui.enter = go;
+  }
+
+  function renderRosterPanel(p) {
+    const r = vm.roster || { need: 4, members: [] };
+    const cur = (vm.party || []).map(m => m.id);
+    pickerPanel(p, {
+      mode: "roster", need: r.need || 4, members: r.members, heading: L("chooseParty"),
+      initial: cur.length ? cur : (PACK.party && PACK.party.default) || [],
+      onGo: ids => send({ t: "pick", ids }),
+    });
+  }
+
+  // The hub's roster action: swap bench members in.
+  function cardFromPack(id) {
+    const ch = (PACK.party.roster || {})[id] || {};
+    return {
+      id, name: ch.name || id, title: ch.title || "", text: ch.text || "",
+      stats: (PACK.rules.stats || []).map(st => ({ id: st.id, label: st.label, value: (ch.stats || {})[st.id] })),
+      card: [ch.oseLine || ch.class || "", ch.note5e || ""].filter(Boolean),
+    };
+  }
+  function renderSwapPanel(p) {
+    const hb = vm.hub || {};
+    const live = (vm.party || []).filter(m => !m.dead);
+    const members = live.map(m => cardFromPack(m.id)).concat((hb.bench || []).filter(b => !live.some(m => m.id === b.id)));
+    const act = ui.swap;
+    pickerPanel(p, {
+      mode: "swap", need: (PACK.rules.party && PACK.rules.party.size) || 4, members,
+      initial: live.map(m => m.id), heading: L("chooseParty"),
+      onGo: ids => { ui.swap = null; send({ t: "hub", action: act, ids }); },
+      onCancel: () => { ui.swap = null; ui.picks = null; ui.picksMode = ""; render(); },
+    });
+  }
+
+  // ---------------------------------------------------------------- ending, death's door
+
+  function renderEndingPanel(p) {
+    const e = vm.ending || {};
+    p.append(h("p", { class: "ending-kind", text: L({ good: "endGood", back: "endBack", dead: "endDead" }[e.kind] || "ending") }));
+    p.append(h("h1", { class: "title", text: e.title || L("ending") }));
+    (e.text || []).forEach(t => p.append(h("p", { class: "read", text: t })));
+    const fn = () => newGame();
+    p.append(h("div", { class: "row-btns" }, h("button", { type: "button", class: "btn primary", "data-fk": "ng", onclick: fn }, L("newGame"))));
+    ui.keys.push(fn);
+    ui.enter = fn;
+  }
+
+  function renderDeathPanel(p) {
+    const party = vm.party || [];
+    const dw = vm.door ? vm.door.who : null;
+    let who = dw ? party.find(m => m.id === dw) : null;
+    if (!who) who = party.find(m => !m.down && !m.dead && (m.tracks || []).some(t => t.marked >= t.max));
+    const cost = (vm.door && vm.door.cost) || (PACK.rules && PACK.rules.fate && PACK.rules.fate.cheatDeath);
+    p.append(h("h1", { class: "title", text: L("deathDoor") }));
+    p.append(h("p", { class: "read", text: `${who ? who.name : "Someone"} is near death.${cost ? " Staying alive costs " + cost + " " + L("fate") + "." : ""}` }));
+  }
+
+  function renderDeathControls(box) {
+    const cost = (vm.door && vm.door.cost) || (PACK.rules && PACK.rules.fate && PACK.rules.fate.cheatDeath);
+    const a = () => send({ t: "cheat" }), b = () => send({ t: "letgo" });
+    const cheatText = L("cheat");
+    box.append(h("div", { class: "choices" },
+      choiceBtn(1, cost && cheatText.indexOf(String(cost)) < 0 ? `${cheatText} (${cost} ${L("fate")})` : cheatText, { mode: "fate", onclick: a, fk: "d:cheat" }),
+      h("div", { class: "apart" }, choiceBtn(2, L("letgo"), { mode: "act", onclick: b, fk: "d:letgo", cls: "quiet" }))));
+    ui.keys.push(a, b);
+  }
+
+  // ---------------------------------------------------------------- fight
+
+  const GONE = /^(fled|dead|down|gone|broken|out)/i;
+  const targetable = f => !GONE.test(f.state || "");
+  const ACT_LABEL = { fight: "fight", ability: "ability", item: "item", guard: "guard", run: "run" };
+
+  function fightNowId() {
+    if (!vm || vm.mode !== "fight" || !vm.fight) return null;
+    const d = ensureDraft();
+    const m = vm.fight.members[d.i];
+    return m ? m.id : null;
+  }
+
+  function ensureDraft() {
+    const f = vm.fight;
+    const key = f.round + "|" + f.members.map(m => m.id).join(",");
+    if (!ui.draft || ui.draftKey !== key) {
+      ui.draftKey = key;
+      ui.draft = { i: 0, orders: [], step: null };
+    }
+    return ui.draft;
+  }
+
+  const asId = x => (typeof x === "string" ? x : x && x.id);
+  const asName = (x, fallback) => (typeof x === "string" ? fallback(x) : (x && (x.name || fallback(x.id))) || "");
+  const abilityTarget = id => { const a = PACK.abilities && PACK.abilities[id]; return a ? a.target : "none"; };
+  const itemTarget = id => { const it = PACK.items && PACK.items[id]; return it && it.use ? it.use.target : "none"; };
+  const abilityName = id => { const a = PACK.abilities && PACK.abilities[id]; return a && a.name ? a.name : id; };
+
+  function renderFightControls(box) {
+    const f = vm.fight || { members: [], foes: [] };
+    const d = ensureDraft();
+    const mem = f.members[d.i];
+    if (!mem) return;
+    const pm = (vm.party || []).find(p => p.id === mem.id);
+    const foes = (f.foes || []).filter(targetable);
+    const foeBtns = (then) => foes.map(fo => ({
+      label: `${fo.name}${fo.state ? " (" + fo.state + ")" : ""}`, run: () => then(fo.i),
+    }));
+    const allyBtns = (then) => (vm.party || []).filter(p => !p.dead && !p.down).map(p => ({ label: p.name, run: () => then(p.id) }));
+
+    const commit = o => {
+      d.orders.push(Object.assign({ member: mem.id }, o));
+      d.step = null; d.i++;
+      if (d.i >= f.members.length) {
+        const orders = d.orders.slice();
+        ui.draft = null; ui.draftKey = "";
+        send({ t: "orders", orders });
+      } else render();
+    };
+
+    const targetStep = (kind, onPick) => {
+      if (kind === "foe") {
+        if (foes.length <= 1) return onPick(foes.length ? foes[0].i : undefined);
+        d.step = { pick: "target", options: foeBtns(onPick) };
+      } else if (kind === "ally") {
+        d.step = { pick: "target", options: allyBtns(onPick) };
+      } else return onPick(undefined);
+      render();
+    };
+
+    let options = [];
+    let prompt = `Order for ${pm ? pm.name : mem.id}`;
+    const step = d.step;
+    if (!step) {
+      const acts = (mem.acts && mem.acts.length ? mem.acts : ["fight", "ability", "item", "guard", "run"]);
+      options = acts.map(a => {
+        const label = L(ACT_LABEL[a] || a);
+        let off = false;
+        if (a === "ability" && !(mem.abilities || []).length) off = true;
+        if (a === "item" && !(mem.items || []).length) off = true;
+        if (a === "run" && f.canRun === false) off = true;
+        const run = () => {
+          if (a === "fight") targetStep("foe", t => commit({ act: "fight", target: t }));
+          else if (a === "ability") { d.step = { pick: "ability" }; render(); }
+          else if (a === "item") { d.step = { pick: "item" }; render(); }
+          else commit({ act: a });
+        };
+        return { label, run, off };
+      });
+    } else if (step.pick === "ability") {
+      prompt += ": " + L("ability");
+      options = (mem.abilities || []).map(a => {
+        const id = asId(a), left = typeof a === "object" && a.left != null ? ` (${a.left})` : "";
+        return { label: asName(a, abilityName) + left, off: typeof a === "object" && a.usable === false, run: () => targetStep(abilityTarget(id), t => commit({ act: "ability", ability: id, target: t })) };
+      });
+    } else if (step.pick === "item") {
+      prompt += ": " + L("item");
+      options = (mem.items || []).map(a => {
+        const id = asId(a), cnt = typeof a === "object" && a.count != null ? ` ×${a.count}` : "";
+        return { label: asName(a, itemName) + cnt, run: () => targetStep(itemTarget(id), t => commit({ act: "item", item: id, target: t })) };
+      });
+    } else if (step.pick === "target") {
+      prompt += ": " + L("target");
+      options = step.options;
+    }
+
+    // The orders sit in a sheet pinned to the bottom of the screen (style.css), so no order button is ever below the fold.
+    const undo = () => {
+      if (d.step) { d.step = null; render(); }
+      else if (d.i > 0) { d.i--; d.orders.pop(); render(); }
+    };
+    const bar = h("div", { class: "ask-btns" });
+    if (d.step || d.i > 0) bar.append(h("button", { type: "button", class: "btn small", "data-fk": "o:back", onclick: undo }, d.step ? L("back") : L("undo")));
+    if (f.canReroll) bar.append(h("button", { type: "button", class: "btn small primary", "data-fk": "o:reroll", onclick: () => send({ t: "reroll" }) }, L("reroll")));
+    if (ui.round && ui.round.length) {
+      const rb = h("div", { class: "round", tabindex: "0", "aria-label": L("lastRound") }, h("p", { class: "round-title", text: `${L("lastRound")}` }));
+      ui.round.forEach(l => rb.append(h("p", { class: l.cls || "", text: l.text })));
+      box.append(rb);
+    }
+    box.append(h("div", { class: "ask-row" }, h("p", { class: "ask" }, prompt, h("span", { class: "dim" }, `  ${d.i + 1}/${f.members.length}`)), bar));
+    if (d.orders.length) {
+      box.append(h("p", { class: "orders-so-far", text: d.orders.map(o => `${whoName(o.member)}: ${L(ACT_LABEL[o.act] || o.act)}`).join(" · ") }));
+    }
+    const wrap = h("div", { class: "choices grid2" });
+    options.forEach((o, i) => {
+      wrap.append(choiceBtn(i + 1, o.label, { mode: "act", enabled: !o.off, onclick: o.run, fk: "o:" + (step ? step.pick : "act") + ":" + i }));
+      ui.keys.push(o.off ? null : o.run);
+    });
+    box.append(wrap);
+    ui.undo = undo;
+    ui.reroll = f.canReroll ? () => send({ t: "reroll" }) : null;
+  }
+
+  function renderPlate() {
+    const pl = $("plate");
+    clear(pl);
+    const f = vm.fight;
+    if (!f) { pl.hidden = true; return; }
+    pl.hidden = false;
+    const foes = f.foes || [];
+    const alive = foes.filter(targetable).length;
+    pl.append(h("p", { class: "plate-title", text: `${L("foes")} · ${alive}` }));
+    const ol = h("ol");
+    foes.forEach(fo => {
+      const gone = !targetable(fo);
+      const boxes = !isOse() && fo.max != null;
+      const st = (boxes ? [fo.state] : [fo.state, fo.hp]).filter(Boolean).join(" · ");
+      ol.append(h("li", { class: (gone ? "gone " : "") + (/asleep/i.test(fo.state || "") ? "asleep" : "") },
+        h("span", { class: "n", text: "\u00b7" }), h("span", { text: fo.name }),
+        st || boxes ? h("span", { class: "st" }, st, boxes ? h("span", { class: "pips", role: "img", "aria-label": fo.hp || "", title: fo.hp || "" }, Array.from({ length: fo.max }, (_, i) => h("span", { class: "pip" + (i < fo.marked ? " on" : "") }))) : null) : null));
+    });
+    pl.append(ol);
+    // One card per kind of foe: the full stat line and the note.
+    const shown = {};
+    foes.forEach(fo => {
+      const card = Array.isArray(fo.card) ? fo.card : fo.card ? [fo.card] : [];
+      if (!card.length || shown[fo.name]) return;
+      shown[fo.name] = true;
+      pl.append(h("div", { class: "foecard" }, h("p", { class: "fc-name", text: fo.name }), card.map(line => h("p", { class: "fc-line mono", text: line }))));
+    });
+  }
+
+  // ---------------------------------------------------------------- card sheet
+
+  function openSheet(id) { ui.sheet = { id, pick: null }; ui.sheetReturn = doc.activeElement; renderSheet(); }
+  function closeSheet() {
+    ui.sheet = null;
+    const s = $("sheet");
+    s.hidden = true; clear(s);
+    const back = ui.sheetReturn;
+    ui.sheetReturn = null;
+    if (back && back.isConnected) back.focus({ preventScroll: true });
+    else { const c = ui.sheetCard && doc.querySelector(`[data-fk="card:${ui.sheetCard}"]`); if (c) c.focus({ preventScroll: true }); }
+  }
+
+  function renderSheet() {
+    const s = $("sheet");
+    if (!ui.sheet) { s.hidden = true; return; }
+    const m = (vm.party || []).find(p => p.id === ui.sheet.id);
+    if (!m) { closeSheet(); return; }
+    ui.sheetCard = m.id;
+    clear(s);
+    s.hidden = false;
+    const inner = h("div", { class: "sheet-in" });
+    inner.append(h("div", { class: "ov-head" },
+      h("h1", { class: "title", text: m.name }),
+      h("button", { type: "button", class: "btn small", "data-fk": "sh:close", onclick: closeSheet }, L("close"))));
+    const sub = PACK.party && PACK.party.roster && PACK.party.roster[m.id];
+    inner.append(h("p", { class: "sub", text: [m.title, m.rank === "front" ? L("front") : L("back2")].filter(Boolean).join(" · ") }));
+    (m.tracks || []).forEach(t => inner.append(trackRow(t)));
+    inner.append(h("div", { class: "row", style: "margin-top:6px" },
+      h("span", { class: "fate", text: L("fate") + " " + m.fate }), ...(m.cond || []).map(c => h("span", { class: "tag", text: c }))));
+
+    const mode = vm.mode;
+    const canUse = (mode === "map" || mode === "fight") && !m.down && !m.dead;
+    inner.append(h("h2", { class: "title", text: L("abilities") }));
+    const list = h("div", { class: "abil" });
+    if (ui.sheet.pick) {
+      const pk = ui.sheet.pick;
+      list.append(h("p", { class: "dim", text: `${abilityName(pk.ability)}: ${L("target")}` }));
+      pk.options.forEach(o => list.append(h("button", { type: "button", class: "btn", onclick: () => { closeSheet(); send({ t: "use", member: m.id, ability: pk.ability, target: o.value }); } }, o.label)));
+      list.append(h("button", { type: "button", class: "btn", onclick: () => { ui.sheet.pick = null; renderSheet(); } }, L("back")));
+    } else {
+      if (!(m.abilities || []).length) list.append(h("p", { class: "dim", text: "—" }));
+      (m.abilities || []).forEach(a => {
+        const off = !canUse || a.usable === false;
+        const run = () => {
+          const tk = abilityTarget(a.id);
+          if (tk === "ally") {
+            ui.sheet.pick = { ability: a.id, options: (vm.party || []).filter(p => !p.dead && !p.down).map(p => ({ value: p.id, label: p.name })) };
+            renderSheet();
+          } else if (tk === "foe" && vm.fight) {
+            const foes = (vm.fight.foes || []).filter(targetable);
+            if (foes.length > 1) { ui.sheet.pick = { ability: a.id, options: foes.map(f => ({ value: f.i, label: `${f.name}` })) }; renderSheet(); }
+            else { closeSheet(); send({ t: "use", member: m.id, ability: a.id, target: foes.length ? foes[0].i : undefined }); }
+          } else { closeSheet(); send({ t: "use", member: m.id, ability: a.id }); }
+        };
+        list.append(h("button", { type: "button", class: "btn", "aria-disabled": off ? "true" : null, "data-fk": "sh:" + a.id, onclick: () => { if (!off) run(); } },
+          h("span", { class: "abil-name" }, h("span", { text: a.name }), a.text ? h("span", { class: "desc", text: a.text }) : null),
+          a.left != null ? h("span", { class: "mono", text: String(a.left) }) : null));
+      });
+    }
+    inner.append(list);
+
+    if ((mode === "map" || mode === "hub") && !m.down && !m.dead) {
+      const living = (vm.party || []).filter(p => !p.down && !p.dead).map(p => p.id);
+      const at = living.indexOf(m.id);
+      const move = delta => {
+        const ids = living.slice();
+        const j = at + delta;
+        if (j < 0 || j >= ids.length) return;
+        ids.splice(at, 1); ids.splice(j, 0, m.id);
+        send({ t: "order", ids });
+        renderSheet();
+      };
+      inner.append(h("h2", { class: "title", text: L("order") }));
+      inner.append(h("div", { class: "row-btns" },
+        h("button", { type: "button", class: "btn", "aria-disabled": at <= 0 ? "true" : null, onclick: () => move(-1) }, "↑ " + L("up")),
+        h("button", { type: "button", class: "btn", "aria-disabled": at >= living.length - 1 ? "true" : null, onclick: () => move(1) }, "↓ " + L("down"))));
+    }
+    s.append(inner);
+    const first = s.querySelector('[data-fk="sh:close"]');
+    if (first && !s.contains(doc.activeElement)) first.focus({ preventScroll: true });
+  }
+
+  // ---------------------------------------------------------------- map overlay
+
+  function openMap() {
+    if (!vm || !vm.map) return;
+    ui.mapOpen = true;
+    ui.mapReturn = doc.activeElement;
+    renderMap();
+  }
+  function closeMap() {
+    ui.mapOpen = false;
+    const ov = $("mapov");
+    ov.hidden = true; clear(ov);
+    const back = ui.mapReturn;
+    ui.mapReturn = null;
+    const t = doc.querySelector('[data-fk="t:map"]');
+    if (t) t.focus({ preventScroll: true });
+    else if (back && back.isConnected) back.focus({ preventScroll: true });
+  }
+
+  function renderMap() {
+    const ov = $("mapov");
+    if (!ui.mapOpen || !vm.map) { ov.hidden = true; return; }
+    const hadFocus = ov.contains(doc.activeElement);
+    clear(ov);
+    ov.hidden = false;
+    const m = vm.map;
+    const cv = h("canvas", { id: "mapcv", role: "img", "aria-label": "Map of " + (m.title || "the level") });
+    const atoms = trails[m.id] || [];
+    const turtle = turtleText(atoms);
+    const inner = h("div", { class: "ov-in" },
+      h("div", { class: "ov-head" },
+        h("h1", { class: "title", text: L("map") + (m.title ? " · " + m.title : "") }),
+        h("button", { type: "button", class: "btn small", "data-fk": "mo:close", onclick: closeMap }, L("close"))),
+      cv,
+      h("h2", { class: "title", style: "font:bold 1rem var(--font-title);margin:14px 0 2px", text: L("moves") }),
+      turtle.length
+        ? h("p", { class: "turtle", "aria-label": "Moves" }, turtle.map((t, i) => [i ? h("span", { class: "sep", text: "·" }) : null, h("b", { text: t.split(" ")[0] }), " " + t.split(" ")[1]]))
+        : h("p", { class: "turtle dim", text: L("noMoves") }),
+      h("p", { class: "scale", text: "10 ft per square." }));
+    ov.append(inner);
+    drawAutomap(cv, m);
+    if (!hadFocus) { const c = ov.querySelector('[data-fk="mo:close"]'); if (c) c.focus({ preventScroll: true }); }
+    else { const c = ov.querySelector('[data-fk="mo:close"]'); if (c) c.focus({ preventScroll: true }); }
+  }
+
+  function drawAutomap(cv, m) {
+    const am = m.automap || { w: 0, h: 0, rows: [] };
+    const rows = am.rows || [];
+    // Crop to the squares seen so far, plus one square of margin, so an early map is not a few lines in a sea of paper.
+    let x0 = m.x, x1 = m.x, y0 = m.y, y1 = m.y;
+    rows.forEach((row, y) => { for (let x = 0; x < row.length; x++) if (row[x] !== " ") { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); } });
+    x0 = Math.max(0, x0 - 1); y0 = Math.max(0, y0 - 1);
+    x1 = Math.min((am.w || x1 + 2) - 1, x1 + 1); y1 = Math.min((am.h || rows.length || y1 + 2) - 1, y1 + 1);
+    const w = x1 - x0 + 1, hh = y1 - y0 + 1;
+    const availW = Math.min(cv.parentNode.clientWidth || 328, 560);
+    const maxH = Math.max(200, Math.round((window.innerHeight || 700) * 0.55));
+    const cs = Math.max(8, Math.min(40, Math.floor((availW - 16) / Math.max(1, w)), Math.floor((maxH - 16) / Math.max(1, hh))));
+    const W = availW, H = cs * hh + 16;
+    cv.style.height = H + "px";
+    const ctx = sizeCanvas(cv, W, H);
+    const ink = cssVar("--ink"), paper = cssVar("--paper"), muted = cssVar("--muted"), accent = cssVar("--accent");
+    ctx.fillStyle = paper; ctx.fillRect(0, 0, W, H);
+    const ox = Math.round((W - cs * w) / 2), oy = 8;
+    const at = (x, y) => (rows[y0 + y] && rows[y0 + y][x0 + x]) || " ";
+    const isWall = ch => ch === "#" || ch === " " || ch === "S";
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    // floors: faint grid
+    ctx.strokeStyle = muted; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.5;
+    for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) {
+      const ch = at(x, y);
+      if (isWall(ch)) continue;
+      ctx.strokeRect(ox + x * cs + 0.5, oy + y * cs + 0.5, cs - 1, cs - 1);
+    }
+    ctx.globalAlpha = 1;
+    // walls: hatch the seen wall cells, ink line where wall meets floor
+    for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) {
+      if (at(x, y) !== "#" && at(x, y) !== "S") continue;
+      ctx.save();
+      ctx.beginPath(); ctx.rect(ox + x * cs, oy + y * cs, cs, cs); ctx.clip();
+      ctx.strokeStyle = muted; ctx.lineWidth = 0.8; ctx.globalAlpha = 0.55;
+      for (let k = -cs; k < cs * 2; k += Math.max(4, cs / 3)) {
+        ctx.beginPath(); ctx.moveTo(ox + x * cs + k, oy + y * cs + cs); ctx.lineTo(ox + x * cs + k + cs, oy + y * cs); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.strokeStyle = ink; ctx.lineWidth = 2;
+    for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) {
+      if (isWall(at(x, y))) continue;
+      const X = ox + x * cs, Y = oy + y * cs;
+      const edge = (a, b, c, d) => { ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, d); ctx.stroke(); };
+      if (isWall(at(x, y - 1))) edge(X, Y, X + cs, Y);
+      if (isWall(at(x, y + 1))) edge(X, Y + cs, X + cs, Y + cs);
+      if (isWall(at(x - 1, y))) edge(X, Y, X, Y + cs);
+      if (isWall(at(x + 1, y))) edge(X + cs, Y, X + cs, Y + cs);
+    }
+    // features
+    ctx.lineWidth = 1.6; ctx.strokeStyle = ink; ctx.fillStyle = ink;
+    for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) {
+      const ch = at(x, y);
+      const X = ox + x * cs, Y = oy + y * cs, cxm = X + cs / 2, cym = Y + cs / 2;
+      if (ch === "+" || ch === "=" || ch === "L") {
+        const vert = isWall(at(x - 1, y)) && isWall(at(x + 1, y));   // passage runs north-south
+        const dw = vert ? cs * 0.78 : cs * 0.22, dh = vert ? cs * 0.22 : cs * 0.78;
+        ctx.fillStyle = paper; ctx.fillRect(cxm - dw / 2, cym - dh / 2, dw, dh);
+        ctx.strokeRect(cxm - dw / 2, cym - dh / 2, dw, dh);
+        if (ch === "=") { ctx.beginPath(); ctx.moveTo(cxm - dw / 2, cym - dh / 2); ctx.lineTo(cxm + dw / 2, cym + dh / 2); ctx.moveTo(cxm + dw / 2, cym - dh / 2); ctx.lineTo(cxm - dw / 2, cym + dh / 2); ctx.stroke(); }
+        if (ch === "L") { ctx.beginPath(); ctx.arc(cxm, cym, cs * 0.1, 0, 7); ctx.fillStyle = ink; ctx.fill(); }
+      } else if (ch === "<" || ch === ">") {
+        for (let i = 1; i <= 4; i++) { const yy = Y + (cs * i) / 5; ctx.beginPath(); ctx.moveTo(X + cs * 0.2, yy); ctx.lineTo(X + cs * 0.8, yy); ctx.stroke(); }
+      } else if (ch === "~") {
+        ctx.lineWidth = 1; ctx.setLineDash([cs * 0.15, cs * 0.12]);
+        for (let i = 1; i <= 3; i++) { const yy = Y + (cs * i) / 4; ctx.beginPath(); ctx.moveTo(X + cs * 0.1, yy); ctx.lineTo(X + cs * 0.9, yy); ctx.stroke(); }
+        ctx.setLineDash([]); ctx.lineWidth = 1.6;
+      }
+    }
+    // the party
+    const px = ox + (m.x - x0) * cs + cs / 2, py = oy + (m.y - y0) * cs + cs / 2, r = cs * 0.34;
+    const ang = ((m.facing % 4) - 1) * (Math.PI / 2);   // 0 = east
+    ctx.save();
+    ctx.translate(px, py); ctx.rotate(ang);
+    ctx.fillStyle = accent; ctx.strokeStyle = paper; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(r, 0); ctx.lineTo(-r * 0.8, r * 0.75); ctx.lineTo(-r * 0.5, 0); ctx.lineTo(-r * 0.8, -r * 0.75); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+
+  // ---------------------------------------------------------------- the render pass
+
+  const app = $("app");
+
+  function render() {
+    const fk = doc.activeElement && doc.activeElement.dataset ? doc.activeElement.dataset.fk : null;
+    ui.keys = [];
+    ui.enter = null; ui.undo = null; ui.reroll = null;
+    const mode = vm.mode;
+    const panelKey = mode + "|" + (vm.scene ? vm.scene.id : "");
+    const entering = panelKey !== ui.panelKey;
+    if (entering && ui.lastMode !== mode) { try { window.scrollTo(0, 0); } catch (e) { /* no scroll */ } }
+    ui.lastMode = mode;
+    ui.panelKey = panelKey;
+    if (mode !== "fight") { ui.draft = null; ui.draftKey = ""; }
+    if (mode !== "hub") ui.swap = null;
+    if (mode !== "roster" && !ui.swap) { ui.picks = null; ui.picksMode = ""; }
+
+    const wireMode = mode === "map" || mode === "fight";
+    app.dataset.mode = mode;
+    app.dataset.stage = wireMode ? "wire" : "panel";
+    app.dataset.showParty = mode === "roster" || mode === "ending" ? "0" : "1";
+    app.dataset.showLog = mode === "roster" || mode === "ending" ? "0" : "1";
+
+    renderHud();
+    const panel = $("panel");
+    clear(panel);
+    panel.classList.toggle("enter", entering);
+    const controls = $("controls");
+    clear(controls);
+    controls.classList.toggle("sheet", mode === "fight");
+    $("plate").hidden = true;
+
+    if (wireMode) {
+      panel.hidden = true;
+      wire.setAttribute("aria-label", describeView());
+      if (mode === "fight") renderPlate();
+    } else {
+      panel.hidden = false;
+    }
+    switch (mode) {
+      case "map": renderThumbs(controls); break;
+      case "fight": renderFightControls(controls); break;
+      case "scene": renderScenePanel(panel); renderSceneControls(controls); break;
+      case "hub": renderHubPanel(panel); break;
+      case "roster": renderRosterPanel(panel); break;
+      case "ending": renderEndingPanel(panel); break;
+      case "deathDoor": renderDeathPanel(panel); renderDeathControls(controls); break;
+      default: break;
+    }
+    renderParty();
+    app.style.setProperty("--sheet-h", mode === "fight" ? controls.offsetHeight + "px" : "0px");
+    $("seedline").textContent = L("seed") + " " + seed;
+    renderSheet();
+    renderMap();
+    if (wireMode) drawWire(0);
+    if (fk && !(ui.mapOpen || ui.sheet)) {
+      const again = doc.querySelector(`[data-fk="${CSS.escape ? CSS.escape(fk) : fk}"]`);
+      if (again && again !== doc.activeElement) again.focus({ preventScroll: true });
+    }
+  }
+
+  // ---------------------------------------------------------------- keys
+
+  function onKey(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const tag = e.target && e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    const k = e.key;
+    if (k === "F1") {
+      e.preventDefault();
+      const d = $("help");
+      d.open = !d.open;
+      if (d.open) d.scrollIntoView({ block: "start" });
+      return;
+    }
+    if (!vm) return;
+    if (k === "Escape") {
+      if (ui.sheet) { e.preventDefault(); closeSheet(); return; }
+      if (ui.mapOpen) { e.preventDefault(); closeMap(); return; }
+      if (vm.mode === "fight" && ui.undo) { e.preventDefault(); ui.undo(); return; }
+      const d = $("help");
+      if (d.open) { d.open = false; }
+      return;
+    }
+    if (ui.sheet) return;
+    if (ui.mapOpen) {
+      if (k === "m" || k === "M") { e.preventDefault(); closeMap(); }
+      return;
+    }
+    if (doc.getElementById("help").open && tag === "SUMMARY") return;
+    const lower = k.length === 1 ? k.toLowerCase() : k;
+    if (/^[1-9]$/.test(k)) {
+      const fn = ui.keys[parseInt(k, 10) - 1];
+      if (fn) { e.preventDefault(); fn(); }
+      return;
+    }
+    const mode = vm.mode;
+    if (mode === "map") {
+      let cmd = null;
+      switch (lower) {
+        case "ArrowUp": case "w": cmd = { t: "move", dir: "forward" }; break;
+        case "ArrowDown": case "s": cmd = { t: "move", dir: "back" }; break;
+        case "ArrowLeft": case "a": cmd = { t: "turn", dir: "left" }; break;
+        case "ArrowRight": case "d": cmd = { t: "turn", dir: "right" }; break;
+        case "q": cmd = { t: "move", dir: "left" }; break;
+        case "e": cmd = { t: "move", dir: "right" }; break;
+        case " ": case "Enter": if (e.target && e.target.tagName === "BUTTON") return; cmd = { t: "act" }; break;
+        case "f": cmd = { t: "search" }; break;
+        case "l": cmd = { t: "listen" }; break;
+        case "r": cmd = { t: "rest" }; break;
+        case "m": e.preventDefault(); openMap(); return;
+        default: return;
+      }
+      e.preventDefault();
+      if (e.repeat && (cmd.t !== "move" && cmd.t !== "turn")) return;
+      send(cmd);
+      return;
+    }
+    if (mode === "fight" && lower === "r" && ui.reroll) { e.preventDefault(); ui.reroll(); return; }
+    if ((mode === "roster" || mode === "ending") && k === "Enter" && ui.enter && !(e.target && e.target.tagName === "BUTTON")) { e.preventDefault(); ui.enter(); }
+  }
+  doc.addEventListener("keydown", onKey);
+
+  // ---------------------------------------------------------------- footer
+
+  const ngBtn = $("newgame");
+  ngBtn.textContent = L("newGame");
+  ngBtn.addEventListener("click", () => {
+    const now = Date.now();
+    if (ui.newGameArmed && now - ui.newGameArmed < 4000) {
+      ui.newGameArmed = 0;
+      ngBtn.textContent = L("newGame");
+      newGame();
+    } else {
+      ui.newGameArmed = now;
+      ngBtn.textContent = L("sure");
+      setTimeout(() => { if (ui.newGameArmed === now) { ui.newGameArmed = 0; ngBtn.textContent = L("newGame"); } }, 4000);
+    }
+  });
+
+  // ---------------------------------------------------------------- boot
+
+  // The F1 text is static HTML, so it reads with scripting off. With scripting on, its words follow the pack's labels.
+  function applyHelpLabels() {
+    doc.querySelectorAll("[data-l]").forEach(e => { e.textContent = L(e.getAttribute("data-l")); });
+  }
+
+  function boot() {
+    applyTheme();
+    applyHelpLabels();
+    try {
+      const q = new URLSearchParams(location.search).get("seed");
+      if (q != null && /^-?\d+$/.test(q.trim())) seedFromUrl = parseInt(q, 10) >>> 0;
+    } catch (e) { seedFromUrl = null; }
+    const saved = loadSave();
+    if (saved && (seedFromUrl == null || saved.seed === seedFromUrl)) {
+      replayRecord(saved);
+    } else {
+      begin(seedFromUrl != null ? seedFromUrl : randomSeed());
+      vm = Crawl.view(PACK, state);
+      cacheNames();
+      resetLog(vm.log || []);
+      writeSave();
+      render();
+    }
+  }
+
+  window.CRAWL = {
+    pack: PACK,
+    get state() { return state; },
+    step(cmd) { return send(cmd); },
+    view() { return Crawl.view(PACK, state); },
+    replay(rec) { replayRecord(rec); writeSave(); },
+    get seed() { return seed; },
+  };
+
+  // Redraw on resize and on a change of colour scheme.
+  if (window.ResizeObserver) new ResizeObserver(() => { if (vm && (vm.mode === "map" || vm.mode === "fight")) drawWire(0); if (ui.mapOpen && vm) renderMap(); }).observe($("stage"));
+  window.addEventListener("resize", () => { if (ui.mapOpen && vm) renderMap(); });
+  if (window.matchMedia) {
+    const mq = matchMedia("(prefers-color-scheme: dark)");
+    const again = () => { if (vm) { render(); } };
+    if (mq.addEventListener) mq.addEventListener("change", again); else if (mq.addListener) mq.addListener(again);
+  }
+
+  boot();
+})();
+
+</script>
+</body>
+</html>
