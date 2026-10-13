@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fort Cards</title>
+<style>
+/* Fort Cards: the Year Two solo intros. Cream paper and black ink, like the
+   Fort Country hex sheet. Each scene wears its register: Elmore paint (a warm
+   wash: witnessed) or Otus ink (black on cream, heavy rules: unwitnessed). */
+:root{
+  --paper:#f4ecd8; --card:#fbf6e9; --shade:#ebe1c8; --ink:#1a1712; --dim:#5f564a;
+  --soft:#cfc2a3; --accent:#8c2a1b;
+  --wash:radial-gradient(ellipse 70% 55% at 18% 8%,rgba(255,244,214,.85),rgba(255,244,214,0) 70%),
+         radial-gradient(ellipse 60% 50% at 88% 92%,rgba(166,62,30,.38),rgba(166,62,30,0) 70%),
+         linear-gradient(160deg,#f3ddb0 0%,#ebb67e 52%,#d88c5f 100%);
+  --wash-ink:#2b1a0e; --wash-rule:#7a3b1c; --wash-tag:#7a2e14; --wash-tag-fg:#fbf1dc; --wash-opt:rgba(255,250,238,.62);
+  --inkpaper:#f7f0dc; --inkline:#111;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12110e; --card:#1a1813; --shade:#24211a; --ink:#efe6cf; --dim:#b3a88f; --soft:#4a4436; --accent:#e0866b;
+    --wash:radial-gradient(ellipse 70% 55% at 18% 8%,rgba(214,140,80,.35),rgba(214,140,80,0) 70%),
+           radial-gradient(ellipse 60% 50% at 88% 92%,rgba(120,30,20,.5),rgba(120,30,20,0) 70%),
+           linear-gradient(160deg,#5b3920 0%,#6e3622 55%,#3a2216 100%);
+    --wash-ink:#f8ead0; --wash-rule:#e3a46e; --wash-tag:#e3a46e; --wash-tag-fg:#2b1a0e; --wash-opt:rgba(25,12,6,.38);
+    --inkpaper:#e9e1c9; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12110e; --card:#1a1813; --shade:#24211a; --ink:#efe6cf; --dim:#b3a88f; --soft:#4a4436; --accent:#e0866b;
+  --wash:radial-gradient(ellipse 70% 55% at 18% 8%,rgba(214,140,80,.35),rgba(214,140,80,0) 70%),
+         radial-gradient(ellipse 60% 50% at 88% 92%,rgba(120,30,20,.5),rgba(120,30,20,0) 70%),
+         linear-gradient(160deg,#5b3920 0%,#6e3622 55%,#3a2216 100%);
+  --wash-ink:#f8ead0; --wash-rule:#e3a46e; --wash-tag:#e3a46e; --wash-tag-fg:#2b1a0e; --wash-opt:rgba(25,12,6,.38);
+  --inkpaper:#e9e1c9; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--serif);overflow-x:hidden}
+main{max-width:780px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:22px}
+[hidden]{display:none!important}
+h1,h2,h3,h4{margin:0;font-weight:600;font-variant:small-caps;letter-spacing:.03em;line-height:1.15;text-wrap:balance}
+h1{font-size:2rem}
+h2{font-size:1.3rem;border-bottom:1px solid var(--ink);padding-bottom:4px}
+p{margin:0}
+.eyebrow,.tag,.mono{font-family:var(--mono)}
+.eyebrow{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:8px 16px;flex-wrap:wrap;border-bottom:3px double var(--ink);padding-bottom:8px}
+.mast .lede{flex-basis:100%;max-width:62ch}
+.linkbtn{appearance:none;background:none;border:0;padding:6px 0;font:.74rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px;min-height:36px}
+.btn{appearance:none;font:inherit;font-size:.98rem;color:var(--paper);background:var(--ink);border:1px solid var(--ink);padding:9px 15px;cursor:pointer;min-height:44px;align-self:flex-start;font-variant:small-caps;letter-spacing:.04em}
+.btn.ghost{color:var(--ink);background:transparent}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.9rem;color:var(--dim)}
+
+/* pick screen */
+.picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.pick{appearance:none;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:14px;display:flex;flex-direction:column;gap:6px;min-height:230px;transition:transform .12s,box-shadow .12s}
+.pick:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.pick svg{width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pick .nm{font-size:1.25rem;font-variant:small-caps;font-weight:600;line-height:1.15}
+.pick .sub{font-style:italic;color:var(--dim);font-size:.9rem}
+.pick .ose{font:.66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pick .blurb{font-size:.92rem;line-height:1.45}
+.pick .st{margin-top:auto;font:.7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--soft);padding-top:6px;width:100%}
+.pick .st b{color:var(--accent)}
+.rules{display:flex;flex-direction:column;gap:9px;border:1px solid var(--ink);background:var(--card);padding:14px 16px}
+.rules h2{border:0;padding:0}
+.rules p{max-width:68ch}
+.swatch{display:inline-block;width:1.6em;height:.9em;vertical-align:-1px;margin-right:4px;border:1px solid var(--ink)}
+.swatch.paint{background:var(--wash)}
+.swatch.ink{background:var(--inkpaper);border:2px solid var(--inkline)}
+
+/* play screen */
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.dots{display:flex;gap:6px;align-items:center}
+.dots i{width:24px;height:7px;border:1px solid var(--ink)}
+.dots i.on{background:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;font-variant-numeric:tabular-nums}
+.stats div{display:flex;flex-direction:column;align-items:center;border:1px solid var(--ink);background:var(--card);padding:5px 2px;min-width:0}
+.stats b{font:.6rem var(--mono);letter-spacing:.08em;color:var(--dim)}
+.stats span{font-size:1.3rem;font-weight:600;line-height:1.2}
+.stats small{font:.68rem var(--mono);color:var(--dim)}
+.panel{display:flex;flex-direction:column;gap:12px;background:var(--card);border:1px solid var(--ink);padding:16px}
+.seedline{font:.72rem var(--mono);color:var(--dim)}
+
+.scene{padding:20px 18px;display:flex;flex-direction:column;gap:14px;position:relative}
+.scene .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;line-height:1.3}
+.scene h3{font-size:1.65rem;outline:none}
+.scene .x{display:flex;flex-direction:column;gap:10px;max-width:64ch}
+.group{display:flex;flex-direction:column;gap:8px}
+.group h4{font-size:1.02rem}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{appearance:none;text-align:left;cursor:pointer;padding:10px 13px;display:flex;flex-direction:column;gap:2px;font-size:.98rem;line-height:1.4;min-height:44px}
+.opt small{font:.74rem/1.45 var(--mono);opacity:.88}
+.opt[aria-pressed="true"] b::before{content:"\2713\00a0"}
+.after{display:flex;flex-direction:column;gap:10px;padding-top:12px}
+.after textarea{width:100%;min-height:78px;padding:10px;resize:vertical;font-size:.98rem;background:transparent;border:2px solid currentColor}
+.ask{display:flex;flex-direction:column;gap:6px}
+.go{appearance:none;font:inherit;font-variant:small-caps;letter-spacing:.05em;font-size:1.05rem;padding:9px 16px;cursor:pointer;min-height:44px;align-self:flex-start;border:2px solid}
+.go[disabled]{opacity:.45;cursor:not-allowed}
+
+/* Otus ink: black on cream, heavy rules, a hatched band */
+.reg-ink{background:var(--inkpaper);color:var(--inkline);border:3px solid var(--inkline);padding-top:28px}
+.reg-ink::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;border-bottom:2px solid var(--inkline);
+  background:repeating-linear-gradient(135deg,var(--inkline) 0 1.5px,transparent 1.5px 5px)}
+.reg-ink h3{border-bottom:3px double var(--inkline);padding-bottom:6px}
+.reg-ink .tag{background:var(--inkline);color:var(--inkpaper)}
+.reg-ink .opt{background:transparent;color:var(--inkline);border:2px solid var(--inkline)}
+.reg-ink .opt:hover{box-shadow:inset 0 0 0 2px var(--inkline)}
+.reg-ink .opt[aria-pressed="true"]{background:var(--inkline);color:var(--inkpaper)}
+.reg-ink .after{border-top:2px solid var(--inkline)}
+.reg-ink .go{background:var(--inkline);color:var(--inkpaper);border-color:var(--inkline)}
+.reg-ink .group h4{border-bottom:1px solid var(--inkline);padding-bottom:2px}
+/* Elmore paint: a warm wash */
+.reg-paint{background:var(--wash);color:var(--wash-ink);border:1px solid var(--wash-rule);box-shadow:inset 0 0 40px rgba(90,30,10,.18);border-radius:3px}
+.reg-paint h3{font-style:italic}
+.reg-paint .tag{background:var(--wash-tag);color:var(--wash-tag-fg)}
+.reg-paint .opt{background:var(--wash-opt);color:var(--wash-ink);border:1px solid var(--wash-rule);border-radius:3px}
+.reg-paint .opt:hover{box-shadow:inset 0 0 0 1px var(--wash-rule)}
+.reg-paint .opt[aria-pressed="true"]{background:var(--wash-tag);color:var(--wash-tag-fg);border-color:var(--wash-tag)}
+.reg-paint .after{border-top:1px dashed var(--wash-rule)}
+.reg-paint .go{background:var(--wash-tag);color:var(--wash-tag-fg);border-color:var(--wash-tag)}
+/* Scene 3 before the choice: half wash, half ink */
+.reg-choose{background:linear-gradient(90deg,var(--card) 0 100%);color:var(--ink);border:2px dashed var(--ink)}
+.reg-choose .tag{background:var(--ink);color:var(--paper)}
+.reg-choose .opt{border:1px solid var(--ink);color:var(--ink);background:var(--card)}
+.reg-choose .opt.o-paint{background:var(--wash);color:var(--wash-ink);border-color:var(--wash-rule)}
+.reg-choose .opt.o-ink{background:var(--inkpaper);color:var(--inkline);border:2px solid var(--inkline)}
+.reg-choose .opt:hover{box-shadow:inset 0 0 0 2px currentColor}
+.reg-choose .go{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chosen{font-style:italic}
+.quote{font-size:1.12rem;font-style:italic;border-left:3px solid currentColor;padding-left:12px}
+
+/* the Fort Card */
+.fcard{background:var(--card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));min-width:0}
+.fcard .face{padding:14px 16px;display:flex;flex-direction:column;gap:9px;min-width:0}
+.fcard .face+.face{border-left:1px solid var(--ink)}
+@media (max-width:660px){.fcard .face+.face{border-left:0;border-top:1px solid var(--ink)}}
+.fhead{border-bottom:3px double var(--ink);padding-bottom:6px;display:flex;flex-direction:column;gap:2px}
+.fhead .fname{font-size:1.45rem;font-variant:small-caps;font-weight:600;line-height:1.1;overflow-wrap:anywhere}
+.fhead .fcls{font-style:italic;color:var(--dim);font-size:.92rem}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;font-size:.9rem}
+.kv dt{font:.64rem/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.sec{display:flex;flex-direction:column;gap:3px;font-size:.9rem;min-width:0}
+.sec h4{font-size:.88rem;border-bottom:1px solid var(--soft)}
+.sec p,.sec li{overflow-wrap:anywhere}
+.sec ul{margin:0;padding-left:1.1em}
+.fact{border-left:4px solid #c9773f;padding:4px 0 4px 9px;background:linear-gradient(90deg,rgba(235,182,126,.35),rgba(235,182,126,0))}
+.fact.secret{border-left:4px double var(--ink);background:none}
+.empty{color:var(--dim);font-style:italic}
+.lensbar{display:inline-flex;gap:3px;vertical-align:middle;margin-left:4px}
+.lensbar i{width:12px;height:12px;border:1px solid var(--ink);display:inline-block}
+.lensbar i.h{background:#d88c5f}
+.lensbar i.m{background:var(--ink)}
+.mutual{border:1px solid var(--accent);color:var(--accent);padding:6px 10px;font-size:.9rem}
+
+/* session zero */
+.rc{display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--soft);padding-bottom:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{appearance:none;border:1px solid var(--ink);background:var(--paper);padding:5px 11px;font-size:.86rem;cursor:pointer;min-height:36px;text-align:left}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.chip[aria-pressed="true"]::before{content:"\2713\00a0"}
+.cardsec{display:flex;flex-direction:column;gap:10px}
+@media (max-width:480px){.fcard .face{padding:12px}.panel{padding:14px 12px}.fcard{box-shadow:3px 3px 0 var(--ink)}}
+.rc textarea,.namein{width:100%;border:1px solid var(--ink);background:var(--paper);padding:8px;font-size:.95rem}
+.rc textarea{min-height:60px;resize:vertical}
+pre.copy{white-space:pre-wrap;overflow-wrap:anywhere;font:.76rem/1.5 var(--mono);background:var(--paper);border:1px solid var(--ink);padding:12px;margin:0;max-height:300px;overflow:auto;user-select:all}
+footer{color:var(--dim);font-size:.8rem;border-top:1px solid var(--soft);max-width:780px;margin:0 auto;padding:8px 16px 24px;display:flex;justify-content:space-between;align-items:center;gap:4px 12px;flex-wrap:wrap}
+#printdeck{display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  @page{margin:12mm}
+  :root{--paper:#fff;--card:#fff;--ink:#000;--dim:#444;--soft:#999;color-scheme:light}
+  body{background:#fff;color:#000;font:9.2pt/1.34 var(--serif)}
+  .pcard .fcard .face{padding:7px 9px;gap:5px}
+  .pcard .fhead .fname{font-size:15pt}
+  .pcard .kv{font-size:9pt;gap:2px 8px}
+  .pcard .kv dt{font-size:6.4pt;line-height:1.6}
+  .pcard .sec{font-size:9pt;gap:1px}
+  .pcard .sec h4{font-size:8.6pt}
+  .pcard .note{font-size:7.6pt}
+  .pcard .sec ul{padding-left:1em}
+  main,footer{display:none!important}
+  #printdeck{display:block}
+  .pcard{break-after:page;page-break-after:always;display:flex;flex-direction:column;gap:8px}
+  .pcard:last-child{break-after:auto;page-break-after:auto}
+  .pcard .fcard{box-shadow:none;border:2px solid #000;grid-template-columns:1fr 1fr}
+  .pcard .fcard .face+.face{border-left:1px solid #000;border-top:0}
+  .pcard .ptop{display:flex;justify-content:space-between;font:8pt var(--mono);text-transform:uppercase;letter-spacing:.1em;border-bottom:3px double #000;padding-bottom:3px}
+  .pcard .quote{font-size:10pt}
+  .fact{background:none;border-left-color:#000}
+  .lensbar i.h{background:#bbb}
+}
+</style>
+</head>
+<body>
+<main id="app"><noscript><p>Fort Cards needs JavaScript. It runs offline, from this one file.</p></noscript></main>
+<footer id="foot"></footer>
+<div id="printdeck" aria-hidden="true"></div>
+
+<script>
+(function(){
+"use strict";
+/* ==========================================================================
+   PART 1: THE CONTENT. Five scenes per PC. Each scene has one or more groups
+   of choices; each choice writes onto the Fort Card through its fx.
+   Registers: "paint" = Elmore, witnessed; "ink" = Otus, unwitnessed;
+   "choose" = the player picks (scene 3).
+   ========================================================================== */
+const OFFICE = [
+  {k:"warden", n:"Warden", e:"Walls +1 when you take the Defend directive."},
+  {k:"scout", n:"Scout", e:"One extra clue per hex you explore."},
+  {k:"steward", n:"Steward", e:"You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them."},
+  {k:"lorekeeper", n:"Lorekeeper", e:"One free hint per puzzle."}
+];
+const NPC_NAMES = {cassandra:"Cassandra", wick:"Wick", paladin:"the Paladin", maren:"Captain Maren", minister:"the Minister", glamourist:"the Glamourist", biddy:"Biddy"};
+const ASK = {
+  public3:"Write one thing the whole Fort now knows about you, since that day.",
+  public4:"Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+  secret5:"Nobody sees you pack. Write one true thing that only you know."
+};
+const MUSTER = [
+  "Autumn. Captain Maren is retiring, and she wants the Fort in order before she goes.",
+  "She calls the muster in the yard. The Paladin stands at the Gate. The Minister stands at Maren's left hand and does not look at her. From the Beast Pen, Biddy watches the crowd with one cold eye.",
+  "Maren reads four offices off a slate: Warden, Scout, Steward, Lorekeeper. The Fort keeps its own book now, and its own tracks: Stores, Walls, Folk, Lamp. Each office keeps one of them honest."
+];
+const ROADEND = [
+  "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet.",
+  "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet.",
+  "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+];
+
+const PCS = {
+thief:{
+  title:"The Elven Thief", sub:"The One Who Opens", ose:"OSE Thief · Elf", short:"thief", season:"Summer",
+  hd:4, saves:[13,14,13,16,15], race:{n:"Elf", adj:{DEX:1, CON:-1}},
+  armor:"Leather", base:12, shield:0,
+  weapons:[{n:"short sword", d:"1d6", m:"melee"},{n:"shortbow", d:"1d6", m:"missile"}],
+  weaponsText:"Short sword 1d6 · 2 daggers 1d4 (thrown) · shortbow 1d6 and 20 arrows",
+  gear:"Leather armour · thieves' tools · rope, 50', knotted every 5' · small steel mirror · chalk · waterskin · rations (3 days) · 2d6 × 10 gp",
+  blurb:"You went into the Gorgon Caves behind the others and came out ahead of them. Locks, walls, old stone. You held the Pen in Summer.",
+  ability:"I Was Already Here", abilityText:"Before the DM describes a place, declare one true fact about it, as if you scouted it earlier. 2 uses a session at level 2.",
+  lane:"Places. A room, a road, a building, a cave: its shape, its ways in and out, who has passed through it.",
+  y1:[{k:"origin", label:"Came from"},{k:"took", label:"Took from the caves"},{k:"stay", label:"Stays because"}],
+  cassandra:"The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet.",
+  icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="15" cy="24" r="8"/><circle cx="15" cy="24" r="3"/><path d="M23 24h20M37 24v7M42 24v5"/></svg>',
+  ask:{secret3:"Write one true thing that only you know. It may be about you, or about what the box held."},
+  scenes:[
+    {id:"y1", t:"The Squeeze", reg:"ink", era:"Year One",
+     x:["Last year. The Gorgon Caves.",
+        "The others stand in the Garden of Stone and argue about who walks first. In the torchlight the stone deer looks as if it breathes. You are not with them. You found the crack in the north wall an hour ago.",
+        "It is a long squeeze. Cold air comes up it from somewhere below. Halfway down, the crack ends at a plate of old iron set into the rock. It has no keyhole. It has a ring of small glass eyes, and one of them is lit, faint as a coal. When you breathe on it, something inside the plate clicks once.",
+        "This is not the first wall you have slipped through. And you will not come out of these caves with empty pockets."],
+     g:[{k:"lens1", name:"The iron plate", q:"What is the plate?", o:[
+          {l:"A ward. Old words keep it shut, and the lit eye is its watchman.", c:"You whisper an apology to it, as you would to any old door. It clicks again, softer. You back out the way you came.", fx:{lens:"hymn", r:"a ward"}},
+          {l:"A lock. The eye is how it reads a key, and your breath was nearly the right one.", c:"You count the click, and the pause after it. A lock that counts can be counted back. You back out the way you came.", fx:{lens:"machine", r:"a lock"}}]},
+        {k:"origin", q:"Before the Fort, where did you come from?", o:[
+          {l:"The coast.", c:"You came up from the fishing village in the bottom of old Harrow's cart, under the dried fish. You owed money on the coast. You still do. The sum has grown.", fx:{y1:"The coast. Smuggler: Harrow nods to you and says nothing; Maren counts the stores after you visit.", know:"Who on the coast buys Fort goods with no questions asked, and what they pay for a cockatrice egg."}},
+          {l:"The old foundations in the forest.", c:"Your people left the wood long ago. You did not. You lived alone in the stone footings deep in the trees, and you came to the Fort for salt. You stayed for the caves.", fx:{y1:"The old foundations in the forest. Ghost: the children say you can walk through the palisade. You cannot. You know where it is weak.", know:"One way over the palisade that does not use the Gate. It is not a gap. It is better than a gap."}},
+          {l:"A file at Mile-House 13.", c:"The Bureau of Imperial Anomalies has a file on you. It says: Elf. Anomalous. Light of finger. The two Junior Men in Red who carry it are polite, and they have your description wrong.", fx:{y1:"A file at Mile-House 13. Wanted, politely. The Fort finds this funny. You find it useful.", know:"The day of the week the agents walk the Old Road, and the name they think is yours."}}]},
+        {k:"took", q:"What did you take from the Gorgon Caves?", o:[
+          {l:"A ward-eye.", c:"A glass eye the size of a plum, prised from the Queen's wards. It went cold when the wards went dark. Some nights it is warm again.", fx:{y1:"A ward-eye. It went cold when the wards went dark. Some nights it is warm again.", item:"a ward-eye (some nights it is warm)"}},
+          {l:"A key that fits nothing.", c:"Bronze, as long as your finger, from a niche nobody else saw. You have tried it in every lock at the Fort. You have not tried it in every lock in the world.", fx:{y1:"A bronze key that fits nothing. Yet.", item:"a bronze key that fits nothing"}},
+          {l:"Nothing.", c:"You came out with empty hands, and everyone believed you. Except Wick. Wick counts everything. He has not said what he counted.", fx:{y1:"Nothing, and everyone believed you. Except Wick.", item:"nothing (Wick counted)"}}]}]},
+    {id:"yb", t:"Summer: The Pen", reg:"paint", era:"The Year Between", pen:true,
+     x:["The Year Between. The druid held the Pen in Spring. In Summer it was yours.",
+        "You kept the Fort's book. Each night you wrote down what the Fort had done that day, in a small, neat hand. Wick said you must have forged it.",
+        "The lake was low and warm. The Tin Dozen came up the road twice for salt, rattling in their old tin, and paid in coin that was nearly good. After dark the Shallows sang: one long note under the water, every night at the same hour. You wrote the hour in the margin each night. It never moved by more than a minute.",
+        "By the time you passed the Pen to the cleric, you were not the same."],
+     g:[{k:"lens2", name:"The singing Shallows", q:"What do you write beside the hour?", o:[
+          {l:"“Spirits of the lake. They keep their own hours.”", c:"Wick reads it over your shoulder and nods, as if he knew all along.", fx:{lens:"hymn", r:"spirits"}},
+          {l:"“A signal. Something under the water keeps time.”", c:"Wick reads it over your shoulder, and from that night he times it too.", fx:{lens:"machine", r:"a signal"}}]},
+        {k:"yoc", q:"What changed in you? (Year of Change)", o:[
+          {l:"Locksmith's Eye", c:"You took apart every lock in the Fort that Summer, and put each one back better than you found it.", fx:{yoc:"Locksmith's Eye", eff:"Once per room, ask the DM one question about a lock or a trap. The answer is true."}},
+          {l:"Quiet Feet", c:"You walked the walls every night, until the old stones knew your step and stopped telling anyone.", fx:{yoc:"Quiet Feet", eff:"Move Silently +20% (45% at level 2). Old stone never gives you away: no loose flag, no grating step.", ms:20}},
+          {l:"Fence", c:"You sold the Fort's surplus to the Tin Dozen and the river traders, and got more for it than anyone thought there was.", fx:{yoc:"Fence", eff:"Trade directives roll +1 at a Fort Turn. Loot sells for 10% more."}}]}]},
+    {id:"turn", t:"Salt for a Box", reg:"choose", era:"Witnessed or unwitnessed",
+     x:["Late Summer. The Tin Dozen are at the Gate again: twelve deserters in tin, wanting salt.",
+        "This time the sergeant has no coin. He sets a small iron box on the salt scale instead. It is locked. He says nobody has the key, and he says it too fast.",
+        "Wick counts the salt sacks twice and frowns at the box. Across the yard, at the Shrine door, Cassandra watches you look at the lock."],
+     g:[{k:"reg", q:"Do you let them see?", o:[
+          {l:"Open it at the Gate, with the whole yard watching.", c:"Witnessed. The Fort sees what your hands can do, and what was in the box.", fx:{reg:"paint"}},
+          {l:"Buy the box with your own salt, and open it alone after dark.", c:"Unwitnessed. Nobody sees what was inside, or what you did with it.", fx:{reg:"ink"}}]}]},
+    {id:"office", t:"Maren's Last Muster", reg:"paint", era:"The Fort Office",
+     x:MUSTER.concat(["She comes to you last. “You could have left any morning this year,” she says. “You didn't. You have walked every wall here at night, too. Don't tell me you haven't. Pick one.”"]),
+     g:[{k:"stay", q:"A thief can leave any place by morning. Why do you stay?", o:[
+          {l:"Wick counted you.", c:"When Wick wrote the list of the Fort's folk, he wrote your name on it. Nobody has listed you as belonging anywhere before.", fx:{y1:"Wick counted you. Your name is on his list of the Fort's folk."}},
+          {l:"Maren gave you a key.", c:"In the Year Between the Captain gave you the key to the storehouse. She did not ask you to promise anything. That is why you have kept it. She retires soon. You want to give it back to her yourself.", fx:{y1:"Maren gave you the storehouse key. You want to give it back to her yourself."}},
+          {l:"There is a city under the lake.", c:"People say a city lies drowned under the Deep. Cities have doors. You have never met a door you could leave alone.", fx:{y1:"There is a city under the lake, and cities have doors."}}]},
+        {k:"office", q:"Which office do you take?", o:[
+          {l:"Warden", c:"You know where the walls are weak. You found every gap by using it.", fx:{office:0}},
+          {l:"Scout", c:"You were already out there. Now it is your job.", fx:{office:1}},
+          {l:"Steward", c:"You kept the book in Summer. You know what is in the stores, to the sack.", fx:{office:2}},
+          {l:"Lorekeeper", c:"Locks are puzzles. So is most of the rest.", fx:{office:3}}]}]},
+    {id:"road", t:"The Night Before the Road", reg:"ink", era:"Bond and kit",
+     x:["Night. The Fort sleeps, except for Wick, who walks the wall with his lamp-pole and counts the lamps.",
+        "You lay your kit out on a blanket in the loft and count it twice: the short sword, the bow, the two daggers, the tools in their oilcloth. Before dawn you will walk out on the Old Road. You do not know yet why. You only know you will.",
+        "Somebody here is tied to you."],
+     g:[{k:"bond", q:"Who is your bond?", o:[
+          {l:"The Elf Cleric", c:"The cleric found out what you took in Summer, and said nothing to anyone.", fx:{bond:"cleric", bt:"The cleric knows what I took in Summer, and said nothing."}},
+          {l:"The Gnome Druid", c:"Nobody hears either of you coming. You have argued about which of you is quieter. Nobody has won.", fx:{bond:"druid", bt:"The druid and I argue about which of us is quieter. Nobody has won."}},
+          {l:"Cassandra", c:"She once told you a true thing about your past that nobody at the Fort could know.", fx:{bond:"cassandra", bt:"Cassandra knows a true thing about my past that she should not."}},
+          {l:"Wick", c:"He counts everything, you included. The one person at the Fort you cannot fool, and the one you most want to.", fx:{bond:"wick", bt:"Wick counts everything, me included. I cannot fool him, and I keep trying."}},
+          {l:"The Paladin", c:"The Paladin holds the Gate. You know three other ways in. You have not said so. Not yet.", fx:{bond:"paladin", bt:"The Paladin holds the Gate. I know three other ways in, and have not said so."}},
+          {l:"Captain Maren", c:"Maren gave you work once, and you did it. She counts the stores anyway. You owe her before she retires.", fx:{bond:"maren", bt:"Maren gave me work once, and I did it. I owe her before she retires."}},
+          {l:"The Minister", c:"The Minister pays you to watch the Shrine at night. Neither of you says why.", fx:{bond:"minister", bt:"The Minister pays me to watch the Shrine at night. Neither of us says why."}},
+          {l:"The Glamourist", c:"You lost a bet to the Glamourist at midsummer. She has not yet said what you owe.", fx:{bond:"glamourist", bt:"I lost a bet to the Glamourist. She has not said what I owe."}},
+          {l:"Biddy", c:"Biddy lets you into the Beast Pen. Nobody else gets that.", fx:{bond:"biddy", bt:"Biddy lets me into the Beast Pen. Nobody else gets that."}}]},
+        {k:"kit", q:"Your kit is the playbook's. What one thing do you add?", o:[
+          {l:"A hooded lantern and two flasks of oil.", c:"Light you can shut with one thumb.", fx:{extra:"hooded lantern and 2 flasks of oil"}},
+          {l:"A grapnel and 30' of cord.", c:"For high places, and for leaving them fast.", fx:{extra:"grapnel and 30' of cord"}},
+          {l:"A short iron bar.", c:"For doors that will not listen to reason.", fx:{extra:"short iron bar"}}]}]}
+  ]},
+
+cleric:{
+  title:"The Elf Cleric", sub:"The One Who Believes", ose:"OSE Cleric · Elf", short:"cleric", season:"Autumn",
+  hd:6, saves:[11,12,14,16,15], race:{n:"Elf", adj:{DEX:1, CON:-1}},
+  armor:"Robes and shield", base:10, shield:1,
+  weapons:[{n:"mace", d:"1d6", m:"melee"}],
+  weaponsText:"Mace 1d6 (blunt weapons only)",
+  gear:"Robes · wooden shield carved with Terminal glyphs · lake stone (holy symbol) · cracked screen fragment (cold now) · annotated hymnal · waterskin · rations (3 days) · 2d6 × 10 gp",
+  blurb:"An elf who chose the Terminal. Your holy symbol is a smooth grey lake stone, and the Terminal knew it. You held the Pen in Autumn.",
+  ability:"The Archives Are Deep", abilityText:"When the party meets something of the Terminal network, the old empire, or the deep structure of the world, declare one true fact from the Terminal's deep archives. 2 uses a session at level 2.",
+  lane:"The Terminal network, the old empire, and the deep structure of the world.",
+  y1:[{k:"origin", label:"The Terminal showed"},{k:"gaveup", label:"Gave up"},{k:"minister", label:"The Minister"}],
+  cassandra:"The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?",
+  icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="27" rx="16" ry="11"/><path d="M13 23c6-4 16-4 22 0M17 31c4 2 10 2 14 0"/></svg>',
+  ask:{secret3:"Write one true thing that only you know. It may be about you, or about what the screen did."},
+  scenes:[
+    {id:"y1", t:"The Queen's Chamber", reg:"ink", era:"Year One",
+     x:["Last year. The Gorgon Caves.",
+        "The Queen's chamber is ringed with carved eyes, and every eye is open. You know their make. You read of it in the Terminal's deep files, long before you came to the Fort.",
+        "Behind you, in the Glamourist's hands, a small grey chick draws breath.",
+        "In the moment before it cries, you remember the first night a Terminal answered you. You had waited eleven years, and you had paid for every one of them."],
+     g:[{k:"lens1", name:"The Queen's eyes", q:"What do you see in the eyes?", o:[
+          {l:"Wards. The old hymns hold them open, and they watch for the unworthy.", c:"You bow your head to them, out of courtesy. Courtesy has kept you alive before.", fx:{lens:"hymn", r:"wards"}},
+          {l:"Sensors. Glass and wire that see heat, and send what they see somewhere else.", c:"You wonder where somewhere else is, and who is still reading it.", fx:{lens:"machine", r:"sensors"}}]},
+        {k:"origin", q:"What did the Terminal show you, that first night?", o:[
+          {l:"A map.", c:"Every Terminal on the old network, lit or dark. Most were dark. Yours glowed. Three others glowed. The map updated itself. Then it was gone.", fx:{y1:"A map. Cartographer: you know the network as nobody else at the Fort does.", know:"Roughly where three other active Terminals lie. One is closer than anyone thinks. One is across the sea. One is underground."}},
+          {l:"A name.", c:"Your own, in Elvish, spelled the old way, the way your people wrote it before the empire. The Terminal knew who you were. It had been waiting for you.", fx:{y1:"A name: yours. Chosen, with absolute certainty and no arrogance.", know:"The Terminal keeps a list of names it is waiting for. You are on it. You check every newcomer at the Fort against what you remember."}},
+          {l:"A warning.", c:"One line in Imperial Common, repeated for six hours: the keeper at the Fort, under its old name, must not open the door beneath the lake. Then it stopped. You came as fast as you could.", fx:{y1:"A warning. Guardian: you came on a mission, and the Minister does not know the full warning yet.", know:"The Fort's real name, an old imperial designation. The Terminal used it. The Minister does not know it."}}]},
+        {k:"gaveup", q:"What did you give up to choose the Terminal?", o:[
+          {l:"Elven magic.", c:"You could have been a wizard. You chose divine service. Your spellbook is empty. Your hymnal is full.", fx:{y1:"Elven magic. Your spellbook is empty; your hymnal is full."}},
+          {l:"Elven community.", c:"Elves do not worship machines. You worship whatever is behind the machine. They could not see the difference.", fx:{y1:"Elven community. They could not see the difference."}},
+          {l:"Time.", c:"Eleven years before a screen in an empty shrine, waiting. You will never get them back. What you got instead is certainty.", fx:{y1:"Time: eleven years. What you got instead is certainty."}}]}]},
+    {id:"yb", t:"Autumn: The Pen", reg:"paint", era:"The Year Between", pen:true,
+     x:["The Year Between. The thief held the Pen in Summer. In Autumn it was yours.",
+        "You kept the Fort's book in three scripts, and the margins filled faster than the pages. The harvest came in from the Fields. The Shrine was cold at dawn.",
+        "You put away the cracked screen fragment you had carried for years and took up a stone instead: grey, smooth, the size of a hen's egg, cold as the lake. The first time you held it before the Terminal, the hymns stopped. One line showed in the old script. It was a greeting, as if to an old friend. Then the hymns went on.",
+        "By the first frost you were changed."],
+     g:[{k:"lens2", name:"The stone's greeting", q:"What do you write in the margin that night?", o:[
+          {l:"“A blessing. The Terminal knows a holy thing when it sees one.”", c:"You wrap the stone in clean linen. It is your holy symbol now.", fx:{lens:"hymn", r:"a blessing"}},
+          {l:"“A signal. The stone answered the screen, the way one bell answers another.”", c:"You write one more line under it: Ask what it answers to. It is your holy symbol now.", fx:{lens:"machine", r:"a signal"}}]},
+        {k:"yoc", q:"How were you changed? (Year of Change)", o:[
+          {l:"Hymn of Rest", c:"After the fever in the Fields you sang the sick to sleep, and every one of them woke.", fx:{yoc:"Hymn of Rest", eff:"When you sing at camp, each ally who rests heals 1d4 extra HP. Once a night."}},
+          {l:"Hymn of Calling", c:"One night you sang the oldest calling hymn in the book, and the Terminal answered in plain words.", fx:{yoc:"Hymn of Calling", eff:"Once a season, read the Terminal and ask it one question. The DM answers truly and briefly."}},
+          {l:"Lake Stone", c:"The stone in your palm began to tingle near old things of the empire. It has not stopped.", fx:{yoc:"Lake Stone", eff:"Your holy symbol tingles within 30' of old machines."}}]}]},
+    {id:"turn", t:"Nine Breaths", reg:"choose", era:"Witnessed or unwitnessed",
+     x:["Late Autumn. Before dawn, the Terminal stops its hymns.",
+        "It has stopped only once before, on the morning you brought it the stone. This time no line comes. For nine breaths the screen is blank and the Shrine is very still. Then the hymns begin again, as if nothing happened.",
+        "The door creaks. Wick stands there with his lamp-pole, staring at you, waiting for you to say what it means."],
+     g:[{k:"reg", q:"Do you let them see?", o:[
+          {l:"Ring the Shrine bell and tell the Fort.", c:"Witnessed. The Fort hears it from you first. Maren frowns. The Minister goes white.", fx:{reg:"paint"}},
+          {l:"Send Wick back to bed. Hood the screen with your robe, and wait.", c:"Unwitnessed. Not even the Terminal sees what you do next.", fx:{reg:"ink"}}]}]},
+    {id:"office", t:"Maren's Last Muster", reg:"paint", era:"The Fort Office",
+     x:MUSTER.concat(["She comes to you last and holds out the slate. “You read everything,” she says. “Read this, and pick one.” At her left hand, the Minister watches you take it."]),
+     g:[{k:"minister", q:"There are two clerics at the Fort. How do you see the Minister now?", o:[
+          {l:"She's right, but she doesn't know why.", c:"She treats the Terminal as a mystery. You treat it as a system. You correct her gently. She resents it quietly.", fx:{y1:"She's right, but doesn't know why. Teacher and student, except she doesn't know she's enrolled."}},
+          {l:"She's wrong, but she's necessary.", c:"The Terminal is infrastructure, and she has made it a god. But the Fort needs a Minister more than the truth. You heal together and pray apart.", fx:{y1:"She's wrong, but necessary. Allies who disagree about everything important."}},
+          {l:"She hears something you don't.", c:"You waited eleven years for an answer. She gets answers, sometimes. You cannot explain the difference, and it bothers you more than you admit.", fx:{y1:"She hears something you don't. Equals, circling each other."}}]},
+        {k:"office", q:"Which office do you take?", o:[
+          {l:"Warden", c:"A wall is a ward. You have read about both.", fx:{office:0}},
+          {l:"Scout", c:"The old maps are in your head. Someone should walk them.", fx:{office:1}},
+          {l:"Steward", c:"You kept the book in Autumn. You count in three scripts.", fx:{office:2}},
+          {l:"Lorekeeper", c:"Maren does not even pretend to be surprised.", fx:{office:3}}]}]},
+    {id:"road", t:"The Night Before the Road", reg:"ink", era:"Bond and kit",
+     x:["Night. The Shrine is dark except for the Terminal's hymns, scrolling for no one.",
+        "You lay your kit out on the stone floor and count it twice: robes, shield, mace, hymnal, the cold screen fragment, the stone. Before dawn you will walk out on the Old Road. You do not know yet why. The stone in your pocket is cold, and patient, like you.",
+        "Somebody here is tied to you."],
+     g:[{k:"bond", q:"Who is your bond?", o:[
+          {l:"The Elven Thief", c:"The thief opened a lock in the Shrine for you. You have never told the Minister.", fx:{bond:"thief", bt:"The thief opened a lock in the Shrine for me. We have never told the Minister."}},
+          {l:"The Gnome Druid", c:"The opposition, and a friend. You argue every night about where the power comes from. Neither of you wants it to stop.", fx:{bond:"druid", bt:"The druid and I argue every night about where the power comes from."}},
+          {l:"Cassandra", c:"You share the Shrine. She sees; you read. Each of you trusts the other's half.", fx:{bond:"cassandra", bt:"Cassandra and I share the Shrine. She sees; I read."}},
+          {l:"Wick", c:"You are teaching Wick his letters in three scripts. He counts the strokes.", fx:{bond:"wick", bt:"I am teaching Wick his letters. He counts the strokes."}},
+          {l:"The Paladin", c:"The Paladin's order served the network. So do you. You compare notes in the gatehouse.", fx:{bond:"paladin", bt:"The Paladin and I compare notes on the network in the gatehouse."}},
+          {l:"Captain Maren", c:"Maren wants healing, not a schism. You promised her the first.", fx:{bond:"maren", bt:"I promised Maren healing, not a schism."}},
+          {l:"The Minister", c:"You tend the same Terminal. You have not told her everything it shows you.", fx:{bond:"minister", bt:"The Minister and I tend one Terminal. I have not told her everything."}},
+          {l:"The Glamourist", c:"The fae have a word for the Terminal. The Glamourist will not tell you it yet.", fx:{bond:"glamourist", bt:"The Glamourist knows the fae word for the Terminal, and has not told me."}},
+          {l:"Biddy", c:"Biddy sleeps on the Shrine step on cold nights. She lets nobody else near the door.", fx:{bond:"biddy", bt:"Biddy sleeps on the Shrine step and guards my door."}}]},
+        {k:"kit", q:"Your kit is the playbook's. What one thing do you add?", o:[
+          {l:"A flask of holy water.", c:"Blessed at the Terminal, in the old words.", fx:{extra:"a flask of holy water"}},
+          {l:"Six candles and a tinderbox.", c:"For reading where there is no screen.", fx:{extra:"6 candles and a tinderbox"}},
+          {l:"Chalk and a slate.", c:"For copying what a screen shows before it stops showing it.", fx:{extra:"chalk and a slate"}}]}]}
+  ]},
+
+druid:{
+  title:"The Gnome Druid", sub:"The One Who Listens", ose:"OSE Druid · Gnome", short:"druid", season:"Spring",
+  hd:6, saves:[11,10,14,16,13], race:{n:"Gnome", adj:{CON:1, STR:-1}},
+  armor:"Leather", base:12, shield:0, large:true,
+  weapons:[{n:"staff", d:"1d6", m:"melee"},{n:"sling", d:"1d4", m:"missile"}],
+  weaponsText:"Quarterstaff 1d6 · sling 1d4 and 20 stones, 40'",
+  gear:"Leather armour · herb pouch (5 uses: stabilise the dying) · waterskin, filled at a spring · no torches · rations (2 days) · 1d6 × 10 gp",
+  blurb:"Small, barefoot, and listening. You hear what the land says, and sometimes the Terminal, through the rock. You held the Pen in Spring.",
+  ability:"The Land Speaks", abilityText:"In a natural place, declare one true fact about what the land knows: the earth, the water, the roots, the animals. 2 uses a session at level 2.",
+  lane:"Natural places (forest, lakeshore, natural cave, island) and what the earth, water, roots and animals know.",
+  y1:[{k:"land", label:"The land tells you"},{k:"origin", label:"Came because"},{k:"terminal", label:"The Terminal is"}],
+  cassandra:"The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?",
+  icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 39C9 19 23 8 40 8c0 17-11 31-31 31z"/><path d="M9 39 31 17M19 29h8M24 24v-7"/></svg>',
+  ask:{secret3:"Write one true thing that only you know. It may be about you, or about the well."},
+  scenes:[
+    {id:"y1", t:"The Nesting Hall", reg:"ink", era:"Year One",
+     x:["Last year. The Gorgon Caves.",
+        "In the Nesting Hall the floor is warm. Something small pecks at the inside of an egg. The Glamourist is already crouched beside it, crooning.",
+        "You put your hand flat on the stone and listen. The rock has a slow pulse. It is not the Queen's. It is deeper than she is, and older, and it never misses a beat.",
+        "You have felt it before. You felt it the day you left your burrow and came to the Fort. The land has been talking to you ever since."],
+     g:[{k:"lens1", name:"The pulse in the rock", q:"What is the pulse?", o:[
+          {l:"A spirit of the deep earth, old and slow, older than the Queen.", c:"You thank it, the way your grandmother taught you to thank a spring.", fx:{lens:"hymn", r:"a spirit"}},
+          {l:"An engine. Something under the rock is turning, steady as a mill wheel.", c:"You count the beats. The count never changes. Living things are not so steady.", fx:{lens:"machine", r:"an engine"}}]},
+        {k:"land", q:"What does the land tell you?", o:[
+          {l:"The land is sick.", c:"Something is poisoning it, slowly, from underground, spreading out from the Ridge. The burrowing animals are leaving. The water tastes wrong, if you know what right tastes like.", fx:{y1:"The land is sick. Warning: Maren listens because she has to.", know:"Where the sickness is worst: a place near the caves where nothing grows. And one symptom the humans have not noticed yet."}},
+          {l:"The land is waking up.", c:"Not sick: alive, more than it should be. New growth where it should be barren. Animals watching, not fleeing. Something old is stirring, and it is curious.", fx:{y1:"The land is waking up. Strange: the children follow you; the adults aren't sure you're safe.", know:"A place where the waking is strongest. You go there alone. Something met you there. It did not speak. It just looked."}},
+          {l:"The land is old, and it remembers.", c:"The empire built over something. The Terminals run on something. The land was here before all of it, and it is patient, and it is waiting for the machines to stop.", fx:{y1:"The land is old, and it remembers. Oracle: people ask your advice and leave unsettled.", know:"That the Terminal and the land are entangled. What happens to one happens to the other. The Minister does not know this yet."}}]},
+        {k:"origin", q:"Why did you come to the Fort?", o:[
+          {l:"The animals told you to.", c:"Not in words. A fox led you three days through the forest. The birds would not let you turn south. The land wanted you here.", fx:{y1:"The animals told you to. The land wanted you here."}},
+          {l:"Your grove was destroyed.", c:"Fire, or axes, or something worse. The place you tended is gone. You need a new one. The lake shore might do, if something changes first.", fx:{y1:"Your grove was destroyed. You need a new one."}},
+          {l:"You heard the Terminal from underground.", c:"A hum, deep, through the rock. Gnomes hear what humans cannot. You followed it here. You do not think the Terminal knows you can hear it.", fx:{y1:"You heard the Terminal from underground, and followed the hum here."}}]}]},
+    {id:"yb", t:"Spring: The Pen", reg:"paint", era:"The Year Between", pen:true,
+     x:["The Year Between. The Pen came to you first, in Spring.",
+        "You kept the Fort's book with dirt under your nails, and you drew the weather in the margins because it mattered more than the words.",
+        "The thaw came early. You planted with the Fort folk and walked the Fields barefoot at dawn. The Quiet came across the water in their boats to watch the kingfishers, and bowed to you, and went home. The burrowing things began to bring you news.",
+        "By midsummer, when you gave the Pen to the thief, you were changed."],
+     g:[{k:"yoc", q:"How were you changed? (Year of Change)", o:[
+          {l:"Green Hand", c:"Whatever you planted came up a week early and twice as thick. The Fort ate better for it.", fx:{yoc:"Green Hand", eff:"Plants grow faster near you. Once a year, Stores +1 at a Fort Turn."}},
+          {l:"Lake-Speaker", c:"You sat at the end of the jetty every evening until the herons began to answer.", fx:{yoc:"Lake-Speaker", eff:"Once a day, ask the fish or the birds one question. They answer truly, as far as they know."}},
+          {l:"Small Friend", c:"Something small followed you home from the Fields and would not leave.", fx:{yoc:"Small Friend", eff:"A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there."},
+           sub:{k:"friend", q:"What follows you?", o:["a stoat","a crow","a toad"]}}]},
+        {k:"spell2", q:"The land taught you one more spell. Which, for good?", o:[
+          {l:"Warp Wood", c:"Wood bends for you. A gate, a ladder, a bow.", fx:{spell:"Warp Wood"}},
+          {l:"Heat Metal", c:"Iron remembers the fire it came from, when you remind it.", fx:{spell:"Heat Metal"}}]}]},
+    {id:"turn", t:"The Singing Well", reg:"choose", era:"Witnessed or unwitnessed",
+     x:["Late Spring. The Fort has dug a new well in the Fields.",
+        "At the bottom the diggers struck a curved wall of fitted stone, smooth as an eggshell, with water running behind it. They broke through, and the well filled in an hour.",
+        "On its first night the water sings: one low note, like a wet finger on the rim of a glass. It does not stop.",
+        "Folk gather at the fence with lanterns and come no closer. Wick has climbed the well-frame to see. Cassandra is not there. Somehow that is worse."],
+     g:[{k:"lens2", name:"The wall in the well", q:"What has the well found?", o:[
+          {l:"A spring with a spirit in it, singing because it was woken.", c:"You decide it is lonely, not angry.", fx:{lens:"hymn", r:"a woken spring"}},
+          {l:"An old pipe. The empire moved water under the Fields, and some of it still runs.", c:"You decide the note is the water, and the pipe is the glass.", fx:{lens:"machine", r:"an old pipe"}}]},
+        {k:"reg", q:"Do you let them see?", o:[
+          {l:"Walk up to the well in front of everyone, and answer the note.", c:"Witnessed. The Fort sees what the water does when you speak to it.", fx:{reg:"paint"}},
+          {l:"Wait until the lanterns go home. Then climb down alone.", c:"Unwitnessed. Only you know what is at the bottom.", fx:{reg:"ink"}}]}]},
+    {id:"office", t:"Maren's Last Muster", reg:"paint", era:"The Fort Office",
+     x:MUSTER.concat(["She comes to you last, and has to look down. “The children follow you everywhere,” she says. “You may as well have a title. Pick one.” Beside her, the Minister asks you the question she has asked all year."]),
+     g:[{k:"terminal", q:"The Minister asks, in the end: what do you think of the Terminal?", o:[
+          {l:"It's a tool.", c:"Like a plough or a loom. Useful, maybe. Holy, no. The power comes from the land; the screen only redirects it.", fx:{y1:"A tool. Useful, maybe. Holy, no."}},
+          {l:"It's a wound.", c:"Something was driven into the earth here, and it is still drawing from it. The hymns are a siphon, and nobody asks the land if that is all right.", fx:{y1:"A wound. The hymns are a siphon."}},
+          {l:"It's a conversation.", c:"The Terminal and the land are talking, slowly, in a language neither side fully speaks. You hear both. You understand neither.", fx:{y1:"A conversation between the land and the empire. You hear both sides."}}]},
+        {k:"office", q:"Which office do you take?", o:[
+          {l:"Warden", c:"Walls of stone, or hedges of thorn. You can grow the second kind.", fx:{office:0}},
+          {l:"Scout", c:"You walk every hex anyway, barefoot.", fx:{office:1}},
+          {l:"Steward", c:"You kept the book in Spring. You know what the Fields will give.", fx:{office:2}},
+          {l:"Lorekeeper", c:"The land is old. It remembers what the books forgot.", fx:{office:3}}]}]},
+    {id:"road", t:"The Night Before the Road", reg:"ink", era:"Bond and kit",
+     x:["Night. The Fort sleeps. Wick's lamps burn along the wall, one by one, and an owl counts them with him.",
+        "You lay your kit out under the pear tree and count it twice: staff, sling, stones, herb pouch, a waterskin filled at a spring and not the well. No torches. Before dawn you will walk out on the Old Road. The moles have been telling you so all week. They do not like the hum.",
+        "Somebody here is tied to you."],
+     g:[{k:"bond", q:"Who is your bond?", o:[
+          {l:"The Elven Thief", c:"Nobody hears either of you coming. You have argued about which of you is quieter. Nobody has won.", fx:{bond:"thief", bt:"The thief and I argue about which of us is quieter. Nobody has won."}},
+          {l:"The Elf Cleric", c:"The opposition, and a friend. The cleric says the power is in the network. You say the land. You argue every night, and both of you like it.", fx:{bond:"cleric", bt:"The cleric and I argue every night about where the power comes from."}},
+          {l:"Cassandra", c:"Cassandra brings you dreams to read. You bring her roots to taste.", fx:{bond:"cassandra", bt:"Cassandra brings me dreams to read. I bring her roots."}},
+          {l:"Wick", c:"Wick follows you on your walks and counts the things you grow. He is never wrong.", fx:{bond:"wick", bt:"Wick counts the things I grow. He is never wrong."}},
+          {l:"The Paladin", c:"Your power does not come from an oath. That bothers the Paladin. You planted a rowan by the Gate anyway, and the Paladin keeps it watered.", fx:{bond:"paladin", bt:"I planted a rowan by the Gate. The Paladin keeps it watered."}},
+          {l:"Captain Maren", c:"Maren listened to your weather, and it saved the harvest. She retires soon. She remembers.", fx:{bond:"maren", bt:"My weather saved Maren's harvest. She remembers."}},
+          {l:"The Minister", c:"The Minister fears what you stand for. You mended her garden anyway.", fx:{bond:"minister", bt:"The Minister fears what I stand for. I mended her garden anyway."}},
+          {l:"The Glamourist", c:"The Glamourist showed you the mushroom ring at the Court's Door. You keep it weeded.", fx:{bond:"glamourist", bt:"The Glamourist showed me the ring at the Court's Door. I keep it weeded."}},
+          {l:"Biddy", c:"Everyone keeps clear of her beak. The animals tell you what she thinks of that. She is pleased.", fx:{bond:"biddy", bt:"Biddy is pleased that everyone keeps clear of her beak. The animals told me."}}]},
+        {k:"kit", q:"Your kit is the playbook's. What one thing do you add?", o:[
+          {l:"A bag of seeds.", c:"Something always needs planting.", fx:{extra:"a bag of seeds"}},
+          {l:"A willow whistle.", c:"Three notes. The birds know all three.", fx:{extra:"a willow bird-whistle"}},
+          {l:"A jar of wild honey.", c:"For wounds, for bargains, and for bears.", fx:{extra:"a jar of wild honey"}}]}]}
+  ]}
+};
+const ORDER = ["thief","cleric","druid"];
+const PCNAME = {thief:"the thief", cleric:"the cleric", druid:"the druid"};
+
+/* ==========================================================================
+   PART 2: RULES NUMBERS
+   ========================================================================== */
+const STAT = ["STR","INT","WIS","DEX","CON","CHA"];
+const SAVE = ["D","W","P","B","S"], SAVE_N = "Death/poison · Wands · Paralysis/petrify · Breath · Spells";
+const THIEF2 = [["Climb sheer surfaces",88,"%"],["Find or remove traps",15,"%"],["Hear noise",2,"-in-6"],["Hide in shadows",15,"%"],["Move silently",25,"%"],["Open locks",20,"%"],["Pick pockets",25,"%"]];
+const mod = s => s<=3?-3:s<=5?-2:s<=8?-1:s<=12?0:s<=15?1:s<=17?2:3;
+const sg = n => n>0?"+"+n:n<0?"−"+(-n):"+0";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* Seeded dice (mulberry32), as in demo/index.html. The seed comes from ?seed=N,
+   or is picked at random and shown in the footer. Each PC draws from its own
+   stream, so the order you play them in does not change their dice. */
+const params = new URLSearchParams(location.search);
+const PAGE_SEED = params.has("seed") && /^\d+$/.test(params.get("seed")) ? (parseInt(params.get("seed"),10)>>>0) : Math.floor(Math.random()*1e6);
+const SALT = {thief:0x9E3779B9, cleric:0x85EBCA6B, druid:0xC2B2AE35};
+function rand(c){
+  let t = c.rs = (c.rs + 0x6D2B79F5)>>>0;
+  t = Math.imul(t ^ (t>>>15), t|1);
+  t ^= t + Math.imul(t ^ (t>>>7), t|61);
+  return ((t ^ (t>>>14))>>>0)/4294967296;
+}
+const die = (c,n) => 1 + Math.floor(rand(c)*n);
+
+/* ==========================================================================
+   PART 3: STATE. localStorage when it works; plain memory when it throws.
+   ========================================================================== */
+const KEY = "fort-cards-v1", THEME_KEY = "fort-cards-theme";
+let S = {mode:"pick", pc:null, ch:{}};
+function load(){
+  try{
+    const raw = window.localStorage.getItem(KEY);
+    if(raw){ const v = JSON.parse(raw); if(v && typeof v==="object" && v.ch && typeof v.ch==="object" && !Array.isArray(v.ch)){
+      S = {mode:["pick","play","card"].includes(v.mode)?v.mode:"pick", pc:PCS[v.pc]?v.pc:null, ch:{}};
+      ORDER.forEach(k => { const c = v.ch[k]; if(c && typeof c==="object" && c.pick && c.fact){ c.sub=c.sub||{}; ["public","secret","pen"].forEach(t=>{ if(typeof c.fact[t]!=="string") c.fact[t]=""; }); S.ch[k] = c; } });
+      if(!S.pc) S.mode = "pick";
+    } }
+  }catch(e){ /* storage blocked or bad data: start fresh */ }
+}
+function save(){ try{ window.localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function fresh(){ return {name:"", stats:null, raw:null, seed:null, rs:0, hp:null, hpNote:"", step:0, pick:{}, sub:{}, fact:{public:"", secret:"", pen:""}}; }
+function cur(){ if(!S.ch[S.pc]) S.ch[S.pc] = fresh(); return S.ch[S.pc]; }
+load();
+
+/* ==========================================================================
+   PART 4: THE CARD. build() turns choices into card values. The numbers follow
+   player/year-two/: base kit, AC, saves, HP rule, skills, 5e line.
+   ========================================================================== */
+function groupsOf(pc){ const out=[]; PCS[pc].scenes.forEach((sc,i)=>sc.g.forEach(g=>out.push({g,i,sc}))); return out; }
+function chosen(pc,c,k){ for(const {g} of groupsOf(pc)) if(g.k===k){ const p=c.pick[k]; return p!=null&&g.o[p]?{g,o:g.o[p],idx:p}:null; } return null; }
+function regOf(pc,c){ const r=chosen(pc,c,"reg"); return r?r.o.fx.reg:null; }
+
+function build(pc,c){
+  const P = PCS[pc], st = c.stats, b = {};
+  const get = k => chosen(pc,c,k);
+  b.y1 = P.y1.map(({k,label})=>{ const x=get(k); return {k,label,text:x?x.o.fx.y1:null}; });
+  b.know = null; P.y1.forEach(({k})=>{ const x=get(k); if(x&&x.o.fx.know) b.know=x.o.fx.know; });
+  const y = get("yoc");
+  b.yoc = y ? y.o.fx.yoc : null; b.yocEff = y ? y.o.fx.eff : null; b.yocFull = b.yoc;
+  if(y && y.o.sub){ const s = c.sub[y.o.sub.k]; b.friend = s!=null ? y.o.sub.o[s] : null; b.yocFull = b.yoc+(b.friend?" ("+b.friend+")":" (choose the animal)"); }
+  b.ms = y && y.o.fx.ms ? y.o.fx.ms : 0;
+  const of = get("office"); b.office = of ? OFFICE[of.o.fx.office] : null;
+  const bd = get("bond");
+  b.bondKey = bd ? bd.o.fx.bond : null; b.bond = bd ? bd.o.fx.bt : null;
+  b.bondWho = bd ? (PCS[b.bondKey] ? PCS[b.bondKey].title : NPC_NAMES[b.bondKey]) : null;
+  const kt = get("kit"); b.extra = kt ? kt.o.fx.extra : null;
+  const tk = get("took"); b.took = tk ? tk.o.fx.item : null;
+  const sp = get("spell2"); b.spell2 = sp ? sp.o.fx.spell : null;
+  b.lens = ["lens1","lens2"].map(k => { const l = get(k); return l ? {name:l.g.name, lens:l.o.fx.lens, r:l.o.fx.r} : null; });
+  if(b.lens.every(Boolean)){ const h = b.lens.filter(l=>l.lens==="hymn").length; b.lensSum = h===2?"Hymn":h===0?"Machine":"Both"; }
+  else b.lensSum = null;
+  b.mods = st ? st.map(mod) : null;
+  if(st){ b.acAsc = P.base + P.shield + b.mods[3]; b.ac = (19-b.acAsc)+" ["+b.acAsc+"]";
+    if(P.large) b.acLarge = (17-b.acAsc)+" ["+(b.acAsc+2)+"]"; }
+  b.gear = P.gear + (b.took && pc==="thief" ? " · what you took: "+b.took : "") + (b.extra ? " · "+b.extra : "");
+  b.reg = regOf(pc,c);
+  b.partner = mutualPartner(pc);
+  b.fate = 3 + (b.partner?1:0);
+  return b;
+}
+function mutualPartner(pc){
+  const c = S.ch[pc]; if(!c) return null;
+  const mine = chosen(pc,c,"bond"); if(!mine) return null;
+  const k = mine.o.fx.bond; if(!PCS[k] || !S.ch[k]) return null;
+  const theirs = chosen(k,S.ch[k],"bond");
+  return theirs && theirs.o.fx.bond===pc ? k : null;
+}
+const E = s => '<span class="empty">'+esc(s)+'</span>';
+function lensHTML(b){
+  const got = b.lens.filter(Boolean);
+  if(!got.length) return E("chosen in your scenes");
+  return (b.lensSum?'Reads old things as <b>'+esc(b.lensSum)+'</b>':E("one more reading to come"))+'<span class="lensbar" aria-hidden="true">'+got.map(l=>'<i class="'+(l.lens==="hymn"?"h":"m")+'"></i>').join("")+'</span><br>'+
+    got.map(l=>esc(l.name)+": "+esc(l.r)+" ("+(l.lens==="hymn"?"hymn":"machine")+")").join(" · ");
+}
+function skillList(b){ return THIEF2.map(([n,v,u])=>[n, n==="Move silently"&&b.ms ? v+b.ms : v, u, n==="Move silently"&&b.ms]); }
+function classBlock(pc,b){
+  const L=[];
+  if(pc==="thief"){
+    L.push("<h4>Thief skills · level 2</h4><ul>"+skillList(b).map(([n,v,u,q])=>"<li>"+n+" "+v+u+(q?" (Quiet Feet)":"")+"</li>").join("")+"</ul>");
+    L.push("<p><b>Backstab:</b> +4 to hit, ×2 damage, on an unaware enemy from behind.</p>");
+    L.push("<p><b>Elf:</b> infravision 60' · immune to ghoul paralysis · detects secret doors 2-in-6 when searching · hears noise 2-in-6 (use the better of elf and thief, not both).</p>");
+  } else if(pc==="cleric"){
+    L.push("<h4>Spells · 2 × 1st level a day</h4><p>Cure Light Wounds · Detect Evil · Detect Magic · Protection from Evil · Light · <i>Bless</i> (level 2; fills a 1st-level slot). Prepared before a Terminal.</p>");
+    L.push("<p><b>Turn undead (2d6):</b> skeleton T · zombie 7+ · ghoul 9+ · wight 11+.</p>");
+    L.push("<p><b>Elf:</b> infravision 60' · immune to ghoul paralysis · detects secret doors 1-in-6 passing, 2-in-6 searching.</p>");
+    L.push("<p><b>Holy symbol:</b> a smooth grey lake stone. The Terminal knew it.</p>");
+  } else {
+    L.push("<h4>Spells · 2 × 1st level a day</h4><p>Entangle · Faerie Fire · Speak with Animals · Purify Food and Water · Predict Weather · "+(b.spell2?"<i>"+esc(b.spell2)+"</i> (level 2; fills a 1st-level slot)":E("Warp Wood or Heat Metal: scene 2"))+". Chosen at dawn. No Terminal needed.</p>");
+    L.push("<p><b>Gnome illusion, 1/day:</b> Dancing Lights or Ghost Sound.</p>");
+    L.push("<p><b>Gnome:</b> infravision 60' · speaks with burrowing mammals · −2 AC [+2] against creatures larger than a human · passes without trace in wild places. No metal armour.</p>");
+  }
+  return L.join("");
+}
+/* Weapon in the playbooks' 5e style: "mace −1 (1d6−1)", "shortbow +2 (1d6)". */
+function w5(w,mods){
+  const hit = w.m==="melee" ? mods[0] : mods[3], dm = w.m==="melee" ? mods[0] : 0;
+  return w.n+" "+sg(hit)+" ("+w.d+(dm?sg(dm):"")+")";
+}
+function fiveE(pc,b,c){
+  const ac = b.acAsc!=null ? b.acAsc : "?", hp = c.hp!=null ? c.hp : "___";
+  const wp = b.mods ? PCS[pc].weapons.map(w=>w5(w,b.mods)).join(", ") : "weapons";
+  if(pc==="thief") return "5e: elf rogue 2 · AC "+ac+" · hp "+hp+" · "+wp+" · sneak attack +4, ×2 damage · darkvision 60'";
+  if(pc==="cleric") return "5e: elf cleric 2 · AC "+ac+" · hp "+hp+" · "+wp+" · 2 slots/day: cure wounds, bless, detect magic · turn undead (2d6) · darkvision 60'";
+  return "5e: gnome druid 2 · AC "+ac+(b.acAsc!=null?" ("+(b.acAsc+2)+" vs. large)":"")+" · hp "+hp+" · "+wp+" · 2 slots/day: entangle, faerie fire, speak with animals · darkvision 60'";
+}
+function savesLine(pc,st){
+  const P=PCS[pc]; const w = st ? mod(st[2]) : 0;
+  return P.saves.map((v,i)=>SAVE[i]+v).join(" ")+(w?" · "+sg(w)+" vs. magic (WIS)":"");
+}
+function statsLine(c){ return c.stats ? STAT.map((n,i)=>n+" "+c.stats[i]+" ("+sg(mod(c.stats[i]))+")").join(" · ") : null; }
+function acText(pc,b){ return b.ac ? b.ac+" · "+PCS[pc].armor+(b.acLarge?"; "+b.acLarge+" vs. larger than a human":"") : null; }
+
+function cardHTML(pc,c,forPrint){
+  const P = PCS[pc], b = build(pc,c), st = c.stats;
+  const name = (c.name||"").trim();
+  const hpRule = P.hd+" + 1d"+P.hd+", + CON on each";
+  const front = '<div class="face">'+
+    '<div class="fhead"><span class="eyebrow">Fort Card · Year Two · Pen: '+P.season+'</span>'+
+    '<span class="fname" data-field="name">'+(name?esc(name):E("write a name"))+'</span>'+
+    '<span class="fcls" data-field="class">'+esc(P.title)+' · '+esc(P.ose)+' · Level 2</span></div>'+
+    '<dl class="kv">'+
+    '<dt>3d6</dt><dd data-field="stats">'+(st?esc(statsLine(c))+'<br><span class="note">In order. '+esc(P.race.n)+': '+Object.entries(P.race.adj).map(([k,v])=>k+" "+sg(v)).join(", ")+' applied.</span>':E("roll first"))+'</dd>'+
+    '<dt>HP</dt><dd data-field="hp">'+(c.hp!=null?esc(c.hp)+' <span class="note">('+esc(c.hpNote||hpRule)+')</span>':E("roll at the end: "+hpRule))+'</dd>'+
+    '<dt>AC</dt><dd data-field="ac">'+(b.ac?esc(acText(pc,b)):E("after the roll"))+'</dd>'+
+    '<dt>THAC0</dt><dd data-field="thac0">19 [+0]</dd>'+
+    '<dt>Saves</dt><dd data-field="saves">'+esc(savesLine(pc,st))+'<br><span class="note">'+SAVE_N+'</span></dd>'+
+    '<dt>Fate</dt><dd data-field="fate">'+"●".repeat(b.fate)+' '+b.fate+(b.partner?' <span class="note">(+1 mutual bond with '+esc(PCS[b.partner].title)+', only to help them)</span>':'')+'<br><span class="note">Refresh each Fort Turn and each session. 1: reroll · +4 to a save · one more true fact in your lane · with a spell or limited power, write part of its effect. 2: cheat death.</span></dd>'+
+    '<dt>Ability</dt><dd data-field="ability"><b>'+esc(P.ability)+'.</b> '+esc(P.abilityText)+'</dd>'+
+    '<dt>Lane</dt><dd data-field="lane">'+esc(P.lane)+'</dd>'+
+    '<dt>Lens</dt><dd data-field="lens">'+lensHTML(b)+'</dd>'+
+    '</dl>'+
+    '<div class="sec"><h4>Gear</h4><p data-field="gear"><b>'+esc(P.weaponsText)+'</b> · '+esc(b.gear)+(b.extra?'':' · '+E("one more thing: scene 5"))+'</p></div>'+
+    '<p class="note" data-field="fivee">'+esc(fiveE(pc,b,c))+'</p>'+
+    '</div>';
+  const back = '<div class="face">'+
+    '<div class="sec"><h4>Year One, and since</h4><ul data-field="origin">'+b.y1.map(y=>'<li><b>'+esc(y.label)+':</b> '+(y.text?esc(y.text):E("in your scenes"))+'</li>').join("")+
+      (b.know?'<li><b>You start knowing:</b> '+esc(b.know)+'</li>':'')+'</ul></div>'+
+    '<div class="sec"><h4>The Pen · '+P.season+'</h4><p data-field="pen">'+((c.fact.pen||"").trim()?'“'+esc(c.fact.pen.trim())+'”':E("scene 2"))+'</p></div>'+
+    '<div class="sec"><h4>Year of Change <span class="note">(proposed; the DM confirms)</span></h4><p data-field="yoc">'+(b.yoc?'<b>'+esc(b.yocFull)+'.</b> '+esc(b.yocEff):E("scene 2"))+'</p></div>'+
+    '<div class="sec"><h4>Fort Office</h4><p data-field="office">'+(b.office?'<b>'+esc(b.office.n)+'.</b> '+esc(b.office.e):E("scene 4"))+'</p></div>'+
+    '<div class="sec fact"><h4>Public fact · Elmore · witnessed</h4><p data-field="public">'+(c.fact.public.trim()?esc(c.fact.public.trim()):E("typed in a painted scene"))+'</p></div>'+
+    '<div class="sec fact secret"><h4>Secret fact · Otus · unwitnessed</h4><p data-field="secret">'+(c.fact.secret.trim()?esc(c.fact.secret.trim()):E("typed in an inked scene"))+'</p></div>'+
+    '<div class="sec"><h4>Bond</h4><p data-field="bond">'+(b.bond?'<b>'+esc(b.bondWho)+'.</b> '+esc(b.bond)+(b.partner?' <b>Mutual.</b>':''):E("scene 5"))+'</p></div>'+
+    '<div class="sec" data-field="classblock">'+classBlock(pc,b)+'</div>'+
+    (forPrint && c.step>=5 ? '<p class="quote">Cassandra, at the milestone: “'+esc(P.cassandra)+'”</p>' : '')+
+    '</div>';
+  return '<div class="fcard" data-pc="'+pc+'">'+front+back+'</div>';
+}
+
+function cardText(pc,c){
+  const P = PCS[pc], b = build(pc,c), L = [];
+  const dash = "(not chosen yet)";
+  L.push("FORT CARD · YEAR TWO");
+  L.push("Name: "+((c.name||"").trim() || "(no name yet)"));
+  L.push(P.title+" · "+P.ose+" · Level 2 · held the Pen in "+P.season);
+  L.push("3d6 in order: "+(statsLine(c)||dash)+(c.stats?" ("+P.race.n+" adjustment applied)":""));
+  L.push("HP "+(c.hp!=null?c.hp+" ("+(c.hpNote||"")+")":"not rolled")+" · AC "+(acText(pc,b)||"?")+" · THAC0 19 [+0]");
+  L.push("Saves "+savesLine(pc,c.stats)+" ("+SAVE_N+")");
+  L.push("Fate "+b.fate+(b.partner?" (includes +1 for the mutual bond with "+PCNAME[b.partner]+", only to help them)":"")+" · refresh each Fort Turn and session");
+  L.push("Fate ability: "+P.ability+". "+P.abilityText);
+  L.push("Lane: "+P.lane);
+  L.push("Lens: "+(b.lensSum?"reads old things as "+b.lensSum+" ("+b.lens.map(l=>l.name+": "+l.r+" ["+l.lens+"]").join("; ")+")":dash));
+  b.y1.forEach(y=>L.push(y.label+": "+(y.text||dash)));
+  if(b.know) L.push("You start knowing: "+b.know);
+  L.push("The Pen ("+P.season+"): "+((c.fact.pen||"").trim()||"(not written yet)"));
+  L.push("Year of Change: "+(b.yoc?b.yocFull+". "+b.yocEff+" (proposed; DM confirms)":dash));
+  L.push("Fort Office: "+(b.office?b.office.n+". "+b.office.e:dash));
+  L.push("PUBLIC FACT (Elmore, witnessed): "+(c.fact.public.trim()||"(not written yet)"));
+  L.push("SECRET FACT (Otus, unwitnessed): "+(c.fact.secret.trim()||"(not written yet)"));
+  L.push("Bond: "+(b.bond?b.bondWho+". "+b.bond+(b.partner?" MUTUAL.":""):dash));
+  L.push("Gear: "+P.weaponsText+" · "+b.gear+(b.extra?"":" · (one more thing: not chosen yet)"));
+  if(pc==="thief") L.push("Thief skills (L2): "+skillList(b).map(([n,v,u])=>n+" "+v+u).join(", ")+". Backstab +4, ×2.");
+  if(pc==="cleric") L.push("Spells: 2 × 1st a day: Cure Light Wounds, Detect Evil, Detect Magic, Protection from Evil, Light, Bless. Turn: skeleton T, zombie 7, ghoul 9, wight 11.");
+  if(pc==="druid") L.push("Spells: 2 × 1st a day: Entangle, Faerie Fire, Speak with Animals, Purify Food and Water, Predict Weather, "+(b.spell2||"(Warp Wood or Heat Metal: not chosen)")+". Gnome illusion 1/day: Dancing Lights or Ghost Sound.");
+  L.push(fiveE(pc,b,c));
+  if(c.step>=5) L.push("Cassandra, at the milestone: \""+P.cassandra+"\"");
+  L.push("Dice seed "+(c.seed!=null?c.seed:"-"));
+  return L.join("\n");
+}
+/* ==========================================================================
+   PART 5: SCREENS
+   ========================================================================== */
+const app = document.getElementById("app");
+let focusSel = null;
+function render(){
+  save();
+  if(S.mode==="play" && S.pc) renderPlay();
+  else if(S.mode==="card" && S.pc) renderCard();
+  else { S.mode="pick"; renderPick(); }
+  renderFoot();
+  if(focusSel){ const el = app.querySelector(focusSel); if(el) el.focus({preventScroll:true}); focusSel=null; }
+}
+function status(k){
+  const c = S.ch[k];
+  if(!c || !c.stats) return "Not started";
+  if(c.step>=5) return "<b>Card ready</b>";
+  return "Scene "+(c.step+1)+" of 5";
+}
+function renderPick(){
+  app.innerHTML =
+  '<header class="mast"><div><span class="eyebrow">The Fort on the Lake · Year Two · solo intros</span><h1>Fort Cards</h1></div>'+
+  '<p class="lede">Pick your character. You play five short scenes alone, ten or fifteen minutes in all. Every choice writes onto your Fort Card. Bring the card to session zero. You may change any choice there, before play begins.</p></header>'+
+  '<div class="picker">'+ORDER.map(k=>{ const P=PCS[k];
+    return '<button class="pick" data-pc="'+k+'">'+P.icon+'<span class="nm">'+esc(P.title)+'</span><span class="sub">'+esc(P.sub)+'</span><span class="ose">'+esc(P.ose)+' · level 2 · Pen: '+P.season+'</span><span class="blurb">'+esc(P.blurb)+'</span><span class="st" data-status="'+k+'">'+status(k)+'</span></button>'; }).join("")+'</div>'+
+  '<section class="rules" aria-labelledby="rules-h"><h2 id="rules-h">How the scenes work</h2>'+
+  '<p><span class="swatch paint" aria-hidden="true"></span><b>Elmore paint is witnessed.</b> A warm, painted scene happened where the Fort, Cassandra or the Terminal could see it. Your <b>public fact</b> comes from such a scene. Everyone at the table may use it.</p>'+
+  '<p><span class="swatch ink" aria-hidden="true"></span><b>Otus ink is unwitnessed.</b> A black-and-white scene happened where nobody saw. Your <b>secret fact</b> comes from such a scene. Tell it when you choose.</p>'+
+  '<p><b>You choose the third scene\'s register.</b> The other fact comes later, in the next scene of the other kind. Type one sentence each time. It is true.</p>'+
+  '<p><b>Fate.</b> You have 3 points. They refresh at each Fort Turn and each session. Spend 1 to reroll, to add +4 to a save, or to state one true fact in your lane. Spend 2 to cheat death. Spend 1 with a spell or a limited power, and you write part of what it does.</p>'+
+  '<p><b>Bonds.</b> Your card names one bond: another character, or someone at the Fort. If two cards name each other, each gets 1 extra Fate, spent only to help the other.</p>'+
+  '<p><b>The Lens.</b> Sometimes you meet something old. You decide how your character reads it: as a hymn (a mystery, a ward, a spirit) or as a machine (a signal, a lock, an engine). Both are true. Your card keeps the record.</p>'+
+  '</section>';
+  app.querySelectorAll(".pick").forEach(bt=>bt.onclick=()=>{ S.pc=bt.dataset.pc; const c=cur(); S.mode=c.step>=5?"card":"play"; render(); window.scrollTo(0,0); focusTop(); });
+}
+function focusTop(){ const h = app.querySelector("h1,h3"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); } }
+function topBar(c){
+  return '<div class="bar"><button class="linkbtn" id="back">← All characters</button>'+
+    '<div class="dots" role="img" aria-label="Scene '+Math.min(c.step+1,5)+' of 5">'+[0,1,2,3,4].map(i=>'<i class="'+(i<=c.step&&c.stats?"on":"")+'"></i>').join("")+'</div></div>';
+}
+function statsRow(c){
+  return '<div class="stats" aria-label="Ability scores">'+STAT.map((n,j)=>'<div><b>'+n+'</b><span>'+c.stats[j]+'</span><small>'+sg(mod(c.stats[j]))+'</small></div>').join("")+'</div>';
+}
+function wireBack(){ app.querySelector("#back").onclick=()=>{ S.mode="pick"; render(); window.scrollTo(0,0); focusTop(); }; }
+
+/* Which fact (if any) this scene asks for, given the register chosen in scene 3. */
+function factAsks(pc,c,sc){
+  const r = regOf(pc,c), P = PCS[pc], out = [];
+  if(sc.pen) out.push({type:"pen", label:"The Pen · "+P.season, ask:"Write one thing you wrote in "+P.season+" that is still true at the Fort."});
+  if(sc.id==="turn" && r) out.push(r==="paint" ? {type:"public", label:"Public fact · witnessed", ask:ASK.public3} : {type:"secret", label:"Secret fact · unwitnessed", ask:P.ask.secret3});
+  if(sc.id==="office" && r==="ink") out.push({type:"public", label:"Public fact · witnessed", ask:ASK.public4});
+  if(sc.id==="road" && r==="paint") out.push({type:"secret", label:"Secret fact · unwitnessed", ask:ASK.secret5});
+  return out;
+}
+const REGTAG = {paint:"Elmore · paint · witnessed", ink:"Otus · ink · unwitnessed", choose:"Elmore or Otus · you choose"};
+
+function renderPlay(){
+  const pc = S.pc, P = PCS[pc], c = cur();
+  if(!c.stats){
+    app.innerHTML = topBar(c)+
+    '<header class="mast"><div><span class="eyebrow">'+esc(P.ose)+' · level 2</span><h1>'+esc(P.title)+'</h1></div><p class="lede">'+esc(P.blurb)+'</p></header>'+
+    '<section class="panel"><h2>Roll 3d6 in order</h2><p>Six rolls, in order: STR, INT, WIS, DEX, CON, CHA. No swaps. Whatever falls is who walked out of the caves last year. '+esc(P.race.n)+': '+Object.entries(P.race.adj).map(([k,v])=>k+" "+sg(v)).join(", ")+', applied for you.</p>'+
+    '<button class="btn" id="roll">Roll the dice</button><p class="seedline">Dice seed '+PAGE_SEED+'. The same seed gives the same rolls. Add ?seed=N to the address to choose one.</p></section>';
+    wireBack();
+    app.querySelector("#roll").onclick=()=>{
+      c.seed = PAGE_SEED; c.rs = (PAGE_SEED ^ SALT[pc])>>>0;
+      c.raw = STAT.map(()=>die(c,6)+die(c,6)+die(c,6));
+      c.stats = c.raw.map((v,i)=>Math.max(3,Math.min(18,v+(P.race.adj[STAT[i]]||0))));
+      render(); focusTop();
+    };
+    return;
+  }
+  const i = c.step, sc = P.scenes[i];
+  const r = regOf(pc,c);
+  const reg = sc.reg==="choose" ? (c.pick.reg!=null ? r : "choose") : sc.reg;
+  const done = sc.g.every(g=>{ const p=c.pick[g.k]; if(p==null) return false; const o=g.o[p]; return !o.sub || c.sub[o.sub.k]!=null; });
+  const fas = done ? factAsks(pc,c,sc) : [];
+  let groups = sc.g.map(g=>{
+    const p = c.pick[g.k], o = p!=null ? g.o[p] : null;
+    let h = '<div class="group" data-g="'+g.k+'"><h4>'+esc(g.q)+'</h4><div class="opts">'+
+      g.o.map((op,j)=>'<button class="opt'+(op.fx.reg?" o-"+op.fx.reg:"")+'" data-g="'+g.k+'" data-o="'+j+'" aria-pressed="'+(p===j)+'"><b>'+esc(op.l)+'</b>'+
+        (op.fx.eff?'<small>'+esc(op.fx.eff)+'</small>':op.fx.office!=null?'<small>'+esc(OFFICE[op.fx.office].e)+'</small>':'')+'</button>').join("")+'</div>';
+    if(o) h += '<p class="chosen">'+esc(o.c)+'</p>';
+    if(o && o.sub) h += '<h4>'+esc(o.sub.q)+'</h4><div class="opts">'+o.sub.o.map((s,j)=>'<button class="opt" data-s="'+o.sub.k+'" data-o="'+j+'" aria-pressed="'+(c.sub[o.sub.k]===j)+'"><b>'+esc(s.charAt(0).toUpperCase()+s.slice(1))+'</b></button>').join("")+'</div>';
+    return h+'</div>';
+  }).join("");
+  let after = "";
+  if(done){
+    after = '<div class="after">';
+    fas.forEach(fa=>{ after += '<div class="ask"><label class="tag" for="fact-'+fa.type+'" style="align-self:flex-start">'+esc(fa.label)+'</label><p id="ask-'+fa.type+'">'+esc(fa.ask)+' <i>One sentence. It is true.</i></p>'+
+      '<textarea id="fact-'+fa.type+'" class="factin" data-type="'+fa.type+'" aria-describedby="ask-'+fa.type+'" maxlength="300" placeholder="One sentence. It becomes true.">'+esc(c.fact[fa.type]||"")+'</textarea></div>'; });
+    after += '<button class="go" id="next">'+(i<4?"Next scene":"Walk out on the Old Road")+'</button></div>';
+  }
+  app.innerHTML = topBar(c)+statsRow(c)+
+    '<article class="scene reg-'+reg+'" aria-labelledby="sc-h">'+
+    '<div class="meta"><span class="tag">'+REGTAG[reg]+'</span><span class="tag">Scene '+(i+1)+' of 5</span><span class="tag">'+esc(sc.era)+'</span></div>'+
+    '<h3 id="sc-h">'+esc(sc.t)+'</h3><div class="x">'+sc.x.map(p=>'<p>'+esc(p)+'</p>').join("")+'</div>'+
+    groups+after+'</article>'+
+    '<section aria-label="Your Fort Card so far"><h2 style="margin-bottom:12px">Your Fort Card so far</h2>'+cardHTML(pc,c,false)+'</section>';
+  wireBack();
+  app.querySelectorAll(".opt[data-g]").forEach(bt=>bt.onclick=()=>{ c.pick[bt.dataset.g]=+bt.dataset.o; focusSel='.opt[data-g="'+bt.dataset.g+'"][data-o="'+bt.dataset.o+'"]'; render(); });
+  app.querySelectorAll(".opt[data-s]").forEach(bt=>bt.onclick=()=>{ c.sub[bt.dataset.s]=+bt.dataset.o; focusSel='.opt[data-s="'+bt.dataset.s+'"][data-o="'+bt.dataset.o+'"]'; render(); });
+  app.querySelectorAll(".factin").forEach(f=>f.oninput=()=>{ c.fact[f.dataset.type]=f.value; save(); const card=app.querySelector(".fcard"); if(card) card.outerHTML=cardHTML(pc,c,false); });
+  const nx = app.querySelector("#next");
+  if(nx) nx.onclick=()=>{ c.step=i+1; if(c.step>=5) S.mode="card"; render(); window.scrollTo(0,0); focusTop(); };
+}
+
+function renderCard(){
+  const pc = S.pc, P = PCS[pc], c = cur(), b = build(pc,c);
+  const readyOthers = ORDER.filter(k=>S.ch[k] && S.ch[k].step>=5);
+  app.innerHTML = '<div class="bar"><button class="linkbtn" id="back">← All characters</button><span class="eyebrow">Intro complete</span></div>'+
+  '<article class="scene reg-paint" aria-labelledby="sc-h"><div class="meta"><span class="tag">'+REGTAG.paint+'</span><span class="tag">The Old Road</span></div>'+
+  '<h3 id="sc-h">The Milestone</h3><div class="x">'+ROADEND.map(p=>'<p>'+esc(p)+'</p>').join("")+
+  '<p class="quote" id="cass">“'+esc(P.cassandra)+'”</p><p><b>End of your intro. Bring this card to session zero.</b></p></div></article>'+
+  (b.partner?'<p class="mutual" id="mutual">Mutual bond: your card and '+esc(PCS[b.partner].title)+'\'s card name each other. Each of you gets 1 extra Fate each session, spent only to help the other.</p>':'')+
+  '<section class="cardsec"><h2>Your Fort Card</h2><label class="eyebrow" for="name">Name</label><input class="namein" id="name" maxlength="60" autocomplete="off" placeholder="Write your character\'s name" value="'+esc(c.name||"")+'">'+
+  '<div id="cardbox">'+cardHTML(pc,c,false)+'</div></section>'+
+  '<section class="panel"><h2>Hit points</h2><p>Level 2 is two Hit Dice: 2d'+P.hd+'. The first die is at its maximum, as Year One gave it at level 1; roll the second. Add your CON modifier ('+sg(mod(c.stats[4]))+') to each die. Each die gives at least 1.</p>'+
+  '<div class="row"><button class="btn" id="hp">'+(c.hp!=null?"HP "+c.hp+" · roll again (only if the DM says so)":"Roll HP")+'</button><button class="btn ghost" id="hp2">Roll both dice instead</button></div><p class="note">Roll both only if your DM rolls every Hit Die. Dice seed '+esc(c.seed)+'.</p></section>'+
+  '<section class="panel" id="retcon"><h2>Session zero: retcon</h2><p class="note">Every scene happened. Only the details can change. Tap a different choice and the card changes with it. Stop when the DM calls time.</p>'+
+  P.scenes.map((sc,i)=>sc.g.map(g=>{ const p=c.pick[g.k], o=p!=null?g.o[p]:null;
+    let h='<div class="rc"><span class="eyebrow">Scene '+(i+1)+' · '+esc(sc.t)+' · '+esc(g.q)+'</span><div class="chips">'+g.o.map((op,j)=>'<button class="chip" data-g="'+g.k+'" data-o="'+j+'" aria-pressed="'+(p===j)+'">'+esc(op.fx.reg?(op.fx.reg==="paint"?"Witnessed: ":"Unwitnessed: ")+op.l:op.l)+'</button>').join("")+'</div>';
+    if(o&&o.sub) h+='<div class="chips">'+o.sub.o.map((s,j)=>'<button class="chip" data-s="'+o.sub.k+'" data-o="'+j+'" aria-pressed="'+(c.sub[o.sub.k]===j)+'">'+esc(s)+'</button>').join("")+'</div>';
+    return h+'</div>'; }).join("")).join("")+
+  '<div class="rc"><label class="eyebrow" for="rf-pen">The Pen: one thing you wrote in '+P.season+' that is still true.</label><textarea id="rf-pen" data-f="pen" maxlength="300">'+esc(c.fact.pen)+'</textarea></div>'+
+  '<div class="rc"><label class="eyebrow" for="rf-public">Public fact (Elmore, witnessed). One sentence.</label><textarea id="rf-public" data-f="public" maxlength="300">'+esc(c.fact.public)+'</textarea></div>'+
+  '<div class="rc"><label class="eyebrow" for="rf-secret">Secret fact (Otus, unwitnessed). One sentence.</label><textarea id="rf-secret" data-f="secret" maxlength="300">'+esc(c.fact.secret)+'</textarea></div>'+
+  '</section>'+
+  '<section class="rules"><h2>At the table</h2>'+
+  '<p><b>Read your public fact aloud.</b> The Fort saw it. Every NPC may know it.</p>'+
+  '<p><b>Your secret fact is true, and yours.</b> Tell the table when you choose, or let it come out in play.</p>'+
+  '<p><b>Your lane.</b> Your Fate facts stay in it: '+esc(P.lane.charAt(0).toLowerCase()+P.lane.slice(1))+'</p></section>'+
+  '<section class="panel"><h2>Card as text</h2><p class="note">For your DM or your notes.</p><pre class="copy" id="txt" tabindex="0">'+esc(cardText(pc,c))+'</pre>'+
+  '<div class="row"><button class="btn ghost" id="copy">Copy card as text</button><span class="note" id="copied" aria-live="polite"></span></div></section>'+
+  '<section class="panel"><h2>Print</h2><p class="note">One card to a page.</p><div class="row"><button class="btn ghost" id="print1">Print this card</button>'+
+  (readyOthers.length>1?'<button class="btn ghost" id="printall">Print all '+readyOthers.length+' cards on this device</button>':'')+'</div></section>'+
+  '<section class="panel"><h2>Start over</h2><p class="note">This clears '+esc(P.title)+' on this device only.</p><button class="btn ghost" id="reset">Reset '+esc(P.title)+'</button></section>';
+  wireBack();
+  const refresh = ()=>{ save(); app.querySelector("#cardbox").innerHTML=cardHTML(pc,c,false); app.querySelector("#txt").textContent=cardText(pc,c); };
+  const nm = app.querySelector("#name"); nm.oninput=()=>{ c.name=nm.value; refresh(); };
+  const roll = both=>{ const m=mod(c.stats[4]); const a = both?die(c,P.hd):P.hd, d2=die(c,P.hd); const x=Math.max(1,a+m), y=Math.max(1,d2+m); c.hp=x+y;
+    c.hpNote = (both?"rolled "+a:"max "+a)+" and rolled "+d2+", CON "+sg(m)+" each"; render(); focusSel=null; };
+  app.querySelector("#hp").onclick=()=>{ roll(false); app.querySelector("#hp").focus(); };
+  app.querySelector("#hp2").onclick=()=>{ roll(true); app.querySelector("#hp2").focus(); };
+  app.querySelectorAll(".chip[data-g]").forEach(bt=>bt.onclick=()=>{ c.pick[bt.dataset.g]=+bt.dataset.o; focusSel='.chip[data-g="'+bt.dataset.g+'"][data-o="'+bt.dataset.o+'"]'; render(); });
+  app.querySelectorAll(".chip[data-s]").forEach(bt=>bt.onclick=()=>{ c.sub[bt.dataset.s]=+bt.dataset.o; focusSel='.chip[data-s="'+bt.dataset.s+'"][data-o="'+bt.dataset.o+'"]'; render(); });
+  app.querySelectorAll("textarea[data-f]").forEach(t=>t.oninput=()=>{ c.fact[t.dataset.f]=t.value; refresh(); });
+  app.querySelector("#copy").onclick=()=>{
+    const t = cardText(pc,c), msg = app.querySelector("#copied");
+    const fallback = ()=>{ selectTxt(); msg.textContent="Text selected below. Copy it by hand (Ctrl+C or long-press)."; };
+    try{ if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(()=>{ msg.textContent="Copied."; }, fallback); else fallback(); }catch(e){ fallback(); }
+  };
+  app.querySelector("#print1").onclick=()=>{ printDeck([pc]); };
+  const pa = app.querySelector("#printall"); if(pa) pa.onclick=()=>{ printDeck([pc].concat(readyOthers.filter(k=>k!==pc))); };
+  let armed=false; const rs=app.querySelector("#reset");
+  rs.onclick=()=>{ if(!armed){ armed=true; rs.textContent="Tap again to reset "+P.title; return; } delete S.ch[pc]; S.mode="pick"; render(); window.scrollTo(0,0); focusTop(); };
+}
+function selectTxt(){ const el=document.getElementById("txt"); const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); el.focus(); }
+
+function deckHTML(list){
+  return list.filter(k=>S.ch[k]).map(k=>'<section class="pcard"><div class="ptop"><span>Fort Cards · The Fort on the Lake · Year Two</span><span>'+esc(PCS[k].title)+'</span></div>'+cardHTML(k,S.ch[k],true)+'</section>').join("");
+}
+function printDeck(list){ document.getElementById("printdeck").innerHTML = deckHTML(list); try{ window.print(); }catch(e){} }
+window.addEventListener("beforeprint",()=>{ const d=document.getElementById("printdeck"); if(d.innerHTML.trim()) return;
+  const list = S.mode==="card"&&S.pc ? [S.pc] : ORDER.filter(k=>S.ch[k]&&S.ch[k].step>=5); d.innerHTML = deckHTML(list); });
+window.addEventListener("afterprint",()=>{ document.getElementById("printdeck").innerHTML=""; });
+
+/* Theme: auto, light, dark. Remembered per device when storage works. */
+let theme = "auto";
+try{ const t = window.localStorage.getItem(THEME_KEY); if(t==="light"||t==="dark") theme=t; }catch(e){}
+function applyTheme(){ if(theme==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",theme); }
+function renderFoot(){
+  const f = document.getElementById("foot");
+  f.innerHTML = '<span class="mono">dice seed '+PAGE_SEED+' · same seed, same dice · try ?seed=N</span>'+
+    '<span>Offline. Nothing leaves this device. <button class="linkbtn" id="theme" aria-label="Theme: '+theme+'. Change theme">Theme: '+theme+'</button></span>';
+  f.querySelector("#theme").onclick=()=>{ theme = theme==="auto"?"light":theme==="light"?"dark":"auto"; try{ window.localStorage.setItem(THEME_KEY,theme); }catch(e){} applyTheme(); renderFoot(); document.getElementById("theme").focus(); };
+}
+applyTheme();
+
+/* A small handle for the test and for curious players. */
+window.FORT = { get state(){ return S; }, PCS, build, cardText, PAGE_SEED, deckHTML };
+render();
+})();
+</script>
+</body>
+</html>
