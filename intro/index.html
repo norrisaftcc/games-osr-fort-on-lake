@@ -83,6 +83,7 @@ button,input,textarea{font:inherit;color:inherit}
 .dots{display:flex;gap:6px;align-items:center}
 .dots i{width:24px;height:7px;border:1px solid var(--ink)}
 .dots i.on{background:var(--ink)}
+.dots.many i{width:16px}
 .stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;font-variant-numeric:tabular-nums}
 .stats div{display:flex;flex-direction:column;align-items:center;border:1px solid var(--ink);background:var(--card);padding:5px 2px;min-width:0}
 .stats b{font:.6rem var(--mono);letter-spacing:.08em;color:var(--dim)}
@@ -139,6 +140,12 @@ button,input,textarea{font:inherit;color:inherit}
 .reg-choose .go{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chosen{font-style:italic}
 .quote{font-size:1.12rem;font-style:italic;border-left:3px solid currentColor;padding-left:12px}
+/* The Terminal's glass, in ink: pale letters on black, a cream inner rule, a blinking mark */
+.screen{margin:0;font:.84rem/1.6 var(--mono);letter-spacing:.02em;white-space:pre-wrap;overflow-wrap:anywhere;
+  background:var(--inkline);color:var(--inkpaper);padding:12px 14px;border:3px double var(--inkpaper);box-shadow:0 0 0 2px var(--inkline);width:fit-content;min-width:min(100%,30ch);max-width:100%}
+.screen .cur{display:inline-block;width:.6em;height:1.05em;vertical-align:-2px;margin-left:3px;background:var(--inkpaper);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.coda{display:flex;flex-direction:column;gap:8px;border-top:1px solid currentColor;padding-top:10px;margin-top:2px}
 
 /* the Fort Card */
 .fcard{background:var(--card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));min-width:0}
@@ -162,6 +169,7 @@ button,input,textarea{font:inherit;color:inherit}
 .lensbar i{width:12px;height:12px;border:1px solid var(--ink);display:inline-block}
 .lensbar i.h{background:#d88c5f}
 .lensbar i.m{background:var(--ink)}
+.lensbar i.b{background:linear-gradient(135deg,#d88c5f 0 50%,var(--ink) 50% 100%)}
 .mutual{border:1px solid var(--accent);color:var(--accent);padding:6px 10px;font-size:.9rem}
 
 /* session zero */
@@ -177,7 +185,7 @@ button,input,textarea{font:inherit;color:inherit}
 pre.copy{white-space:pre-wrap;overflow-wrap:anywhere;font:.76rem/1.5 var(--mono);background:var(--paper);border:1px solid var(--ink);padding:12px;margin:0;max-height:300px;overflow:auto;user-select:all}
 footer{color:var(--dim);font-size:.8rem;border-top:1px solid var(--soft);max-width:780px;margin:0 auto;padding:8px 16px 24px;display:flex;justify-content:space-between;align-items:center;gap:4px 12px;flex-wrap:wrap}
 #printdeck{display:none}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.screen .cur{animation:none}}
 @media print{
   @page{margin:12mm}
   :root{--paper:#fff;--card:#fff;--ink:#000;--dim:#444;--soft:#999;color-scheme:light}
@@ -200,6 +208,7 @@ footer{color:var(--dim);font-size:.8rem;border-top:1px solid var(--soft);max-wid
   .pcard .quote{font-size:10pt}
   .fact{background:none;border-left-color:#000}
   .lensbar i.h{background:#bbb}
+  .lensbar i.b{background:linear-gradient(135deg,#bbb 0 50%,#000 50% 100%)}
 }
 </style>
 </head>
@@ -212,10 +221,13 @@ footer{color:var(--dim);font-size:.8rem;border-top:1px solid var(--soft);max-wid
 (function(){
 "use strict";
 /* ==========================================================================
-   PART 1: THE CONTENT. Five scenes per PC. Each scene has one or more groups
-   of choices; each choice writes onto the Fort Card through its fx.
+   PART 1: THE CONTENT. Five scenes for the thief and the druid, eight for the
+   cleric. Each scene has one or more groups of choices; each choice writes
+   onto the Fort Card through its fx. A scene's x is a list of paragraphs (or a
+   function of the choices so far); {quote:…} is a spoken line.
    Registers: "paint" = Elmore, witnessed; "ink" = Otus, unwitnessed;
-   "choose" = the player picks (scene 3).
+   "choose" = the player picks (the "turn" scene).
+   Lens fx: "hymn", "machine", or "both" (the cleric's fourth moment).
    ========================================================================== */
 const OFFICE = [
   {k:"warden", n:"Warden", e:"Walls +1 when you take the Defend directive."},
@@ -334,6 +346,9 @@ cleric:{
   lane:"The Terminal network, the old empire, and the deep structure of the world.",
   y1:[{k:"origin", label:"The Terminal showed"},{k:"gaveup", label:"Gave up"},{k:"minister", label:"The Minister"}],
   cassandra:"The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?",
+  roadEnd:["Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet.",
+    "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet.",
+    "Cassandra is already there, wrapped in grey, as if she had come straight from the wall. This time she does not begin with a question. She looks at you, and she says one true thing."],
   icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="27" rx="16" ry="11"/><path d="M13 23c6-4 16-4 22 0M17 31c4 2 10 2 14 0"/></svg>',
   ask:{secret3:"Write one true thing that only you know. It may be about you, or about what the screen did."},
   scenes:[
@@ -355,16 +370,44 @@ cleric:{
           {l:"Time.", c:"Eleven years before a screen in an empty shrine, waiting. You will never get them back. What you got instead is certainty.", fx:{y1:"Time: eleven years. What you got instead is certainty."}}]}]},
     {id:"yb", t:"Autumn: The Pen", reg:"paint", era:"The Year Between", pen:true,
      x:["The Year Between. The thief held the Pen in Summer. In Autumn it was yours.",
-        "You kept the Fort's book in three scripts, and the margins filled faster than the pages. The harvest came in from the Fields. The Shrine was cold at dawn.",
+        "You kept the Fort's book in three scripts, and the margins filled faster than the pages. The harvest came in from the Fields. The Shrine was cold at dawn. One choice in Autumn was yours to make, because you held the Pen, and the whole Fort saw you make it.",
         "You put away the cracked screen fragment you had carried for years and took up a stone instead: grey, smooth, the size of a hen's egg, cold as the lake. The first time you held it before the Terminal, the hymns stopped. One line showed in the old script. It was a greeting, as if to an old friend. Then the hymns went on.",
         "By the first frost you were changed."],
      g:[{k:"lens2", name:"The stone's greeting", q:"What do you write in the margin that night?", o:[
           {l:"“A blessing. The Terminal knows a holy thing when it sees one.”", c:"You wrap the stone in clean linen. It is your holy symbol now.", fx:{lens:"hymn", r:"a blessing"}},
           {l:"“A signal. The stone answered the screen, the way one bell answers another.”", c:"You write one more line under it: Ask what it answers to. It is your holy symbol now.", fx:{lens:"machine", r:"a signal"}}]},
+        {k:"autumn", q:"You held the Pen. What did the Fort do with its Autumn?", o:[
+          {l:"A. The Harvest Feast", c:"You set long tables in the yard and sent a boat to the Reed Shore. The Quiet came across the water at dusk, ate without a word, bowed, and went home. Now they owe the Fort a meal. The Quiet keep their debts.", fx:{yb:"A. The Harvest Feast", tag:"Oath: the Quiet owe a meal"}},
+          {l:"B. The Hymn Aloud", c:"You told the Fort you would sit seven nights at the Terminal and read every line aloud. The Fort wants answers now. So do you.", fx:{yb:"B. The Hymn Aloud", tag:"Want: answers"}},
+          {l:"C. The Gate-Tower", c:"Something sang below the walls after dark, and the Fort did not like it. You had the gate-tower raised a course, and a lamp kept in it all Autumn. The singing moved off. It did not stop. The Fort has an enemy now: the night-singers, whatever they are.", fx:{yb:"C. The Gate-Tower", tag:"Enmity: the night-singers"}}]},
         {k:"yoc", q:"How were you changed? (Year of Change)", o:[
           {l:"Hymn of Rest", c:"After the fever in the Fields you sang the sick to sleep, and every one of them woke.", fx:{yoc:"Hymn of Rest", eff:"When you sing at camp, each ally who rests heals 1d4 extra HP. Once a night."}},
           {l:"Hymn of Calling", c:"One night you sang the oldest calling hymn in the book, and the Terminal answered in plain words.", fx:{yoc:"Hymn of Calling", eff:"Once a season, read the Terminal and ask it one question. The DM answers truly and briefly."}},
           {l:"Lake Stone", c:"The stone in your palm began to tingle near old things of the empire. It has not stopped.", fx:{yoc:"Lake Stone", eff:"Your holy symbol tingles within 30' of old machines."}}]}]},
+    {id:"nights", t:"Seven Nights at the Terminal", reg:"ink", era:"The Terminal",
+     x:c=>[c.pick.autumn===1
+          ? "Mid-Autumn, after the harvest. You promised the Fort seven nights at the Terminal, every line read aloud. The Fort wants answers. So do you."
+          : "Mid-Autumn, after the harvest. Nobody asked you to. You set yourself seven nights at the Terminal, every line read aloud, the way you read when you were young and nothing answered.",
+        "The Shrine is cold. The screen is a pane of old glass in a frame of carved stone. The hymns climb it in pale letters, line after line, as they have every night you have known it. Below the glass lie the keys, worn hollow by hands older than yours.",
+        "Nobody comes in at night. The yard is dark. There is only you, the glass, and the hymns."],
+     g:[{k:"night1", name:"Night one", q:"The first night. What do you read aloud?", o:[
+          {l:"The Hymn of Opening, first in the book.", scr:"Let the lamp be lit.\nLet the hours be kept.\nLet each station answer each.", c:"The hymn you have known for half your life, word for word. Only the last line stays on the glass a little longer than the rest.", fx:{said:"the Hymn of Opening. Its last line stayed longest: “Let each station answer each.”"}},
+          {l:"Your own name, spelled the old way.", scr:"Received.\n9th night of the Falling Month\n2nd watch\nYear 1,204 of the Empire", c:"A date. You work it through on your slate. The night is tonight. The watch is this one. The empire is long gone. Its count of years is not.", fx:{said:"your name. It gave tonight's date in the empire's count: year 1,204."}},
+          {l:"Nothing aloud. You type one glyph, the oldest in your hymnal: listen.", scr:"The line is open.\nThe line is open.\nThe line is open.\nThe line is open.", c:"It is not in your book. The line repeats down the glass until the glass is full. Then the old hymns climb up over it, as if nothing happened.", fx:{said:"the glyph for listen. “The line is open,” until the glass was full."}}]},
+        {k:"lens3", name:"The blinking mark", q:"After the last word, a small mark blinks: on, off, on. You watch it for an hour. What is it?", o:[
+          {l:"A breath held. The hymn waits for its next verse, and the verse is yours.", c:"You breathe in time with it until your candle gutters.", fx:{lens:"hymn", r:"a breath held for you"}},
+          {l:"A cursor. The screen is waiting for input.", c:"You count the blinks against your pulse. Sixty to the minute, exactly, all night.", fx:{lens:"machine", r:"a cursor waiting for input"}}]},
+        {k:"night4", name:"Night four", q:"The fourth night. What do you read, or type?", o:[
+          {l:"The Hymn of Lamps, the long one that names places.", scr:"Lamp Station Nine ...... dark\nChoir Station Six ...... dark\n······ ······· ·· ..... dark\n······ ······· ·· ..... dark\nThis station ........... lit", c:"You read it aloud like any hymn, name by name. You know none of the names. You copy them all onto your slate.", fx:{said:"the Hymn of Lamps: a list of stations. Lamp Station Nine, dark. Choir Station Six, dark. This station, lit."}},
+          {l:"The day's entry from the Fort's book, in your own hand.", scr:"What is written is kept.\nWhat is kept is counted.\nWhat is counted is not lost.", c:"A hymn you know, from near the back of the book. It has never come up so soon after anything you read.", fx:{said:"the day's entry from the Fort's book. Then: “What is written is kept.”"}},
+          {l:"A question from your margin, typed in: How long?", scr:"Hours kept at this station:\n10,544,191", c:"While you watch, the last figure turns over: 10,544,192. An hour has passed, and it is counted.", fx:{said:"“How long?” It showed the hours kept at this station, and counted one more."}}]},
+        {k:"night7", name:"Night seven", q:"The seventh night, the last. What do you read?", o:[
+          {l:"The whole hymnal, front to back, until dawn.", scr:"End of book.\nBegin again at the first line.", c:"The hymns keep pace with your voice, line for line, all night. When your voice gives out, so does the book.", fx:{said:"the whole hymnal. At the end: “Begin again at the first line.”"}},
+          {l:"Only the first line of the Hymn of Opening, over and over.", scr:"Let the lamp be lit.\nLet the lamp be lit.\nLet the lamp be lit.", c:"Each time you read it, the glass gives back the same line, and no more. You stop at a hundred. So does the glass.", fx:{said:"the first line only. The glass gave back the first line, and no more."}},
+          {l:"Every note in your margins: eleven years, three scripts.", scr:"Received.\n3 scripts · 1,412 notes\nFiled.", c:"It takes all night. The glass takes each note as you read it, and gives back one word at the end.", fx:{said:"your margin notes. It filed all 1,412."}}],
+         coda:{by:"autumn", lead:"At the end of the night's hymns, after the last line, one more line climbs the glass and stays.",
+           lines:["Vigil recorded. Seven of seven.","Light the first lamp before the second.","Vigil recorded. Seven of seven."],
+           after:["You copy it onto your slate. Then you go to bed, for the first time in seven nights.","You copy it onto your slate, letter by letter. It is in no book you own.","You copy it onto your slate. Then you go to bed, for the first time in seven nights."]}}]},
     {id:"turn", t:"Nine Breaths", reg:"choose", era:"Witnessed or unwitnessed",
      x:["Late Autumn. Before dawn, the Terminal stops its hymns.",
         "It has stopped only once before, on the morning you brought it the stone. This time no line comes. For nine breaths the screen is blank and the Shrine is very still. Then the hymns begin again, as if nothing happened.",
@@ -372,17 +415,35 @@ cleric:{
      g:[{k:"reg", q:"Do you let them see?", o:[
           {l:"Ring the Shrine bell and tell the Fort.", c:"Witnessed. The Fort hears it from you first. Maren frowns. The Minister goes white.", fx:{reg:"paint"}},
           {l:"Send Wick back to bed. Hood the screen with your robe, and wait.", c:"Unwitnessed. Not even the Terminal sees what you do next.", fx:{reg:"ink"}}]}]},
-    {id:"office", t:"Maren's Last Muster", reg:"paint", era:"The Fort Office",
-     x:MUSTER.concat(["She comes to you last and holds out the slate. “You read everything,” she says. “Read this, and pick one.” At her left hand, the Minister watches you take it."]),
+    {id:"keepers", t:"The Two Keepers", reg:"paint", era:"Two clerics",
+     x:["A grey morning, near the end of Autumn. The Shrine door stands open, and the yard can see in.",
+        "The Terminal sits on its plinth of old stone, the hymns climbing its glass. You stand on one side of it. The Minister stands on the other. She kept this screen for years before you came, and she keeps it still.",
+        "She lays her palm on the plinth, as she does every morning. “They are prayers,” she says. “Older than any of us. We are only the ones who say them now.”",
+        "Folk crossing the yard slow down at the door. Two keepers, one screen. The whole Fort knows you do not agree. This morning it watches you not agree."],
      g:[{k:"minister", q:"There are two clerics at the Fort. How do you see the Minister now?", o:[
           {l:"She's right, but she doesn't know why.", c:"She treats the Terminal as a mystery. You treat it as a system. You correct her gently. She resents it quietly.", fx:{y1:"She's right, but doesn't know why. Teacher and student, except she doesn't know she's enrolled."}},
           {l:"She's wrong, but she's necessary.", c:"The Terminal is infrastructure, and she has made it a god. But the Fort needs a Minister more than the truth. You heal together and pray apart.", fx:{y1:"She's wrong, but necessary. Allies who disagree about everything important."}},
           {l:"She hears something you don't.", c:"You waited eleven years for an answer. She gets answers, sometimes. You cannot explain the difference, and it bothers you more than you admit.", fx:{y1:"She hears something you don't. Equals, circling each other."}}]},
-        {k:"office", q:"Which office do you take?", o:[
+        {k:"lens4", name:"The hymns", q:"She calls the hymns prayer. What do you call them, there in front of the Fort?", o:[
+          {l:"Prayer. She is right, and you say so.", c:"She looks at you for a long moment, surprised. By noon the whole Fort knows the two keepers agreed on something.", fx:{lens:"hymn", r:"prayer"}},
+          {l:"Protocol: the rules by which one station speaks to another.", c:"You say it kindly. She hears it as an insult anyway. Someone at the door laughs, and stops.", fx:{lens:"machine", r:"protocol"}},
+          {l:"Both. A prayer is a protocol for speaking to what you cannot see.", c:"She frowns. Then, slowly, she nods. She will turn it over for a week. So will the yard.", fx:{lens:"both", r:"prayer and protocol"}}]}]},
+    {id:"office", t:"Maren's Last Muster", reg:"paint", era:"The Fort Office",
+     x:MUSTER.concat(["She comes to you last and holds out the slate. “You read everything,” she says. “Read this, and pick one.” At her left hand, the Minister watches you take it. She has not forgotten the morning at the plinth."]),
+     g:[{k:"office", q:"Which office do you take?", o:[
           {l:"Warden", c:"A wall is a ward. You have read about both.", fx:{office:0}},
           {l:"Scout", c:"The old maps are in your head. Someone should walk them.", fx:{office:1}},
           {l:"Steward", c:"You kept the book in Autumn. You count in three scripts.", fx:{office:2}},
           {l:"Lorekeeper", c:"Maren does not even pretend to be surprised.", fx:{office:3}}]}]},
+    {id:"cass", t:"Cassandra's Question", reg:"ink", era:"A question",
+     x:["The night after the muster. You cannot settle, so you walk the wall above the Gate. The cold keeps your head clear.",
+        "Wick's lamps burn along the parapet, one by one. Between the third lamp and the fourth, Cassandra sits on the wall in her grey wrap, her feet hanging over the dark. Nobody saw her climb up. Nobody will see her go.",
+        "Her hints never tell. They ask. She does not greet you. She asks you one question, as if she had carried it up the ladder for you:",
+        {quote:"What do you owe the voice that answers you?"}],
+     g:[{k:"cassq", ask:"What do you owe the voice that answers you?", q:"What do you answer?", o:[
+          {l:"“Nothing. It answers because I learned to ask. A lock owes nothing to its key.”", c:"She nods, as if you had confirmed a rumour she already believed. “And the key,” she says. “What does the key owe the lock?”", fx:{ans:"Nothing. It answers because I learned to ask."}},
+          {l:"“Patience. I paid eleven years, and I will pay more.”", c:"“Eleven is a small number, for an elf,” she says. “What will you buy, when the paying is done?”", fx:{ans:"Patience. I paid eleven years, and I will pay more."}},
+          {l:"“Obedience. If it asks me to do a thing, I will do it.”", c:"She looks at the lamps, not at you, for a long time. “Then I hope it asks for small things first,” she says. “Do you?”", fx:{ans:"Obedience. If it asks me to do a thing, I will do it."}}]}]},
     {id:"road", t:"The Night Before the Road", reg:"ink", era:"Bond and kit",
      x:["Night. The Shrine is dark except for the Terminal's hymns, scrolling for no one.",
         "You lay your kit out on the stone floor and count it twice: robes, shield, mace, hymnal, the cold screen fragment, the stone. Before dawn you will walk out on the Old Road. You do not know yet why. The stone in your pocket is cold, and patient, like you.",
@@ -526,14 +587,27 @@ function load(){
     const raw = window.localStorage.getItem(KEY);
     if(raw){ const v = JSON.parse(raw); if(v && typeof v==="object" && v.ch && typeof v.ch==="object" && !Array.isArray(v.ch)){
       S = {mode:["pick","play","card"].includes(v.mode)?v.mode:"pick", pc:PCS[v.pc]?v.pc:null, ch:{}};
-      ORDER.forEach(k => { const c = v.ch[k]; if(c && typeof c==="object" && c.pick && c.fact){ c.sub=c.sub||{}; ["public","secret","pen"].forEach(t=>{ if(typeof c.fact[t]!=="string") c.fact[t]=""; }); S.ch[k] = c; } });
+      ORDER.forEach(k => { const c = v.ch[k]; if(c && typeof c==="object" && c.pick && typeof c.pick==="object" && c.fact){ c.sub=c.sub||{}; ["public","secret","pen"].forEach(t=>{ if(typeof c.fact[t]!=="string") c.fact[t]=""; });
+        c.step = Math.max(0, Math.min(Number.isFinite(c.step)?c.step:0, firstOpen(k,c))); S.ch[k] = c; } });
       if(!S.pc) S.mode = "pick";
+      else if(S.mode==="card" && !isDone(S.pc)) S.mode = S.ch[S.pc] ? "play" : "pick";
     } }
   }catch(e){ /* storage blocked or bad data: start fresh */ }
 }
 function save(){ try{ window.localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function fresh(){ return {name:"", stats:null, raw:null, seed:null, rs:0, hp:null, hpNote:"", step:0, pick:{}, sub:{}, fact:{public:"", secret:"", pen:""}}; }
 function cur(){ if(!S.ch[S.pc]) S.ch[S.pc] = fresh(); return S.ch[S.pc]; }
+/* Scene counts differ by PC: five for the thief and the druid, eight for the cleric. */
+const NS = pc => PCS[pc].scenes.length;
+const isDone = pc => !!(S.ch[pc] && S.ch[pc].step >= NS(pc));
+const sceneDone = (sc,c) => sc.g.every(g=>{ const p=c.pick[g.k]; if(p==null||!g.o[p]) return false; const o=g.o[p]; return !o.sub || c.sub[o.sub.k]!=null; });
+/* The first scene with a choice still open. A card saved before scenes were
+   added comes back to the first new scene instead of skipping it. */
+function firstOpen(pc,c){ const sc=PCS[pc].scenes; for(let i=0;i<sc.length;i++) if(!sceneDone(sc[i],c)) return i; return sc.length; }
+/* "scene 4": where a choice is made, for the card's empty slots. */
+function sceneNo(pc,k){ return "scene "+(PCS[pc].scenes.findIndex(sc=>sc.g.some(g=>g.k===k))+1); }
+const sceneX = (sc,c) => typeof sc.x==="function" ? sc.x(c) : sc.x;
+const paraHTML = p => typeof p==="string" ? '<p>'+esc(p)+'</p>' : '<p class="quote">“'+esc(p.quote)+'”</p>';
 load();
 
 /* ==========================================================================
@@ -560,9 +634,23 @@ function build(pc,c){
   const kt = get("kit"); b.extra = kt ? kt.o.fx.extra : null;
   const tk = get("took"); b.took = tk ? tk.o.fx.item : null;
   const sp = get("spell2"); b.spell2 = sp ? sp.o.fx.spell : null;
-  b.lens = ["lens1","lens2"].map(k => { const l = get(k); return l ? {name:l.g.name, lens:l.o.fx.lens, r:l.o.fx.r} : null; });
-  if(b.lens.every(Boolean)){ const h = b.lens.filter(l=>l.lens==="hymn").length; b.lensSum = h===2?"Hymn":h===0?"Machine":"Both"; }
+  /* The Lens: every group whose options carry a reading, in scene order (two
+     for the thief and the druid, four for the cleric). All hymn: Hymn. All
+     machine: Machine. Anything else, a "both" reading included: Both. */
+  b.lens = groupsOf(pc).filter(({g})=>g.o.some(o=>o.fx.lens)).map(({g}) => { const l = get(g.k); return l ? {name:l.g.name, lens:l.o.fx.lens, r:l.o.fx.r} : null; });
+  if(b.lens.every(Boolean)){ const n = b.lens.length, h = b.lens.filter(l=>l.lens==="hymn").length, m = b.lens.filter(l=>l.lens==="machine").length; b.lensSum = h===n?"Hymn":m===n?"Machine":"Both"; }
   else b.lensSum = null;
+  /* The cleric's extra lines: the Year Between choice, the Terminal's nights, Cassandra's question. */
+  const au = get("autumn"); b.autumn = au ? au.o.fx.yb+" — "+au.o.fx.tag : null;
+  b.hasAutumn = groupsOf(pc).some(({g})=>g.k==="autumn");
+  const nights = groupsOf(pc).filter(({g})=>g.o.some(o=>o.fx.said));
+  b.hasSaid = nights.length>0;
+  b.said = nights.map(({g}) => { const x = get(g.k); return x ? {name:g.name, said:x.o.fx.said} : null; });
+  b.lastLine = null;
+  nights.forEach(({g}) => { if(g.coda && get(g.k)){ const by = c.pick[g.coda.by]; b.lastLine = g.coda.lines[by!=null && g.coda.lines[by] ? by : 0]; } });
+  const cq = groupsOf(pc).find(({g})=>g.ask);
+  b.hasCass = !!cq;
+  b.cass = cq && get(cq.g.k) ? {q:cq.g.ask, a:get(cq.g.k).o.fx.ans} : null;
   b.mods = st ? st.map(mod) : null;
   if(st){ b.acAsc = P.base + P.shield + b.mods[3]; b.ac = (19-b.acAsc)+" ["+b.acAsc+"]";
     if(P.large) b.acLarge = (17-b.acAsc)+" ["+(b.acAsc+2)+"]"; }
@@ -583,8 +671,9 @@ const E = s => '<span class="empty">'+esc(s)+'</span>';
 function lensHTML(b){
   const got = b.lens.filter(Boolean);
   if(!got.length) return E("chosen in your scenes");
-  return (b.lensSum?'Reads old things as <b>'+esc(b.lensSum)+'</b>':E("one more reading to come"))+'<span class="lensbar" aria-hidden="true">'+got.map(l=>'<i class="'+(l.lens==="hymn"?"h":"m")+'"></i>').join("")+'</span><br>'+
-    got.map(l=>esc(l.name)+": "+esc(l.r)+" ("+(l.lens==="hymn"?"hymn":"machine")+")").join(" · ");
+  const left = b.lens.length - got.length;
+  return (b.lensSum?'Reads old things as <b>'+esc(b.lensSum)+'</b>':E(left===1?"one more reading to come":left+" more readings to come"))+'<span class="lensbar" aria-hidden="true">'+got.map(l=>'<i class="'+l.lens.charAt(0)+'"></i>').join("")+'</span><br>'+
+    got.map(l=>esc(l.name)+": "+esc(l.r)+" ("+l.lens+")").join(" · ");
 }
 function skillList(b){ return THIEF2.map(([n,v,u])=>[n, n==="Move silently"&&b.ms ? v+b.ms : v, u, n==="Move silently"&&b.ms]); }
 function classBlock(pc,b){
@@ -643,20 +732,24 @@ function cardHTML(pc,c,forPrint){
     '<dt>Lane</dt><dd data-field="lane">'+esc(P.lane)+'</dd>'+
     '<dt>Lens</dt><dd data-field="lens">'+lensHTML(b)+'</dd>'+
     '</dl>'+
-    '<div class="sec"><h4>Gear</h4><p data-field="gear"><b>'+esc(P.weaponsText)+'</b> · '+esc(b.gear)+(b.extra?'':' · '+E("one more thing: scene 5"))+'</p></div>'+
+    '<div class="sec"><h4>Gear</h4><p data-field="gear"><b>'+esc(P.weaponsText)+'</b> · '+esc(b.gear)+(b.extra?'':' · '+E("one more thing: "+sceneNo(pc,"kit")))+'</p></div>'+
     '<p class="note" data-field="fivee">'+esc(fiveE(pc,b,c))+'</p>'+
     '</div>';
   const back = '<div class="face">'+
     '<div class="sec"><h4>Year One, and since</h4><ul data-field="origin">'+b.y1.map(y=>'<li><b>'+esc(y.label)+':</b> '+(y.text?esc(y.text):E("in your scenes"))+'</li>').join("")+
       (b.know?'<li><b>You start knowing:</b> '+esc(b.know)+'</li>':'')+'</ul></div>'+
-    '<div class="sec"><h4>The Pen · '+P.season+'</h4><p data-field="pen">'+((c.fact.pen||"").trim()?'“'+esc(c.fact.pen.trim())+'”':E("scene 2"))+'</p></div>'+
+    '<div class="sec"><h4>The Pen · '+P.season+'</h4><p data-field="pen">'+((c.fact.pen||"").trim()?'“'+esc(c.fact.pen.trim())+'”':E("scene 2"))+'</p>'+
+      (b.hasAutumn?'<p data-field="autumn"><b>'+P.season+', the Year Between:</b> '+(b.autumn?esc(b.autumn):E(sceneNo(pc,"autumn")))+'</p>':'')+'</div>'+
     '<div class="sec"><h4>Year of Change <span class="note">(proposed; the DM confirms)</span></h4><p data-field="yoc">'+(b.yoc?'<b>'+esc(b.yocFull)+'.</b> '+esc(b.yocEff):E("scene 2"))+'</p></div>'+
-    '<div class="sec"><h4>Fort Office</h4><p data-field="office">'+(b.office?'<b>'+esc(b.office.n)+'.</b> '+esc(b.office.e):E("scene 4"))+'</p></div>'+
+    (b.hasSaid?'<div class="sec"><h4>What the Terminal said</h4><ul data-field="terminal">'+b.said.map((x,i)=>x?'<li><b>'+esc(x.name)+':</b> '+esc(x.said)+'</li>':'').join("")+
+      (b.lastLine?'<li><b>Last line:</b> “'+esc(b.lastLine)+'”</li>':'')+(b.said.some(x=>!x)?'<li>'+E(sceneNo(pc,"night1"))+'</li>':'')+'</ul></div>':'')+
+    '<div class="sec"><h4>Fort Office</h4><p data-field="office">'+(b.office?'<b>'+esc(b.office.n)+'.</b> '+esc(b.office.e):E(sceneNo(pc,"office")))+'</p></div>'+
     '<div class="sec fact"><h4>Public fact · Elmore · witnessed</h4><p data-field="public">'+(c.fact.public.trim()?esc(c.fact.public.trim()):E("typed in a painted scene"))+'</p></div>'+
     '<div class="sec fact secret"><h4>Secret fact · Otus · unwitnessed</h4><p data-field="secret">'+(c.fact.secret.trim()?esc(c.fact.secret.trim()):E("typed in an inked scene"))+'</p></div>'+
-    '<div class="sec"><h4>Bond</h4><p data-field="bond">'+(b.bond?'<b>'+esc(b.bondWho)+'.</b> '+esc(b.bond)+(b.partner?' <b>Mutual.</b>':''):E("scene 5"))+'</p></div>'+
+    (b.hasCass?'<div class="sec"><h4>Cassandra asked</h4><p data-field="cassq">'+(b.cass?'“'+esc(b.cass.q)+'” <b>You answered:</b> “'+esc(b.cass.a)+'”':E(sceneNo(pc,"cassq")))+'</p></div>':'')+
+    '<div class="sec"><h4>Bond</h4><p data-field="bond">'+(b.bond?'<b>'+esc(b.bondWho)+'.</b> '+esc(b.bond)+(b.partner?' <b>Mutual.</b>':''):E(sceneNo(pc,"bond")))+'</p></div>'+
     '<div class="sec" data-field="classblock">'+classBlock(pc,b)+'</div>'+
-    (forPrint && c.step>=5 ? '<p class="quote">Cassandra, at the milestone: “'+esc(P.cassandra)+'”</p>' : '')+
+    (forPrint && c.step>=NS(pc) ? '<p class="quote">Cassandra, at the milestone: “'+esc(P.cassandra)+'”</p>' : '')+
     '</div>';
   return '<div class="fcard" data-pc="'+pc+'">'+front+back+'</div>';
 }
@@ -677,17 +770,20 @@ function cardText(pc,c){
   b.y1.forEach(y=>L.push(y.label+": "+(y.text||dash)));
   if(b.know) L.push("You start knowing: "+b.know);
   L.push("The Pen ("+P.season+"): "+((c.fact.pen||"").trim()||"(not written yet)"));
+  if(b.hasAutumn) L.push(P.season+", the Year Between: "+(b.autumn||dash));
   L.push("Year of Change: "+(b.yoc?b.yocFull+". "+b.yocEff+" (proposed; DM confirms)":dash));
+  if(b.hasSaid) L.push("What the Terminal said: "+(b.said.every(Boolean)?b.said.map(x=>x.name+": "+x.said).join(" ")+(b.lastLine?" Last line: \""+b.lastLine+"\"":""):dash));
   L.push("Fort Office: "+(b.office?b.office.n+". "+b.office.e:dash));
   L.push("PUBLIC FACT (Elmore, witnessed): "+(c.fact.public.trim()||"(not written yet)"));
   L.push("SECRET FACT (Otus, unwitnessed): "+(c.fact.secret.trim()||"(not written yet)"));
+  if(b.hasCass) L.push("Cassandra asked: "+(b.cass?"\""+b.cass.q+"\" You answered: \""+b.cass.a+"\"":dash));
   L.push("Bond: "+(b.bond?b.bondWho+". "+b.bond+(b.partner?" MUTUAL.":""):dash));
   L.push("Gear: "+P.weaponsText+" · "+b.gear+(b.extra?"":" · (one more thing: not chosen yet)"));
   if(pc==="thief") L.push("Thief skills (L2): "+skillList(b).map(([n,v,u])=>n+" "+v+u).join(", ")+". Backstab +4, ×2.");
   if(pc==="cleric") L.push("Spells: 2 × 1st a day: Cure Light Wounds, Detect Evil, Detect Magic, Protection from Evil, Light, Bless. Turn: skeleton T, zombie 7, ghoul 9, wight 11.");
   if(pc==="druid") L.push("Spells: 2 × 1st a day: Entangle, Faerie Fire, Speak with Animals, Purify Food and Water, Predict Weather, "+(b.spell2||"(Warp Wood or Heat Metal: not chosen)")+". Gnome illusion 1/day: Dancing Lights or Ghost Sound.");
   L.push(fiveE(pc,b,c));
-  if(c.step>=5) L.push("Cassandra, at the milestone: \""+P.cassandra+"\"");
+  if(c.step>=NS(pc)) L.push("Cassandra, at the milestone: \""+P.cassandra+"\"");
   L.push("Dice seed "+(c.seed!=null?c.seed:"-"));
   return L.join("\n");
 }
@@ -707,29 +803,29 @@ function render(){
 function status(k){
   const c = S.ch[k];
   if(!c || !c.stats) return "Not started";
-  if(c.step>=5) return "<b>Card ready</b>";
-  return "Scene "+(c.step+1)+" of 5";
+  if(c.step>=NS(k)) return "<b>Card ready</b>";
+  return "Scene "+(c.step+1)+" of "+NS(k);
 }
 function renderPick(){
   app.innerHTML =
   '<header class="mast"><div><span class="eyebrow">The Fort on the Lake · Year Two · solo intros</span><h1>Fort Cards</h1></div>'+
-  '<p class="lede">Pick your character. You play five short scenes alone, ten or fifteen minutes in all. Every choice writes onto your Fort Card. Bring the card to session zero. You may change any choice there, before play begins.</p></header>'+
+  '<p class="lede">Pick your character. You play a few short scenes alone (five; the cleric plays eight), ten to twenty minutes in all. Every choice writes onto your Fort Card. Bring the card to session zero. You may change any choice there, before play begins.</p></header>'+
   '<div class="picker">'+ORDER.map(k=>{ const P=PCS[k];
     return '<button class="pick" data-pc="'+k+'">'+P.icon+'<span class="nm">'+esc(P.title)+'</span><span class="sub">'+esc(P.sub)+'</span><span class="ose">'+esc(P.ose)+' · level 2 · Pen: '+P.season+'</span><span class="blurb">'+esc(P.blurb)+'</span><span class="st" data-status="'+k+'">'+status(k)+'</span></button>'; }).join("")+'</div>'+
   '<section class="rules" aria-labelledby="rules-h"><h2 id="rules-h">How the scenes work</h2>'+
   '<p><span class="swatch paint" aria-hidden="true"></span><b>Elmore paint is witnessed.</b> A warm, painted scene happened where the Fort, Cassandra or the Terminal could see it. Your <b>public fact</b> comes from such a scene. Everyone at the table may use it.</p>'+
   '<p><span class="swatch ink" aria-hidden="true"></span><b>Otus ink is unwitnessed.</b> A black-and-white scene happened where nobody saw. Your <b>secret fact</b> comes from such a scene. Tell it when you choose.</p>'+
-  '<p><b>You choose the third scene\'s register.</b> The other fact comes later, in the next scene of the other kind. Type one sentence each time. It is true.</p>'+
+  '<p><b>You choose one scene\'s register.</b> The other fact comes later, in the next scene of the other kind. Type one sentence each time. It is true.</p>'+
   '<p><b>Fate.</b> You have 3 points. They refresh at each Fort Turn and each session. Spend 1 to reroll, to add +4 to a save, or to state one true fact in your lane. Spend 2 to cheat death. Spend 1 with a spell or a limited power, and you write part of what it does.</p>'+
   '<p><b>Bonds.</b> Your card names one bond: another character, or someone at the Fort. If two cards name each other, each gets 1 extra Fate, spent only to help the other.</p>'+
   '<p><b>The Lens.</b> Sometimes you meet something old. You decide how your character reads it: as a hymn (a mystery, a ward, a spirit) or as a machine (a signal, a lock, an engine). Both are true. Your card keeps the record.</p>'+
   '</section>';
-  app.querySelectorAll(".pick").forEach(bt=>bt.onclick=()=>{ S.pc=bt.dataset.pc; const c=cur(); S.mode=c.step>=5?"card":"play"; render(); window.scrollTo(0,0); focusTop(); });
+  app.querySelectorAll(".pick").forEach(bt=>bt.onclick=()=>{ S.pc=bt.dataset.pc; const c=cur(); S.mode=c.step>=NS(S.pc)?"card":"play"; render(); window.scrollTo(0,0); focusTop(); });
 }
 function focusTop(){ const h = app.querySelector("h1,h3"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); } }
 function topBar(c){
   return '<div class="bar"><button class="linkbtn" id="back">← All characters</button>'+
-    '<div class="dots" role="img" aria-label="Scene '+Math.min(c.step+1,5)+' of 5">'+[0,1,2,3,4].map(i=>'<i class="'+(i<=c.step&&c.stats?"on":"")+'"></i>').join("")+'</div></div>';
+    '<div class="dots'+(NS(S.pc)>5?" many":"")+'" role="img" aria-label="Scene '+Math.min(c.step+1,NS(S.pc))+' of '+NS(S.pc)+'">'+PCS[S.pc].scenes.map((_,i)=>'<i class="'+(i<=c.step&&c.stats?"on":"")+'"></i>').join("")+'</div></div>';
 }
 function statsRow(c){
   return '<div class="stats" aria-label="Ability scores">'+STAT.map((n,j)=>'<div><b>'+n+'</b><span>'+c.stats[j]+'</span><small>'+sg(mod(c.stats[j]))+'</small></div>').join("")+'</div>';
@@ -766,14 +862,18 @@ function renderPlay(){
   const i = c.step, sc = P.scenes[i];
   const r = regOf(pc,c);
   const reg = sc.reg==="choose" ? (c.pick.reg!=null ? r : "choose") : sc.reg;
-  const done = sc.g.every(g=>{ const p=c.pick[g.k]; if(p==null) return false; const o=g.o[p]; return !o.sub || c.sub[o.sub.k]!=null; });
+  const done = sceneDone(sc,c), N = NS(pc);
   const fas = done ? factAsks(pc,c,sc) : [];
   let groups = sc.g.map(g=>{
     const p = c.pick[g.k], o = p!=null ? g.o[p] : null;
     let h = '<div class="group" data-g="'+g.k+'"><h4>'+esc(g.q)+'</h4><div class="opts">'+
       g.o.map((op,j)=>'<button class="opt'+(op.fx.reg?" o-"+op.fx.reg:"")+'" data-g="'+g.k+'" data-o="'+j+'" aria-pressed="'+(p===j)+'"><b>'+esc(op.l)+'</b>'+
-        (op.fx.eff?'<small>'+esc(op.fx.eff)+'</small>':op.fx.office!=null?'<small>'+esc(OFFICE[op.fx.office].e)+'</small>':'')+'</button>').join("")+'</div>';
+        (op.fx.eff?'<small>'+esc(op.fx.eff)+'</small>':op.fx.office!=null?'<small>'+esc(OFFICE[op.fx.office].e)+'</small>':op.fx.tag?'<small>'+esc(op.fx.tag)+'</small>':'')+'</button>').join("")+'</div>';
+    /* The Terminal's answer shows on its glass before the prose. */
+    if(o && o.scr) h += '<pre class="screen" aria-label="On the screen">'+esc(o.scr)+'</pre>';
     if(o) h += '<p class="chosen">'+esc(o.c)+'</p>';
+    if(o && g.coda){ const by = c.pick[g.coda.by], j = by!=null && g.coda.lines[by] ? by : 0;
+      h += '<div class="coda"><p>'+esc(g.coda.lead)+'</p><pre class="screen" id="last-line" aria-label="On the screen">'+esc(g.coda.lines[j])+'<span class="cur" aria-hidden="true"></span></pre><p class="chosen">'+esc(g.coda.after[j])+'</p></div>'; }
     if(o && o.sub) h += '<h4>'+esc(o.sub.q)+'</h4><div class="opts">'+o.sub.o.map((s,j)=>'<button class="opt" data-s="'+o.sub.k+'" data-o="'+j+'" aria-pressed="'+(c.sub[o.sub.k]===j)+'"><b>'+esc(s.charAt(0).toUpperCase()+s.slice(1))+'</b></button>').join("")+'</div>';
     return h+'</div>';
   }).join("");
@@ -782,12 +882,12 @@ function renderPlay(){
     after = '<div class="after">';
     fas.forEach(fa=>{ after += '<div class="ask"><label class="tag" for="fact-'+fa.type+'" style="align-self:flex-start">'+esc(fa.label)+'</label><p id="ask-'+fa.type+'">'+esc(fa.ask)+' <i>One sentence. It is true.</i></p>'+
       '<textarea id="fact-'+fa.type+'" class="factin" data-type="'+fa.type+'" aria-describedby="ask-'+fa.type+'" maxlength="300" placeholder="One sentence. It becomes true.">'+esc(c.fact[fa.type]||"")+'</textarea></div>'; });
-    after += '<button class="go" id="next">'+(i<4?"Next scene":"Walk out on the Old Road")+'</button></div>';
+    after += '<button class="go" id="next">'+(i<N-1?"Next scene":"Walk out on the Old Road")+'</button></div>';
   }
   app.innerHTML = topBar(c)+statsRow(c)+
     '<article class="scene reg-'+reg+'" aria-labelledby="sc-h">'+
-    '<div class="meta"><span class="tag">'+REGTAG[reg]+'</span><span class="tag">Scene '+(i+1)+' of 5</span><span class="tag">'+esc(sc.era)+'</span></div>'+
-    '<h3 id="sc-h">'+esc(sc.t)+'</h3><div class="x">'+sc.x.map(p=>'<p>'+esc(p)+'</p>').join("")+'</div>'+
+    '<div class="meta"><span class="tag">'+REGTAG[reg]+'</span><span class="tag">Scene '+(i+1)+' of '+N+'</span><span class="tag">'+esc(sc.era)+'</span></div>'+
+    '<h3 id="sc-h">'+esc(sc.t)+'</h3><div class="x">'+sceneX(sc,c).map(paraHTML).join("")+'</div>'+
     groups+after+'</article>'+
     '<section aria-label="Your Fort Card so far"><h2 style="margin-bottom:12px">Your Fort Card so far</h2>'+cardHTML(pc,c,false)+'</section>';
   wireBack();
@@ -795,15 +895,15 @@ function renderPlay(){
   app.querySelectorAll(".opt[data-s]").forEach(bt=>bt.onclick=()=>{ c.sub[bt.dataset.s]=+bt.dataset.o; focusSel='.opt[data-s="'+bt.dataset.s+'"][data-o="'+bt.dataset.o+'"]'; render(); });
   app.querySelectorAll(".factin").forEach(f=>f.oninput=()=>{ c.fact[f.dataset.type]=f.value; save(); const card=app.querySelector(".fcard"); if(card) card.outerHTML=cardHTML(pc,c,false); });
   const nx = app.querySelector("#next");
-  if(nx) nx.onclick=()=>{ c.step=i+1; if(c.step>=5) S.mode="card"; render(); window.scrollTo(0,0); focusTop(); };
+  if(nx) nx.onclick=()=>{ c.step=i+1; if(c.step>=N) S.mode="card"; render(); window.scrollTo(0,0); focusTop(); };
 }
 
 function renderCard(){
   const pc = S.pc, P = PCS[pc], c = cur(), b = build(pc,c);
-  const readyOthers = ORDER.filter(k=>S.ch[k] && S.ch[k].step>=5);
+  const readyOthers = ORDER.filter(isDone);
   app.innerHTML = '<div class="bar"><button class="linkbtn" id="back">← All characters</button><span class="eyebrow">Intro complete</span></div>'+
   '<article class="scene reg-paint" aria-labelledby="sc-h"><div class="meta"><span class="tag">'+REGTAG.paint+'</span><span class="tag">The Old Road</span></div>'+
-  '<h3 id="sc-h">The Milestone</h3><div class="x">'+ROADEND.map(p=>'<p>'+esc(p)+'</p>').join("")+
+  '<h3 id="sc-h">The Milestone</h3><div class="x">'+(P.roadEnd||ROADEND).map(p=>'<p>'+esc(p)+'</p>').join("")+
   '<p class="quote" id="cass">“'+esc(P.cassandra)+'”</p><p><b>End of your intro. Bring this card to session zero.</b></p></div></article>'+
   (b.partner?'<p class="mutual" id="mutual">Mutual bond: your card and '+esc(PCS[b.partner].title)+'\'s card name each other. Each of you gets 1 extra Fate each session, spent only to help the other.</p>':'')+
   '<section class="cardsec"><h2>Your Fort Card</h2><label class="eyebrow" for="name">Name</label><input class="namein" id="name" maxlength="60" autocomplete="off" placeholder="Write your character\'s name" value="'+esc(c.name||"")+'">'+
@@ -855,7 +955,7 @@ function deckHTML(list){
 }
 function printDeck(list){ document.getElementById("printdeck").innerHTML = deckHTML(list); try{ window.print(); }catch(e){} }
 window.addEventListener("beforeprint",()=>{ const d=document.getElementById("printdeck"); if(d.innerHTML.trim()) return;
-  const list = S.mode==="card"&&S.pc ? [S.pc] : ORDER.filter(k=>S.ch[k]&&S.ch[k].step>=5); d.innerHTML = deckHTML(list); });
+  const list = S.mode==="card"&&S.pc ? [S.pc] : ORDER.filter(isDone); d.innerHTML = deckHTML(list); });
 window.addEventListener("afterprint",()=>{ document.getElementById("printdeck").innerHTML=""; });
 
 /* Theme: auto, light, dark. Remembered per device when storage works. */
