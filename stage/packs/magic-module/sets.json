@@ -1,0 +1,90 @@
+{
+  "cover": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "chamber": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "pen-autumn": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "terminal": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "glass": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "breaths": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "plinth": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "muster": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "wall": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "road-pack": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  },
+  "milestone": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread"
+      }
+    ]
+  }
+}

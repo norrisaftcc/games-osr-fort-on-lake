@@ -1,0 +1,2389 @@
+{
+  "scenes": [
+    {
+      "id": "s0",
+      "title": "The Book Opens",
+      "place": "The Magic Module · Before you begin",
+      "look": "paint",
+      "set": "cover",
+      "beats": [
+        {
+          "kicker": "THE MAGIC MODULE",
+          "text": "You hold a book that plays the game with you. You need no Dungeon Master. The book is the Dungeon Master.",
+          "comment": "dm-seven"
+        },
+        {
+          "text": "A Dungeon Master has jobs. The DM describes the place, keeps secrets, decides what happens, hides the result until you choose, rolls when no one knows the answer, keeps the count, and asks: *are you sure?*"
+        },
+        {
+          "text": "The book does each job on paper, with ink, fold and tab. When it does, a line under the text names the job. Turn that line off in Settings if you would rather read alone."
+        },
+        {
+          "text": "Every page is a numbered paragraph. You choose. The book turns to the paragraph you chose. The ones you did not choose stay shut.",
+          "comment": "dm-decides"
+        },
+        {
+          "kicker": "WHO YOU PLAY",
+          "text": "You play the elf cleric of the Order of the Sacred Terminal. You are level 2. You waited eleven years before a screen in an empty shrine. Now it answers. Eight short scenes follow.",
+          "notes": [
+            "terminal"
+          ]
+        },
+        {
+          "text": "Some pages are *paint*: the Fort sees what you do. Some are *ink*: only you know. The page says which.",
+          "notes": [
+            "register"
+          ]
+        },
+        {
+          "text": "Old things will show at the edge of the story. Read each as *hymn*, or as *machine*. Neither is wrong. The book will follow you.",
+          "notes": [
+            "lens"
+          ],
+          "comment": "dm-follows"
+        },
+        {
+          "text": "The margin keeps your Fate. You start with one point. One point is easy to waste.",
+          "notes": [
+            "fate"
+          ],
+          "comment": "dm-books"
+        },
+        {
+          "kicker": "BEFORE THE FIRST PAGE",
+          "text": "At the end you carry away a Fort Card. Every choice writes one line on it. First, write the name the Fort calls you.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ],
+      "choices": [
+        {
+          "key": "name",
+          "ask": "What does the Fort call you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write your name",
+              "sub": "Typed. It goes on your card.",
+              "input": {
+                "field": "name",
+                "prompt": "Write your name, as the Fort writes it.",
+                "max": 60
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s1"
+    },
+    {
+      "id": "s1",
+      "title": "The Queen's Chamber",
+      "place": "Year One · the Gorgon Caves",
+      "look": "ink",
+      "set": "chamber",
+      "beats": [
+        {
+          "kicker": "YEAR ONE",
+          "text": "Last year. The Gorgon Caves.",
+          "comment": "dm-frames"
+        },
+        {
+          "text": "The Queen's chamber is ringed with carved eyes, and every eye is open. You know their make. You read of it in the Terminal's deep files, long before you came to the Fort.",
+          "comment": "dm-describes",
+          "notes": [
+            "terminal"
+          ]
+        },
+        {
+          "text": "Behind you, in the Glamourist's hands, a small grey chick draws breath.",
+          "notes": [
+            "biddy"
+          ]
+        },
+        {
+          "text": "In the moment before it cries, you remember the first night a Terminal answered you. You had waited eleven years, and you had paid for every one of them.",
+          "notes": [
+            "planning"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens1",
+          "ask": "What do you see in the eyes?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Wards. The old hymns hold them open, and they watch for the unworthy.",
+              "sub": "Lens: hymn",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "set": {
+                    "lens1": "Wards (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You bow your head to them, out of courtesy. Courtesy has kept you alive before."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Sensors. Glass and wire that see heat, and send what they see somewhere else.",
+              "sub": "Lens: machine",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens1": "Sensors (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You wonder where somewhere else is, and who is still reading it.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A ward and a sensor are one thing, seen from two sides. Each eye holds a disc of dark glass. A cold wire runs from it into the stone. You will know this make again, on any door.",
+                  "reveal": true,
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "origin",
+          "ask": "What did the Terminal show you, that first night?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A map.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "A map. Cartographer: you know the network as nobody else at the Fort does.",
+                    "know": "Roughly where three other active Terminals lie. One is closer than anyone thinks. One is across the sea. One is underground."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Every Terminal on the old network, lit or dark. Most were dark. Yours glowed. Three others glowed. The map updated itself. Then it was gone.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "Roughly where three other active Terminals lie. One is closer than anyone thinks. One is across the sea. One is underground.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A name.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "A name: yours. Chosen, with absolute certainty and no arrogance.",
+                    "know": "The Terminal keeps a list of names it is waiting for. You are on it. You check every newcomer at the Fort against what you remember."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Your own, in Elvish, spelled the old way, the way your people wrote it before the empire. The Terminal knew who you were. It had been waiting for you.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "The Terminal keeps a list of names it is waiting for. You are on it. You check every newcomer at the Fort against what you remember.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A warning.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "A warning. Guardian: you came on a mission, and the Minister does not know the full warning yet.",
+                    "know": "The Fort's real name, an old imperial designation. The Terminal used it. The Minister does not know it."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "One line in Imperial Common, repeated for six hours: the keeper at the Fort, under its old name, must not open the door beneath the lake. Then it stopped. You came as fast as you could.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "The Fort's real name, an old imperial designation. The Terminal used it. The Minister does not know it.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "gaveup",
+          "ask": "What did you give up to choose the Terminal?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Elven magic.",
+              "sub": "Writes: Gave up",
+              "effects": [
+                {
+                  "set": {
+                    "gaveup": "Elven magic. Your spellbook is empty; your hymnal is full."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You could have been a wizard. You chose divine service. Your spellbook is empty. Your hymnal is full."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Elven community.",
+              "sub": "Writes: Gave up",
+              "effects": [
+                {
+                  "set": {
+                    "gaveup": "Elven community. They could not see the difference."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Elves do not worship machines. You worship whatever is behind the machine. They could not see the difference."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Time.",
+              "sub": "Writes: Gave up",
+              "effects": [
+                {
+                  "set": {
+                    "gaveup": "Time: eleven years. What you got instead is certainty."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Eleven years before a screen in an empty shrine, waiting. You will never get them back. What you got instead is certainty."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "title": "Autumn: The Pen",
+      "place": "The Year Between · Autumn",
+      "look": "paint",
+      "set": "pen-autumn",
+      "beats": [
+        {
+          "kicker": "THE YEAR BETWEEN",
+          "text": "The Year Between. The thief held the Pen in Summer. In Autumn it was yours.",
+          "notes": [
+            "year-between",
+            "pen"
+          ]
+        },
+        {
+          "text": "You kept the Fort's book in three scripts, and the margins filled faster than the pages. The harvest came in from the Fields. The Shrine was cold at dawn. One choice in Autumn was yours to make, because you held the Pen, and the whole Fort saw you make it."
+        },
+        {
+          "text": "You put away the cracked screen fragment you had carried for years and took up a stone instead: grey, smooth, the size of a hen's egg, cold as the lake. The first time you held it before the Terminal, the hymns stopped. One line showed in the old script. It was a greeting, as if to an old friend. Then the hymns went on.",
+          "notes": [
+            "lake-stone"
+          ]
+        },
+        {
+          "text": "By the first frost you were changed.",
+          "notes": [
+            "yoc"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens2",
+          "ask": "What do you write in the margin that night?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "“A blessing. The Terminal knows a holy thing when it sees one.”",
+              "sub": "Lens: hymn",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "set": {
+                    "lens2": "A blessing (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You wrap the stone in clean linen. It is your holy symbol now."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "“A signal. The stone answered the screen, the way one bell answers another.”",
+              "sub": "Lens: machine",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens2": "A signal (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You write one more line under it: Ask what it answers to. It is your holy symbol now."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A signal can be tested. Carry the stone to old stone, old glass, old wire. Note where it warms or tingles. Write it in the margin. That is how you read a machine: you measure it.",
+                  "reveal": true,
+                  "comment": "dm-follows",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "autumn",
+          "ask": "You held the Pen. What did the Fort do with its Autumn?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A. The Harvest Feast",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "autumn": "A. The Harvest Feast — Oath: the Quiet owe a meal"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You set long tables in the yard and sent a boat to the Reed Shore. The Quiet came across the water at dusk, ate without a word, bowed, and went home. Now they owe the Fort a meal. The Quiet keep their debts."
+                },
+                {
+                  "kicker": "THE FORT'S BOOK",
+                  "text": "Tag on the Fort: Oath. The Quiet owe a meal.",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "B. The Hymn Aloud",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "flag": "hymn_aloud"
+                },
+                {
+                  "set": {
+                    "autumn": "B. The Hymn Aloud — Want: answers"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You told the Fort you would sit seven nights at the Terminal and read every line aloud. The Fort wants answers now. So do you."
+                },
+                {
+                  "kicker": "THE FORT'S BOOK",
+                  "text": "Tag on the Fort: Want. Answers.",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "C. The Gate-Tower",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "autumn": "C. The Gate-Tower — Enmity: the night-singers"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Something sang below the walls after dark, and the Fort did not like it. You had the gate-tower raised a course, and a lamp kept in it all Autumn. The singing moved off. It did not stop. The Fort has an enemy now: the night-singers, whatever they are."
+                },
+                {
+                  "kicker": "THE FORT'S BOOK",
+                  "text": "Tag on the Fort: Enmity. The night-singers.",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "yoc",
+          "ask": "How were you changed? (Year of Change)",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Hymn of Rest",
+              "sub": "When you sing at camp, each ally who rests heals 1d4 extra HP. Once a night.",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Hymn of Rest. When you sing at camp, each ally who rests heals 1d4 extra HP. Once a night. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "After the fever in the Fields you sang the sick to sleep, and every one of them woke."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Hymn of Calling",
+              "sub": "Once a season, read the Terminal and ask it one question. The DM answers truly and briefly.",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Hymn of Calling. Once a season, read the Terminal and ask it one question. The DM answers truly and briefly. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "One night you sang the oldest calling hymn in the book, and the Terminal answered in plain words."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Lake Stone",
+              "sub": "Your holy symbol tingles within 30' of old machines.",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Lake Stone. Your holy symbol tingles within 30' of old machines. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The stone in your palm began to tingle near old things of the empire. It has not stopped."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "pen",
+          "ask": "The Pen is yours. What do you write in the Fort's book?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write one line in the Fort's book",
+              "sub": "Typed. It goes on your card.",
+              "input": {
+                "field": "pen",
+                "prompt": "Write one thing you wrote in Autumn that is still true at the Fort.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s3"
+    },
+    {
+      "id": "s3",
+      "title": "Seven Nights at the Terminal",
+      "place": "Mid-Autumn · the Shrine",
+      "look": "ink",
+      "set": "terminal",
+      "beats": [
+        {
+          "kicker": "SEVEN NIGHTS",
+          "when": {
+            "flag": "hymn_aloud"
+          },
+          "comment": "dm-remembers",
+          "text": "Mid-Autumn, after the harvest. You promised the Fort seven nights at the Terminal, every line read aloud. The Fort wants answers. So do you."
+        },
+        {
+          "kicker": "SEVEN NIGHTS",
+          "when": {
+            "not": {
+              "flag": "hymn_aloud"
+            }
+          },
+          "comment": "dm-remembers",
+          "text": "Mid-Autumn, after the harvest. Nobody asked you to. You set yourself seven nights at the Terminal, every line read aloud, the way you read when you were young and nothing answered."
+        },
+        {
+          "text": "The Shrine is cold. The screen is a pane of old glass in a frame of carved stone. The hymns climb it in pale letters, line after line, as they have every night you have known it. Below the glass lie the keys, worn hollow by hands older than yours."
+        },
+        {
+          "text": "Nobody comes in at night. The yard is dark. There is only you, the glass, and the hymns."
+        }
+      ],
+      "choices": [
+        {
+          "key": "night1",
+          "ask": "The first night. What do you read aloud?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The Hymn of Opening, first in the book.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said1": "the Hymn of Opening. Its last line stayed longest: “Let each station answer each.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You read the hymn aloud, as you have read it a thousand times."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Let the lamp be lit.",
+                    "Let the hours be kept.",
+                    "Let each station answer each."
+                  ],
+                  "text": "The hymn you have known for half your life, word for word. Only the last line stays on the glass a little longer than the rest.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Your own name, spelled the old way.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said1": "your name. It gave tonight's date in the empire's count: year 1,204."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You say your name aloud, spelled the old way. Then you wait."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Received.",
+                    "9th night of the Falling Month",
+                    "2nd watch",
+                    "Year 1,204 of the Empire"
+                  ],
+                  "text": "A date. You work it through on your slate. The night is tonight. The watch is this one. The empire is long gone. Its count of years is not.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Nothing aloud. You type one glyph, the oldest in your hymnal: listen.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said1": "the glyph for listen. “The line is open,” until the glass was full."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You do not speak. Your finger finds the key worn hollow for the oldest glyph in your hymnal."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "The line is open.",
+                    "The line is open.",
+                    "The line is open.",
+                    "The line is open."
+                  ],
+                  "text": "It is not in your book. The line repeats down the glass until the glass is full. Then the old hymns climb up over it, as if nothing happened.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "lens3",
+          "ask": "After the last word, a small mark blinks: on, off, on. You watch it for an hour. What is it?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A breath held. The hymn waits for its next verse, and the verse is yours.",
+              "sub": "Lens: hymn",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "set": {
+                    "lens3": "A breath held for you (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You breathe in time with it until your candle gutters."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A cursor. The screen is waiting for input.",
+              "sub": "Lens: machine",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens3": "A cursor waiting for input (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You count the blinks against your pulse. Sixty to the minute, exactly, all night."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A cursor marks where the next input goes. It waits for keys, not for breath. The keys under the glass are worn hollow by use. You may use them.",
+                  "reveal": true,
+                  "comment": "dm-follows",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "night4",
+          "ask": "The fourth night. What do you read, or type?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The Hymn of Lamps, the long one that names places.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said4": "the Hymn of Lamps: a list of stations. Lamp Station Nine, dark. Choir Station Six, dark. This station, lit."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You take the long hymn from its place in the book."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Lamp Station Nine ...... dark",
+                    "Choir Station Six ...... dark",
+                    "······ ······· ·· ..... dark",
+                    "······ ······· ·· ..... dark",
+                    "This station ........... lit"
+                  ],
+                  "text": "You read it aloud like any hymn, name by name. You know none of the names. You copy them all onto your slate.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The day's entry from the Fort's book, in your own hand.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said4": "the day's entry from the Fort's book. Then: “What is written is kept.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You copy the day's entry from the Fort's book, and read it aloud."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "What is written is kept.",
+                    "What is kept is counted.",
+                    "What is counted is not lost."
+                  ],
+                  "text": "A hymn you know, from near the back of the book. It has never come up so soon after anything you read.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A question from your margin, typed in: How long?",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said4": "“How long?” It showed the hours kept at this station, and counted one more."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You take a question from your margin and type it in, key by key."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Hours kept at this station:",
+                    "10,544,191"
+                  ],
+                  "text": "While you watch, the last figure turns over: 10,544,192. An hour has passed, and it is counted.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "night7",
+          "ask": "The seventh night, the last. What do you read?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The whole hymnal, front to back, until dawn.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said7": "the whole hymnal. At the end: “Begin again at the first line.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You begin at the first page, and you do not stop."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "End of book.",
+                    "Begin again at the first line."
+                  ],
+                  "text": "The hymns keep pace with your voice, line for line, all night. When your voice gives out, so does the book.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Only the first line of the Hymn of Opening, over and over.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said7": "the first line only. The glass gave back the first line, and no more."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You read the first line of the Hymn of Opening. Then you read it again."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Let the lamp be lit.",
+                    "Let the lamp be lit.",
+                    "Let the lamp be lit."
+                  ],
+                  "text": "Each time you read it, the glass gives back the same line, and no more. You stop at a hundred. So does the glass.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Every note in your margins: eleven years, three scripts.",
+              "sub": "Writes: What the Terminal said",
+              "effects": [
+                {
+                  "set": {
+                    "said7": "your margin notes. It filed all 1,412."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "terminal",
+                  "text": "You open your margins and read them in order."
+                },
+                {
+                  "kicker": "THE GLASS",
+                  "set": "glass",
+                  "screen": [
+                    "Received.",
+                    "3 scripts · 1,412 notes",
+                    "Filed."
+                  ],
+                  "text": "It takes all night. The glass takes each note as you read it, and gives back one word at the end.",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "coda",
+          "ask": "At the end of the night's hymns, after the last line, one more line climbs the glass and stays.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Read it. Copy it onto your slate.",
+              "sub": "Writes: the last line",
+              "when": {
+                "not": {
+                  "flag": "hymn_aloud"
+                }
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lastline": "Vigil recorded. Seven of seven."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "glass",
+                  "screen": [
+                    "Vigil recorded. Seven of seven."
+                  ],
+                  "text": "You copy it onto your slate. Then you go to bed, for the first time in seven nights."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Read it. Copy it onto your slate.",
+              "sub": "Writes: the last line",
+              "when": {
+                "flag": "hymn_aloud"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lastline": "Light the first lamp before the second."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "set": "glass",
+                  "screen": [
+                    "Light the first lamp before the second."
+                  ],
+                  "comment": "dm-remembers",
+                  "text": "You copy it onto your slate, letter by letter. It is in no book you own."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "next": "s4"
+    },
+    {
+      "id": "s4",
+      "title": "Nine Breaths",
+      "place": "Late Autumn · the Shrine, before dawn",
+      "look": "ink",
+      "set": "breaths",
+      "beats": [
+        {
+          "kicker": "LATE AUTUMN",
+          "text": "Late Autumn. Before dawn, the Terminal stops its hymns."
+        },
+        {
+          "text": "It has stopped only once before, on the morning you brought it the stone. This time no line comes. For nine breaths the screen is blank and the Shrine is very still. Then the hymns begin again, as if nothing happened."
+        },
+        {
+          "text": "The door creaks. Wick stands there with his lamp-pole, staring at you, waiting for you to say what it means.",
+          "notes": [
+            "wick"
+          ]
+        },
+        {
+          "kicker": "EXECUTION",
+          "text": "Until now you have only looked, read and thought. That is Planning, and it is free. This choice is Execution. Once you make it, you cannot take it back.",
+          "notes": [
+            "gate"
+          ],
+          "comment": "dm-sure"
+        }
+      ],
+      "choices": [
+        {
+          "key": "reg",
+          "ask": "Do you let them see?",
+          "gate": "exec",
+          "notes": [
+            "gate"
+          ],
+          "comment": "dm-sure",
+          "options": [
+            {
+              "key": "a",
+              "label": "Ring the Shrine bell and tell the Fort.",
+              "sub": "Sealed. Witnessed: paint, and a public fact.",
+              "effects": [
+                {
+                  "flag": "witnessed"
+                }
+              ],
+              "then": [
+                {
+                  "look": "paint",
+                  "text": "Witnessed. The Fort hears it from you first. Maren frowns. The Minister goes white."
+                },
+                {
+                  "look": "paint",
+                  "kicker": "A PUBLIC FACT",
+                  "text": "The Fort saw. Now say what the whole Fort knows.",
+                  "notes": [
+                    "facts"
+                  ],
+                  "comment": "dm-asks"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Send Wick back to bed. Hood the screen with your robe, and wait.",
+              "sub": "Sealed. Unwitnessed: ink, and a secret fact.",
+              "effects": [
+                {
+                  "flag": "unwitnessed"
+                }
+              ],
+              "then": [
+                {
+                  "look": "ink",
+                  "text": "Unwitnessed. Not even the Terminal sees what you do next."
+                },
+                {
+                  "look": "ink",
+                  "kicker": "A SECRET FACT",
+                  "text": "No one saw. Now say what only you know.",
+                  "notes": [
+                    "facts"
+                  ],
+                  "comment": "dm-asks"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact4",
+          "ask": "Write it down.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what the whole Fort now knows",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Write one thing the whole Fort now knows about you, since that day.",
+                "max": 200
+              }
+            },
+            {
+              "key": "b",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Write one true thing that only you know. It may be about you, or about what the screen did.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s5"
+    },
+    {
+      "id": "s5",
+      "title": "The Two Keepers",
+      "place": "Late Autumn · the Shrine door",
+      "look": "paint",
+      "set": "plinth",
+      "beats": [
+        {
+          "kicker": "A GREY MORNING",
+          "text": "A grey morning, near the end of Autumn. The Shrine door stands open, and the yard can see in."
+        },
+        {
+          "text": "The Terminal sits on its plinth of old stone, the hymns climbing its glass. You stand on one side of it. The Minister stands on the other. She kept this screen for years before you came, and she keeps it still.",
+          "notes": [
+            "minister"
+          ]
+        },
+        {
+          "text": "She lays her palm on the plinth, as she does every morning. “They are prayers,” she says. “Older than any of us. We are only the ones who say them now.”",
+          "comment": "dm-people"
+        },
+        {
+          "text": "Folk crossing the yard slow down at the door. Two keepers, one screen. The whole Fort knows you do not agree. This morning it watches you not agree."
+        }
+      ],
+      "choices": [
+        {
+          "key": "minister",
+          "ask": "There are two clerics at the Fort. How do you see the Minister now?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "She's right, but she doesn't know why.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "minister": "She's right, but doesn't know why. Teacher and student, except she doesn't know she's enrolled."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "She treats the Terminal as a mystery. You treat it as a system. You correct her gently. She resents it quietly."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "She's wrong, but she's necessary.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "minister": "She's wrong, but necessary. Allies who disagree about everything important."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Terminal is infrastructure, and she has made it a god. But the Fort needs a Minister more than the truth. You heal together and pray apart."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "She hears something you don't.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "minister": "She hears something you don't. Equals, circling each other."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You waited eleven years for an answer. She gets answers, sometimes. You cannot explain the difference, and it bothers you more than you admit."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "lens4",
+          "ask": "She calls the hymns prayer. What do you call them, there in front of the Fort?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "h1",
+              "label": "Prayer. She is right, and you say so.",
+              "sub": "Lens: hymn",
+              "when": {
+                "not": {
+                  "flag": "read_m"
+                }
+              },
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "set": {
+                    "lens4": "Prayer (hymn)"
+                  }
+                },
+                {
+                  "set": {
+                    "lens": "Hymn"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "She looks at you for a long moment, surprised. By noon the whole Fort knows the two keepers agreed on something."
+                },
+                {
+                  "kicker": "THE BOOK ROLLS",
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
+                  "notes": [
+                    "reaction"
+                  ],
+                  "comment": "dm-rolls"
+                }
+              ]
+            },
+            {
+              "key": "h2",
+              "label": "Prayer. She is right, and you say so.",
+              "sub": "Lens: hymn",
+              "when": {
+                "flag": "read_m"
+              },
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "set": {
+                    "lens4": "Prayer (hymn)"
+                  }
+                },
+                {
+                  "set": {
+                    "lens": "Both"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "She looks at you for a long moment, surprised. By noon the whole Fort knows the two keepers agreed on something."
+                },
+                {
+                  "kicker": "THE BOOK ROLLS",
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
+                  "notes": [
+                    "reaction"
+                  ],
+                  "comment": "dm-rolls"
+                }
+              ]
+            },
+            {
+              "key": "m1",
+              "label": "Protocol: the rules by which one station speaks to another.",
+              "sub": "Lens: machine",
+              "when": {
+                "not": {
+                  "flag": "read_h"
+                }
+              },
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens4": "Protocol (machine)"
+                  }
+                },
+                {
+                  "set": {
+                    "lens": "Machine"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You say it kindly. She hears it as an insult anyway. Someone at the door laughs, and stops."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A protocol is a set of rules for how one station speaks to another: who goes first, who answers, what counts as a reply. You have studied those rules for eleven years. You have not yet tested one.",
+                  "reveal": true,
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kicker": "THE BOOK ROLLS",
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
+                  "notes": [
+                    "reaction"
+                  ],
+                  "comment": "dm-rolls"
+                }
+              ]
+            },
+            {
+              "key": "m2",
+              "label": "Protocol: the rules by which one station speaks to another.",
+              "sub": "Lens: machine",
+              "when": {
+                "flag": "read_h"
+              },
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens4": "Protocol (machine)"
+                  }
+                },
+                {
+                  "set": {
+                    "lens": "Both"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You say it kindly. She hears it as an insult anyway. Someone at the door laughs, and stops."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A protocol is a set of rules for how one station speaks to another: who goes first, who answers, what counts as a reply. You have studied those rules for eleven years. You have not yet tested one.",
+                  "reveal": true,
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kicker": "THE BOOK ROLLS",
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
+                  "notes": [
+                    "reaction"
+                  ],
+                  "comment": "dm-rolls"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Both. A prayer is a protocol for speaking to what you cannot see.",
+              "sub": "Lens: both",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "flag": "read_h"
+                },
+                {
+                  "flag": "read_m"
+                },
+                {
+                  "set": {
+                    "lens4": "Prayer and protocol (both)"
+                  }
+                },
+                {
+                  "set": {
+                    "lens": "Both"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "She frowns. Then, slowly, she nods. She will turn it over for a week. So will the yard."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A protocol is a set of rules for how one station speaks to another: who goes first, who answers, what counts as a reply. You have studied those rules for eleven years. You have not yet tested one.",
+                  "reveal": true,
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kicker": "THE BOOK ROLLS",
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
+                  "notes": [
+                    "reaction"
+                  ],
+                  "comment": "dm-rolls"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "yard",
+          "ask": "How does the yard take it?",
+          "gate": "exec",
+          "notes": [
+            "reaction"
+          ],
+          "comment": "dm-rolls",
+          "options": [
+            {
+              "key": "a",
+              "label": "Let the book roll for the yard.",
+              "sub": "Sealed. 2d6: 7 or more, the yard leans your way",
+              "roll": {
+                "dice": "2d6",
+                "vs": 7,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "flag": "yard_cool"
+                      },
+                      {
+                        "set": {
+                          "yard": "Cool. The yard leaned toward the Minister."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The yard leans toward the Minister. Someone at the door looks at their boots."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "flag": "yard_warm"
+                      },
+                      {
+                        "set": {
+                          "yard": "Warm. The yard leaned your way."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The yard leans your way a little. Someone at the door nods once, and does not hide it."
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s6"
+    },
+    {
+      "id": "s6",
+      "title": "Maren's Last Muster",
+      "place": "Late Autumn · the yard",
+      "look": "paint",
+      "set": "muster",
+      "beats": [
+        {
+          "kicker": "AUTUMN",
+          "text": "Autumn. Captain Maren is retiring, and she wants the Fort in order before she goes."
+        },
+        {
+          "text": "She calls the muster in the yard. The Paladin stands at the Gate. The Minister stands at Maren's left hand and does not look at her. From the Beast Pen, Biddy watches the crowd with one cold eye."
+        },
+        {
+          "text": "Maren reads four offices off a slate: Warden, Scout, Steward, Lorekeeper. The Fort keeps its own book now, and its own tracks: Stores, Walls, Folk, Lamp. Each office keeps one of them honest.",
+          "notes": [
+            "office"
+          ]
+        },
+        {
+          "text": "The yard stands a little closer to you than it did.",
+          "when": {
+            "flag": "yard_warm"
+          },
+          "comment": "dm-remembers"
+        },
+        {
+          "text": "The yard stands a little further off than it did.",
+          "when": {
+            "flag": "yard_cool"
+          },
+          "comment": "dm-remembers"
+        },
+        {
+          "text": "She comes to you last and holds out the slate. “You read everything,” she says. “Read this, and pick one.” At her left hand, the Minister watches you take it. She has not forgotten the morning at the plinth."
+        }
+      ],
+      "choices": [
+        {
+          "key": "office",
+          "ask": "Which office do you take?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Warden",
+              "sub": "Walls +1 when you take the Defend directive.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Warden. Walls +1 when you take the Defend directive."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "A wall is a ward. You have read about both."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Scout",
+              "sub": "One extra clue per hex you explore.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Scout. One extra clue per hex you explore."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The old maps are in your head. Someone should walk them."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Steward",
+              "sub": "You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Steward. You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You kept the book in Autumn. You count in three scripts."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Lorekeeper",
+              "sub": "One free hint per puzzle.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Lorekeeper. One free hint per puzzle."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Maren does not even pretend to be surprised."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact6",
+          "ask": "Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what Maren says",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s7"
+    },
+    {
+      "id": "s7",
+      "title": "Cassandra's Question",
+      "place": "The night after the muster · the wall above the Gate",
+      "look": "ink",
+      "set": "wall",
+      "beats": [
+        {
+          "kicker": "THE WALL",
+          "text": "The night after the muster. You cannot settle, so you walk the wall above the Gate. The cold keeps your head clear."
+        },
+        {
+          "text": "Wick's lamps burn along the parapet, one by one. Between the third lamp and the fourth, Cassandra sits on the wall in her grey wrap, her feet hanging over the dark. Nobody saw her climb up. Nobody will see her go.",
+          "notes": [
+            "cassandra"
+          ]
+        },
+        {
+          "text": "Her hints never tell. They ask. She does not greet you. She asks you one question, as if she had carried it up the ladder for you:",
+          "comment": "dm-people"
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“What do you owe the voice that answers you?”"
+        }
+      ],
+      "choices": [
+        {
+          "key": "cassq",
+          "ask": "What do you answer?",
+          "gate": "exec",
+          "comment": "dm-sure",
+          "options": [
+            {
+              "key": "a",
+              "label": "“Nothing. It answers because I learned to ask. A lock owes nothing to its key.”",
+              "sub": "Sealed. You said it aloud.",
+              "effects": [
+                {
+                  "set": {
+                    "cassq": "“What do you owe the voice that answers you?” You answered: “Nothing. It answers because I learned to ask.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "She nods, as if you had confirmed a rumour she already believed. “And the key,” she says. “What does the key owe the lock?”"
+                },
+                {
+                  "kicker": "FATE",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "notes": [
+                    "fate"
+                  ],
+                  "comment": "dm-books"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "“Patience. I paid eleven years, and I will pay more.”",
+              "sub": "Sealed. You said it aloud.",
+              "effects": [
+                {
+                  "set": {
+                    "cassq": "“What do you owe the voice that answers you?” You answered: “Patience. I paid eleven years, and I will pay more.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "“Eleven is a small number, for an elf,” she says. “What will you buy, when the paying is done?”"
+                },
+                {
+                  "kicker": "FATE",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "notes": [
+                    "fate"
+                  ],
+                  "comment": "dm-books"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "“Obedience. If it asks me to do a thing, I will do it.”",
+              "sub": "Sealed. You said it aloud.",
+              "effects": [
+                {
+                  "set": {
+                    "cassq": "“What do you owe the voice that answers you?” You answered: “Obedience. If it asks me to do a thing, I will do it.”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "She looks at the lamps, not at you, for a long time. “Then I hope it asks for small things first,” she says. “Do you?”"
+                },
+                {
+                  "kicker": "FATE",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "notes": [
+                    "fate"
+                  ],
+                  "comment": "dm-books"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "hintask",
+          "ask": "Do you ask her for a hint?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Let her go. Your Fate point stays.",
+              "sub": "Fate stays at 1",
+              "to": "s8"
+            },
+            {
+              "key": "b",
+              "label": "Ask her for a hint.",
+              "sub": "Next: it costs 1 Fate"
+            }
+          ]
+        },
+        {
+          "key": "hint",
+          "ask": "What do you ask her about?",
+          "gate": "fate",
+          "cost": {
+            "meter": "fate",
+            "n": 1
+          },
+          "notes": [
+            "fate"
+          ],
+          "comment": "dm-books",
+          "options": [
+            {
+              "key": "a",
+              "label": "The voice that answers.",
+              "sub": "Spend 1 Fate. One hint.",
+              "effects": [
+                {
+                  "flag": "hint_voice"
+                },
+                {
+                  "set": {
+                    "hint": "“It answers when you speak. Has it ever spoken first?”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "“It answers when you speak,” she says. “Has it ever spoken first?”"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The road before dawn.",
+              "sub": "Spend 1 Fate. One hint.",
+              "effects": [
+                {
+                  "flag": "hint_road"
+                },
+                {
+                  "set": {
+                    "hint": "“Who walked the road before you, and what did they leave?”"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "“You will walk a road before dawn,” she says. “Who walked it before you, and what did they leave?”"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "next": "s8"
+    },
+    {
+      "id": "s8",
+      "title": "The Night Before the Road",
+      "place": "The night before · the Shrine",
+      "look": "ink",
+      "set": "road-pack",
+      "beats": [
+        {
+          "kicker": "NIGHT",
+          "text": "Night. The Shrine is dark except for the Terminal's hymns, scrolling for no one."
+        },
+        {
+          "text": "You lay your kit out on the stone floor and count it twice: robes, shield, mace, hymnal, the cold screen fragment, the stone. Before dawn you will walk out on the Old Road. You do not know yet why. The stone in your pocket is cold, and patient, like you.",
+          "notes": [
+            "road"
+          ]
+        },
+        {
+          "text": "Somebody here is tied to you.",
+          "notes": [
+            "bond"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "bond",
+          "ask": "Who is your bond?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The Elven Thief",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Elven Thief: The thief opened a lock in the Shrine for me. We have never told the Minister."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The thief opened a lock in the Shrine for you. You have never told the Minister."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The Gnome Druid",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Gnome Druid: The druid and I argue every night about where the power comes from."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The opposition, and a friend. You argue every night about where the power comes from. Neither of you wants it to stop."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Cassandra",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Cassandra: Cassandra and I share the Shrine. She sees; I read."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You share the Shrine. She sees; you read. Each of you trusts the other's half."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Wick",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Wick: I am teaching Wick his letters. He counts the strokes."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You are teaching Wick his letters in three scripts. He counts the strokes."
+                }
+              ]
+            },
+            {
+              "key": "e",
+              "label": "The Paladin",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Paladin: The Paladin and I compare notes on the network in the gatehouse."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Paladin's order served the network. So do you. You compare notes in the gatehouse."
+                }
+              ]
+            },
+            {
+              "key": "f",
+              "label": "Captain Maren",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Captain Maren: I promised Maren healing, not a schism."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Maren wants healing, not a schism. You promised her the first."
+                }
+              ]
+            },
+            {
+              "key": "g",
+              "label": "The Minister",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Minister: The Minister and I tend one Terminal. I have not told her everything."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You tend the same Terminal. You have not told her everything it shows you."
+                }
+              ]
+            },
+            {
+              "key": "h",
+              "label": "The Glamourist",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Glamourist: The Glamourist knows the fae word for the Terminal, and has not told me."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The fae have a word for the Terminal. The Glamourist will not tell you it yet."
+                }
+              ]
+            },
+            {
+              "key": "i",
+              "label": "Biddy",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Biddy: Biddy sleeps on the Shrine step and guards my door."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Biddy sleeps on the Shrine step on cold nights. She lets nobody else near the door."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "kit",
+          "ask": "Your kit is the playbook's. What one thing do you add?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A flask of holy water.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "a flask of holy water"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Blessed at the Terminal, in the old words."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Six candles and a tinderbox.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "6 candles and a tinderbox"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "For reading where there is no screen."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Chalk and a slate.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "chalk and a slate"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "For copying what a screen shows before it stops showing it."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "secret8",
+          "ask": "Nobody sees you pack. Write one true thing that only you know.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Nobody sees you pack. Write one true thing that only you know.",
+                "max": 200
+              }
+            }
+          ]
+        },
+        {
+          "key": "go",
+          "ask": "Before dawn, you walk out on the Old Road. Do you go?",
+          "gate": "exec",
+          "comment": "dm-sure",
+          "options": [
+            {
+              "key": "a",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "effects": [
+                {
+                  "set": {
+                    "cassandra": "The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "route": [
+        {
+          "when": {
+            "field": "lens",
+            "is": "Hymn"
+          },
+          "to": "milestone-hymn"
+        },
+        {
+          "when": {
+            "field": "lens",
+            "is": "Machine"
+          },
+          "to": "milestone-machine"
+        },
+        {
+          "to": "milestone-both"
+        }
+      ]
+    }
+  ],
+  "endings": {
+    "milestone-hymn": {
+      "title": "The Milestone: Hymn",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had come straight from the wall. This time she does not begin with a question. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?”",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You lay your palm on the stone. The hum is one held note, the kind a choir sings while it waits for the rest of the choir."
+        },
+        {
+          "when": {
+            "flag": "hint_voice"
+          },
+          "text": "Her question on the wall comes back to you. The stone hums before you touch it. It did not wait to be asked."
+        },
+        {
+          "when": {
+            "flag": "hint_road"
+          },
+          "text": "Her question on the wall comes back to you. The numbers on the stone were cut by someone. You do not know who."
+        },
+        {
+          "kicker": "END OF THE MODULE",
+          "text": "The book closes. Your Fort Card holds every choice. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    },
+    "milestone-machine": {
+      "title": "The Milestone: Machine",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had come straight from the wall. This time she does not begin with a question. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?”",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You lay your ear to the stone. The hum does not change when you breathe. It is steady, like a mark that blinks, or a line left open. You copy the numbers on its face onto your slate."
+        },
+        {
+          "when": {
+            "flag": "hint_voice"
+          },
+          "text": "Her question on the wall comes back to you. The stone hums before you touch it. It did not wait to be asked."
+        },
+        {
+          "when": {
+            "flag": "hint_road"
+          },
+          "text": "Her question on the wall comes back to you. The numbers on the stone were cut by someone. You do not know who."
+        },
+        {
+          "kicker": "END OF THE MODULE",
+          "text": "The book closes. Your Fort Card holds every choice. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    },
+    "milestone-both": {
+      "title": "The Milestone: Both",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had come straight from the wall. This time she does not begin with a question. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?”",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You lay your palm on the stone, and your ear beside it. A prayer is a protocol for speaking to what you cannot see, you said once. The stone does not argue. It hums its first line, and waits."
+        },
+        {
+          "when": {
+            "flag": "hint_voice"
+          },
+          "text": "Her question on the wall comes back to you. The stone hums before you touch it. It did not wait to be asked."
+        },
+        {
+          "when": {
+            "flag": "hint_road"
+          },
+          "text": "Her question on the wall comes back to you. The numbers on the stone were cut by someone. You do not know who."
+        },
+        {
+          "kicker": "END OF THE MODULE",
+          "text": "The book closes. Your Fort Card holds every choice. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    }
+  }
+}

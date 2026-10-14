@@ -814,11 +814,11 @@ function validate(pack) {
     if (!str(sc.set)) err(w, "set is missing");
     else if (sets && !has(sets, sc.set)) err(w, `set "${sc.set}" is not in sets.json`);
     checkBeats(w, sc.beats);
-    const exits = ["next", "ending", "route"].filter(k => has(sc, k));
+    const exits = ["next", "ending", "route"].filter(k => sc[k] != null);
     if (exits.length !== 1) err(w, `needs exactly one of next, ending, route (has ${exits.length ? exits.join(", ") : "none"})`);
-    if (has(sc, "next") && !sceneIds.has(sc.next)) err(w, `next "${sc.next}" is not a scene`);
-    if (has(sc, "ending") && !has(endings, sc.ending)) err(w, `ending "${sc.ending}" is not an ending`);
-    if (has(sc, "route")) {
+    if (sc.next != null && !sceneIds.has(sc.next)) err(w, `next "${sc.next}" is not a scene`);
+    if (sc.ending != null && !has(endings, sc.ending)) err(w, `ending "${sc.ending}" is not an ending`);
+    if (sc.route != null) {
       if (!Array.isArray(sc.route) || !sc.route.length) err(w, "route must be a non-empty list");
       else sc.route.forEach((r, i) => {
         const rw = `${w} route ${i}`;

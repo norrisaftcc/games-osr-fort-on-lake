@@ -17,7 +17,7 @@ export function readJson(file) {
   }
 }
 
-// Every file under a directory, as paths relative to `base`, in a stable order.
+// Every file under `dir`, as paths relative to `base`, in a stable order.
 export function walk(base, dir = base) {
   if (!existsSync(dir)) return [];
   const out = [];
@@ -40,12 +40,12 @@ export function loadPack(dir) {
 
 export function loadAssets(dir) {
   const assets = {}, fonts = {};
-  for (const f of walk(dir, join(dir, "art"))) {
+  for (const f of walk(dir, join(dir, "art"))) { // f is relative to the pack dir: "art/x.svg"
     const type = ART_TYPES[extname(f).toLowerCase()];
-    if (type) assets["art/" + f] = `data:${type};base64,${readFileSync(join(dir, "art", f)).toString("base64")}`;
+    if (type) assets[f] = `data:${type};base64,${readFileSync(join(dir, f)).toString("base64")}`;
   }
   for (const f of walk(dir, join(dir, "fonts"))) {
-    if (FONT_TYPES[extname(f).toLowerCase()]) fonts["fonts/" + f] = readFileSync(join(dir, "fonts", f)).toString("base64");
+    if (FONT_TYPES[extname(f).toLowerCase()]) fonts[f] = readFileSync(join(dir, f)).toString("base64");
   }
   return { assets, fonts };
 }
