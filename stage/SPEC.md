@@ -50,7 +50,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 { "id": "magic-module", "title": "The Magic Module", "subtitle": "The elf cleric",
   "kit": "paper", "resolver": "ose", "start": "s1",
   "storageKey": "fort-stage.magic-module",
-  "meters": [ { "id": "fate", "label": "Fate", "min": 0, "max": 5, "start": 1, "hud": true } ],
+  "meters": [ { "id": "fate", "label": "Fate", "min": 0, "max": 6, "start": 3, "hud": true } ],
   "fields": [ { "id": "lens", "label": "The Lens", "side": "front" } ],
   "tallies": [ "lens" ],
   "commentary": { "label": "How the module DMs", "kinds": ["dm", "rule"] } }
@@ -85,15 +85,15 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 
 **Scene**: `id`, `title`, `place`, `look`, `set`, `beats`, `choices` (zero or more groups, played in order after the beats), and one of `next` (a scene id), `ending` (an ending id) or `route` (a list of `{ "when": cond, "to": id }`, first match wins, last entry has no `when`).
 
-**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (lines shown on an in-world screen, kit-drawn), `when`.
+**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (lines shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
 
-**Choice group**: `key`, `ask`, `gate`, optional `cost` (`{ "meter": "fate", "n": 1 }`, only with gate `fate`), `options`.
+**Choice group**: `key`, `ask`, `gate`, optional `cost` (`{ "meter": "fate", "n": 1 }`, only with gate `fate`), `notes` and `comment` (as on a beat; shown with the ask, before the player commits), `options`.
 
 **Option**: `key`, `label`, optional `sub` (the mechanical effect in plain words: shown under the label), `when` (hidden when false; `lock` instead of `when` shows it greyed with its `hint`), `effects`, `then` (beats played after the pick), `to` (leave the scene now), `roll`, `input`.
 
-- `gate` is `plan`, `exec` or `fate`. A `plan` pick can be changed by going back. An `exec` or `fate` pick cannot. This is the Planning/Execution gate; the view shows it, and the first `exec` group in a pack must carry a `rule` note that teaches it.
+- `gate` is `plan`, `exec` or `fate`. A `plan` pick can be changed by going back. An `exec` or `fate` pick cannot. This is the Planning/Execution gate; the view shows it, and the first `exec` group in a pack must carry a `rule` note in its `notes` that teaches it (`validate` checks this).
 - `roll`: `{ "dice": "2d6" | "1d20" | "3d6" | "4dF", "add": "<meter or field id>", "vs": n, "results": { "fail": {…}, "success": {…}, "style": {…} } }`. Each result is `{ "effects", "then" }`. `ose` reads `fail`/`success` (meet or beat `vs`). `fate4df` reads `fail` (below `vs`), `tie` (equal, falls back to `fail` if absent), `success`, `style` (`vs` + 3 or more, falls back to `success`).
-- `input`: `{ "field": "public", "prompt": "…", "max": 140 }`. The player types; the text goes to that card field. Simulation fills it with `"(typed)"`.
+- `input`: `{ "field": "public", "prompt": "…", "max": 140 }`. The player types; the text goes to that card field. Simulation fills it with `"(typed)"`. No condition may read a field that an `input` writes; `validate` rejects it, because typed text cannot be explored.
 
 **Conditions** (`when`, `lock`, `route`): `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
 
@@ -142,11 +142,12 @@ game.reveal()          // reveal the current beat if it is a reveal
 game.input(text)       // answer an input option
 game.back()            // review one beat back; undoes the last pick only if its gate was plan
 game.save()            // → JSON string
+Stage.replay(pack, route) // → a game played through a route; a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
 Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachable: [ids], locked: [ids] }
 Stage.validate(pack)   // → [error strings]
 ```
 
-**Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that some condition reads (flags, fields, tallies, meters named in any `when`, `lock` or `route`). Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes every roll result as a branch and fills inputs with `"(typed)"`. `routes` is one representative path (a list of option keys and roll results) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options and endings never reached; `locked` lists options that some route sees locked.
+**Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that change behaviour: those read by any `when`, `lock` or `route`, by a roll's `add`, and by a group's `cost`. Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes as a branch every roll result the dice can reach from the current modifier (4dF + 0 against 2 cannot reach `style`) and fills inputs with `"(typed)"`. `routes` is one representative path (a list of steps: `{ "opt": "a" }`, `{ "opt": "b", "result": "success" }`, `{ "input": "(typed)" }`) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options and endings never reached; `locked` lists options that some route sees locked.
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
@@ -162,6 +163,7 @@ Stage.validate(pack)   // → [error strings]
 | `roll` (`dice`, `faces`, `total`) | A roll resolves | The dice decide |
 | `cost` / `gain` (`meter`, `n`) | A meter goes down / up | Consequence |
 | `tear` | A Fate point is spent | Player authority used |
+| `tally` (`id`, `value`) | A tally changes | The player's reading of the world changes (the Lens pull-tab) |
 | `close` | An ending is reached | The story stops |
 
 ## 4. The view
@@ -172,7 +174,7 @@ Stage.validate(pack)   // → [error strings]
 
 **Commentary track.** Under the text panel, one line in the commentary voice when the beat has a `comment`. A toggle in settings hides it. ⓘ chips open the notes sheet at that note.
 
-**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every path and ending, as Neon On-Call's `--VERIFY`; tap a row to replay to it), Settings (theme, map style, commentary, sound, AUTO speed).
+**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, commentary, sound, AUTO speed).
 
 **Film mode.** AUTO plays beats like a film and stops at every choice, roll, input and reveal.
 
@@ -189,15 +191,17 @@ Stage.validate(pack)   // → [error strings]
 ```js
 StageKit.register("paper", {
   mount(root, { pack, assets, reduced }) {},  // once; root is the stage element
-  show(setId, set, { instant }) {},           // build or swap the set's layers
+  show(setId, set, { instant, state }) {},    // build or swap the set's layers; state as in update()
+  update(state) {},                           // after every step: { meters, fields, tallies, flags }; restores bound layers (pull-tab) after back, load or save
   cue(cue, { scene, beat, reduced }) {},      // play one cue; returns a Promise that resolves when it ends (at once if reduced)
+  finish() {},                                // jump the active cue to its end state and resolve its Promise now
   tick(t) {},                                 // optional, per frame; returns true while anything moves
   card(scene) {},                             // returns an HTML string: the scene's title card
   destroy() {}
 });
 ```
 
-`assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue finishes it at once.
+`assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue calls `finish()`.
 
 **Reduced motion.** Under `prefers-reduced-motion: reduce` every cue jumps to its end state, text appears whole, and nothing loops. Every primitive has a static end state that reads correctly.
 
@@ -216,4 +220,4 @@ StageKit.register("paper", {
 | `node stage/tools/sim.mjs stage/packs/<id>` | Every ending reached; no unreachable scene, beat or note |
 | `node stage/tools/build.mjs stage/packs/<id>` for every pack, then `node stage/test.mjs` | `PASS` |
 
-`test.mjs` checks, for every built pack: no network reference; the pack's forbidden-name list (the OSR pack uses `intro/test.mjs`'s list); every path played by keyboard to every ending; reduced motion leaves no running animation (`document.getAnimations()`); no horizontal scroll at 360 and 1280 px; works with `localStorage` throwing; no console errors; the Verify sheet's counts match `sim.mjs`; the commentary toggle hides the track; every ⓘ chip opens its note; light and dark both pass 4.5:1 for text (sampled from the computed tokens).
+`test.mjs` checks, for every built pack: no network reference; the pack's forbidden-name list (the OSR pack uses `intro/test.mjs`'s list); every route from `Stage.simulate(pack).routes` played by keyboard (`Stage.replay` forces the roll tiers), so every ending is reached, while path counts are checked in simulation; reduced motion leaves no running animation (`document.getAnimations()`); no horizontal scroll at 360 and 1280 px; works with `localStorage` throwing; no console errors; the Verify sheet's counts match `sim.mjs`; the commentary toggle hides the track; every ⓘ chip opens its note; light and dark both pass 4.5:1 for text (sampled from the computed tokens).

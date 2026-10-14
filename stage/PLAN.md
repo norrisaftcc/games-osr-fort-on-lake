@@ -80,7 +80,7 @@ Waves 1 and 2 run as two workflows of five and four agents. Wave 3 runs after th
 ## Acceptance
 
 - Each pack is one offline file, 360 px and up, light and dark, keyboard and touch.
-- Each pack plays every path to every ending; Verify agrees with `sim.mjs`.
+- Each pack plays every simulated route to every ending; Verify agrees with `sim.mjs`.
 - Every cue has a reduced-motion end state, and the test proves nothing runs under reduced motion.
 - The commentary track and the ⓘ notes cover every rule the first time it matters.
 - OSR: no forbidden name; the Terminal never speaks as a mind; the Sleeper never appears; machine elements stay at brush depth unless the player pulls the tab.
@@ -90,3 +90,4 @@ Waves 1 and 2 run as two workflows of five and four agents. Wave 3 runs after th
 
 - 2026-10-14: frozen.
 - 2026-10-14, before wave 1: `simulate` projects state onto the keys conditions read, because the cleric's paths cannot all be walked. Added the kit interface, `MOTION.md` (the motion agent writes it in the repo; the lead publishes it to Blueline) and a second fixture, `packs/test-feed`.
+- 2026-10-14, Copilot review of #7: Fate starts at 3 (SPINE pin); beats take a `look`; groups take `notes` and `comment`; validate rejects conditions on typed fields; simulation projects onto roll adds and costs, branches only on reachable tiers, and records replayable routes (`Stage.replay`); a `tally` cue; kits get `update(state)` and `finish()`; tests play every route, not every path. Wave 1 started before this change; the lead brings its output up to this spec at integration.
