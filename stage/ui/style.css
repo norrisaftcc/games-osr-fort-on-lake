@@ -157,7 +157,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .m-top { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
 .m-name { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--st-ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.m-val { font: 700 1.25rem/1.1 var(--st-font-display); font-variant-numeric: tabular-nums; }
+.m-val { font: 700 1.25rem/1.1 var(--st-font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .m-val small { font-size: .75rem; font-weight: 600; color: var(--st-muted); }
 .pips { display: flex; gap: 3px; margin-top: 3px; }
 .pip { flex: 1 1 0; max-width: 16px; height: 8px; border: 1px solid var(--st-ink); border-radius: 2px; background: transparent; }
@@ -183,6 +183,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .tallies b { font-weight: 700; color: var(--st-ink); }
 .tallies span + span::before { content: "\00b7"; margin: 0 6px; }
 .count { font-variant-numeric: tabular-nums; }
+@media (max-width: 380px) { .m-val small { display: none; } }
 @media (max-width: 520px) { .hud-tools .lbl { display: none; } .hud-tools .btn { padding: 0 10px; } .meter { flex-basis: 96px; } }
 @media (min-width: 521px) { .count:not(:empty)::before { content: "("; } .count:not(:empty)::after { content: ")"; } }
 .hud-tools .count:not(:empty) { font-size: .8125rem; }

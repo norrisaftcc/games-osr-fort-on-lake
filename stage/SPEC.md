@@ -129,7 +129,7 @@ Two themes, `light` and `dark`, each a map of custom-property names (without `--
 
 ### cast.json
 
-`{ "sheet": "art/cast.jpg", "w": 1200, "h": 660, "people": { "chen": { "name": "Manager Chen", "role": "…", "x": 400, "y": 220, "r": 90 } } }`. Portraits are crops of the one sheet by background position, as in Neon On-Call.
+`{ "sheet": "art/cast.jpg", "w": 1200, "h": 660, "people": { "chen": { "name": "Manager Chen", "role": "…", "x": 400, "y": 220, "r": 90 } } }`. Portraits are crops of the one sheet by background position, as in Neon On-Call. A person with no `x`, `y` and `r` has no portrait: the paper kit draws an ink silhouette, and the feed kit draws a staticky outline labelled **VIDEO FEED DISABLED**. `cast.json` may then omit `sheet` if no person has a crop.
 
 ## 3. The engine
 

@@ -341,8 +341,10 @@ function retire(old, dir, fade, instant) {
   a.onfinish = done; a.oncancel = done;
 }
 const fadeOnly = () => KIT_ID === "feed"; // a hard cut does not slide
+function clearOutgoing() { for (const x of $("slides").querySelectorAll(".sl.out")) x.remove(); } // at most one panel leaves at a time
 function showSlide(sl, dir, instant) {
   const old = V.slide;
+  clearOutgoing();
   V.slide = sl;
   $("slides").appendChild(sl);
   if (old && old !== sl) retire(old, dir, fadeOnly(), instant);
@@ -353,6 +355,7 @@ function showSlide(sl, dir, instant) {
 function dropSlide(dir) { // retire the current panel now (the turn cue)
   const old = V.slide;
   if (!old) return;
+  clearOutgoing();
   V.slide = null;
   retire(old, dir, fadeOnly(), false);
 }
@@ -613,6 +616,7 @@ async function present(v, o) {
   kitUpdate(v);
   record(v);
   setPlace(v);
+  $("app").dataset.node = v.node || "";
 
   const card = !!v.scene && ((turn && dir > 0) || o.fresh) && !o.noCard;
   if (card) {
