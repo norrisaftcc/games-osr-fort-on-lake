@@ -57,7 +57,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 ```
 
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
-- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL.
+- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
 - `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values; a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
@@ -96,7 +96,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 - `roll`: `{ "dice": "2d6" | "1d20" | "3d6" | "4dF", "add": "<meter id>", "vs": n, "results": { "fail": {…}, "success": {…}, "style": {…} } }`. Each result is `{ "effects", "then" }`. `ose` reads `fail`/`success` (meet or beat `vs`). `fate4df` reads `fail` (below `vs`), `tie` (equal, falls back to `fail` if absent), `success`, `style` (`vs` + 3 or more, falls back to `success`).
 - `input`: `{ "field": "public", "prompt": "…", "max": 140 }`. The player types; the text goes to that card field. Simulation fills it with `"(typed)"`. No condition may read a field that an `input` writes; `validate` rejects it, because typed text cannot be explored.
 
-**Conditions** (`when`, `lock`, `route`): `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
+**Conditions** (`when`, `lock`, `route`): `{ "tally": "lens", "value": "machine", "gte": 1 }` (also `lte`; a count of one value), `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
 
 **Effects**: `{ "flag": "x" }`, `{ "set": { "field": "value" } }`, `{ "meter": "fate", "add": -1 }`, `{ "tally": "lens", "add": "hymn" }`.
 
@@ -124,7 +124,7 @@ Positions are fractions of the stage. Each kit defines its primitives in section
 
 ### theme.json
 
-Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
+Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`; `validate` checks that both themes define every one. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
 
 ### cast.json
 
@@ -143,7 +143,8 @@ game.reveal()          // reveal the current beat if it is a reveal
 game.input(text)       // answer an input option
 game.back()            // review one beat back; undoes the last pick only if its gate was plan
 game.save()            // → JSON string
-Stage.replay(pack, route) // → a game played through a route; a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
+Stage.replay(pack, route, { seed, upTo }) // → a game played through a route (or its first `upTo` choices); a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
+Stage.create(pack, { seed, force: ['fail', …] }) // `force` steers the next rolls to the given results, in order
 Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachable: [ids], locked: [ids] }
 Stage.validate(pack)   // → [error strings]
 ```
@@ -152,7 +153,7 @@ Stage.validate(pack)   // → [error strings]
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
-**Cues.** Each step returns `cues`, a list the view plays in order. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
+**Cues.** Each step returns `cues`, a list the view plays in order. A cue is an object with a `type` (the names below) and its fields: `turn {dir}`, `roll {dice, faces, total, add, vs, result, used}` (`used` is the result table read after the tie and style fallbacks), `cost`/`gain {meter, n}`, `tally {id, value}`. Within one step the order is: `seal`, `tear`, `roll`, `cost`/`gain`, `tally`, then `turn` or `shift`, then `ink`/`bloom`. `ink` and `bloom` fire on entering a scene and whenever a beat's effective look differs from the previous beat's, not on every beat; a revealed beat always fires `ink`. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
 
 | Cue | Fires when | Means, and nothing else |
 |-----|-----------|-------------------------|
@@ -171,11 +172,11 @@ Stage.validate(pack)   // → [error strings]
 
 **Layout** (one screen, after Neon On-Call): top bar (title, endings found, AUTO/STEP, settings, help) · HUD (meters, the Lens tally, the card button) · stage (the kit draws the set; text panels slide over it) · deck (back, a hint line, next). It works at 360 × 640 and up, with no page scroll; long text scrolls inside its panel.
 
-**Text.** Text types out at 28 ms a character. A tap finishes the line; the next tap goes on. Screen readers get the whole line at once through one polite live region, never a character at a time.
+**Text.** Text types out at 28 ms a character, and a beat never takes longer than 4 s to type (the rate rises for long beats). A tap finishes the line; the next tap goes on. Screen readers get the whole line at once through one polite live region, never a character at a time.
 
 **Commentary track.** Under the text panel, one line in the commentary voice when the beat has a `comment`. A toggle in settings hides it. ⓘ chips open the notes sheet at that note.
 
-**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, commentary, sound, AUTO speed).
+**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2).
 
 **Film mode.** AUTO plays beats like a film and stops at every choice, roll, input and reveal.
 
