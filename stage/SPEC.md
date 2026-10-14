@@ -56,6 +56,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
   "commentary": { "label": "How the module DMs", "kinds": ["dm", "rule"] } }
 ```
 
+- A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
 - `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
 - `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values; a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
@@ -163,7 +164,7 @@ Stage.validate(pack)   // → [error strings]
 | `bloom` | A beat with look `paint` comes into view | Witnessed or public |
 | `seal` | An `exec` or `fate` pick is made | The choice is final |
 | `roll` (`dice`, `faces`, `total`) | A roll resolves | The dice decide |
-| `cost` / `gain` (`meter`, `n`) | A meter goes down / up | Consequence |
+| `cost` / `gain` (`meter`, `n`) | A meter goes down / up; reversed for a meter marked `bad` (stress rising is a `cost`) | Consequence |
 | `tear` | A Fate point is spent | Player authority used |
 | `tally` (`id`, `value`) | A tally changes | The player's reading of the world changes (the Lens pull-tab) |
 | `close` | An ending is reached | The story stops |
@@ -217,7 +218,7 @@ StageKit.register("paper", {
 
 | Run | Expect |
 |-----|--------|
-| `node stage/tools/validate.mjs stage/packs/<id>` | `OK <id>` |
+| `node stage/tools/validate.mjs stage/packs/<id>` | `OK <id>`. While a pack has no `cast.json` yet, unknown speakers are warnings, so a script can be finished before its cast art |
 | `node --test stage/engine/test.mjs` | `# fail 0` |
 | `node stage/tools/sim.mjs stage/packs/<id>` | Every ending reached; no unreachable scene, beat or note |
 | `node stage/tools/build.mjs stage/packs/<id>` for every pack, then `node stage/test.mjs` | `PASS` |
