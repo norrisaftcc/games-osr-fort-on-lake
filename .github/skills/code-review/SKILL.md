@@ -13,19 +13,19 @@ The rules come from `AGENTS.md` and `campaign/SPINE.md`. Cite the file and line 
 
 | Check | What to look for |
 |-------|------------------|
-| IP | Any proper name, room key, read-aloud, map or NPC from the 1977 Basic sample dungeon or from module B2. Names include Zenopus, Portown, Thalagram, Lemunda, Keep on the Borderlands, Caves of Chaos, Shrine of Evil Chaos, Castellan, Bree-yark. Also anything from Mentzer's or Moldvay's Basic books or the 1983 solo modules beyond structure. Structure is fine; expression is not. |
+| IP | Any proper name, room key, read-aloud, map or NPC from the 1977 Basic sample dungeon or from module B2. Names include Zenopus, Portown, Thalagram, Lemunda, Keep on the Borderlands, Caves of Chaos, Shrine of Evil Chaos, Castellan, Bree-yark. Also anything from Mentzer's or Moldvay's Basic books or the 1983 solo modules beyond structure. Structure is fine; expression is not. **Exempt:** naming the glossed source in a module's front matter as homage (`campaign/SPINE.md:32`), and the forbidden-name lists themselves (`campaign/SPINE.md`, `generator/test.mjs`, `intro/test.mjs`, this file), which are safeguards. |
 | The Sleeper | The word "Sleeper", or anything that reveals it, in text a player reads. "Lintel" must not reach players either. |
 | Halcyon | Naming Halcyon is allowed. Keying it (rooms, maps, contents) is not. |
 | The Gorgon Queen | She was paralysed by a cockatrice chick's cry. "Turned to stone" is wrong. |
 | The Terminal | It never speaks as a mind: no "I", no feelings, no "I see you". It shows hymns, lists, dates, counts and one instruction. |
 | The Brush | A machine element pushed past brush depth without the player choosing it (the Lens, or a pull-tab). |
 | Pinned numbers | A number that disagrees with a pin in `campaign/SPINE.md` (Fate starts at 3; OSE stat lines; giant rats 120' (40'), swim 60' (20')). |
-| Privacy | Anything from the user's Year Two DM or Player Guide, family details, or mail. |
+| Privacy | The Year Two DM Guide or Player Guide documents themselves (whole sections, pasted pages), family details, or mail. **Allowed:** the canon the spine already summarises (`AGENTS.md`, "Where canon comes from"; `campaign/SPINE.md`, *Year Two Canon*), and changes to it. |
 | Network | Any external script, style, font or image in a page that must open from disk (`intro/`, `demo/`, `crawler/`, `stage/`). |
 
 ## The Stage (`stage/`)
 
-The contract is `stage/SPEC.md`. Where code and spec disagree, the code is wrong, unless the PR also changes the spec and records it in `stage/PLAN.md`'s change log.
+This section applies once `stage/` lands (PR #7). It is not the crawler; do not review it against `crawler/SPEC.md`. The contract is `stage/SPEC.md`. Where code and spec disagree, the code is wrong, unless the PR also changes the spec and records it in `stage/PLAN.md`'s change log.
 
 - A pack never names a motion. Only the engine picks cues (SPEC §3).
 - Every cue has a reduced-motion end state. Animations use only `transform` and `opacity`.
