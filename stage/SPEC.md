@@ -10,7 +10,7 @@ The model for the production value is *Neon On-Call* (team-ycbbb, `spooks/neon-o
 
 ```
 stage/
-  SPEC.md  PLAN.md  README.md
+  SPEC.md  PLAN.md  MOTION.md  README.md
   engine/stage.js        rules only: state, conditions, effects, dice, cues, simulate. No DOM.
   engine/test.mjs        node --test, no browser
   ui/index.html          the shell, with @style @pack @engine @view @kit markers
@@ -21,13 +21,14 @@ stage/
   tools/build.mjs        node stage/tools/build.mjs stage/packs/<id> → stage/dist/<id>.html
   tools/validate.mjs     schema and reference checks; prints OK <id>
   tools/sim.mjs          walks every path; prints endings and unreachable nodes
-  packs/test/            a fixture that uses every feature, both kits
+  packs/test/            a fixture that uses every feature, paper kit
+  packs/test-feed/       the same fixture in the feed kit and fate4df
   packs/magic-module/    the OSR pack: the elf cleric
   test.mjs               Playwright, every built pack
   dist/                  built files (committed, as in crawler/)
 ```
 
-The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `test.mjs` and `packs/test/` byte for byte into `arcade/stage/`, with a `check-vendor.mjs` like the crawler's. Its own pack is `arcade/stage/packs/dead-drop/`.
+The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, `test.mjs`, `packs/test/` and `packs/test-feed/` byte for byte into `arcade/stage/`, with a `check-vendor.mjs` like the crawler's. Its own pack is `arcade/stage/packs/dead-drop/`.
 
 ## 2. A pack
 
@@ -141,9 +142,11 @@ game.reveal()          // reveal the current beat if it is a reveal
 game.input(text)       // answer an input option
 game.back()            // review one beat back; undoes the last pick only if its gate was plan
 game.save()            // → JSON string
-Stage.simulate(pack, { seed }) // → { paths, endings: { id: count }, unreachable: [ids], locked }
+Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachable: [ids], locked: [ids] }
 Stage.validate(pack)   // → [error strings]
 ```
+
+**Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that some condition reads (flags, fields, tallies, meters named in any `when`, `lock` or `route`). Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes every roll result as a branch and fills inputs with `"(typed)"`. `routes` is one representative path (a list of option keys and roll results) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options and endings never reached; `locked` lists options that some route sees locked.
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
@@ -180,6 +183,21 @@ Stage.validate(pack)   // → [error strings]
 **Kit: paper** (the pop-up book). Primitives: `spread` (the two-page ground), `vfold` (rises from the gutter), `parallel` (a platform that lifts flat), `tunnel` (three to five layered planes; tilt moves them), `flap` (lifts on `reveal`, shows `under`), `pulltab` (slides a second layer out; bound to a tally value), `volvelle` (a wheel that turns on `roll`), `ticket` (tears on `tear`), `plate` (a framed image; `look` paint blooms it, `ink` draws it). `turn` is a page turn. `ink` draws SVG strokes on (stroke-dashoffset). `bloom` is a warm wash and lamplight.
 
 **Kit: feed** (the Algorithm's view). Primitives: `frame` (a camera frame with timestamp and channel), `track` (a box that follows a cast face with a label and confidence), `scan` (a sweep line), `log` (scrolling machine lines), `redact` (bars that lift on `reveal`), `plate`. `turn` is a hard cut with a channel change. `ink` is a redaction lifting. `bloom` is the frame coming into focus.
+
+**The kit interface.** A kit draws the stage layer behind the text. The view owns the text, the HUD and the sheets. A kit registers itself:
+
+```js
+StageKit.register("paper", {
+  mount(root, { pack, assets, reduced }) {},  // once; root is the stage element
+  show(setId, set, { instant }) {},           // build or swap the set's layers
+  cue(cue, { scene, beat, reduced }) {},      // play one cue; returns a Promise that resolves when it ends (at once if reduced)
+  tick(t) {},                                 // optional, per frame; returns true while anything moves
+  card(scene) {},                             // returns an HTML string: the scene's title card
+  destroy() {}
+});
+```
+
+`assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue finishes it at once.
 
 **Reduced motion.** Under `prefers-reduced-motion: reduce` every cue jumps to its end state, text appears whole, and nothing loops. Every primitive has a static end state that reads correctly.
 

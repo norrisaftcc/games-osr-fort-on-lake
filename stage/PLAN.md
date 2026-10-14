@@ -89,3 +89,4 @@ Waves 1 and 2 run as two workflows of five and four agents. Wave 3 runs after th
 ## Change log
 
 - 2026-10-14: frozen.
+- 2026-10-14, before wave 1: `simulate` projects state onto the keys conditions read, because the cleric's paths cannot all be walked. Added the kit interface, `MOTION.md` (the motion agent writes it in the repo; the lead publishes it to Blueline) and a second fixture, `packs/test-feed`.
