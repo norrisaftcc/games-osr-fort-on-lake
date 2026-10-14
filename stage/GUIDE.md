@@ -192,7 +192,7 @@ Every note text is **60 words or fewer**. A note has a `kind` and a `term`. `com
 - Put the mechanical effect in `sub`, in plain words: "2d6 + Luck vs 8".
 - `roll` gives `fail` and `success` in `ose`. In `fate4df` it gives `fail`, `tie`, `success` and `style`. Give each result its own `effects` and `then`. A roll with no consequence is not a roll.
 - A `fate` group needs `cost`: `{ "meter": "fate", "n": 1 }`. Make a `lock` with a `hint` for the option the player cannot afford, so they see why.
-- Spend the first Fate pick in a scene that teaches it. Give the player something they could not have done by luck.
+- Check your Fate meter against the setting's pin (the OSR pack starts at 3 of 6). Spend the first Fate pick in a scene that teaches it. Give the player something they could not have done by luck.
 
 ## 8. Sets and kits
 
@@ -257,6 +257,8 @@ Run these before you hand off. Paths shown for the Fort repository; HTLL prefixe
 | `node --test stage/engine/test.mjs` | `# fail 0` | You changed the engine or a fixture. Stop. Engine changes need a spec change |
 | `node stage/tools/sim.mjs stage/packs/<id>` | Every ending reached; no unreachable scene, beat or note | A `when` that no path can satisfy; a route with no fallback; an option set no path picks; a note nothing cites; a roll tier the dice cannot reach (4dF + 0 against 2 has no `style`) |
 | `node stage/tools/build.mjs stage/packs/<id>` for every pack, then `node stage/test.mjs` | `PASS` | See below |
+
+**What `sim` explores.** It does not walk every path. It splits states only on what changes behaviour: keys read by a `when`, `lock` or `route`, a roll's `add`, and a group's `cost`. A flag nobody reads costs nothing. It returns one replayable *route* for each distinct state that reaches an ending: steps like `{ "opt": "b", "result": "success" }`. `Stage.replay(pack, route)` plays a route and forces the roll tier. `test.mjs` and the Verify sheet play routes, not every path. If a beat is wrongly "unreachable", the condition reads a key the pack never sets.
 
 When `test.mjs` fails:
 
