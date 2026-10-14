@@ -10,7 +10,7 @@ The model for the production value is *Neon On-Call* (team-ycbbb, `spooks/neon-o
 
 ```
 stage/
-  SPEC.md  PLAN.md  MOTION.md  README.md
+  SPEC.md  PLAN.md  MOTION.md  GUIDE.md  README.md
   engine/stage.js        rules only: state, conditions, effects, dice, cues, simulate. No DOM.
   engine/test.mjs        node --test, no browser
   ui/index.html          the shell, with @style @pack @engine @view @kit markers
@@ -28,7 +28,7 @@ stage/
   dist/                  built files (committed, as in crawler/)
 ```
 
-The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, `test.mjs`, `packs/test/` and `packs/test-feed/` byte for byte into `arcade/stage/`, with a `check-vendor.mjs` like the crawler's. Its own pack is `arcade/stage/packs/dead-drop/`.
+The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, `GUIDE.md`, `test.mjs`, `packs/test/` and `packs/test-feed/` byte for byte into `arcade/stage/`, with a `check-vendor.mjs` like the crawler's. Its own pack is `arcade/stage/packs/dead-drop/`.
 
 ## 2. A pack
 
@@ -52,14 +52,15 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
   "storageKey": "fort-stage.magic-module",
   "meters": [ { "id": "fate", "label": "Fate", "min": 0, "max": 6, "start": 3, "hud": true } ],
   "fields": [ { "id": "lens", "label": "The Lens", "side": "front" } ],
-  "tallies": [ "lens" ],
+  "tallies": { "lens": ["hymn", "machine"] },
   "commentary": { "label": "How the module DMs", "kinds": ["dm", "rule"] } }
 ```
 
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
 - `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL.
-- `fields` are the card the player carries away. `tallies` are counters a choice can add to (the Lens: hymn, machine).
-- `commentary.kinds` lists the note kinds the commentary track shows.
+- `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values; a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
+- `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
+- **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
 
 ### script.json
 
@@ -85,14 +86,14 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 
 **Scene**: `id`, `title`, `place`, `look`, `set`, `beats`, `choices` (zero or more groups, played in order after the beats), and one of `next` (a scene id), `ending` (an ending id) or `route` (a list of `{ "when": cond, "to": id }`, first match wins, last entry has no `when`).
 
-**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (lines shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
+**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (an array of strings shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
 
 **Choice group**: `key`, `ask`, `gate`, optional `cost` (`{ "meter": "fate", "n": 1 }`, only with gate `fate`), `notes` and `comment` (as on a beat; shown with the ask, before the player commits), `options`.
 
-**Option**: `key`, `label`, optional `sub` (the mechanical effect in plain words: shown under the label), `when` (hidden when false; `lock` instead of `when` shows it greyed with its `hint`), `effects`, `then` (beats played after the pick), `to` (leave the scene now), `roll`, `input`.
+**Option**: `key`, `label`, optional `sub` (the mechanical effect in plain words: shown under the label), `when` (hidden when false), `lock` with `hint` (greyed while the condition is false, with the hint shown), `effects`, `then` (beats played after the pick), `to` (leave the scene now: a scene id or an ending id), `roll`, `input`.
 
 - `gate` is `plan`, `exec` or `fate`. A `plan` pick can be changed by going back. An `exec` or `fate` pick cannot. This is the Planning/Execution gate; the view shows it, and the first `exec` group in a pack must carry a `rule` note in its `notes` that teaches it (`validate` checks this).
-- `roll`: `{ "dice": "2d6" | "1d20" | "3d6" | "4dF", "add": "<meter or field id>", "vs": n, "results": { "fail": {…}, "success": {…}, "style": {…} } }`. Each result is `{ "effects", "then" }`. `ose` reads `fail`/`success` (meet or beat `vs`). `fate4df` reads `fail` (below `vs`), `tie` (equal, falls back to `fail` if absent), `success`, `style` (`vs` + 3 or more, falls back to `success`).
+- `roll`: `{ "dice": "2d6" | "1d20" | "3d6" | "4dF", "add": "<meter id>", "vs": n, "results": { "fail": {…}, "success": {…}, "style": {…} } }`. Each result is `{ "effects", "then" }`. `ose` reads `fail`/`success` (meet or beat `vs`). `fate4df` reads `fail` (below `vs`), `tie` (equal, falls back to `fail` if absent), `success`, `style` (`vs` + 3 or more, falls back to `success`).
 - `input`: `{ "field": "public", "prompt": "…", "max": 140 }`. The player types; the text goes to that card field. Simulation fills it with `"(typed)"`. No condition may read a field that an `input` writes; `validate` rejects it, because typed text cannot be explored.
 
 **Conditions** (`when`, `lock`, `route`): `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
@@ -147,7 +148,7 @@ Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachabl
 Stage.validate(pack)   // → [error strings]
 ```
 
-**Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that change behaviour: those read by any `when`, `lock` or `route`, by a roll's `add`, and by a group's `cost`. Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes as a branch every roll result the dice can reach from the current modifier (4dF + 0 against 2 cannot reach `style`) and fills inputs with `"(typed)"`. `routes` is one representative path (a list of steps: `{ "opt": "a" }`, `{ "opt": "b", "result": "success" }`, `{ "input": "(typed)" }`) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options and endings never reached; `locked` lists options that some route sees locked.
+**Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that change behaviour: those read by any `when`, `lock` or `route`, by a roll's `add`, and by a group's `cost`. Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes as a branch every roll result the dice can reach from the current modifier (4dF + 0 against 2 cannot reach `style`) and fills inputs with `"(typed)"`. `routes` is one representative path (a list of steps: `{ "opt": "a" }`, `{ "opt": "b", "result": "success" }`, `{ "input": "(typed)" }`) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options, endings and notes never reached (a note is reached when a reached beat or group names it); `locked` lists options that some route sees locked.
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
@@ -182,7 +183,7 @@ Stage.validate(pack)   // → [error strings]
 
 **Keys.** → Space Enter: next. ←: back. 1–9: pick. R: reveal. N: notes. C: card. V: verify. H or ?: help. Esc: close a sheet. A: AUTO. All controls are buttons with labels; targets are 44 px or larger.
 
-**Kit: paper** (the pop-up book). Primitives: `spread` (the two-page ground), `vfold` (rises from the gutter), `parallel` (a platform that lifts flat), `tunnel` (three to five layered planes; tilt moves them), `flap` (lifts on `reveal`, shows `under`), `pulltab` (slides a second layer out; bound to a tally value), `volvelle` (a wheel that turns on `roll`), `ticket` (tears on `tear`), `plate` (a framed image; `look` paint blooms it, `ink` draws it). `turn` is a page turn. `ink` draws SVG strokes on (stroke-dashoffset). `bloom` is a warm wash and lamplight.
+**Kit: paper** (the pop-up book). Primitives: `spread` (the two-page ground), `vfold` (rises from the gutter), `parallel` (a platform that lifts flat), `tunnel` (three to five layered planes; tilt moves them), `flap` (lifts on `reveal`, shows `under`), `pulltab` (slides a second layer out when the tally named by its `tally` property leads with its `value`, e.g. `{ "prim": "pulltab", "tally": "lens", "value": "machine" }`), `volvelle` (a wheel that turns on `roll`), `ticket` (tears on `tear`), `plate` (a framed image; `look` paint blooms it, `ink` draws it). `turn` is a page turn. `ink` draws SVG strokes on (stroke-dashoffset). `bloom` is a warm wash and lamplight.
 
 **Kit: feed** (the Algorithm's view). Primitives: `frame` (a camera frame with timestamp and channel), `track` (a box that follows a cast face with a label and confidence), `scan` (a sweep line), `log` (scrolling machine lines), `redact` (bars that lift on `reveal`), `plate`. `turn` is a hard cut with a channel change. `ink` is a redaction lifting. `bloom` is the frame coming into focus.
 
