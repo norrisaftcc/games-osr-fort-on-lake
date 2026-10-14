@@ -108,7 +108,7 @@ The DM's hex map, *The Fort Country* (1 hex = 6 miles, art rule: Otus ink), fixe
 
 The fishing village lies one day east of the map. Hexes without a key line: roll d8 for texture and d8 for encounters (tables in the Year Two DM Guide; see **Year Two Canon** below). The Year Two DM Guide is the authority on every hex. Modules may name Halcyon, the B.I.A. and the Court as it defines them, but must not key Halcyon or spoil **the Sleeper** in anything a player reads.
 
-**Map style for module maps:** match this sheet. Black ink on cream paper, no blue. Small-caps serif title rule, "DM COPY" and scale in the top right, keyed areas as white numerals in black circles, a plain legend. Otus ink: dense, hand-feeling linework.
+**Map style for module maps:** match this sheet. Black ink on cream paper, no blue. On screen (the Stage), a reader may toggle maps to Blueline blue; black on cream stays the default and the print style. Small-caps serif title rule, "DM COPY" and scale in the top right, keyed areas as white numerals in black circles, a plain legend. Otus ink: dense, hand-feeling linework.
 
 ---
 
