@@ -18,6 +18,7 @@ A B/X teaching campaign set around **The Fort on the Lake**, a post-imperial fro
 | `intro/` | **Fort Cards**: Badge Zero–style solo intros for the three Year Two PCs. All their choices are made here. |
 | `dm/Year_Two_First_Session_The_Hum.md` | Year Two's first session: the humming milestone, the hunter's map, the outflow tunnel. Stops at Halcyon's door. |
 | `crawler/` | **The Crawler**: a first-person party crawler for phones. One engine, a view, and data packs; `packs/drowned-tower` plays Module 2 (canon-bound: its pinned facts are checked on screen). Pure JS, no libraries. Contract: `crawler/SPEC.md`. |
+| `stage/` | **The Stage** (in build): a motion visual-novel engine and packs; `packs/magic-module` plays the elf cleric as a pop-up module that runs the game. Contract: `stage/SPEC.md`; plan: `stage/PLAN.md`. |
 | `beta/` | The superseded pre-split setting document. Keep it; do not edit it. |
 
 ## Where canon comes from
@@ -39,7 +40,7 @@ Canon marked **ASSUMED** in the DM Guide (the basilisk is dead; Petra is restore
 - **The Gorgon Queen.** A cockatrice chick's cry paralysed her. She was not "turned to stone". The cockatrice is **Biddy**; Wick keeps her.
 - **Stat blocks.** The full OSE line (AC, HD with pre-rolled hp, Att, THAC0, MV with encounter rate, SV, ML, XP), then **one line of 5e note** in the spine's format. Use OSE values; giant rats move 120' (40'), swim 60' (20').
 - **The gate.** Planning (talk, look, maps: no dice, no time) and Execution (dice and consequences, which cannot be undone). Teach it the first time it matters.
-- **Art.** Two looks, named in each entry: Elmore (colour) for characters, monsters and hero scenes; Otus (black-and-white ink) for interiors, machines, maps and handouts. Maps are black ink on cream, to match the hex sheet.
+- **Art.** Two looks, named in each entry: Elmore (colour) for characters, monsters and hero scenes; Otus (black-and-white ink) for interiors, machines, maps and handouts. Maps are black ink on cream, to match the hex sheet. On screen, the Stage offers a toggle to Blueline blue; black on cream stays the default.
 - **Science fantasy.** Name the machine side plainly: a ward is a sensor eye and a spell at once; a hymn is a protocol.
 - **Puzzles** have a rule players can discover by trying, give feedback, and never block the game. A Fate point or Cassandra gives one hint.
 - **The Brush.** Year Two tests whether the players want science fiction. Old machines appear at the edge and can be left alone; the player chooses whether to read them as hymn or machine (the Fort Card's **Lens**). Every machine element in a session has a *brush* depth and a *lean in* depth. Do not push past brush unless the players ask.
