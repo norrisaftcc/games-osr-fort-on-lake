@@ -59,7 +59,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 - A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
 - `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
-- `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values; a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
+- `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
 
@@ -189,7 +189,7 @@ Stage.validate(pack)   // → [error strings]
 
 **Kit: feed** (the Algorithm's view). Primitives: `frame` (a camera frame with timestamp and channel), `track` (a box that follows a cast face with a label and confidence), `scan` (a sweep line), `log` (scrolling machine lines), `redact` (bars that lift on `reveal`), `plate`. `turn` is a hard cut with a channel change. `ink` is a redaction lifting. `bloom` is the frame coming into focus.
 
-**The kit interface.** A kit draws the stage layer behind the text. The view owns the text, the HUD and the sheets. A kit registers itself:
+**The kit interface.** A kit draws the stage layer behind the text. The view owns the text, the HUD and the sheets. `ui/index.html` defines the `StageKit` registry in a small inline script before the kit loads. A kit registers itself:
 
 ```js
 StageKit.register("paper", {
@@ -204,7 +204,7 @@ StageKit.register("paper", {
 });
 ```
 
-`assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue calls `finish()`.
+Optional hooks: `setMap(style)` (the reader changed the map style) and `screen(lines)` (draw a beat's `screen` in the set; without it the view draws the lines in the text panel). The view calls `show()` before the `turn` or `shift` cue that reveals the new set, so the kit can lay it under the old one, then `update(state)` after the cues. `assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue calls `finish()`.
 
 **Reduced motion.** Under `prefers-reduced-motion: reduce` every cue jumps to its end state, text appears whole, and nothing loops. Every primitive has a static end state that reads correctly.
 
