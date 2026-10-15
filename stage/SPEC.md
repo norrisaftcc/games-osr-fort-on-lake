@@ -59,7 +59,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 - A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
 - `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
-- `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
+- `fields` are the card the player carries away; `side` is `front` (the default) or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
 
@@ -87,7 +87,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 
 **Scene**: `id`, `title`, `place`, `look`, `set`, `beats`, `choices` (zero or more groups, played in order after the beats), and one of `next` (a scene id), `ending` (an ending id) or `route` (a list of `{ "when": cond, "to": id }`, first match wins, last entry has no `when`).
 
-**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (an array of strings shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
+**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (a non-empty array of strings shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
 
 **Choice group**: `key`, `ask`, `gate`, optional `cost` (`{ "meter": "fate", "n": 1 }`, only with gate `fate`), `notes` and `comment` (as on a beat; shown with the ask, before the player commits), `options`.
 
@@ -125,7 +125,7 @@ Positions are fractions of the stage. Each kit defines its primitives in section
 
 ### theme.json
 
-Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`; `validate` checks that both themes define every one. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
+Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`, in the block TOKENS THE SHELL READS; `validate` checks that both themes define every one. In that block, a row `a | b` is one token under either name (define one of them); `x, y` names separate tokens (define each); a row marked optional is not checked. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
 
 ### cast.json
 
@@ -137,7 +137,7 @@ Two themes, `light` and `dark`, each a map of custom-property names (without `--
 
 ```js
 const game = Stage.create(pack, { seed: 42, save: null });
-game.view()            // → { node, scene, beat, group, options, meters, fields, tallies, flags, cues, canBack }
+game.view()            // → { node, scene, beat, group, options, meters, fields, tallies, flags, cues, canBack }; scene.look and beat.look are the effective look
 game.next()            // advance one beat; at a choice group, does nothing
 game.choose(optKey)    // pick an option in the current group; returns view()
 game.reveal()          // reveal the current beat if it is a reveal
@@ -147,14 +147,15 @@ game.save()            // → JSON string
 Stage.replay(pack, route, { seed, upTo }) // → a game played through a route (or its first `upTo` choices); a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
 Stage.create(pack, { seed, force: ['fail', …] }) // `force` steers the next rolls to the given results, in order
 Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachable: [ids], locked: [ids] }
-Stage.validate(pack)   // → [error strings]
+Stage.validate(pack, warnings) // → [error strings]; warnings, if given, is an array that receives warning strings
+Stage.check(pack)      // → { errors, warnings }
 ```
 
 **Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that change behaviour: those read by any `when`, `lock` or `route`, by a roll's `add`, and by a group's `cost`. Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes as a branch every roll result the dice can reach from the current modifier (4dF + 0 against 2 cannot reach `style`) and fills inputs with `"(typed)"`. `routes` is one representative path (a list of steps: `{ "opt": "a" }`, `{ "opt": "b", "result": "success" }`, `{ "input": "(typed)" }`) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options, endings and notes never reached (a note is reached when a reached beat or group names it); `locked` lists options that some route sees locked.
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
-**Cues.** Each step returns `cues`, a list the view plays in order. A cue is an object with a `type` (the names below) and its fields: `turn {dir}`, `roll {dice, faces, total, add, vs, result, used}` (`used` is the result table read after the tie and style fallbacks), `cost`/`gain {meter, n}`, `tally {id, value}`. Within one step the order is: `seal`, `tear`, `roll`, `cost`/`gain`, `tally`, then `turn` or `shift`, then `ink`/`bloom`. `ink` and `bloom` fire on entering a scene and whenever a beat's effective look differs from the previous beat's, not on every beat; a revealed beat always fires `ink`. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
+**Cues.** Each step returns `cues`, a list the view plays in order. A cue is an object with a `type` (the names below) and its fields: `turn {dir}`, `roll {dice, faces, total, add, vs, result, used}` (`used` is the result table read after the tie and style fallbacks), `cost`/`gain {meter, n}`, `tally {id, value}`. Within one step the order is: `seal`, `tear`, `roll`, `cost`/`gain`, `tally`, then `turn` or `shift`, then `ink`/`bloom`. `ink` and `bloom` fire on entering a scene and whenever a beat's effective look differs from the previous beat's, not on every beat; a revealed beat always fires `ink`, and the ink stays: the next beat compares its look with `ink`, so a paint beat after a reveal blooms again. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
 
 | Cue | Fires when | Means, and nothing else |
 |-----|-----------|-------------------------|
