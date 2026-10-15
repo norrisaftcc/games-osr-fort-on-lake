@@ -2,25 +2,32 @@
    One camera frame with a channel and a clock, boxes on faces, a scan line, a log, redaction bars and framed plates.
 
    How the picture is laid out
-   - The frame's art is drawn in a "cam": a box with the art's own aspect, scaled to cover the stage (like object-fit: cover).
-     The cam is anchored so that the art's focus line (frame.focus, default y 0.30) sits 30 percent down the stage. The text panel
-     covers the lower stage on a phone, so a set keeps what matters in the top third of its art.
+   - The frame's art is drawn in a "cam": a box with the art's own aspect. Its scale is cover (like object-fit: cover) unless
+     the x span of what must be seen (every track and plate in the cam, with half their widths, and any log or redaction bar
+     placed in the cam) is wider than the stage; then it scales down until the span fits, and the ground colour fills what the
+     art no longer covers. The cam is centred on that span (on frame.focus[0] when there is none) and anchored so that the
+     art's focus line (frame.focus[1], default y 0.30) sits 30 percent down the stage. The text panel covers the lower stage
+     on a phone, so a set keeps what matters in the top third of its art.
    - Tracks live in the cam (x, y, w are fractions of the art), so a box stays on its face at every size. Logs, redaction bars,
      plates and the frame chrome (channel, clock, rule) live in stage space. A layer takes "space": "cam" or "stage" to override.
+     A box (track or plate) is never made taller than the room above and below its centre; a plate in the stage space is w of
+     the stage's shorter side wide.
    - Art is SVG, injected inline so it reads the theme. An svg with class="ink" on its root styles itself with the classes below
-     (s, h, b, a, m, f0 to f3, fk, fa, fl, q0, q1, q2); any other svg keeps the colours it carries.
-     A raster file is an <img>.
+     (s, h, b, a, m, f0 to f3, fk, fa, fl, q0, q1, q2); any other svg keeps the colours it carries. The kit removes script,
+     foreignObject, every on* attribute and every href that does not start with #. A raster file is an <img>.
 
    Layer properties (all optional unless marked; x, y, w, h are fractions)
      frame   art (path), channel, view, time ("06:47:12"), status (a centred chip, "NO SIGNAL"), static (noise over the art),
              file (the art carries data-band borders for the exposure bands), focus [x, y] (the art point to anchor), aspect
      track   cast (id), x, y, w; label (text) or bind (a field) with labels (field value to text); conf (a number, false to
-             hide, default 26 + 12 x exposure); face false (no portrait, a bare box); labelAt "below"; tiltOn "roll"
+             hide) or confs (field value to number, for a bound track; wins over the formula) and otherwise 26 + 12 x exposure;
+             face false (no portrait, a bare box); labelAt "below"; tiltOn "roll"
              (the box tilts by --m-tilt toward the first other track when a roll fails or ties)
              A person with no x, y and r in cast.json draws as a staticky VIDEO FEED DISABLED box. A person's `alt` list
              ({ when: { field, is }, x, y, r }) swaps the crop while the field matches.
      log     lines (strings, or { t, red: true } for a line under a bar), on (the cues that print a line: seal, roll, cost,
-             gain, tear, ink), x or right, y, w (a limit), modLabel (the roll's modifier name), keep (the beat's screen lines stay)
+             gain, tear, ink), x or right, y, w (a limit), max (rows kept, default 8), modLabel (the roll's modifier name),
+             keep (the beat's screen lines stay)
      redact  text (the caption under the bar), x, y, w, h, space, opensOn "reveal" | "none", over "track" (the bar covers
              that track's name field)
      plate   cast (id) or art, x, y, w, space, desat "exposure"
@@ -37,9 +44,26 @@
    update(state) restores every state-bound visual in both directions: focus (look), boxes (exposure), labels (identity),
    redactions (revealed), the file border and plate (exposure bands). It does this in update() only, so forward cues still animate.
    Nothing here is animated except transform and opacity. Timings come from --m-* tokens; colours from --st-* tokens.
-   Under reduced motion (the media query, or <html data-motion="calm">) no animate() is called and the end state shows at once. */
+   Under reduced motion (the media query, or <html data-motion="calm">) no animate() is called and the end state shows at once.
+   The clock counts on a one-second timer (cleared when hidden, reduced or closed); tick() returns false: nothing moves per frame. */
 (function () {
+
 "use strict";
+// Art is ours, but it is inlined, so clean it the same way in both kits: no script, no foreign HTML, no links, no
+// handlers, no href that leaves the file, and no SMIL element that could set one.
+function cleanSvg(root) {
+  root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+  root.querySelectorAll("set,animate,animateTransform,animateMotion").forEach(n => {
+    const a = (n.getAttribute("attributeName") || "").toLowerCase();
+    if (a === "href" || a === "xlink:href" || a.startsWith("on")) n.remove();
+  });
+  root.querySelectorAll("a").forEach(a => a.replaceWith(...a.childNodes));
+  for (const n of [root, ...root.querySelectorAll("*")]) for (const at of [...n.attributes]) {
+    const nm = (at.localName || at.name).toLowerCase();
+    if (nm.startsWith("on") || (nm === "href" && !/^#/.test(at.value))) n.removeAttribute(at.name);
+  }
+  return root;
+}
 const docEl = document.documentElement;
 const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || docEl.getAttribute("data-motion") === "calm";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -136,6 +160,7 @@ const CSS = `
 @keyframes k-sweep{from{transform:translateY(0);opacity:.15}to{transform:translateY(100%);opacity:.15}}
 html[data-cue] .k-idle,html[data-cue] .k-sweep.on,html[data-hidden] .k-idle,html[data-hidden] .k-sweep.on{animation-play-state:paused}
 .k-stop .k-sweep.on{animation:none;opacity:0}
+.k-stop .k-idle{animation:none}
 
 .k-band{position:absolute;left:0;right:0;overflow:hidden;z-index:2;pointer-events:none}
 .k-end{position:absolute;inset:0;pointer-events:none;z-index:5}
@@ -160,7 +185,8 @@ let S = { meters: {}, fields: {}, tallies: {}, flags: {}, look: "", revealed: fa
 let focusOn = false;       // the look on show: true is paint (sharp), false is ink (soft)
 let locked = false, closed = false, closedFresh = false;
 let cueSeq = 0, stoppedSeq = -1;
-const clock = { base: 0, acc: 0, last: 0 };
+const clock = { base: 0, acc: 0 };
+let timer = 0, mq = null, mo = null;
 const svgCache = new Map();
 
 // ---------------------------------------------------------------- helpers
@@ -222,7 +248,7 @@ function artNode(path) {
         const d = new DOMParser().parseFromString(decodeSvg(uri), "image/svg+xml");
         if (!d.querySelector("parsererror")) {
           root = d.documentElement;
-          root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+          cleanSvg(root);
           root.removeAttribute("width"); root.removeAttribute("height");
           root.setAttribute("preserveAspectRatio", "xMidYMid slice");
           root.setAttribute("aria-hidden", "true"); root.setAttribute("focusable", "false");
@@ -403,14 +429,53 @@ function buildPlate(K, l) {
 }
 
 // ---------------------------------------------------------------- layout
-const PAD = 30; // the shell's place line covers the top of the stage; the art starts below it
+const PAD = 30;    // the shell's place line covers the top of the stage; the art starts below it
+const EDGE = 10;   // the room kept between what must be seen and the stage edge
+const spaceOf = l => l.space || (l.prim === "track" ? "cam" : "stage");
+// The x range (fractions of the art) that must stay on screen: every track and plate in the cam, with half their widths,
+// and any log or redaction bar placed in the cam. Null when the set has none.
+function spanOf(K) {
+  let lo = Infinity, hi = -Infinity;
+  const add = (a, b) => { lo = Math.min(lo, a); hi = Math.max(hi, b); };
+  for (const T of K.tracks) { const x = frac(T.layer.x, 0.5), w = frac(T.layer.w, 0.12); add(x - w / 2, x + w / 2); }
+  for (const P of K.plates) if (spaceOf(P.layer) === "cam") { const x = frac(P.layer.x, 0.5), w = frac(P.layer.w, 0.3); add(x - w / 2, x + w / 2); }
+  for (const R of K.redacts) if (spaceOf(R.layer) === "cam" && !R.over) { const x = frac(R.layer.x, 0.5), w = frac(R.layer.w, 0.5); add(x - w / 2, x + w / 2); }
+  for (const L of K.logs) if (spaceOf(L.layer) === "cam") {
+    const w = L.layer.w != null ? L.layer.w : 0.62;
+    if (L.layer.right != null) add(1 - L.layer.right - w, 1 - L.layer.right); else add(frac(L.layer.x, 0.02), frac(L.layer.x, 0.02) + w);
+  }
+  return hi > lo ? [lo, hi] : null;
+}
+// The art is drawn in a cam of its own aspect. The scale is cover (like object-fit) unless the span that must be seen is
+// wider than the stage; then the cam shrinks until the span fits, and the ground colour shows where the art ends. The cam
+// is centred on the span (on the focus point when there is none) and sits so that the focus line is FOCAL down the stage.
 function layout(K) {
   if (!K || !host) return;
   const W = host.clientWidth || 360, H = host.clientHeight || 392, Hs = Math.max(1, H - PAD), a = K.aspect;
-  const cw = Math.max(W, Hs * a), ch = cw / a;
-  const left = clamp(W * 0.5 - cw * K.focus[0], W - cw, 0), top = PAD + clamp(Hs * FOCAL - ch * K.focus[1], Hs - ch, 0);
+  const sp = spanOf(K);
+  let cw = Math.max(W, Hs * a), cx = K.focus[0];
+  if (sp) {
+    cx = (sp[0] + sp[1]) / 2;
+    const room = Math.max(1, W - 2 * EDGE);
+    if ((sp[1] - sp[0]) * cw > room) cw = room / (sp[1] - sp[0]);
+  }
+  const ch = cw / a;
+  const left = cw >= W ? clamp(W * 0.5 - cw * cx, W - cw, 0) : (W - cw) / 2;
+  const top = PAD + clamp(Hs * FOCAL - ch * K.focus[1], Math.min(0, Hs - ch), 0);
   Object.assign(K.wrap.style, { left: left + "px", top: top + "px", width: cw + "px", height: ch + "px" });
   K.geo = { W, H, cw, ch, left, top };
+  // A square box (a track, or a plate) is never taller than the room above and below its centre. A track or a plate in
+  // the cam is w of the cam wide; a plate in the stage is w of the stage's shorter side wide.
+  const fit = (el, cy, want) => {
+    const side = 2 * Math.min(cy - (PAD + 6), H - 6 - cy);
+    el.style.width = (side > 0 && side < want ? side : want) + "px";
+  };
+  for (const T of K.tracks) fit(T.el, top + frac(T.layer.y, 0.3) * ch, frac(T.layer.w, 0.12) * cw);
+  for (const P of K.plates) {
+    const l = P.layer;
+    if (spaceOf(l) === "cam") fit(P.el, top + frac(l.y, 0.5) * ch, frac(l.w, 0.3) * cw);
+    else fit(P.el, frac(l.y, 0.5) * H, frac(l.w, 0.3) * Math.min(W, H));
+  }
   placeLabels(K);
 }
 // Labels sit above their boxes, inside the stage, each within the band between its neighbours so they never overlap.
@@ -420,7 +485,7 @@ function placeLabels(K) {
   const cxOf = T => g.left + frac(T.layer.x, 0.5) * g.cw;
   const order = [...K.tracks].sort((a, b) => cxOf(a) - cxOf(b));
   order.forEach((T, i) => {
-    const l = T.layer, bw = frac(l.w, 0.12) * g.cw, cx = cxOf(T);
+    const l = T.layer, bw = T.el.offsetWidth || frac(l.w, 0.12) * g.cw, cx = cxOf(T);
     const bandL = i > 0 ? (cxOf(order[i - 1]) + cx) / 2 + 2 : 12, bandR = i < order.length - 1 ? (cx + cxOf(order[i + 1])) / 2 - 2 : g.W - 12;
     const lw = Math.max(96, Math.min(230, bandR - bandL, g.W - 24));
     const want = clamp(cx - lw / 2, bandL, Math.max(bandL, bandR - lw));
@@ -433,10 +498,15 @@ function placeLabels(K) {
 }
 
 // ---------------------------------------------------------------- state-bound looks (the end states)
-// Confidence is 26 + 12 x exposure, capped at 99 (exposure 1, the start, reads 38). A layer can fix it with a number.
+// Confidence, in order: a number on the layer (conf); the layer's confs table, keyed by the bound field's value (the script
+// prints those numbers, so they win); then 26 + 12 x exposure, capped at 99 (exposure 1, the start, reads 38).
 const confOf = (K, T) => {
   const l = T.layer;
   if (typeof l.conf === "number") return l.conf;
+  if (l.bind && l.confs && typeof l.confs === "object") {
+    const v = String((K.st.fields || {})[l.bind] || "");
+    if (Object.prototype.hasOwnProperty.call(l.confs, v) && Number.isFinite(Number(l.confs[v]))) return clamp(Number(l.confs[v]), 0, 99);
+  }
   if (meterDefs.exposure) return clamp(26 + 12 * (K.expo || 0), 0, 99);
   return 90;
 };
@@ -510,7 +580,26 @@ function resetClock(K, scene) {
   let base = K && K.time != null ? K.time : clock.base;
   const m = scene && scene.place ? /(\d\d):(\d\d)\s*$/.exec(scene.place) : null;
   if (m) base = (+m[1]) * 3600 + (+m[2]) * 60 + (K && K.time != null ? K.time % 60 : 0);
-  clock.base = base; clock.acc = 0; clock.last = 0;
+  clock.base = base; clock.acc = 0;
+}
+// The clock counts whole seconds on a one-second timer, not on the frame loop. It runs only while the feed is open, the page
+// is visible and motion is on; any other time the timer is cleared (and syncTimer() restarts it when that changes).
+function unhook() {
+  stopTimer();
+  document.removeEventListener("visibilitychange", syncTimer);
+  if (mq) { try { mq.removeEventListener("change", syncTimer); } catch (e) {} mq = null; }
+  if (mo) { try { mo.disconnect(); } catch (e) {} mo = null; }
+}
+const clockWanted = () => !!cur && !closed && !document.hidden && !redNow();
+function stopTimer() { if (timer) { clearInterval(timer); timer = 0; } }
+function syncTimer() {
+  if (!clockWanted()) { stopTimer(); return; }
+  if (timer) return;
+  timer = setInterval(() => {
+    if (!clockWanted()) { stopTimer(); return; }
+    clock.acc += 1000;
+    setClock(cur);
+  }, 1000);
 }
 function restartSweeps(K) {
   for (const s of K.scans) { s.sweep.style.animation = "none"; void s.sweep.offsetWidth; s.sweep.style.animation = ""; }
@@ -562,6 +651,12 @@ const kit = {
     host.appendChild(endEl);
     const relayout = () => { layout(cur); if (pend) { layout(pend.next); layout(pend.old); } };
     if (window.ResizeObserver) { ro = new ResizeObserver(relayout); ro.observe(host); } else window.addEventListener("resize", relayout);
+    // the clock timer follows the page: hidden, reduced motion and Calm stop it
+    unhook();
+    document.addEventListener("visibilitychange", syncTimer);
+    try { mq = window.matchMedia("(prefers-reduced-motion: reduce)"); mq.addEventListener("change", syncTimer); } catch (e) { mq = null; }
+    try { mo = new MutationObserver(syncTimer); mo.observe(docEl, { attributes: true, attributeFilter: ["data-motion"] }); } catch (e) { mo = null; }
+    syncTimer();
   },
 
   show(id, set, o) {
@@ -583,6 +678,7 @@ const kit = {
       cur = next; pend = old ? { next, old } : null;
       if (!old) next.el.style.opacity = "";
     }
+    syncTimer();
   },
 
   update(state) {
@@ -595,24 +691,28 @@ const kit = {
     applyAll(cur, S);
     cur.el.style.transform = closed ? "scaleY(.002)" : "";
     endEl.classList.toggle("k-closed", closed);
+    syncTimer();
   },
 
   cue(c, o) {
     const red = (o && o.reduced) || redNow();
     skipNow = !!(o && o.reduced);
     const seq = ++cueSeq;
+    let p;
     switch (c.type) {
-      case "turn": return cueTurn(o, red, seq);
-      case "shift": return cueShift(red);
-      case "ink": return cueInk(o, red);
-      case "bloom": return cueBloom(red);
-      case "seal": return cueSeal(red);
-      case "roll": return cueRoll(c, red);
-      case "cost": case "gain": return cueMeter(c, red);
-      case "tear": return cueTear(red);
-      case "close": return cueClose(red);
-      default: return Promise.resolve(); // tally: this kit has none
+      case "turn": p = cueTurn(o, red, seq); break;
+      case "shift": p = cueShift(red); break;
+      case "ink": p = cueInk(o, red); break;
+      case "bloom": p = cueBloom(red); break;
+      case "seal": p = cueSeal(red); break;
+      case "roll": p = cueRoll(c, red); break;
+      case "cost": case "gain": p = cueMeter(c, red); break;
+      case "tear": p = cueTear(red); break;
+      case "close": p = cueClose(red); break;
+      default: p = Promise.resolve(); // tally: this kit has none
     }
+    syncTimer();
+    return p;
   },
 
   // A tap during a cue: every animation jumps to its end, a pending swap completes, and the cue's Promise resolves now.
@@ -651,14 +751,13 @@ const kit = {
     }
   },
 
-  // Ambient: the clock counts whole seconds. The drift and the sweep are CSS animations (paused while a cue plays and
-  // while the page is hidden, absent under reduced motion). Returns true while the clock should keep counting.
-  tick(t) {
-    if (!cur || redNow() || document.hidden || closed) return false;
-    const dt = clock.last ? Math.min(100, t - clock.last) : 0;
-    clock.last = t; clock.acc += dt;
-    setClock(cur);
-    return true;
+  // Ambient: nothing here moves per frame. The drift and the sweep are CSS animations (paused while a cue plays and while the
+  // page is hidden, absent under reduced motion and when the feed is closed); the clock counts on its own one-second timer.
+  // So tick() only makes sure the timer is right (the shell calls it once on a cue, also when hidden or reduced) and returns
+  // false, which lets the shell stop its frame loop.
+  tick() {
+    syncTimer();
+    return false;
   },
 
   card(scene) {
@@ -671,6 +770,7 @@ const kit = {
 
   destroy() {
     if (ro) { try { ro.disconnect(); } catch (e) {} ro = null; }
+    unhook();
     if (host) host.innerHTML = "";
     if (styleEl && styleEl.parentNode) styleEl.remove();
     styleEl = null; endEl = null; active.clear(); cur = pend = act = null;
@@ -835,15 +935,21 @@ function cueTear(red) {
   return track(Promise.all(ps), () => bandEl.remove());
 }
 
-// close: the frame collapses to a line, and the line is labelled.
+// close: the frame collapses to a line, and the line is labelled. The line and its caption fade in while the frame collapses,
+// all in one Promise.all, so the cue ends with the collapse (--m-close) and a tap on it reaches every animation.
 function cueClose(red) {
   const K = cur; if (!K) return Promise.resolve();
   closed = true; closedFresh = true;
   K.el.classList.add("k-stop");
-  K.el.style.transform = "scaleY(.002)"; // the end state, as the element's own style
-  const end = () => endEl.classList.add("k-closed");
-  if (red) { end(); return Promise.resolve(); }
-  return track(run(K.el, [{ transform: "none", offset: 0 }], tk.close, tk.easeIn).then(() => run(endEl, [{ opacity: 0, offset: 0 }], tk.state, tk.easeOut)), end);
+  K.el.style.transform = "scaleY(.002)"; // the end states are the elements' own styles
+  endEl.classList.add("k-closed");
+  if (red) return Promise.resolve();
+  const line = endEl.querySelector(".k-endline"), cap = endEl.querySelector(".k-endcap");
+  return track(Promise.all([
+    run(K.el, [{ transform: "none", offset: 0 }], tk.close, tk.easeIn),
+    run(line, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.55 }], tk.close, tk.easeOut),
+    run(cap, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.4 }], tk.close, tk.easeOut),
+  ]));
 }
 
 window.StageKit.register("feed", kit);
