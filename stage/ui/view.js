@@ -109,7 +109,7 @@ const V = {
   settings: null, found: new Set(), extraMet: new Set(), seen: new Set(),
   shown: { meters: {}, high: {}, tallies: {} }, setId: null,
   slide: null, typing: null, cueBusy: false, ctx: null, waiters: new Set(),
-  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false,
+  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false, force: [],
   lastFlash: -1e9, sealed: false, rollEl: null, sim: null, simAt: 0, rafId: 0, dragX: 0, dragY: 0, restartT: null,
 };
 const SPEED = { slow: 1.6, normal: 1, fast: 0.6 };
@@ -840,7 +840,7 @@ function begin(cont) {
   const seed = V.seedPending;
   let save = null;
   if (cont && canContinue()) save = V.rec.save;
-  try { V.game = Stage.create(PACK, { seed, save }); } catch (e) { console.error(e); announce("This story could not start."); return; }
+  try { V.game = Stage.create(PACK, { seed, save, force: V.force.slice() }); } catch (e) { console.error(e); announce("This story could not start."); return; }
   V.view = V.game.view();
   V.seen = new Set(); V.sealed = false; V.rollEl = null; V.cueBusy = false;
   V.seedPending = V.view.seed;
@@ -1238,6 +1238,9 @@ function boot() {
   try {
     const q = new URLSearchParams(location.search).get("seed");
     if (q != null && q !== "" && Number.isFinite(Number(q))) { V.seedPending = Math.floor(Number(q)) >>> 0; V.seedFixed = true; }
+    // ?force=fail,success steers the next rolls to those result tiers, in order (the browser test uses it). Like ?seed=, it fixes the run, so Continue is off.
+    const f = new URLSearchParams(location.search).get("force");
+    if (f != null && f !== "") { V.force = f.split(",").map(x => x.trim()).filter(x => ["fail", "tie", "success", "style"].includes(x)); V.seedFixed = true; }
   } catch (e) {}
   if (PACK.cast && PACK.cast.sheet && ASSETS[PACK.cast.sheet]) root.style.setProperty("--cast-sheet", `url("${ASSETS[PACK.cast.sheet]}")`);
   applySettings();

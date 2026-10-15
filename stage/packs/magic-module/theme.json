@@ -65,7 +65,13 @@
     "font-display": "\"Alegreya SC\", \"Alegreya\", Georgia, serif",
     "font-ui": "\"Alegreya Sans\", \"Gill Sans\", \"Trebuchet MS\", sans-serif"
   },
-  "fonts": [],
+  "fonts": [
+    { "family": "Alegreya", "file": "fonts/alegreya-400.woff2", "weight": 400, "style": "normal" },
+    { "family": "Alegreya", "file": "fonts/alegreya-400-italic.woff2", "weight": 400, "style": "italic" },
+    { "family": "Alegreya", "file": "fonts/alegreya-700.woff2", "weight": 700, "style": "normal" },
+    { "family": "Alegreya Sans", "file": "fonts/alegreya-sans-400.woff2", "weight": 400, "style": "normal" },
+    { "family": "Alegreya Sans", "file": "fonts/alegreya-sans-700.woff2", "weight": 700, "style": "normal" }
+  ],
   "mapStyles": [
     "ink",
     "blueline"
