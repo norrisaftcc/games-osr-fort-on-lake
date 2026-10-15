@@ -24,6 +24,8 @@ The Stage plays a solo story as a motion picture. The engine is fixed; a pack is
 - The first `exec` group carries a `rule` note in its own `notes` that teaches Planning and Execution. Teach each rule the first time it matters.
 - Every note is 60 words or fewer. One idea per beat. Plain words (see `AGENTS.md`, House style).
 - No condition may read a field that an `input` writes.
+- A meter that hurts as it rises (stress, exposure) takes `"bad": true`.
+- Every `speaker` has a `cast.json` entry once the file exists. A person with no face circle gets the kit's placeholder (Chen's VIDEO FEED DISABLED box).
 - `look` decides the cue: `ink` is unwitnessed or secret, `paint` is witnessed. It is not the art style.
 
 ## OSR canon checklist

@@ -58,7 +58,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 
 - A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
-- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
+- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL; the usual key is `fort-stage.<id>` here and `htll.stage.<id>` there. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
 - `fields` are the card the player carries away; `side` is `front` (the default) or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
@@ -125,7 +125,7 @@ Positions are fractions of the stage. Each kit defines its primitives in section
 
 ### theme.json
 
-Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`, in the block TOKENS THE SHELL READS; `validate` checks that both themes define every one. In that block, a row `a | b` is one token under either name (define one of them); `x, y` names separate tokens (define each); a row marked optional is not checked. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
+Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`, in the block TOKENS THE SHELL READS; `validate` checks that both themes define every one. In that block, a row `a | b` is one token under either name (define one of them); `x, y` names separate tokens (define each); a row marked optional is not checked. A kit that reads a new token adds a row. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
 
 ### cast.json
 
@@ -178,7 +178,7 @@ Stage.check(pack)      // → { errors, warnings }
 
 **Commentary track.** Under the text panel, one line in the commentary voice when the beat has a `comment`. A toggle in settings hides it. ⓘ chips open the notes sheet at that note.
 
-**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2).
+**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2). Calm sets `<html data-motion="calm">` (Full sets `"full"`). Kits get a `reduced` flag in `mount()` and `cue()` only; in `show()`, `update()` and `tick()` they read the attribute or the media query. Each Verify row also has a Last pick button: it replays the route to its final choice (`upTo`).
 
 **Film mode.** AUTO plays beats like a film and stops at every choice, roll, input and reveal.
 

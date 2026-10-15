@@ -40,26 +40,26 @@ Everything lives in `stage/packs/<id>/` (HTLL: `arcade/stage/packs/<id>/`).
 
 | File | Holds | Required | You usually get wrong |
 |------|-------|----------|-----------------------|
-| `pack.json` | Identity, `kit`, `resolver`, `start`, `storageKey`, meters, card `fields`, `tallies`, `commentary` | Yes | `storageKey` prefix (`fort-stage.` here, `htll.` in HTLL) |
+| `pack.json` | Identity, `kit`, `resolver`, `start`, `storageKey`, meters, card `fields`, `tallies`, `commentary` | Yes | `storageKey` (`fort-stage.<id>` here, `htll.stage.<id>` in HTLL) |
 | `script.json` | Scenes, beats, choice groups, endings | Yes | A scene with none of `next`, `ending`, `route` |
 | `notes.json` | Every ⓘ note and every commentary line | Yes | A note over 60 words; a note nothing uses |
 | `sets.json` | Each set: a kit and its layers | Yes | A set a scene names but the file lacks |
 | `theme.json` | `light` and `dark` token maps, `fonts`, `mapStyles` | Yes | Text below 4.5:1 in one theme |
-| `cast.json` | One cast sheet and a face circle per speaker | No | A `speaker` with no entry |
+| `cast.json` | One cast sheet and a face circle per speaker | No | A `speaker` with no entry (a warning until the file exists, then an error). A person with no circle gets the kit's placeholder |
 | `art/` | SVG, JPEG, WebP | No | A path in `sets.json` with no file |
 | `fonts/` | WOFF2 and their licence | No | A font with no licence |
 | `NOTES.md` | Plan, sources, canon pins, what the pack teaches, what you cut | Yes | Writing it last |
 
 ### A minimal pack that passes `validate`
 
-Start by copying `packs/test` (paper) or `packs/test-feed` (feed). This is the smallest shape: one scene, one plan group, one exec group, one note, one set. The theme here is abridged; take the full token list from the fixture.
+Start by copying `packs/test` (paper) or `packs/test-feed` (feed). This is the smallest shape: one scene, one plan group, one exec group, one note, one set.
 
 `pack.json`
 ```json
 { "id": "tiny", "title": "Tiny", "subtitle": "One room", "kit": "paper", "resolver": "ose",
   "start": "s1", "storageKey": "fort-stage.tiny",
   "meters": [ { "id": "luck", "label": "Luck", "min": 0, "max": 3, "start": 1, "hud": true } ],
-  "fields": [], "tallies": [],
+  "fields": [], "tallies": {},
   "commentary": { "label": "How the module DMs", "kinds": ["rule"] } }
 ```
 
@@ -69,11 +69,11 @@ Start by copying `packs/test` (paper) or `packs/test-feed` (feed). This is the s
     "look": "ink", "set": "room",
     "beats": [
       { "text": "A door, a lamp and a *cold* draught.", "kicker": "DAY ONE" },
-      { "text": "Dust on the floor shows one set of prints.", "when": { "flag": "looked" } },
       { "text": "The latch is stiff. Look first, or break it now." } ],
     "choices": [
       { "key": "c1", "ask": "What do you do first?", "gate": "plan", "options": [
-          { "key": "a", "label": "Look at the floor", "sub": "No dice, no time", "effects": [ { "flag": "looked" } ] },
+          { "key": "a", "label": "Look at the floor", "sub": "No dice, no time", "effects": [ { "flag": "looked" } ],
+            "then": [ { "text": "Dust on the floor shows one set of prints." } ] },
           { "key": "b", "label": "Wait and listen", "sub": "No dice, no time" } ] },
       { "key": "c2", "ask": "Force the latch?", "gate": "exec", "notes": ["gate"], "options": [
           { "key": "a", "label": "Force it", "sub": "2d6 + Luck vs 8", "roll": { "dice": "2d6", "add": "luck", "vs": 8,
@@ -95,12 +95,16 @@ Start by copying `packs/test` (paper) or `packs/test-feed` (feed). This is the s
 { "room": { "kit": "paper", "layers": [ { "prim": "spread", "art": "art/room.svg" } ] } }
 ```
 
-`theme.json`
+`theme.json` (the fixture's tokens; every row in the header of `ui/style.css`)
 ```json
-{ "light": { "paper": "#f4efe3", "ink": "#1b1b1b", "tint-1": "#e6dfce", "tint-2": "#cfc7b4", "plate-gold": "#c9a24b" },
-  "dark":  { "paper": "#15171c", "ink": "#ece6d6", "tint-1": "#20232b", "tint-2": "#2d313c", "plate-gold": "#d8b45e" },
+{ "light": { "bg": "#F2EAD3", "panel": "#EAE0C4", "card": "#E3D7B5", "line": "#C9BB98", "ink": "#1B1712", "ink-soft": "#4F4638",
+             "muted": "#5F5646", "accent": "#7A2E1C", "lamp": "#7A4806", "good": "#285E33", "bad": "#9A2A1C" },
+  "dark":  { "bg": "#14120F", "panel": "#1C1914", "card": "#26221A", "line": "#3A3428", "ink": "#E9E0C9", "ink-soft": "#C9BFA8",
+             "muted": "#A89E8A", "accent": "#D0704E", "lamp": "#E0A24A", "good": "#7FC48A", "bad": "#E67A66" },
   "fonts": [], "mapStyles": ["ink", "blueline"] }
 ```
+
+A meter that hurts as it rises (stress, exposure) takes `"bad": true`, so its rises play as `cost` and its falls as `gain`. A group's `cost` may not name a bad meter.
 
 Then `NOTES.md` (the plan, section 2). Check: `node stage/tools/validate.mjs stage/packs/tiny` prints `OK tiny`.
 
@@ -138,7 +142,7 @@ The engine picks the cue from your data. Packs never name a motion. That is why 
 |-----|-----------------|----------------------------|
 | `turn` | A scene change | Time passes |
 | `shift` | A beat with `set` | The same moment, a new view |
-| `ink` | A beat or scene with `look: "ink"`, or a `reveal` beat | Unwitnessed or secret |
+| `ink` | A beat or scene with `look: "ink"`, or a `reveal` beat; only when the look changes. After a reveal the ink holds, so the next paint beat blooms again | Unwitnessed or secret |
 | `bloom` | A beat, scene or ending with `look: "paint"` | Witnessed or public |
 | `seal` | Picking an `exec` or `fate` option | The choice is final |
 | `roll` | An option with `roll` | The dice decide |
@@ -152,7 +156,7 @@ The engine picks the cue from your data. Packs never name a motion. That is why 
 | "I want the flap to open here." Mark the beat `reveal: true`. The `flap` opens on `ink`. | Add a custom `open` animation to the layer. |
 | "A page should turn when they reach the cellar." Make the cellar a new scene. | Fake a turn with a long `shift`. |
 | "The Fate ticket should tear." Make the option `gate: "fate"` with a `cost`. | Name a `tear` effect in the script. |
-| "Make the Lens tab slide." Add the `pulltab` layer to the set. The `lens` tally moves it. | Add a `glow` to invite the pull. The machine side is left alone unless the player asks. |
+| "Make the Lens tab slide." Add the `pulltab` layer to the set and bind it: `{ "prim": "pulltab", "tally": "lens", "value": "machine" }`. It slides when that value leads. | Add a `glow` to invite the pull. The machine side is left alone unless the player asks. |
 | "Shake the screen when they fail." Put the cost in `effects`. `cost` flashes once. | Shake. There is no shake. |
 
 If you need a motion the table lacks, stop and ask for a spec change. Do not hide one in a set.
@@ -196,7 +200,7 @@ Every note text is **60 words or fewer**. A note has a `kind` and a `term`. `com
 
 ## 8. Sets and kits
 
-A kit is a module that draws the stage layer behind the text. It registers itself with `StageKit.register(name, { mount, show, update, cue, finish, tick, card, destroy })`. The view owns the text, HUD and sheets. A kit gets a set (`show`, with the current `state`), plays a cue and returns a Promise when it ends, and draws the scene's title card. `update(state)` runs after every step and restores layers bound to state (the pull-tab) after back, load or save. `finish()` jumps the active cue to its end state and resolves its Promise now: it is what a tap calls. It reads durations and easings from the `--m-*` tokens and never hard-codes them. Under reduced motion every cue jumps to its end state. Details: SPEC §4, MOTION.md.
+A kit is a module that draws the stage layer behind the text. It registers itself with `StageKit.register(name, { mount, show, update, cue, finish, tick, card, destroy })`. The view owns the text, HUD and sheets. A kit gets a set (`show`, with the current `state`), plays a cue and returns a Promise when it ends, and draws the scene's title card. `update(state)` runs after every step and restores layers bound to state (the pull-tab) after back, load or save. `finish()` jumps the active cue to its end state and resolves its Promise now: it is what a tap calls. It reads durations and easings from the `--m-*` tokens and never hard-codes them. Under reduced motion, or the Calm setting (`<html data-motion="calm">`), every cue jumps to its end state. `show`, `update` and `tick` get no `reduced` flag, so a kit that animates there reads the attribute. A kit that reads a new theme token adds a row to the token header of `ui/style.css`, or `validate` will not check it. Details: SPEC §4, MOTION.md.
 
 **Kit `paper`** (pop-up book). A set is a list of layers, each `{ "prim", "art", ... }`, with positions as fractions of the stage.
 

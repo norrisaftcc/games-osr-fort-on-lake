@@ -114,7 +114,7 @@ The shell and kits read these. They never hard-code a timing. **Source** says wh
 [data-cue] .m-idle, html[data-hidden] .m-idle { animation-play-state: paused; }
 ```
 
-**How code reads them.** Durations are in `ms`, so `parseFloat(getComputedStyle(root).getPropertyValue("--m-in"))` gives a number. Read once, in `mount()`. Kits animate with the Web Animations API: `el.animate([{ from }], { duration, easing, fill: "backwards" })`. Easing is the token string as it stands. Set the end state as the element's own style first. The one keyframe then animates to it. `anim.finished` is the Promise `cue()` returns; `anim.finish()` is the tap. Under reduced motion do not call `animate` at all. The CSS block above is only a net. If the Settings sheet gains a Motion toggle (see the report), the view sets `<html data-motion="calm">` and the block is repeated under that selector. The view also sets `data-cue` while a cue plays and `data-hidden` while the page is hidden.
+**How code reads them.** Durations are in `ms`, so `parseFloat(getComputedStyle(root).getPropertyValue("--m-in"))` gives a number. Read once, in `mount()`. Kits animate with the Web Animations API: `el.animate([{ from }], { duration, easing, fill: "backwards" })`. Easing is the token string as it stands. Set the end state as the element's own style first. The one keyframe then animates to it. `anim.finished` is the Promise `cue()` returns; `anim.finish()` is the tap. Under reduced motion do not call `animate` at all. The CSS block above is only a net. The Settings sheet has a Motion setting, Full or Calm (WCAG 2.2.2). Calm sets `<html data-motion="calm">`, and the block is repeated under that selector. `mount()` and `cue()` get a `reduced` flag; `show()`, `update()` and `tick()` do not, so a kit that animates there reads the attribute. The view also sets `data-cue` while a cue plays and `data-hidden` while the page is hidden.
 
 ## 3. The cues
 
@@ -136,7 +136,7 @@ Each entry names what moves in the **Shell** (HUD, text, hint line) and in each 
 - **Paper.** SVG strokes draw on (`stroke-dashoffset` to 0) over `--m-ink`, `--m-ease-out`. A `flap` with `opensOn: "reveal"` opens (`--m-flap`) over the same time. The beat sits on `tint-1` with the label "Referee only" (Blueline: secrets live in shade).
 - **Feed.** A `redact` bar lifts (`translateY` out of frame) over `--m-ink`. The tag "Unwitnessed" stays.
 - **Shell.** The tag fades in over `--m-state`. A reveal beat's text waits for the player's R or tap.
-- **End.** Strokes complete, flap open, bar gone, tag shown. **Reduced.** The same, at once.
+- **End.** Strokes complete, flap open, bar gone, tag shown. The ink holds: after a reveal, the next paint beat blooms again. **Reduced.** The same, at once.
 - **Sound.** Triangle 520 Hz, 0.12 s, gain .02 (chosen).
 
 ### bloom: witnessed or public
