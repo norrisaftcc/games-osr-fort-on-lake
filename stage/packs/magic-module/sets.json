@@ -3,7 +3,23 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/cover-ground.svg"
+      },
+      {
+        "prim": "plate",
+        "art": "art/cover-plate.svg",
+        "look": "paint",
+        "x": 0.5,
+        "y": 0.3,
+        "w": 0.74
+      },
+      {
+        "prim": "vfold",
+        "art": "art/cover-spine.svg",
+        "x": 0.5,
+        "y": 0.56,
+        "w": 0.74
       }
     ]
   },
@@ -11,7 +27,41 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/chamber-ground.svg"
+      },
+      {
+        "prim": "vfold",
+        "art": "art/chamber-eyes.svg",
+        "x": 0.33,
+        "y": 0.27,
+        "w": 0.6
+      },
+      {
+        "prim": "parallel",
+        "art": "art/chamber-hands.svg",
+        "x": 0.33,
+        "y": 0.47,
+        "w": 0.55
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/chamber-wire.svg",
+        "x": 0.77,
+        "y": 0.15,
+        "w": 0.26,
+        "opensOn": "reveal"
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/chamber-ward.svg",
+        "under": "art/chamber-glass.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.74,
+        "y": 0.36,
+        "w": 0.26
       }
     ]
   },
@@ -19,7 +69,49 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/pen-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/pen-yard.svg",
+        "x": 0.34,
+        "y": 0.4,
+        "w": 0.62
+      },
+      {
+        "prim": "vfold",
+        "art": "art/pen-door.svg",
+        "x": 0.21,
+        "y": 0.24,
+        "w": 0.34
+      },
+      {
+        "prim": "plate",
+        "art": "art/pen-stone.svg",
+        "look": "paint",
+        "x": 0.5,
+        "y": 0.22,
+        "w": 0.21
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/pen-touch.svg",
+        "x": 0.77,
+        "y": 0.15,
+        "w": 0.26,
+        "opensOn": "reveal"
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/pen-bell.svg",
+        "under": "art/pen-rings.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.74,
+        "y": 0.36,
+        "w": 0.26
       }
     ]
   },
@@ -28,6 +120,23 @@
     "layers": [
       {
         "prim": "spread"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/terminal-arch.svg",
+        "art2": "art/terminal-frame.svg",
+        "art3": "art/terminal-plinth.svg",
+        "art4": "art/terminal-keys.svg",
+        "x": 0.5,
+        "y": 0.27,
+        "w": 0.92
+      },
+      {
+        "prim": "vfold",
+        "art": "art/terminal-glass.svg",
+        "x": 0.5,
+        "y": 0.24,
+        "w": 0.3
       }
     ]
   },
@@ -36,6 +145,39 @@
     "layers": [
       {
         "prim": "spread"
+      },
+      {
+        "prim": "plate",
+        "art": "art/glass-frame.svg",
+        "look": "ink",
+        "x": 0.5,
+        "y": 0.24,
+        "w": 0.96,
+        "screen": {
+          "x": 0.0545,
+          "y": 0.16,
+          "w": 0.65,
+          "h": 0.68
+        }
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/glass-key.svg",
+        "x": 0.77,
+        "y": 0.15,
+        "w": 0.26,
+        "opensOn": "reveal"
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/glass-breath.svg",
+        "under": "art/glass-cursor.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.74,
+        "y": 0.35,
+        "w": 0.26
       }
     ]
   },
@@ -43,7 +185,25 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/breaths-ground.svg"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/terminal-arch.svg",
+        "art2": "art/breaths-door.svg",
+        "art3": "art/breaths-terminal.svg",
+        "x": 0.5,
+        "y": 0.27,
+        "w": 0.92
+      },
+      {
+        "prim": "plate",
+        "art": "art/breaths-tally.svg",
+        "look": "ink",
+        "x": 0.5,
+        "y": 0.45,
+        "w": 0.32
       }
     ]
   },
@@ -51,7 +211,52 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/plinth-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/plinth-floor.svg",
+        "x": 0.5,
+        "y": 0.43,
+        "w": 0.92
+      },
+      {
+        "prim": "vfold",
+        "art": "art/plinth-keepers.svg",
+        "x": 0.6,
+        "y": 0.21,
+        "w": 0.46
+      },
+      {
+        "prim": "volvelle",
+        "art": "art/plinth-wheel.svg",
+        "x": 0.19,
+        "y": 0.21,
+        "w": 0.32,
+        "range": [
+          2,
+          12
+        ]
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/plinth-stations.svg",
+        "x": 0.18,
+        "y": 0.55,
+        "w": 0.28,
+        "opensOn": "reveal"
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/plinth-prayer.svg",
+        "under": "art/plinth-protocol.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.73,
+        "y": 0.475,
+        "w": 0.22
       }
     ]
   },
@@ -59,7 +264,30 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/muster-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/muster-yard.svg",
+        "x": 0.5,
+        "y": 0.47,
+        "w": 0.92
+      },
+      {
+        "prim": "vfold",
+        "art": "art/muster-maren.svg",
+        "x": 0.45,
+        "y": 0.26,
+        "w": 0.8
+      },
+      {
+        "prim": "plate",
+        "art": "art/muster-pen.svg",
+        "look": "paint",
+        "x": 0.86,
+        "y": 0.4,
+        "w": 0.24
       }
     ]
   },
@@ -67,7 +295,33 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/wall-ground.svg"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/wall-far.svg",
+        "art2": "art/wall-mid-far.svg",
+        "art3": "art/wall-mid.svg",
+        "art4": "art/wall-near.svg",
+        "x": 0.5,
+        "y": 0.28,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/wall-cassandra.svg",
+        "x": 0.52,
+        "y": 0.333,
+        "w": 0.18
+      },
+      {
+        "prim": "ticket",
+        "art": "art/wall-ticket.svg",
+        "meter": "fate",
+        "x": 0.86,
+        "y": 0.13,
+        "w": 0.24
       }
     ]
   },
@@ -75,7 +329,22 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/road-ground.svg"
+      },
+      {
+        "prim": "vfold",
+        "art": "art/road-terminal.svg",
+        "x": 0.5,
+        "y": 0.22,
+        "w": 0.62
+      },
+      {
+        "prim": "parallel",
+        "art": "art/road-kit.svg",
+        "x": 0.5,
+        "y": 0.43,
+        "w": 0.94
       }
     ]
   },
@@ -83,7 +352,34 @@
     "kit": "paper",
     "layers": [
       {
-        "prim": "spread"
+        "prim": "spread",
+        "art": "art/milestone-ground.svg"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/milestone-sky.svg",
+        "art2": "art/milestone-fields.svg",
+        "art3": "art/milestone-well.svg",
+        "art4": "art/milestone-road.svg",
+        "art5": "art/milestone-mist.svg",
+        "x": 0.5,
+        "y": 0.28,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/milestone-stone.svg",
+        "x": 0.36,
+        "y": 0.36,
+        "w": 0.2
+      },
+      {
+        "prim": "plate",
+        "art": "art/milestone-cassandra.svg",
+        "look": "paint",
+        "x": 0.62,
+        "y": 0.34,
+        "w": 0.2
       }
     ]
   }
