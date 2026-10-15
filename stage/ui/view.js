@@ -11,10 +11,16 @@
 
    Kit notes for wave 2:
      - Call order is show() then cue(): for `turn` and `shift` the kit gets the new set first and animates the swap in cue().
+       After the step's last cue the shell calls update(state); it also calls update(state) after back, load, Continue and a Verify replay.
+     - A tap during a cue calls the kit's finish(): jump the active cue to its end state and resolve its Promise now.
      - A kit element that should react to a tap must be a <button> or carry data-kit-hit; any other tap on the stage is "go on".
-     - The shell skips `ink` and `bloom` when the look has not changed and the set has not changed (a no-op), except a reveal.
-     - Map style: <html data-map="ink|blueline"> and a window "stage:map" event; a kit may also define setMap(style).
-     - A beat's `screen` lines are drawn by the shell in the text panel (the kit interface has no call for them).
+     - The engine sends `ink` and `bloom` only when the look changes (and `ink` on a reveal). The shell plays every cue it is given.
+     - Map style: <html data-map="ink|blueline"> and a window "stage:map" event; the shell also calls setMap(style) if the kit has it.
+     - A beat's `screen` lines: the shell calls screen(lines) if the kit has it (and screen([]) when no beat shows one),
+       and then keeps a screen-reader copy only. Without it the shell draws the lines in the text panel.
+     - Motion: <html data-motion="full|calm">. Calm behaves exactly as prefers-reduced-motion: reduce. A kit that decides for itself
+       whether to animate (in show(), update() or tick()) must treat data-motion="calm" like the media query. The `reduced` flag
+       the shell passes to mount() and cue() already includes it.
    Hooks for tests: #app[data-phase], #app[data-node], #app[data-busy]; every control is a labelled button. */
 (function () {
 "use strict";
@@ -44,7 +50,9 @@ const M = {
   easeOut: tok("--m-ease-out") || "ease-out", easeIn: tok("--m-ease-in") || "ease-in", easeLinear: tok("--m-ease-linear") || "linear",
 };
 const mq = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: false, addEventListener() {} };
-const isReduced = () => !!mq.matches;
+// Reduced motion is the system setting or the reader's Calm setting. Both behave the same (WCAG 2.2.2).
+const isCalm = () => !!(V && V.settings && V.settings.motion === "calm");
+const isReduced = () => !!mq.matches || isCalm();
 
 // ---------------------------------------------------------------- pack indexes
 const KIT_ID = PACK.kit;
@@ -54,14 +62,13 @@ const ENDING_IDS = Object.keys(ENDINGS);
 const NOTES = PACK.notes || {};
 const METERS = PACK.meters || [];
 const FIELDS = PACK.fields || [];
-const TALLY_IDS = Array.isArray(PACK.tallies) ? PACK.tallies.slice() : Object.keys(PACK.tallies || {});
-const TALLY_VALUES = (PACK.tallies && !Array.isArray(PACK.tallies)) ? PACK.tallies : {};
+const TALLY_VALUES = PACK.tallies || {}; // tally id -> allowed values
+const TALLY_IDS = Object.keys(TALLY_VALUES);
 const COMMENTARY = PACK.commentary || null;
 const MAP_STYLES = ((PACK.theme && PACK.theme.mapStyles) || []).slice();
 const sceneById = {}; SCRIPT.scenes.forEach(s => { sceneById[s.id] = s; });
 const meterLabel = id => { const m = METERS.find(x => x.id === id); return m ? m.label : id; };
 const fieldLabel = id => { const f = FIELDS.find(x => x.id === id); return f ? f.label : id; };
-const groupDef = (sceneId, key) => { const s = sceneById[sceneId]; return s && (s.choices || []).find(g => g.key === key) || null; };
 const KIND_NAMES = { rule: "Rules", dm: "How the module DMs", lore: "The world", handler: "Handler", algorithm: "Algorithm", guide: "Guide" };
 const ASK_MAP = { ink: "Unwitnessed", paint: "Witnessed" };
 
@@ -74,7 +81,7 @@ const store = {
   },
   write(d) { this.mem = d; try { localStorage.setItem(PACK.storageKey, JSON.stringify(d)); } catch (e) {} },
 };
-const DEFAULTS = { theme: "auto", map: MAP_STYLES[0] || "ink", commentary: true, sound: false, auto: false, speed: "normal" };
+const DEFAULTS = { theme: "auto", map: MAP_STYLES[0] || "ink", motion: "full", commentary: true, sound: false, auto: false, speed: "normal" };
 function cleanRecord(d) {
   const r = { save: null, found: [], met: [], settings: Object.assign({}, DEFAULTS) };
   if (!d || typeof d !== "object") return r;
@@ -85,6 +92,7 @@ function cleanRecord(d) {
   if (s && typeof s === "object") {
     if (["auto", "light", "dark"].includes(s.theme)) r.settings.theme = s.theme;
     if (MAP_STYLES.includes(s.map)) r.settings.map = s.map;
+    if (["full", "calm"].includes(s.motion)) r.settings.motion = s.motion;
     if (typeof s.commentary === "boolean") r.settings.commentary = s.commentary;
     if (typeof s.sound === "boolean") r.settings.sound = s.sound;
     if (typeof s.auto === "boolean") r.settings.auto = s.auto;
@@ -97,12 +105,13 @@ function cleanRecord(d) {
 const V = {
   game: null, view: null, kit: null, phase: "title", token: 0, rec: null,
   settings: null, found: new Set(), extraMet: new Set(), seen: new Set(),
-  shown: { meters: {}, high: {}, tallies: {} }, look: null, setId: null,
+  shown: { meters: {}, high: {}, tallies: {} }, setId: null,
   slide: null, typing: null, cueBusy: false, ctx: null, waiters: new Set(),
   autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false,
   lastFlash: -1e9, sealed: false, rollEl: null, sim: null, simAt: 0, rafId: 0, dragX: 0, dragY: 0, restartT: null,
 };
 const SPEED = { slow: 1.6, normal: 1, fast: 0.6 };
+const TYPE_MAX = 4000; // ms: the longest a beat may take to type
 
 // ---------------------------------------------------------------- live region
 function announce(parts) {
@@ -156,6 +165,7 @@ function kitCall(fn, ...args) {
   try { return k[fn](...args); } catch (e) { console.error("kit." + fn + ":", e); return undefined; }
 }
 function stateOf(v) { return { meters: v.meters, fields: v.fields, tallies: v.tallies, flags: v.flags }; }
+const kitHas = fn => !!(V.kit && typeof V.kit[fn] === "function");
 function kitShow(setId, v, instant) {
   const set = (PACK.sets || {})[setId];
   if (!set) return;
@@ -246,9 +256,17 @@ function renderTallies() {
     const vals = TALLY_VALUES[id] || Object.keys(t);
     if (!vals.length) return "";
     const lab = id.charAt(0).toUpperCase() + id.slice(1);
-    return `<span><b>${esc(lab)}</b> ${vals.map(x => `${esc(x)} ${t[x] || 0}`).join(", ")}</span>`;
+    return `<span data-tally="${esc(id)}"><b>${esc(lab)}</b> ${vals.map(x => `<i data-v="${esc(x)}">${esc(x)} ${t[x] || 0}</i>`).join(", ")}</span>`;
   }).filter(Boolean);
   box.innerHTML = parts.join("");
+}
+// The `tally` cue: the reading that moved gets one small flash. Calm and reduced motion get a still mark instead.
+function flashTally(id, value) {
+  const node = document.querySelector(`#tallies [data-tally="${CSS.escape(id)}"] [data-v="${CSS.escape(value)}"]`);
+  if (!node) return;
+  node.classList.add("bump");
+  clearTimeout(flashTally.t); flashTally.t = setTimeout(() => node.isConnected && node.classList.remove("bump"), M.hold);
+  if (!isReduced()) node.animate([{ opacity: 0.25, transform: "scale(1.18)" }, { opacity: 1, transform: "none" }], { duration: M.flash, easing: M.easeOut });
 }
 function flashEdge() {
   const now = performance.now();
@@ -382,7 +400,7 @@ function cardSlide(scene) {
 }
 
 function beatSlide(v) {
-  const b = v.beat, look = v.scene ? v.scene.look : "";
+  const b = v.beat, look = b.look || (v.scene ? v.scene.look : ""); // the beat's effective look
   if (b.hidden) {
     const tag = KIT_ID === "feed" ? "Unwitnessed" : "Referee only";
     return { el: el(slideHtml(`<section class="panel is-secret" data-look="ink" aria-label="Hidden note">
@@ -394,7 +412,8 @@ function beatSlide(v) {
   const segs = parseEm(b.text);
   const secret = b.reveal;
   const tags = secret ? `<span class="tag" data-k="secret">${KIT_ID === "feed" ? "Unwitnessed" : "Referee only"}</span>` : lookTag(look);
-  const screen = b.screen ? `<div class="screen late" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
+  // The kit draws a screen itself when it has screen(lines); the panel then keeps a copy for screen readers only.
+  const screen = b.screen ? `<div class="${kitHas("screen") ? "sr-only" : "screen late"}" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
   const html = slideHtml(`<section class="panel ${secret ? "is-secret" : ""}" data-look="${esc(secret ? "ink" : look)}" aria-label="Story">
       ${tags ? `<div class="tags">${tags}</div>` : ""}
       ${b.kicker ? `<p class="kicker">${esc(b.kicker)}</p>` : ""}
@@ -406,8 +425,8 @@ function beatSlide(v) {
 }
 
 function choiceSlide(v) {
-  const g = v.group, def = groupDef(v.scene && v.scene.id, g.key) || {};
-  const notes = def.notes || [];
+  const g = v.group; // the engine puts the group's notes and comment in view().group
+  const notes = g.notes || [];
   const opts = v.options.map((o, i) => {
     const locked = o.locked;
     return `<li><button type="button" class="opt" data-key="${esc(o.key)}" data-gate="${g.gate}" ${locked ? 'aria-disabled="true"' : ""}>
@@ -419,7 +438,7 @@ function choiceSlide(v) {
       <div class="tags">${gateTag(g.gate, g.cost)}</div>
       <h2 class="ask" tabindex="-1">${esc(g.ask)}</h2>
       ${chipsHtml(notes)}
-      <ul class="opts">${opts}</ul><p class="sealed-note" hidden>Sealed. No going back.</p></section>${trackHtml(def.comment)}`);
+      <ul class="opts">${opts}</ul><p class="sealed-note" hidden>Sealed. No going back.</p></section>${trackHtml(g.comment)}`);
   const node = el(html);
   return { el: node, say: "", focus: ".ask" };
 }
@@ -484,6 +503,8 @@ function startTyping(slide, spec, done) {
   };
   const key = spec.ref;
   const instant = isReduced() || V.seen.has(key) || spec.total === 0;
+  // 28 ms a character, but no beat takes longer than TYPE_MAX to type: a long beat types faster (SPEC section 4).
+  const per = Math.min(M.type, TYPE_MAX / Math.max(1, spec.total));
   V.seen.add(key);
   if (instant) { paint(spec.total, false); slide.classList.add("done"); panel.classList.add("done"); if (done) done(); return; }
   let rf = 0, last = -1, ended = false;
@@ -496,7 +517,7 @@ function startTyping(slide, spec, done) {
     if (!silent && done) done();
   };
   const frame = now => {
-    const n = Math.min(spec.total, Math.floor((now - t0) / M.type));
+    const n = Math.min(spec.total, Math.floor((now - t0) / per));
     if (n !== last) { if (Math.floor(n / 4) !== Math.floor(Math.max(last, 0) / 4)) snd.tick(); last = n; paint(n, true); }
     if (n >= spec.total) finish(false); else rf = requestAnimationFrame(frame);
   };
@@ -507,8 +528,6 @@ function startTyping(slide, spec, done) {
 function finishTyping() { if (V.typing) V.typing.finish(false); }
 
 // ---------------------------------------------------------------- cues
-const lookOf = c => (c.type === "ink" ? "ink" : c.type === "bloom" ? "bloom" : null);
-
 async function playCue(c, ctx) {
   const reduced = isReduced() || ctx.skip;
   const v = ctx.v;
@@ -551,8 +570,13 @@ async function playCue(c, ctx) {
     }
     case "tally": {
       const t = V.shown.tallies[c.id] || (V.shown.tallies[c.id] = {});
+      const final = v.tallies && v.tallies[c.id] ? v.tallies[c.id][c.value] : null;
       t[c.value] = (t[c.value] || 0) + 1;
+      if (final != null && t[c.value] > final) t[c.value] = final;
       renderTallies();
+      flashTally(c.id, c.value);
+      ctx.say.push(`${c.id.charAt(0).toUpperCase() + c.id.slice(1)}, ${c.value}`);
+      shell = wait(M.state);
       break;
     }
     case "close":
@@ -589,7 +613,7 @@ async function present(v, o) {
   const turn = cues.find(c => c.type === "turn");
   const hasShift = cues.some(c => c.type === "shift");
   const dir = turn ? (turn.dir || 1) : (o.dir || 1);
-  const ctx = { skip: false, scene: v.scene, beat: v.beat, v, reveal: !!o.reveal, setChange: !!turn || hasShift, pickKey: o.pickKey, say: [] };
+  const ctx = { skip: false, scene: v.scene, beat: v.beat, v, setChange: !!turn || hasShift, pickKey: o.pickKey, say: [] };
   V.ctx = ctx; V.cueBusy = true; V.rollEl = null; V.sealed = false;
   root.setAttribute("data-cue", "");
   setBusy();
@@ -601,12 +625,7 @@ async function present(v, o) {
 
   for (const c of cues) {
     if (tk !== V.token) return;
-    const reg = lookOf(c);
-    if (reg && !ctx.reveal) {
-      if (!ctx.setChange && V.look === reg) continue; // already in this register: nothing to play
-      V.look = reg;
-    }
-    await playCue(c, ctx);
+    await playCue(c, ctx); // the engine sends ink and bloom only when the look changes: play what it sends
   }
   if (tk !== V.token) return;
 
@@ -621,6 +640,7 @@ async function present(v, o) {
   const card = !!v.scene && ((turn && dir > 0) || o.fresh) && !o.noCard;
   if (card) {
     V.phase = "card"; $("app").dataset.phase = "card";
+    kitCall("screen", []);
     showSlide(cardSlide(v.scene), dir, false);
     announce(ctx.say.filter(Boolean));
     deckUI(); armAuto();
@@ -648,6 +668,7 @@ function renderNode(v, dir, say, o) {
     showSlide(slide, dir, o.instant);
     if (built.say) say.push(built.say);
   }
+  kitCall("screen", v.node === "beat" && v.beat && !v.beat.hidden && v.beat.screen ? v.beat.screen : []);
   announce(say);
   if (built && built.typing) startTyping(slide, built.typing, () => { deckUI(); armAuto(); });
   else if (v.node === "beat" || v.node === "roll") { slide.classList.add("done"); }
@@ -811,7 +832,7 @@ function begin(cont) {
   if (cont && canContinue()) save = V.rec.save;
   try { V.game = Stage.create(PACK, { seed, save }); } catch (e) { console.error(e); announce("This story could not start."); return; }
   V.view = V.game.view();
-  V.seen = new Set(); V.sealed = false; V.look = null; V.rollEl = null; V.cueBusy = false;
+  V.seen = new Set(); V.sealed = false; V.rollEl = null; V.cueBusy = false;
   V.seedPending = V.view.seed;
   for (const id of V.view.found || []) V.found.add(id);
   buildHud();
@@ -826,7 +847,6 @@ function restore(v) {
   $("app").dataset.phase = "play";
   const setId = v.scene && v.scene.set;
   if (setId) { kitShow(setId, v, true); V.setId = setId; }
-  V.look = v.scene && v.scene.look === "ink" ? "ink" : v.scene && v.scene.look === "paint" ? "bloom" : null;
   syncHud(v); kitUpdate(v); setPlace(v);
   if (V.slide) { V.slide.remove(); V.slide = null; }
   renderNode(v, 1, [], { instant: true });
@@ -852,8 +872,8 @@ function toTitle() {
   if (start && PACK.sets && PACK.sets[start.set]) {
     const pv = Stage.create(PACK, { seed: 1 }).view();
     kitShow(start.set, pv, true); V.setId = start.set; kitUpdate(pv);
-    V.look = null;
   }
+  kitCall("screen", []);
   const sl = titleSlide();
   showSlide(sl, 1, true);
   sl.classList.add("done");
@@ -924,8 +944,9 @@ function renderHelp() {
       <dt>Turning wheel</dt><dd>The dice decide.</dd>
       <dt>One flash</dt><dd>A meter went down. A number beside the meter says how much.</dd>
       <dt>Ticket tears</dt><dd>You spent a Fate point.</dd>
+      ${TALLY_IDS.length ? `<dt>Small flash by a reading</dt><dd>Your reading of the world changed. The number says by how much.</dd>` : ""}
       <dt>Book shuts</dt><dd>The story stops.</dd></dl>
-      <p>Every motion has a word beside it. If you turn motion off in your system, nothing is lost.</p>`)}
+      <p>Every motion has a word beside it. To stop all motion, choose Calm in Settings, or turn motion off in your system. Nothing is lost.</p>`)}
     ${section("Your card", `<p>The Card sheet lists what you wrote and chose. You can copy it as text.</p>`)}`;
 }
 
@@ -995,8 +1016,11 @@ function getSim() {
   if (!V.sim) { try { V.sim = Stage.simulate(PACK); } catch (e) { V.sim = { error: e.message }; } }
   return V.sim;
 }
-function pathLabel(p) {
-  return p.length ? p.map(s => (s.startsWith("roll=") ? "roll " + s.slice(5) : s)).join(" › ") : "(no picks)";
+// A route is { ending, count, steps }; a step is { opt, result? } or { input }. Label: "group.option", "group.option=tier", "(typed)".
+const stepWord = x => (x.opt ? x.opt + (x.result ? "=" + x.result : "") : x.input != null ? "(typed)" : "?");
+const pickCount = r => r.steps.filter(x => x.opt).length;
+function pathLabel(r) {
+  return r.steps.length ? r.steps.map(stepWord).join(" › ") : "(no picks)";
 }
 function renderVerify() {
   const body = $("body-verify");
@@ -1015,22 +1039,25 @@ function renderVerify() {
       <p>${sim.unreachable.length ? `Not reached: ${esc(sim.unreachable.join(", "))}` : "Nothing is unreachable."} ${sim.locked.length ? `Locked options seen: ${esc(sim.locked.join(", "))}.` : ""}</p>`;
     for (const id of Object.keys(byEnd)) {
       html += `<h3 class="vlist-h">${esc(ENDINGS[id] ? ENDINGS[id].title : id)}</h3><div class="routes">${byEnd[id].map(i => {
-        const r = sim.routes[i];
-        return `<button type="button" class="route" data-route="${i}" data-ending="${esc(r.ending)}" data-count="${r.count}"><b>${esc(pathLabel(r.path))}</b><small>${esc(fmt(r.count))} paths</small></button>`;
+        const r = sim.routes[i], n = pickCount(r);
+        return `<div class="route-row"><button type="button" class="route" data-route="${i}" data-ending="${esc(r.ending)}" data-count="${r.count}"><b>${esc(pathLabel(r))}</b><small>${esc(fmt(r.count))} paths</small></button>${n ? `<button type="button" class="btn route-last" data-route-last="${i}" aria-label="Replay this route up to its last pick, then choose for yourself" title="Stop before the last pick">Last pick</button>` : ""}</div>`;
       }).join("")}</div>`;
     }
     if (shown < sim.routes.length) html += `<div class="row"><button type="button" class="btn" id="vmore">Show all ${sim.routes.length} routes</button></div>`;
     body.innerHTML = html;
   }, 30);
 }
-function replayRoute(i) {
+// Replay a route with Stage.replay(pack, route, { seed, upTo }). `upTo` stops at the choice after that many picks.
+function replayRoute(i, beforeLast) {
   const sim = getSim(), r = sim.routes && sim.routes[i];
   if (!r) return;
   try {
-    const g = Stage.replay(PACK, r.path, { seed: V.view ? V.view.seed : V.seedPending });
+    const opts = { seed: V.view ? V.view.seed : V.seedPending };
+    if (beforeLast) opts.upTo = Math.max(0, pickCount(r) - 1);
+    const g = Stage.replay(PACK, r, opts);
     closeSheet(true);
     adopt(g);
-    announce("Replaying a route. You are at its end. Use Back to look at it.");
+    announce(beforeLast ? "Replaying a route. You are at its last choice. Pick for yourself, or use Back." : "Replaying a route. You are at its end. Use Back to look at it.");
   } catch (e) { announce("That route could not be replayed: " + e.message); }
 }
 
@@ -1042,6 +1069,8 @@ function renderSettings() {
   $("body-settings").innerHTML = `
     <div class="set-row"><span id="l-theme">Theme</span>${seg("Theme", "theme", [["auto", "System"], ["light", "Light"], ["dark", "Dark"]], s.theme)}</div>
     ${MAP_STYLES.length > 1 ? `<div class="set-row"><span>Map style</span>${seg("Map style", "map", MAP_STYLES.map(m => [m, m === "ink" ? "Black ink" : m === "blueline" ? "Blueline" : m]), s.map)}</div>` : ""}
+    <div class="set-row"><span>Motion</span>${seg("Motion", "motion", [["full", "Full"], ["calm", "Calm"]], s.motion)}</div>
+    ${mq.matches ? `<p class="fine">Your system asks for reduced motion, so motion is already Calm.</p>` : s.motion === "calm" ? `<p class="fine">Calm: nothing moves, and each line appears whole.</p>` : ""}
     ${COMMENTARY ? `<div class="set-row"><span>${esc(COMMENTARY.label)}</span>${seg("Commentary", "commentary", [["on", "On"], ["off", "Off"]], s.commentary ? "on" : "off")}</div>` : ""}
     <div class="set-row"><span>Sound</span>${seg("Sound", "sound", [["off", "Off"], ["on", "On"]], s.sound ? "on" : "off")}</div>
     <div class="set-row"><span>Film mode</span>${seg("Film mode", "auto", [["off", "Step"], ["on", "AUTO"]], s.auto ? "on" : "off")}</div>
@@ -1061,6 +1090,7 @@ function applySettings() {
   const s = V.settings;
   if (s.theme === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", s.theme);
   root.setAttribute("data-map", s.map);
+  root.setAttribute("data-motion", s.motion);
   root.setAttribute("data-commentary", s.commentary ? "on" : "off");
   snd.on = s.sound;
   syncAutoBtn();
@@ -1069,12 +1099,19 @@ function changeSetting(name, val) {
   const s = V.settings;
   if (name === "theme") s.theme = val;
   else if (name === "map") { s.map = val; applyMap(); }
+  else if (name === "motion") { s.motion = val === "calm" ? "calm" : "full"; applySettings(); if (isReduced()) stopAllMotion(); }
   else if (name === "commentary") s.commentary = val === "on";
   else if (name === "sound") { s.sound = val === "on"; snd.set(s.sound); }
   else if (name === "auto") { setAuto(val === "on"); return; }
   else if (name === "speed") { s.speed = val; if (V.phase !== "title") armAuto(); }
   applySettings(); persistSettings(); renderSettings();
   const b = $("body-settings").querySelector(`[data-set="${name}"][aria-pressed="true"]`); if (b) b.focus({ preventScroll: true });
+}
+// Reduced motion (the system's or Calm) switched on: every cue and animation jumps to its end now.
+function stopAllMotion() {
+  skipCues(); kitCall("finish");
+  document.getAnimations().forEach(a => { try { a.cancel(); } catch (e) {} });
+  clearAuto();
 }
 function applyMap() {
   root.setAttribute("data-map", V.settings.map);
@@ -1140,7 +1177,8 @@ for (const sh of document.querySelectorAll(".sheet")) {
     if (t.dataset.set) changeSetting(t.dataset.set, t.dataset.val);
     else if (t.dataset.act) onAct(t.dataset.act);
     else if (t.id === "copyBtn") copyText(cardText());
-    else if (t.dataset.route != null) replayRoute(+t.dataset.route);
+    else if (t.dataset.route != null) replayRoute(+t.dataset.route, false);
+    else if (t.dataset.routeLast != null) replayRoute(+t.dataset.routeLast, true);
     else if (t.id === "vmore") { V.verifyAll = true; renderVerify(); }
   });
 }
@@ -1177,12 +1215,7 @@ document.addEventListener("visibilitychange", () => {
   else { root.removeAttribute("data-hidden"); armAuto(); kick(); }
 });
 if (mq.addEventListener) {
-  mq.addEventListener("change", () => {
-    if (!mq.matches) return;
-    skipCues(); kitCall("finish");
-    document.getAnimations().forEach(a => { try { a.cancel(); } catch (e) {} });
-    clearAuto();
-  });
+  mq.addEventListener("change", () => { if (mq.matches) stopAllMotion(); });
 }
 
 // ---------------------------------------------------------------- boot
@@ -1202,6 +1235,7 @@ function boot() {
     V.kit = kit;
     try { kit.mount($("kit"), { pack: PACK, assets: ASSETS, reduced: isReduced() }); } catch (e) { console.error("kit.mount:", e); V.kit = null; }
   } else console.error("No kit registered for " + PACK.kit);
+  applyMap();
   toTitle();
 }
 boot();

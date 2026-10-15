@@ -92,7 +92,7 @@
   "fate": {
     "kind": "rule",
     "term": "Fate",
-    "text": "Fate is a point you spend when it matters. You start with one. Spending it is final. Here, one point buys one hint from Cassandra. At the table, a point can do more."
+    "text": "Fate is a point you spend when it matters. You start with three. Spending one is final. Here, one point buys one hint from Cassandra. At the table, a point can do more."
   },
   "reveal": {
     "kind": "rule",

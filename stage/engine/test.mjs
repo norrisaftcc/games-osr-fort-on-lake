@@ -21,7 +21,7 @@ function mini(scenes, extra = {}) {
     id: "mini", title: "Mini", kit: "paper", resolver: "ose", start: scenes[0].id, storageKey: "fort-stage.mini",
     meters: [{ id: "fate", label: "Fate", min: 0, max: 3, start: 1 }, { id: "lamp", label: "Lamp", min: 0, max: 5, start: 2 }],
     fields: [{ id: "f", label: "F" }, { id: "g", label: "G" }],
-    tallies: ["lens"],
+    tallies: { lens: ["hymn", "machine"] },
     commentary: { label: "How", kinds: ["dm", "rule"] },
     notes: { r: { kind: "rule", term: "R", text: "A rule." }, d: { kind: "dm", term: "D", text: "A dm note." }, l: { kind: "lore", term: "L", text: "Some lore." } },
     sets: { s: { kit: "paper", layers: [{ prim: "spread", art: "art/x.svg" }] }, t: { kit: "paper", layers: [{ prim: "spread", art: "art/y.svg" }] } },
@@ -193,21 +193,48 @@ test("cue shift: a beat that changes the set inside a scene", () => {
   assert.ok(types(g.view()).includes("shift"), "back across a set change also shifts");
 });
 
-test("cue ink and bloom: scene look on each beat; a reveal inks when it is revealed", () => {
+test("cue ink and bloom: on entering a scene and when a beat's effective look changes; a reveal always inks", () => {
   const pack = mini([
-    sc("a", { look: "ink", beats: [{ text: "one" }, { text: "two", reveal: true }, { text: "three" }], next: "b", ending: undefined }),
-    sc("b", { look: "paint", beats: [{ text: "four" }] }),
+    sc("a", { look: "ink", beats: [{ text: "one" }, { text: "two", reveal: true }, { text: "three" }, { text: "four", look: "paint" }, { text: "five", look: "paint" }, { text: "six" }], next: "b", ending: undefined }),
+    sc("b", { look: "paint", beats: [{ text: "seven" }] }),
   ]);
   const g = Stage.create(pack);
-  assert.deepEqual(types(g.view()), ["ink"]);
+  assert.deepEqual(types(g.view()), ["ink"], "entering the scene");
   const hidden = g.next();
   assert.equal(hidden.beat.hidden, true);
   assert.deepEqual(types(hidden), [], "a hidden reveal beat is not yet in view");
+  assert.deepEqual(types(g.reveal()), ["ink"], "revealing inks");
+  assert.deepEqual(types(g.next()), [], "same look as the beat before: no cue (changed from the old rule, which fired on every beat)");
+  let v = g.next();
+  assert.deepEqual([v.beat.text, v.beat.look, v.scene.look, types(v)], ["four", "paint", "paint", ["bloom"]], "a beat look overrides the scene's for that beat");
+  assert.deepEqual(types(g.next()), [], "paint again: no cue");
+  v = g.next();
+  assert.deepEqual([v.beat.text, v.beat.look, v.scene.look, types(v)], ["six", "ink", "ink", ["ink"]], "back to the scene's look");
+  assert.deepEqual(types(g.next()), ["turn", "bloom"], "a new scene");
+  assert.deepEqual(types(g.next()), ["turn", "bloom"], "an ending");
+});
+
+test("cue ink and bloom: a reveal inks even in a paint scene; a pick's then beats may change the look", () => {
+  const pack = mini([sc("a", { look: "paint", beats: [{ text: "one" }, { text: "two", reveal: true }, { text: "three" }], choices: [grp("c", "plan", [opt("x", { then: [{ text: "t1", look: "ink" }, { text: "t2", look: "ink" }, { text: "t3" }] })])] })]);
+  const g = Stage.create(pack);
+  assert.deepEqual(types(g.view()), ["bloom"]);
+  g.next();
   assert.deepEqual(types(g.reveal()), ["ink"]);
-  assert.deepEqual(types(g.next()), ["ink"]);
-  assert.deepEqual(types(g.next()), ["turn", "bloom"]);
-  const end = g.next(); // ending beat, look paint
-  assert.deepEqual(types(end), ["turn", "bloom"]);
+  assert.deepEqual(types(g.next()), [], "the revealed beat counts as the scene's look");
+  assert.deepEqual(types(g.next()), []);
+  const v = g.choose("x");
+  assert.deepEqual([v.beat.text, types(v)], ["t1", ["ink"]]);
+  assert.deepEqual(types(g.next()), []);
+  assert.deepEqual([g.next().beat.text, types(g.view())], ["t3", ["bloom"]], "the beat with no look returns to the scene's");
+});
+
+test("cue ink and bloom: a scene with no beats still signals its look when it stops; a first reveal beat waits for its reveal", () => {
+  const bare = mini([sc("a", { look: "paint", beats: [], choices: [grp("c", "plan", [opt("x")])] })]);
+  assert.deepEqual(types(Stage.create(bare).view()), ["bloom"]);
+  const secret = mini([sc("a", { look: "paint", beats: [{ text: "s", reveal: true }, { text: "after" }] })]);
+  const g = Stage.create(secret);
+  assert.deepEqual(types(g.view()), []);
+  assert.deepEqual(types(g.reveal()), ["ink"]);
 });
 
 test("cue seal: exec and fate picks, not plan picks", () => {
@@ -244,6 +271,53 @@ test("cue tear: only when a Fate point is spent, with the cost", () => {
   assert.ok(!types(atChoice(other).choose("x")).includes("tear"));
 });
 
+test("cue cost and gain are reversed for a meter marked bad", () => {
+  const bad = edit(mini([sc("a", { choices: [grp("c", "plan", [
+    opt("up", { effects: [{ meter: "lamp", add: 2 }] }), opt("down", { effects: [{ meter: "lamp", add: -1 }] }), opt("fate", { effects: [{ meter: "fate", add: 1 }] }),
+  ])] })]), p => { p.meters[1].bad = true; });
+  assert.deepEqual(own(atChoice(bad).choose("up")), [{ type: "cost", meter: "lamp", n: 2 }], "a rise is a cost");
+  assert.deepEqual(own(atChoice(bad).choose("down")), [{ type: "gain", meter: "lamp", n: 1 }], "a fall is a gain");
+  assert.deepEqual(own(atChoice(bad).choose("fate")), [{ type: "gain", meter: "fate", n: 1 }], "a meter not marked bad is unchanged");
+  // clamped at the top: the cue reports the real change
+  assert.deepEqual(own(atChoice(edit(bad, p => { p.meters[1].start = 5; p.script.scenes[0].choices[0].options[0].effects = [{ meter: "lamp", add: 3 }]; })).choose("up")), []);
+  // a bad meter in a roll result
+  const rolled = edit(rollPack("ose", "1d6", 1, { fail: {}, success: { effects: [{ meter: "lamp", add: 1 }] } }), p => { p.meters[1].bad = true; });
+  assert.deepEqual(rollOnce(rolled, 1).cues.filter(c => c.type === "cost" || c.type === "gain"), [{ type: "cost", meter: "lamp", n: 1 }]);
+});
+
+test("cue tally: one per tally effect, with the id and the value", () => {
+  const pack = mini([sc("a", { choices: [grp("c", "plan", [opt("x", { effects: [{ tally: "lens", add: "hymn" }, { flag: "f" }, { tally: "lens", add: "machine" }, { tally: "lens", add: "hymn" }] })])] })]);
+  const v = atChoice(pack).choose("x");
+  assert.deepEqual(v.cues.filter(c => c.type === "tally"), [
+    { type: "tally", id: "lens", value: "hymn" }, { type: "tally", id: "lens", value: "machine" }, { type: "tally", id: "lens", value: "hymn" },
+  ]);
+  assert.deepEqual(v.tallies, { lens: { hymn: 2, machine: 1 } });
+  // a roll result may add to a tally too
+  const rolled = rollPack("ose", "1d6", 1, { fail: {}, success: { effects: [{ tally: "lens", add: "machine" }] } });
+  assert.deepEqual(rollOnce(rolled, 1).cues.filter(c => c.type === "tally"), [{ type: "tally", id: "lens", value: "machine" }]);
+});
+
+test("cues keep their type, and come in one fixed order within a step", () => {
+  const rank = { seal: 0, tear: 1, roll: 2, cost: 3, gain: 3, tally: 4, turn: 5, shift: 5, ink: 6, bloom: 6, close: 7 };
+  const inOrder = v => v.cues.every((c, i) => c.type in rank && (i === 0 || rank[v.cues[i - 1].type] <= rank[c.type]));
+  // A fate pick with effects, a roll and a roll result: seal, tear, roll, then the meter changes, then the tally.
+  const pack = mini([sc("a", { choices: [grp("c", "fate", [opt("go", {
+    effects: [{ tally: "lens", add: "hymn" }, { meter: "lamp", add: 1 }],
+    roll: { dice: "1d6", vs: 1, results: { fail: {}, success: { effects: [{ meter: "lamp", add: -1 }] } } },
+  })], { cost: { meter: "fate", n: 1 } })] })]);
+  const v = atChoice(pack).choose("go");
+  assert.deepEqual(types(v), ["seal", "tear", "roll", "cost", "gain", "cost", "tally"]);
+  assert.ok(inOrder(v));
+  // A pick that leaves the scene: seal, tear, meter changes, tally, turn, then the new scene's look.
+  const leave = mini([sc("a", { look: "ink", choices: [grp("c", "fate", [opt("go", { effects: [{ tally: "lens", add: "machine" }, { meter: "lamp", add: -1 }], to: "b" })], { cost: { meter: "fate", n: 1 } })] }), sc("b", { look: "paint" })]);
+  const w = atChoice(leave).choose("go");
+  assert.deepEqual(types(w), ["seal", "tear", "cost", "cost", "tally", "turn", "bloom"]);
+  assert.deepEqual(w.cues.map(c => c.type === "cost" ? c.meter : null).filter(Boolean), ["fate", "lamp"]);
+  // A set shift comes before the look, after the tally.
+  const shift = mini([sc("a", { choices: [grp("c", "plan", [opt("go", { effects: [{ tally: "lens", add: "hymn" }], then: [{ text: "t", set: "t", look: "paint" }] })])] })]);
+  assert.deepEqual(types(atChoice(shift).choose("go")), ["tally", "shift", "bloom"]);
+});
+
 test("cue close: when the ending is reached, after its beats", () => {
   const pack = mini([sc("a")]);
   const g = Stage.create(pack);
@@ -263,13 +337,16 @@ test("cue close: when the ending is reached, after its beats", () => {
 });
 
 // ---- conditions ----
-test("conditions: flag, field, meter gte/lte, tally top, all, any, not", () => {
+test("conditions: flag, field, meter gte/lte, tally top, tally value count, all, any, not", () => {
   const conds = {
     flag: { flag: "x" }, noflag: { not: { flag: "x" } },
     field: { field: "f", is: "yes" }, fieldno: { field: "f", is: "no" },
     gte: { meter: "lamp", gte: 3 }, gte2: { meter: "lamp", gte: 2 }, lte: { meter: "lamp", lte: 2 }, lte1: { meter: "lamp", lte: 1 },
     range: { meter: "lamp", gte: 2, lte: 2 },
     top: { tally: "lens", top: "hymn" }, topno: { tally: "lens", top: "machine" },
+    cnt: { tally: "lens", value: "hymn", gte: 2 }, cntno: { tally: "lens", value: "hymn", gte: 3 },
+    cntlte: { tally: "lens", value: "machine", lte: 1 }, cntlte0: { tally: "lens", value: "machine", lte: 0 },
+    cntrange: { tally: "lens", value: "machine", gte: 1, lte: 1 }, cntnone: { tally: "lens", value: "hymn" },
     all: { all: [{ flag: "x" }, { field: "f", is: "yes" }] }, allno: { all: [{ flag: "x" }, { flag: "nope" }] },
     any: { any: [{ flag: "nope" }, { flag: "x" }] }, anyno: { any: [{ flag: "nope" }, { flag: "nope2" }] },
     nest: { not: { any: [{ flag: "nope" }, { all: [{ flag: "x" }, { meter: "lamp", lte: 1 }] }] } },
@@ -280,7 +357,7 @@ test("conditions: flag, field, meter gte/lte, tally top, all, any, not", () => {
     sc("b", { beats }),
   ]);
   const shown = texts(pack, ["c.go"]).filter(t => t in conds);
-  assert.deepEqual(shown.sort(), ["all", "any", "field", "flag", "gte2", "lte", "nest", "range", "top"].sort());
+  assert.deepEqual(shown.sort(), ["all", "any", "cnt", "cntlte", "cntrange", "field", "flag", "gte2", "lte", "nest", "range", "top"].sort());
 });
 
 test("tally top: leads or ties, and a zero count never leads", () => {
@@ -320,6 +397,26 @@ test("effects: flag, set, meter (clamped), tally", () => {
   assert.deepEqual(v.fields, { f: "one", g: "2" });
   assert.deepEqual(v.meters, { fate: 0, lamp: 5 });
   assert.deepEqual(v.tallies, { lens: { hymn: 2, machine: 1 } });
+});
+
+test("a choice group carries notes and comment in view().group and in view().met once it is shown", () => {
+  const pack = mini([sc("a", { beats: [{ text: "one" }], choices: [grp("c", "plan", [opt("x")], { notes: ["l", "r"], comment: "d" }), grp("e", "plan", [opt("x")])] })]);
+  const g = Stage.create(pack);
+  assert.deepEqual(g.view().met, []);
+  const v = g.next();
+  assert.equal(v.node, "choice");
+  assert.deepEqual([v.group.notes, v.group.comment], [["l", "r"], "d"]);
+  assert.deepEqual(v.met.sort(), ["d", "l", "r"]);
+  const w = g.choose("x");
+  assert.deepEqual([w.group.notes, w.group.comment], [[], null], "a group with none has empty notes and no comment");
+  assert.deepEqual(w.met.sort(), ["d", "l", "r"]);
+  // the notes of a group nobody can pick are not met
+  const skipped = mini([sc("a", { choices: [grp("hid", "plan", [opt("x", { when: { flag: "nope" } })], { notes: ["l"], comment: "d" }), grp("last", "plan", [opt("x")])] })]);
+  const h = atChoice(skipped);
+  assert.equal(h.view().group.key, "last");
+  assert.deepEqual(h.view().met, []);
+  // a save keeps them
+  assert.deepEqual(Stage.create(pack, { save: g.save() }).view().met.sort(), ["d", "l", "r"]);
 });
 
 test("options: when hides, lock greys with its hint, a locked pick is refused", () => {
@@ -546,13 +643,16 @@ test("validate names each kind of error", () => {
     ["scene look", p => { p.script.scenes[0].look = "neon"; }, /look must be/],
     ["scene set", p => { p.script.scenes[0].set = "nope"; }, /set "nope" is not in sets.json/],
     ["beat set", p => { p.script.scenes[0].beats[0].set = "nope"; }, /set "nope"/],
-    ["speaker", p => { p.script.scenes[0].beats[0].speaker = "nobody"; }, /speaker "nobody"/],
+    ["speaker, with a cast.json", p => { p.cast = { people: { wick: { name: "Wick" } } }; p.script.scenes[0].beats[0].speaker = "nobody"; }, /speaker "nobody" is not in cast.json/],
     ["note ref", p => { p.script.scenes[0].beats[0].notes = ["zzz"]; }, /note "zzz"/],
     ["comment ref", p => { p.script.scenes[0].beats[0].comment = "zzz"; }, /comment "zzz"/],
     ["comment kind", p => { p.script.scenes[0].beats[0].comment = "l"; }, /comment "l" is a lore note/],
     ["unbalanced star", p => { p.script.scenes[0].beats[0].text = "a *b"; }, /unbalanced \*/],
     ["empty text", p => { p.script.scenes[0].beats[0].text = ""; }, /text is missing/],
-    ["screen", p => { p.script.scenes[0].beats[0].screen = []; }, /screen must be/],
+    ["screen empty", p => { p.script.scenes[0].beats[0].screen = []; }, /screen must be an array of strings/],
+    ["screen string", p => { p.script.scenes[0].beats[0].screen = "WARD 3"; }, /screen must be an array of strings/],
+    ["screen element", p => { p.script.scenes[0].beats[0].screen = ["ok", 7]; }, /screen must be an array of strings/],
+    ["beat look", p => { p.script.scenes[0].beats[0].look = "glow"; }, /look must be "ink" or "paint"/],
     ["bad cond", p => { p.script.scenes[0].beats[0].when = { flag: "x", meter: "lamp" }; }, /exactly one of flag, field/],
     ["cond meter", p => { p.script.scenes[0].beats[0].when = { meter: "zzz", gte: 1 }; }, /meter "zzz"/],
     ["cond meter bound", p => { p.script.scenes[0].beats[0].when = { meter: "lamp" }; }, /gte or lte/],
@@ -581,10 +681,38 @@ test("validate names each kind of error", () => {
     ["roll missing fail", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", vs: 1, results: { success: {} } }; }, /needs "fail"/],
     ["roll tie in ose", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", vs: 1, results: { fail: {}, success: {}, tie: {} } }; }, /"tie" is not read by ose/],
     ["roll add", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", vs: 1, add: "zzz", results: { fail: {}, success: {} } }; }, /roll.add "zzz"/],
+    ["roll add number", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", vs: 1, add: 3, results: { fail: {}, success: {} } }; }, /add names a meter only/],
+    ["roll add field", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", vs: 1, add: "f", results: { fail: {}, success: {} } }; }, /add names a meter only/],
     ["roll vs", p => { p.script.scenes[0].choices[0].options[0].roll = { dice: "2d6", results: { fail: {}, success: {} } }; }, /roll.vs/],
     ["note too long", p => { p.notes.r.text = Array(61).fill("word").join(" "); }, /61 words/],
     ["note kind", p => { p.notes.r.kind = "poem"; }, /kind must be one of/],
     ["commentary kinds", p => { p.commentary.kinds = ["poem"]; }, /commentary.kinds/],
+    ["tallies as a list", p => { p.tallies = ["lens"]; }, /tallies must be a map/],
+    ["tallies value list", p => { p.tallies = { lens: "hymn" }; }, /non-empty list of distinct value names/],
+    ["tallies empty list", p => { p.tallies = { lens: [] }; }, /non-empty list of distinct value names/],
+    ["tallies duplicate", p => { p.tallies = { lens: ["a", "a"] }; }, /distinct value names/],
+    ["effect tally value", p => { p.script.scenes[0].choices[0].options[0].effects = [{ tally: "lens", add: "zzz" }]; }, /tally "lens" has no value "zzz"/],
+    ["cond tally top value", p => { p.script.scenes[0].beats[0].when = { tally: "lens", top: "zzz" }; }, /tally "lens" has no value "zzz"/],
+    ["cond tally count value", p => { p.script.scenes[0].beats[0].when = { tally: "lens", value: "zzz", gte: 1 }; }, /tally "lens" has no value "zzz"/],
+    ["cond tally count bound", p => { p.script.scenes[0].beats[0].when = { tally: "lens", value: "hymn" }; }, /needs gte or lte/],
+    ["cond tally top and value", p => { p.script.scenes[0].beats[0].when = { tally: "lens", top: "hymn", value: "hymn", gte: 1 }; }, /either \{ tally, top \} or/],
+    ["cond tally neither", p => { p.script.scenes[0].beats[0].when = { tally: "lens" }; }, /either \{ tally, top \} or/],
+    ["layer tally value", p => { p.sets.s.layers[0].tally = "lens"; }, /needs a value from hymn, machine/],
+    ["layer tally id", p => { p.sets.s.layers[0].tally = "zzz"; p.sets.s.layers[0].value = "hymn"; }, /tally "zzz" is not in pack.tallies/],
+    ["field side", p => { p.fields[0].side = "top"; }, /side must be "front" or "back"/],
+    ["bad meter flag", p => { p.meters[0].bad = "yes"; }, /bad must be true or false/],
+    ["cost from a bad meter", p => { p.meters[0].bad = true; }, /is a bad meter/],
+    ["group note ref", p => { p.script.scenes[0].choices[0].notes = ["zzz"]; }, /note "zzz"/],
+    ["group notes shape", p => { p.script.scenes[0].choices[0].notes = "r"; }, /notes must be a list/],
+    ["group comment ref", p => { p.script.scenes[0].choices[0].comment = "zzz"; }, /comment "zzz"/],
+    ["group comment kind", p => { p.script.scenes[0].choices[0].comment = "l"; }, /comment "l" is a lore note/],
+    ["group comment, no commentary", p => { delete p.commentary; p.script.scenes[0].choices[0].comment = "d"; }, /pack.commentary is missing/],
+    ["cond reads an input field (beat)", p => { p.script.scenes[0].choices[0].options[0].input = { field: "f", prompt: "p" }; p.script.scenes[0].beats[0].when = { field: "f", is: "x" }; }, /reads field "f", which an input writes/],
+    ["cond reads an input field (lock)", p => { p.script.scenes[0].choices[0].options[0].input = { field: "f", prompt: "p" }; p.script.scenes[0].choices[1].options[0].lock = { field: "f", is: "x" }; p.script.scenes[0].choices[1].options[0].hint = "h"; }, /reads field "f", which an input writes/],
+    ["cond reads an input field (route)", p => { p.script.scenes[0].choices[0].options[0].input = { field: "f", prompt: "p" }; delete p.script.scenes[0].ending; p.script.scenes[0].route = [{ when: { field: "f", is: "x" }, to: "a" }, { to: "a" }]; }, /reads field "f", which an input writes/],
+    ["cast person half a crop", p => { p.cast = { people: { w: { name: "W", x: 1, y: 2 } } }; }, /x, y and r go together/],
+    ["cast crop without a sheet", p => { p.cast = { people: { w: { name: "W", x: 1, y: 2, r: 3 } } }; }, /sheet is missing/],
+    ["cast person without a name", p => { p.cast = { people: { w: {} } }; }, /needs a name/],
     ["set kit", p => { p.sets.s.kit = "feed"; }, /does not match the pack's kit/],
     ["set prim", p => { p.sets.s.layers[0].prim = "redact"; }, /not a paper primitive/],
     ["set layers", p => { p.sets.s.layers = []; }, /non-empty list/],
@@ -600,19 +728,62 @@ test("validate names each kind of error", () => {
   }
 });
 
-test("validate: the first exec group needs a rule note on its scene", () => {
+test("validate: the first exec group needs a rule note in its own notes", () => {
   const pack = mini([sc("a", { choices: [grp("c", "exec", [opt("x")])] })]);
   assert.ok(Stage.validate(pack).some(e => /first exec group/.test(e)));
-  pack.script.scenes[0].beats[0].notes = ["r"];
+  pack.script.scenes[0].choices[0].notes = ["r"];
   assert.deepEqual(Stage.validate(pack), []);
-  const asComment = mini([sc("a", { beats: [{ text: "t", comment: "r" }], choices: [grp("c", "exec", [opt("x")])] })]);
+  // A rule note on a beat of the scene no longer counts; neither does a rule comment on the group.
+  const onBeat = mini([sc("a", { beats: [{ text: "t", notes: ["r"], comment: "r" }], choices: [grp("c", "exec", [opt("x")])] })]);
+  onBeat.commentary.kinds = ["rule"];
+  assert.ok(Stage.validate(onBeat).some(e => /first exec group/.test(e)));
+  const asComment = mini([sc("a", { choices: [grp("c", "exec", [opt("x")], { comment: "r" })] })]);
   asComment.commentary.kinds = ["rule"];
-  assert.deepEqual(Stage.validate(asComment), []);
-  const wrongKind = mini([sc("a", { beats: [{ text: "t", notes: ["d"] }], choices: [grp("c", "exec", [opt("x")])] })]);
+  assert.ok(Stage.validate(asComment).some(e => /first exec group/.test(e)));
+  const wrongKind = mini([sc("a", { choices: [grp("c", "exec", [opt("x")], { notes: ["d"] })] })]);
   assert.ok(Stage.validate(wrongKind).some(e => /first exec group/.test(e)));
-  // Later exec groups are not checked.
-  const later = mini([sc("a", { beats: [{ text: "t", notes: ["r"] }], choices: [grp("c", "exec", [opt("x")])], next: "b", ending: undefined }), sc("b", { choices: [grp("c", "exec", [opt("x")])] })]);
+  // Only the first exec group is checked, in scene order; plan and fate groups before it do not count.
+  const later = mini([sc("a", { choices: [grp("p", "plan", [opt("x")]), grp("c", "exec", [opt("x")], { notes: ["r"] })], next: "b", ending: undefined }), sc("b", { choices: [grp("c", "exec", [opt("x")])] })]);
   assert.deepEqual(Stage.validate(later), []);
+  const second = mini([sc("a", { choices: [grp("c", "exec", [opt("x")])], next: "b", ending: undefined }), sc("b", { choices: [grp("c", "exec", [opt("x")], { notes: ["r"] })] })]);
+  assert.equal(Stage.validate(second).filter(e => /first exec group/.test(e)).length, 1, "the rule note on the second group does not help the first");
+});
+
+test("validate: a speaker missing from cast.json is a warning without a cast.json and an error with one", () => {
+  const pack = mini([sc("a", { beats: [{ text: "x", speaker: "nobody" }, { text: "y", speaker: "nobody" }, { text: "z", speaker: "other" }] })]);
+  const warnings = [];
+  assert.deepEqual(Stage.validate(pack, warnings), []);
+  assert.deepEqual(Stage.check(pack).errors, []);
+  assert.equal(warnings.length, 2, "one warning per missing speaker");
+  assert.match(warnings[0], /speaker "nobody" .*2 beats/);
+  pack.cast = { people: { wick: { name: "Wick" } } };
+  const errs = Stage.validate(pack);
+  assert.equal(errs.length, 3);
+  assert.ok(errs.every(e => /is not in cast.json/.test(e)));
+  assert.deepEqual(Stage.check(pack).warnings, []);
+  pack.script.scenes[0].beats = [{ text: "x", speaker: "wick" }];
+  assert.deepEqual(Stage.validate(pack), []);
+});
+
+test("validate: a cast person with no x, y and r is valid, and the sheet may be left out when nobody has a crop", () => {
+  const pack = mini([sc("a", { beats: [{ text: "x", speaker: "chen" }] })]);
+  pack.cast = { people: { chen: { name: "Manager Chen", role: "Handler" } } };
+  assert.deepEqual(Stage.validate(pack), []);
+  pack.cast.people.wick = { name: "Wick", x: 100, y: 100, r: 70 };
+  assert.ok(Stage.validate(pack).some(e => /sheet is missing/.test(e)));
+  assert.ok(Stage.validate(pack).some(e => /w and h must be numbers/.test(e)));
+  Object.assign(pack.cast, { sheet: "art/cast.svg", w: 400, h: 200 });
+  assert.deepEqual(Stage.validate(pack), []);
+});
+
+test("validate: pack.tallies is a map of id to allowed values, and layers bind by tally and value", () => {
+  const pack = mini([sc("a", { choices: [grp("c", "plan", [opt("x", { effects: [{ tally: "lens", add: "hymn" }] })])] })]);
+  pack.script.scenes[0].beats[0].when = { tally: "lens", value: "machine", gte: 0 };
+  pack.sets.s.layers.push({ prim: "pulltab", art: "art/x.svg", tally: "lens", value: "machine" });
+  assert.deepEqual(Stage.validate(pack), []);
+  assert.ok(Stage.validate(edit(pack, p => { p.tallies = ["lens"]; })).some(e => /tallies must be a map/.test(e)));
+  assert.ok(Stage.validate(edit(pack, p => { p.tallies = { lens: ["hymn"] }; })).some(e => /no value "machine"/.test(e)));
+  assert.ok(Stage.validate(edit(pack, p => { delete p.tallies; })).some(e => /tally "lens" is not in pack.tallies/.test(e)));
 });
 
 test("validate does not throw on junk", () => {
@@ -625,7 +796,8 @@ test("validate does not throw on junk", () => {
 // ---- simulate ----
 test("simulate: 20 independent three-way choices finish at once, with 3^20 paths", () => {
   const groups = Array.from({ length: 20 }, (_, i) => grp("g" + i, i % 3 === 0 ? "exec" : "plan", [opt("a", { effects: [{ flag: "w" + i }] }), opt("b", { effects: [{ flag: "w" + i }] }), opt("c", { effects: [{ meter: "lamp", add: -1 }, { tally: "lens", add: "hymn" }] })]));
-  const pack = mini([sc("a", { beats: [{ text: "go", notes: ["r"] }], choices: groups })]);
+  groups[0].notes = ["r"];
+  const pack = mini([sc("a", { beats: [{ text: "go" }], choices: groups })]);
   assert.deepEqual(Stage.validate(pack), []);
   const t0 = performance.now();
   const sim = Stage.simulate(pack);
@@ -635,7 +807,8 @@ test("simulate: 20 independent three-way choices finish at once, with 3^20 paths
   assert.equal(sim.endings.e, 3 ** 20);
   assert.equal(sim.endings.e2, 0);
   assert.equal(sim.routes.length, 1, "nothing reads state, so there is one end state");
-  assert.equal(sim.routes[0].path.length, 20);
+  assert.equal(sim.routes[0].steps.length, 20);
+  assert.ok(sim.routes[0].steps.every(x => Object.keys(x).join() === "opt"));
   assert.deepEqual(sim.unreachable.filter(u => !u.startsWith("note:")), ["ending:e2"]);
 });
 
@@ -649,7 +822,7 @@ test("simulate: only state that conditions read splits paths", () => {
   assert.equal(sim.endings.e2, 2 * 3 ** 5);
   assert.equal(sim.routes.length, 2);
   assert.deepEqual(sim.routes.map(r => r.ending).sort(), ["e", "e2"]);
-  assert.deepEqual(sim.routes.find(r => r.ending === "e").path[0], "g0.b");
+  assert.deepEqual(sim.routes.find(r => r.ending === "e").steps[0], { opt: "g0.b" });
   assert.ok(sim.states < 80, `states: ${sim.states}`);
 });
 
@@ -667,7 +840,11 @@ test("simulate: rolls branch on each result, inputs are filled, locked options a
   assert.deepEqual(sim.endings, { e: 1, e2: 2 });
   assert.deepEqual(sim.locked, ["a:c.locked"]);
   assert.deepEqual(sim.unreachable.slice().sort(), ["a:c.go:roll.success:0", "a:c.locked", "dead", "dead:0", "note:d", "note:l", "note:r"].sort());
-  assert.deepEqual(sim.routes.map(r => r.path).sort(), [["c.go", "roll=fail"], ["c.go", "roll=success"], ["c.say"]]);
+  const key = steps => JSON.stringify(steps);
+  assert.deepEqual(sim.routes.map(r => key(r.steps)).sort(), [
+    key([{ opt: "c.go", result: "fail" }]), key([{ opt: "c.go", result: "success" }]), key([{ opt: "c.say" }, { input: "(typed)" }]),
+  ].sort());
+  assert.ok(sim.routes.every(r => Object.keys(r).sort().join() === "count,ending,steps"), "a route is { ending, count, steps }");
 });
 
 test("simulate: a loop is followed once and reported, not walked forever", () => {
@@ -696,6 +873,130 @@ test("simulate: a meter read by a cost splits states; a meter nobody reads does 
   // Fate ends at 0 on every path and Lamp is never read, so the four paths share one end state.
   assert.equal(sim.routes.length, 1);
   assert.equal(sim.routes[0].count, 4);
+});
+
+test("simulate: group notes and comments count as reached notes", () => {
+  const pack = mini([sc("a", { choices: [
+    grp("shown", "plan", [opt("x")], { notes: ["l"] }),
+    grp("shown2", "plan", [opt("x")], { comment: "d" }),
+    grp("hid", "plan", [opt("x", { when: { flag: "nope" } })], { notes: ["r"] }),
+  ] })]);
+  const sim = Stage.simulate(pack);
+  assert.deepEqual(sim.unreachable.filter(u => u.startsWith("note:")), ["note:r"]);
+});
+
+test("simulate: only roll tiers the dice can reach from the current modifier are branches", () => {
+  const all = { fail: {}, tie: {}, success: {}, style: {} };
+  const withBeats = results => Object.fromEntries(Object.entries(results).map(([k, v]) => [k, { ...v, then: [{ text: k }] }]));
+  const at = (add, dice = "4dF", vs = 2, results = all, resolver = "fate4df") => edit(rollPack(resolver, dice, vs, withBeats(results), "lamp"), p => { p.meters[1].start = add; });
+  const tiers = pack => Stage.simulate(pack).unreachable.filter(u => u.includes(":roll.")).map(u => u.split(":roll.")[1].split(":")[0]).sort();
+  // 4dF + 0 against 2: totals -4..4, so fail, tie (2), success (3, 4); style needs 5.
+  assert.equal(Stage.simulate(at(0)).paths, 3);
+  assert.deepEqual(tiers(at(0)), ["style"]);
+  assert.equal(Stage.simulate(at(1)).paths, 4, "4dF + 1 against 2 reaches style");
+  assert.deepEqual(tiers(at(1)), []);
+  assert.equal(Stage.simulate(at(-3)).paths, 1, "4dF - 3 against 2 can only fail");
+  assert.deepEqual(tiers(at(-3)), ["style", "success", "tie"]);
+  assert.equal(Stage.simulate(at(2, "1d6", 99, { fail: {}, success: {} }, "ose")).paths, 1, "1d6 + 2 against 99 can only fail");
+  assert.equal(Stage.simulate(at(2, "1d6", 5, { fail: {}, success: {} }, "ose")).paths, 2);
+  assert.equal(Stage.simulate(at(0, "1d6", 1, { fail: {}, success: {} }, "ose")).paths, 1, "1d6 against 1 can only succeed");
+  assert.deepEqual(tiers(at(0, "1d6", 1, { fail: {}, success: {} }, "ose")), ["fail"]);
+  // a missing tie or style table falls back, so the fallback tier is the branch
+  assert.equal(Stage.simulate(at(0, "4dF", 2, { fail: {}, success: {} })).paths, 2, "tie reads fail, so fail and success");
+  assert.equal(Stage.simulate(at(1, "4dF", 2, { fail: {}, success: {} })).paths, 2, "style reads success");
+  // 3d6 reaches 3..18
+  assert.equal(Stage.simulate(at(0, "3d6", 19, { fail: {}, success: {} }, "ose")).paths, 1);
+  assert.equal(Stage.simulate(at(0, "3d6", 18, { fail: {}, success: {} }, "ose")).paths, 2);
+});
+
+test("simulate: a meter read by a roll's add splits states, so each modifier gets its own tiers", () => {
+  const pack = mini([sc("a", { choices: [
+    grp("m", "plan", [opt("low", { effects: [{ meter: "lamp", add: -2 }] }), opt("high")]),
+    grp("r", "exec", [opt("go", { roll: { dice: "4dF", vs: 2, add: "lamp", results: { fail: {}, tie: {}, success: {}, style: {} } } })]),
+  ] })], { resolver: "fate4df" });
+  const sim = Stage.simulate(pack);
+  // lamp 0: fail, tie, success. lamp 2: all four. Nothing else reads lamp, so only the add keeps the two states apart.
+  assert.equal(sim.paths, 3 + 4);
+  assert.deepEqual(sim.routes.map(r => r.count).sort(), [3, 4]);
+});
+
+test("simulate: a group's cost is read too, so affording the Fate point splits states", () => {
+  const pack = mini([sc("a", { choices: [
+    grp("m", "plan", [opt("spend", { effects: [{ meter: "fate", add: -1 }] }), opt("keep")]),
+    grp("f", "fate", [opt("z")], { cost: { meter: "fate", n: 1 } }),
+  ] })]);
+  const sim = Stage.simulate(pack);
+  assert.equal(sim.paths, 2);
+  assert.ok(sim.unreachable.some(u => u === "a:f.z") === false, "keep reaches the Fate group");
+});
+
+test("simulate: a route step is { opt }, { opt, result } for a pick that rolls, or { input }", () => {
+  const pack = mini([
+    sc("a", { choices: [
+      grp("first", "plan", [opt("say", { input: { field: "f", prompt: "p" }, then: [{ text: "after" }] })]),
+      grp("second", "exec", [
+        opt("roll", { roll: { dice: "2d6", vs: 7, results: { fail: { effects: [{ flag: "x" }] }, success: { effects: [{ flag: "y" }] } } } }),
+        opt("plain", { effects: [{ flag: "z" }] }),
+      ]),
+    ], route: [{ when: { flag: "x" }, to: "b" }, { when: { flag: "y" }, to: "c" }, { to: "d" }], ending: undefined }),
+    sc("b", { ending: "e2" }), sc("c"), sc("d"),
+  ]);
+  const sim = Stage.simulate(pack);
+  const all = sim.routes.map(r => r.steps);
+  assert.equal(all.length, 3);
+  assert.deepEqual(all.find(s => s[2].result === "fail"), [{ opt: "first.say" }, { input: "(typed)" }, { opt: "second.roll", result: "fail" }]);
+  assert.deepEqual(all.find(s => s[2].result === "success"), [{ opt: "first.say" }, { input: "(typed)" }, { opt: "second.roll", result: "success" }]);
+  assert.deepEqual(all.find(s => !s[2].result), [{ opt: "first.say" }, { input: "(typed)" }, { opt: "second.plain" }]);
+  for (const steps of all) for (const x of steps) assert.ok(typeof x === "object" && (x.opt || x.input), "no string steps");
+  // every one replays to its ending, with the roll forced to its tier and the typed text on the card
+  for (const r of sim.routes) {
+    const v = Stage.replay(pack, r, { seed: 5 }).view();
+    assert.equal(v.node, "ending");
+    assert.equal(v.ending.id, r.ending);
+    assert.equal(v.fields.f, "(typed)");
+  }
+});
+
+test("replay: a step's result forces the roll tier; typed text comes from the input step", () => {
+  const pack = mini([sc("a", { choices: [
+    grp("p", "plan", [opt("say", { input: { field: "f", prompt: "p" } })]),
+    grp("c", "exec", [opt("go", { roll: { dice: "2d6", vs: 7, results: { fail: { effects: [{ flag: "bad" }] }, success: { effects: [{ flag: "good" }] } } } })]),
+  ] })]);
+  for (const result of ["fail", "success"]) for (const seed of [1, 2, 3, 4, 5]) {
+    const g = Stage.replay(pack, [{ opt: "p.say" }, { input: "Ann" }, { opt: "c.go", result }], { seed });
+    const v = g.view();
+    assert.equal(v.fields.f, "Ann");
+    assert.equal(!!v.flags.good, result === "success");
+    assert.equal(!!v.flags.bad, result === "fail");
+  }
+  // upTo counts picks, and does not consume the later steps
+  const g = Stage.replay(pack, [{ opt: "p.say" }, { input: "Ann" }, { opt: "c.go", result: "fail" }], { upTo: 1 });
+  assert.equal(g.view().group.key, "c");
+  assert.equal(g.view().fields.f, "Ann");
+});
+
+test("force draws the faces inside the asked-for tier, deterministically, for every tier and seed", () => {
+  const pack = rollPack("fate4df", "4dF", 2, { fail: {}, tie: {}, success: {}, style: {} }, "lamp");
+  const p0 = edit(pack, p => { p.meters[1].start = 0; }); // 4dF + 0 against 2: style cannot be reached
+  for (const [p, tiers] of [[pack, ["fail", "tie", "success", "style"]], [p0, ["fail", "tie", "success"]]]) {
+    for (const want of tiers) for (let seed = 1; seed <= 40; seed++) {
+      const v = atChoice(p, { seed, force: [want] }).choose("go");
+      assert.equal(v.roll.used, want, `${want} seed ${seed}`);
+      assert.equal(v.roll.faces.length, 4);
+      assert.ok(v.roll.faces.every(f => [-1, 0, 1].includes(f)), JSON.stringify(v.roll.faces));
+      assert.equal(v.roll.total, v.roll.faces.reduce((a, b) => a + b, 0) + v.roll.add);
+      assert.equal(v.roll.result, want, "no fallback needed here");
+      assert.deepEqual(atChoice(p, { seed, force: [want] }).choose("go").roll, v.roll, "seeded");
+    }
+  }
+  // a tier the dice cannot give is still honoured with faked faces
+  assert.equal(atChoice(p0, { force: ["style"] }).choose("go").roll.used, "style");
+  // forces are used in order, one per roll
+  const two = mini([sc("a", { choices: [grp("c", "plan", [opt("go", { roll: { dice: "1d20", vs: 11, results: { fail: {}, success: {} } } })]), grp("d", "plan", [opt("go", { roll: { dice: "1d20", vs: 11, results: { fail: {}, success: {} } } })])] })]);
+  const g = atChoice(two, { force: ["fail", "success"] });
+  assert.equal(g.choose("go").roll.used, "fail");
+  g.next();
+  assert.equal(g.choose("go").roll.used, "success");
 });
 
 // ---- replay, brute force, fixtures ----
@@ -746,10 +1047,11 @@ for (const [name, pack] of [["test", OSE], ["test-feed", FEED]]) {
     const sim = Stage.simulate(pack);
     assert.ok(sim.routes.length > 10);
     for (const r of sim.routes) {
-      const g = Stage.replay(pack, r.path, { seed: 3 });
-      const v = g.view();
-      assert.equal(v.node, "ending", r.path.join(" > "));
-      assert.equal(v.ending.id, r.ending);
+      for (const route of [r, r.steps]) { // a route object or its steps
+        const v = Stage.replay(pack, route, { seed: 3 }).view();
+        assert.equal(v.node, "ending", JSON.stringify(r.steps));
+        assert.equal(v.ending.id, r.ending);
+      }
     }
   });
 
@@ -776,11 +1078,42 @@ for (const [name, pack] of [["test", OSE], ["test-feed", FEED]]) {
   });
 }
 
+test("every step of random play on both fixtures has typed cues in the fixed order, and a look cue only on a change", () => {
+  const rank = { seal: 0, tear: 1, roll: 2, cost: 3, gain: 3, tally: 4, turn: 5, shift: 5, ink: 6, bloom: 6, close: 7 };
+  let looks = 0, beats = 0;
+  for (const pack of [OSE, FEED]) for (let seed = 1; seed <= 60; seed++) {
+    const g = Stage.create(pack, { seed });
+    let r = seed, prev = g.view().beat.look;
+    const rnd = () => (r = (r * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    for (let i = 0; i < 400 && g.view().node !== "ending"; i++) {
+      const v0 = g.view();
+      const v = v0.node === "choice" ? g.choose(v0.options.filter(o => !o.locked)[Math.floor(rnd() * v0.options.filter(o => !o.locked).length)].key) : v0.node === "input" ? g.input("x") : g.next();
+      for (let k = 0; k < v.cues.length; k++) {
+        assert.ok(v.cues[k].type in rank, JSON.stringify(v.cues[k]));
+        if (k) assert.ok(rank[v.cues[k - 1].type] <= rank[v.cues[k].type], types(v).join());
+      }
+      if (v.node === "beat" && !v.beat.hidden) {
+        beats++;
+        const look = types(v).filter(t => t === "ink" || t === "bloom");
+        assert.ok(look.length <= 1);
+        if (look.length) looks++;
+        else if (!types(v).includes("turn")) assert.equal(v.beat.look, prev, "no look cue means the look did not change");
+        prev = v.beat.look;
+      }
+    }
+  }
+  assert.ok(looks > 0 && looks < beats, `${looks} look cues over ${beats} beats`);
+});
+
 test("replay with upTo stops at a choice", () => {
-  const g = Stage.replay(OSE, ["lens1.a", "intro.b", "cross.b"], { upTo: 2 });
+  const steps = [{ opt: "lens1.a" }, { opt: "intro.b" }, { opt: "cross.b" }];
+  const g = Stage.replay(OSE, steps, { upTo: 2 });
   assert.equal(g.view().node, "choice");
   assert.equal(g.view().group.key, "cross");
-  assert.throws(() => Stage.replay(OSE, ["intro.b"]), /expected group/);
+  assert.equal(Stage.replay(OSE, steps, { upTo: 0 }).view().group.key, "lens1");
+  assert.throws(() => Stage.replay(OSE, [{ opt: "intro.b" }]), /expected group/);
+  assert.throws(() => Stage.replay(OSE, ["lens1.a", "intro.b"]), /must be \{ opt/, "the string form is gone");
+  assert.throws(() => Stage.replay(OSE, "lens1.a"), /list of steps/);
 });
 
 test("the views carry what the shell needs", () => {
@@ -798,13 +1131,13 @@ test("the views carry what the shell needs", () => {
   assert.equal(g.view().beat.speaker, "wick");
   v = g.next();
   assert.equal(v.beat.set, "lamp");
-  assert.deepEqual(types(v), ["shift", "ink"]);
+  assert.deepEqual(types(v), ["shift"], "the look has not changed, so no ink");
   assert.equal(g.next().beat.hidden, true);
   assert.equal(g.next().beat.hidden, false, "next reveals");
   assert.deepEqual(g.next().beat.screen, ["WARD 3: LIT", "FORD: OPEN", "COUNT: 41,207"]);
   const c = g.next();
   assert.equal(c.node, "choice");
-  assert.deepEqual(c.group, { key: "lens1", ask: "What do you see in the lamp?", gate: "plan", cost: null });
+  assert.deepEqual(c.group, { key: "lens1", ask: "What do you see in the lamp?", gate: "plan", cost: null, notes: ["lens"], comment: null });
   assert.deepEqual(c.options.map(o => [o.key, o.label, o.sub]), [["a", "A hymn", "Lens: hymn"], ["b", "A machine", "Lens: machine"]]);
 });
 

@@ -22,7 +22,15 @@
     "card": "#efece5",
     "line": "#86837b",
     "ink-soft": "#4a4844",
-    "muted": "#4a4844"
+    "muted": "#4a4844",
+    "accent": "#2a679c",
+    "on-accent": "#fbfaf6",
+    "lamp": "#8a5e0a",
+    "good": "#2b6a3b",
+    "bad": "#b5232c",
+    "font-body": "\"Alegreya\", \"Iowan Old Style\", Georgia, serif",
+    "font-display": "\"Alegreya SC\", \"Alegreya\", Georgia, serif",
+    "font-ui": "\"Alegreya Sans\", \"Gill Sans\", \"Trebuchet MS\", sans-serif"
   },
   "dark": {
     "paper": "#161513",
@@ -47,7 +55,15 @@
     "card": "#25231f",
     "line": "#77736b",
     "ink-soft": "#b8b4ab",
-    "muted": "#b8b4ab"
+    "muted": "#b8b4ab",
+    "accent": "#79acd9",
+    "on-accent": "#161513",
+    "lamp": "#d6a63c",
+    "good": "#7cc48d",
+    "bad": "#e8727a",
+    "font-body": "\"Alegreya\", \"Iowan Old Style\", Georgia, serif",
+    "font-display": "\"Alegreya SC\", \"Alegreya\", Georgia, serif",
+    "font-ui": "\"Alegreya Sans\", \"Gill Sans\", \"Trebuchet MS\", sans-serif"
   },
   "fonts": [],
   "mapStyles": [

@@ -43,7 +43,7 @@
           "comment": "dm-follows"
         },
         {
-          "text": "The margin keeps your Fate. You start with one point. One point is easy to waste.",
+          "text": "The margin keeps your Fate. You start with three points. Spend them when it matters.",
           "notes": [
             "fate"
           ],
@@ -127,9 +127,6 @@
                   "add": "hymn"
                 },
                 {
-                  "flag": "read_h"
-                },
-                {
                   "set": {
                     "lens1": "Wards (hymn)"
                   }
@@ -149,9 +146,6 @@
                 {
                   "tally": "lens",
                   "add": "machine"
-                },
-                {
-                  "flag": "read_m"
                 },
                 {
                   "set": {
@@ -386,9 +380,6 @@
                   "add": "hymn"
                 },
                 {
-                  "flag": "read_h"
-                },
-                {
                   "set": {
                     "lens2": "A blessing (hymn)"
                   }
@@ -408,9 +399,6 @@
                 {
                   "tally": "lens",
                   "add": "machine"
-                },
-                {
-                  "flag": "read_m"
                 },
                 {
                   "set": {
@@ -756,9 +744,6 @@
                   "add": "hymn"
                 },
                 {
-                  "flag": "read_h"
-                },
-                {
                   "set": {
                     "lens3": "A breath held for you (hymn)"
                   }
@@ -778,9 +763,6 @@
                 {
                   "tally": "lens",
                   "add": "machine"
-                },
-                {
-                  "flag": "read_m"
                 },
                 {
                   "set": {
@@ -1093,11 +1075,7 @@
         },
         {
           "kicker": "EXECUTION",
-          "text": "Until now you have only looked, read and thought. That is Planning, and it is free. This choice is Execution. Once you make it, you cannot take it back.",
-          "notes": [
-            "gate"
-          ],
-          "comment": "dm-sure"
+          "text": "Until now you have only looked, read and thought. That is Planning, and it is free. This choice is Execution. Once you make it, you cannot take it back."
         }
       ],
       "choices": [
@@ -1288,30 +1266,17 @@
           "gate": "plan",
           "options": [
             {
-              "key": "h1",
+              "key": "h",
               "label": "Prayer. She is right, and you say so.",
               "sub": "Lens: hymn",
-              "when": {
-                "not": {
-                  "flag": "read_m"
-                }
-              },
               "effects": [
                 {
                   "tally": "lens",
                   "add": "hymn"
                 },
                 {
-                  "flag": "read_h"
-                },
-                {
                   "set": {
                     "lens4": "Prayer (hymn)"
-                  }
-                },
-                {
-                  "set": {
-                    "lens": "Hymn"
                   }
                 }
               ],
@@ -1321,79 +1286,22 @@
                 },
                 {
                   "kicker": "THE BOOK ROLLS",
-                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
-                  "notes": [
-                    "reaction"
-                  ],
-                  "comment": "dm-rolls"
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls."
                 }
               ]
             },
             {
-              "key": "h2",
-              "label": "Prayer. She is right, and you say so.",
-              "sub": "Lens: hymn",
-              "when": {
-                "flag": "read_m"
-              },
-              "effects": [
-                {
-                  "tally": "lens",
-                  "add": "hymn"
-                },
-                {
-                  "flag": "read_h"
-                },
-                {
-                  "set": {
-                    "lens4": "Prayer (hymn)"
-                  }
-                },
-                {
-                  "set": {
-                    "lens": "Both"
-                  }
-                }
-              ],
-              "then": [
-                {
-                  "text": "She looks at you for a long moment, surprised. By noon the whole Fort knows the two keepers agreed on something."
-                },
-                {
-                  "kicker": "THE BOOK ROLLS",
-                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
-                  "notes": [
-                    "reaction"
-                  ],
-                  "comment": "dm-rolls"
-                }
-              ]
-            },
-            {
-              "key": "m1",
+              "key": "m",
               "label": "Protocol: the rules by which one station speaks to another.",
               "sub": "Lens: machine",
-              "when": {
-                "not": {
-                  "flag": "read_h"
-                }
-              },
               "effects": [
                 {
                   "tally": "lens",
                   "add": "machine"
                 },
                 {
-                  "flag": "read_m"
-                },
-                {
                   "set": {
                     "lens4": "Protocol (machine)"
-                  }
-                },
-                {
-                  "set": {
-                    "lens": "Machine"
                   }
                 }
               ],
@@ -1423,71 +1331,7 @@
                 },
                 {
                   "kicker": "THE BOOK ROLLS",
-                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
-                  "notes": [
-                    "reaction"
-                  ],
-                  "comment": "dm-rolls"
-                }
-              ]
-            },
-            {
-              "key": "m2",
-              "label": "Protocol: the rules by which one station speaks to another.",
-              "sub": "Lens: machine",
-              "when": {
-                "flag": "read_h"
-              },
-              "effects": [
-                {
-                  "tally": "lens",
-                  "add": "machine"
-                },
-                {
-                  "flag": "read_m"
-                },
-                {
-                  "set": {
-                    "lens4": "Protocol (machine)"
-                  }
-                },
-                {
-                  "set": {
-                    "lens": "Both"
-                  }
-                }
-              ],
-              "then": [
-                {
-                  "text": "You say it kindly. She hears it as an insult anyway. Someone at the door laughs, and stops."
-                },
-                {
-                  "kicker": "REFEREE NOTE · LEAN IN",
-                  "text": "A protocol is a set of rules for how one station speaks to another: who goes first, who answers, what counts as a reply. You have studied those rules for eleven years. You have not yet tested one.",
-                  "reveal": true,
-                  "comment": "dm-secrets",
-                  "when": {
-                    "all": [
-                      {
-                        "tally": "lens",
-                        "top": "machine"
-                      },
-                      {
-                        "not": {
-                          "tally": "lens",
-                          "top": "hymn"
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kicker": "THE BOOK ROLLS",
-                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
-                  "notes": [
-                    "reaction"
-                  ],
-                  "comment": "dm-rolls"
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls."
                 }
               ]
             },
@@ -1505,19 +1349,8 @@
                   "add": "machine"
                 },
                 {
-                  "flag": "read_h"
-                },
-                {
-                  "flag": "read_m"
-                },
-                {
                   "set": {
                     "lens4": "Prayer and protocol (both)"
-                  }
-                },
-                {
-                  "set": {
-                    "lens": "Both"
                   }
                 }
               ],
@@ -1547,11 +1380,7 @@
                 },
                 {
                   "kicker": "THE BOOK ROLLS",
-                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls.",
-                  "notes": [
-                    "reaction"
-                  ],
-                  "comment": "dm-rolls"
+                  "text": "The whole yard watched you answer her. Nobody can say how it took your words. When no one knows, the book rolls."
                 }
               ]
             }
@@ -1804,7 +1633,7 @@
                 },
                 {
                   "kicker": "FATE",
-                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have three.",
                   "notes": [
                     "fate"
                   ],
@@ -1830,7 +1659,7 @@
                 },
                 {
                   "kicker": "FATE",
-                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have three.",
                   "notes": [
                     "fate"
                   ],
@@ -1856,7 +1685,7 @@
                 },
                 {
                   "kicker": "FATE",
-                  "text": "Cassandra waits. A hint from her costs one Fate point. You have one.",
+                  "text": "Cassandra waits. A hint from her costs one Fate point. You have three.",
                   "notes": [
                     "fate"
                   ],
@@ -1873,8 +1702,8 @@
           "options": [
             {
               "key": "a",
-              "label": "Let her go. Your Fate point stays.",
-              "sub": "Fate stays at 1",
+              "label": "Let her go. Your Fate stays.",
+              "sub": "Fate stays at 3",
               "to": "s8"
             },
             {
@@ -2217,9 +2046,60 @@
               "key": "a",
               "label": "Walk out onto the Old Road.",
               "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "machine",
+                "lte": 0
+              },
               "effects": [
                 {
                   "set": {
+                    "lens": "Hymn",
+                    "cassandra": "The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "hymn",
+                "lte": 0
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Machine",
+                    "cassandra": "The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "all": [
+                  {
+                    "tally": "lens",
+                    "value": "hymn",
+                    "gte": 1
+                  },
+                  {
+                    "tally": "lens",
+                    "value": "machine",
+                    "gte": 1
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Both",
                     "cassandra": "The road-stone hums the first line of a hymn. Only ever the first. Find the place where the lake's water stopped running, and listen there. What do you think comes after the first line?"
                   }
                 }
@@ -2231,15 +2111,17 @@
       "route": [
         {
           "when": {
-            "field": "lens",
-            "is": "Hymn"
+            "tally": "lens",
+            "value": "machine",
+            "lte": 0
           },
           "to": "milestone-hymn"
         },
         {
           "when": {
-            "field": "lens",
-            "is": "Machine"
+            "tally": "lens",
+            "value": "hymn",
+            "lte": 0
           },
           "to": "milestone-machine"
         },

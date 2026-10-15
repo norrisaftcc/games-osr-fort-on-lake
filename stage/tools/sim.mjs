@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { loadPack } from "./load.mjs";
 
 const Stage = createRequire(import.meta.url)("../engine/stage.js");
+// A step as a short label: "group.option", "group.option=tier" for a pick that rolls, "(typed)" for an input.
+export const stepLabel = x => (x.opt ? x.opt + (x.result ? "=" + x.result : "") : x.input != null ? x.input : "?");
 const fmt = n => (Number.isSafeInteger(n) ? n.toLocaleString("en-US") : n.toExponential(4));
 
 export function report(pack, opts = {}) {
@@ -18,7 +20,7 @@ export function report(pack, opts = {}) {
   for (const [id, n] of Object.entries(sim.endings)) out(`  ${id.padEnd(w)} ${fmt(n).padStart(14)}${n ? "" : "   NEVER REACHED"}`);
   const shown = opts.routes ? sim.routes : sim.routes.slice(0, 5);
   out(`routes: ${sim.routes.length} distinct end states${sim.routes.length > shown.length ? " (first " + shown.length + "; --routes for all)" : ""}`);
-  for (const r of shown) out(`  ${r.ending}: ${r.path.join(" > ") || "(no picks)"}  [${fmt(r.count)} paths]`);
+  for (const r of shown) out(`  ${r.ending}: ${r.steps.map(stepLabel).join(" > ") || "(no picks)"}  [${fmt(r.count)} paths]`);
   if (sim.cycles) out(`warning: ${sim.cycles} loop edge(s) were not followed; path counts leave loops out`);
   out(`locked options seen: ${sim.locked.length ? sim.locked.join(", ") : "none"}`);
   out(`unreachable: ${sim.unreachable.length ? "" : "none"}`);

@@ -24,9 +24,9 @@ One frame scene and the eight Fort Cards scenes, in order. Registers are P = pai
 | `s5` The Two Keepers | 5 | P | Minister (plan); Lens 4: hymn / machine / both (plan); the yard's reaction (**exec**, a roll) | Year One; Lens; the yard's mood |
 | `s6` Maren's Last Muster | 6 | P | Fort Office (plan); public fact if scene 4 was ink (plan, typed) | Fort Office; public fact |
 | `s7` Cassandra's Question | 7 | I | The answer (**exec**); ask for a hint? (plan); the hint (**fate**, 1 Fate) | *Cassandra asked*; the hint |
-| `s8` The Night Before the Road | 8 | I | Bond (plan); kit extra (plan); secret fact if scene 4 was paint (plan, typed); walk out (**exec**) | Bond; Gear; secret fact; Cassandra's line |
+| `s8` The Night Before the Road | 8 | I | Bond (plan); kit extra (plan); secret fact if scene 4 was paint (plan, typed); walk out (**exec**, three variants by the Lens tally) | Bond; Gear; secret fact; the card's Lens line; Cassandra's line |
 
-Endings, routed by the card's Lens line: `milestone-hymn`, `milestone-machine`, `milestone-both`. Each plays Cassandra's canon line for the cleric after "This time she does not begin with a question."
+Endings, routed by the Lens tally (the scene `route` reads the same counts that write the card's Lens line): `milestone-hymn`, `milestone-machine`, `milestone-both`. Each plays Cassandra's canon line for the cleric after "This time she does not begin with a question."
 
 ### The new perspective: the book is the Dungeon Master
 
@@ -40,7 +40,7 @@ The lineage is structure only: a programmed solo adventure of 1983 (a numbered p
 | Decides what happens | Numbered paragraph | `s0`, how the book works | `dm-decides` |
 | Hides the result | Reveal ink | `s1`, *you start knowing*; the glass in `s3` | `dm-hides` |
 | Rolls when it is uncertain | Volvelle, reaction roll | `s5`, the yard | `dm-rolls` |
-| Keeps the books | Margin ticket, Fate | `s0` (Fate 1); `s7` (the spend) | `dm-books` |
+| Keeps the books | Margin ticket, Fate | `s0` (Fate 3); `s7` (the spend) | `dm-books` |
 | Asks "are you sure?" | The seal on an Execution choice | `s4`, Nine Breaths | `dm-sure` |
 | Plays the people | Quoted lines | `s5` (the Minister); `s7` (Cassandra) | `dm-people` |
 | Follows the players | Brush and lean in | `s0`; the lean-ins | `dm-follows` |
@@ -57,8 +57,8 @@ Seven are the jobs in `PLAN.md`. Six are mine: the book also frames the scene, p
 | `s0` | The seven jobs; paint and ink; the Lens; Fate; the Fort Card | Opening beats |
 | `s1` | Planning (a chip); reveal ink (a chip, before the first reveal) | The last read-aloud beat; the beats before each reveal |
 | `s2` | Year of Change; the Pen; the Fort's tags | Beats 1, 3 and each tag beat |
-| `s4` | **Planning and Execution** (rule note `gate`, in the lead-in beat and on the group); public and secret facts | The beat before the first Execution group |
-| `s5` | The reaction roll (rule note `reaction`, in the beat before the roll) | The lead-in beat in each Lens 4 option |
+| `s4` | **Planning and Execution** (rule note `gate`, in the first Execution group's own `notes`; the lead-in beat carries no copy); public and secret facts | The Execution group's ask, right after the lead-in beat |
+| `s5` | The reaction roll (rule note `reaction`, in the `yard` group's own `notes`; the lead-in beat carries no copy) | The `yard` group's ask, right after the lead-in beat |
 | `s6` | Fort Office | The third muster beat |
 | `s7` | Fate (rule note `fate`, in the beat before the hint) | The lead-in beat after Cassandra's reply |
 | `s8` | Bond; the Old Road | Beats 2 and 3 |
@@ -74,7 +74,7 @@ Seven are the jobs in `PLAN.md`. Six are mine: the book also frames the scene, p
 | Cassandra at the milestone | The line is `P.cassandra` from `intro/index.html`. It follows "This time she does not begin with a question." |
 | Year of Change | The three cleric options, marked "(Proposed; the DM confirms.)" on the card. |
 | Typed facts | Scene 4 asks for the public fact if the player rang the bell, and the secret fact if the player hooded the screen. Scene 6 asks for the public fact if the player hooded the screen. Scene 8 asks for the secret fact if the player rang the bell. Every path ends with both facts written. |
-| Lens | Four moments, as in Fort Cards. The fourth offers *both*. The card line is Hymn if all four read hymn, Machine if all four read machine, Both otherwise. |
+| Lens | Four moments, as in Fort Cards. The fourth offers *both*, and a *both* pick adds one to each tally value. The card line is Hymn if no reading was machine, Machine if no reading was hymn, Both otherwise: the same rule as all four hymn, all four machine, else both. The book writes the line when it reads the Lens at the last step (`go`). |
 | The Gorgon Queen | A cockatrice chick's cry paralysed her (`biddy` note). She is never said to be turned to stone. |
 | Biddy | A cockatrice; Wick keeps her; the Glamourist holds her chick in scene 1. |
 | Pen | The cleric holds it in Autumn. |
@@ -91,7 +91,7 @@ Seven are the jobs in `PLAN.md`. Six are mine: the book also frames the scene, p
 | The bridge beats before each glass line | The player acts, then the glass answers. The bridge is the act. |
 | The Execution lead-in beat in `s4`, the Fate lead-in beat in `s7` | To teach each rule the first time it matters. |
 | Ending titles `The Milestone: Hymn / Machine / Both` | So the Verify sheet tells the endings apart. |
-| Fate starts at 1 | `SPEC.md` and the task say 1. Fort Cards gives 3 at the table. One point makes the spend a real choice. |
+| Fate starts at 3, max 6 | `campaign/SPINE.md` pins Fate at 3 and Fort Cards uses 3. The hint costs 1, so the player ends with 2 or 3. |
 
 ## 2. Checks, as run
 
@@ -116,9 +116,9 @@ locked options seen: none
 unreachable: none
 ```
 
-The pack was also replayed on all 216 routes (`Stage.replay`). On every route: the game reaches an ending; the ending matches the card's Lens line; the `lens` field equals Hymn if all four readings are hymn, Machine if all four are machine, Both otherwise; both facts are written; Fate is 0 if a hint was bought and 1 if not.
+The pack was also replayed on all 216 routes (`Stage.replay` with the route objects). On every route: the game reaches the ending the route names; the ending matches the card's Lens line; the `lens` field is Hymn if no reading was machine, Machine if no reading was hymn, Both otherwise (checked against the tally counts); both facts are written; Fate is 2 if a hint was bought and 3 if not. A second check walks all 24 combinations of Lens picks (three readings, then the fourth as hymn, machine or both) and confirms each ends at the right milestone.
 
-Canon text was compared with `intro/index.html` (cleric scenes, lines 337-470): 134 of 134 option labels, consequence lines, glass lines and paragraphs appear word for word in `script.json`.
+Canon text was compared with `intro/index.html` (cleric scenes, lines 337-470, and `MUSTER`): 168 of 168 option labels, consequence lines, group questions, glass lines, paragraphs, coda lines and road-end lines appear word for word in `script.json`. This count covers more than the first pass (134), which did not include the group questions.
 
 ## 3. The Brush
 
@@ -171,13 +171,13 @@ Result: no output from any of the three.
 
 | Topic | What I did | Why |
 |-------|-----------|-----|
-| The Lens summary and the endings | The card's `lens` field and the ending route read the field, not the tally. The tally still feeds the HUD and the flaps. | The card rule is *all hymn → Hymn, all machine → Machine, anything else → Both*. A tally condition (`top`) cannot say "none", so the fourth Lens pick writes the summary. It has one option for each case (`h1`, `h2`, `m1`, `m2`, `b`). Exactly three are visible at once. |
-| Nine Breaths | The two options carry `then` beats with `look: paint` and `look: ink`. | `GUIDE.md` section 4 says to do this. `SPEC.md` section 2 does not list `look` on a beat. If the engine ignores it, both branches read as ink. |
+| The Lens summary and the endings | The Lens tally decides. Each reading adds to `hymn` or `machine`; a *both* pick adds to both. At the last step (`go`) three variants of the same option show, one by the tally (`machine` count 0, `hymn` count 0, or both counts 1 or more). Each writes the card's `lens` line, and the scene `route` reads the same counts. | The tally-count condition (`{ tally, value, gte|lte }`) can say "none". That removes the flags `read_h` and `read_m` and the five-option Lens 4 (`h1`, `h2`, `m1`, `m2`, `b`): the fourth moment has three plain options again, as in Fort Cards. The cost is that the card's Lens line stays blank until the last page; the card's text copy shows the tally counts under *Readings* before that. |
+| Nine Breaths | The two options carry `then` beats with `look: paint` and `look: ink`. | `SPEC.md` section 2: a beat's `look` overrides the scene's for that beat. The bell branch fires `bloom` (the page changes from ink to paint). The hood branch stays ink, and the engine fires no `ink` cue because the look did not change. See section 8. |
 | Typed text | No condition reads a typed field. The register choice is a flag (`witnessed`, `unwitnessed`). | `GUIDE.md` section 7. |
 | A group with no visible option | Used on purpose: `fact6` and `secret8` are skipped when their option is hidden. | The engine skips a group with no visible option. |
-| Group `notes` and `comment` | Set on the Execution and Fate groups as well as on a beat. | `GUIDE.md` section 7 asks for group notes. `Stage.validate` and `sim` read only beat notes. |
-| Speakers | None. Cassandra and the Minister are named in a `kicker` or in the text. | The pack has no `cast.json`; a `speaker` with no cast entry fails `validate`. |
-| Theme | Blueline's `paper` values as `light`, its `lamp` values as `dark`, under Blueline's token names. Alegreya families as `font-serif`, `font-caps`, `font-sans`. Six aliases (`bg`, `panel`, `card`, `line`, `ink-soft`, `muted`) for the names the fixture packs use. `fonts: []`. | `SPEC.md` section 2. The aliases cost nothing if unused. `accent`, `lamp`, `good` and `bad` have no Blueline match that passes 4.5:1 as text, so they are not aliased. |
+| Group `notes` and `comment` | Set on the Execution and Fate groups. Where a beat repeated the same note and comment right before its group (the `s4` lead-in, the `s5` lead-in), the beat copy is gone. The Fate lead-in beat in `s7` stays: it comes before a Plan choice (ask for a hint?), not before the Fate group. | The engine now reads group notes and comments for reachability and the Notes sheet. The first Execution group carries the `gate` rule note in its own `notes`, as `validate` requires. |
+| Speakers | None. Cassandra and the Minister are named in a `kicker` or in the text. | The pack has no `cast.json`. A `speaker` with no cast entry is a warning until a `cast.json` exists, then an error. |
+| Theme | Blueline's `paper` values as `light`, its `lamp` values as `dark`, under Blueline's token names (kept). Alegreya families as `font-serif`, `font-caps`, `font-sans`, and as the shell's `font-body`, `font-display`, `font-ui`. Aliases for the names the fixture packs use: `bg`, `panel`, `card`, `line`, `ink-soft`, `muted`. New for the shell: `accent`, `on-accent`, `lamp`, `good`, `bad`. `fonts: []`. | `SPEC.md` section 2; `validate` checks every token in the header of `ui/style.css`. No Blueline value passes 4.5:1 as text for `accent`, `good` or `bad` on all three grounds, so these are chosen: `accent` is Blueline's blue, darkened in light (#2a679c) and Blueline's own in dark; `good` is a green; `bad` is Blueline's red in light and a lighter red in dark. Every text token (`ink`, `ink-soft`, `muted`, `accent`, `lamp`, `good`, `bad`) passes 4.5:1 on `bg`, `panel` and `card` in both themes; `on-accent` on `accent` is 5.71 (light) and 7.57 (dark). |
 
 ## 6. Cues, in short
 
@@ -187,11 +187,11 @@ The pack names no motion. The engine picks every cue from the data.
 |-----|--------------------|
 | `turn` | Each scene change, and the jump from a scene to an ending. |
 | `shift` | The `glass` close-up in `s3` and back to `terminal`. |
-| `ink` | Ink scenes; every reveal beat. |
-| `bloom` | Paint scenes; the endings; the `look: paint` beats in `s4`. |
+| `ink` | Entering an ink scene; a beat whose look changes to ink; every reveal beat. Not every beat. |
+| `bloom` | Entering a paint scene; the endings; the first `look: paint` beat in `s4` (the bell branch). |
 | `seal` | `reg`, `yard`, `cassq`, `hint`, `go`. |
 | `roll` | `yard` (2d6, 7 or more). |
-| `cost` and `tear` | `hint`: Fate 1 to 0. |
+| `cost` and `tear` | `hint`: Fate 3 to 2. |
 | `tally` | Every Lens pick. |
 | `close` | The three endings. |
 
@@ -332,9 +332,9 @@ Layers, back to front:
   1. spread     art: cream ground with a hatched night band along the top   moves on: turn, ink
   2. tunnel     art: the wall-walk running back in four planes, three of Wick's lamps lit along the parapet   moves on: drift, tilt
   3. vfold      art: Cassandra in her grey wrap, seated on the wall between the third lamp and the fourth, feet hanging over the dark   moves on: turn, ink
-  4. ticket     art: the Fate ticket, top right: a paper stub reading FATE with one punched box, a perforation across the middle; x 0.86, y 0.14, w 0.18   moves on: tear
-Cues this set must answer: ink, seal, tear, cost        Bound state for update(): the Fate meter (ticket torn when Fate is 0)
-What the player must read in the end state: Cassandra on the wall at night; a Fate ticket, whole or torn.
+  4. ticket     art: the Fate ticket, top right: a paper stub reading FATE with six boxes, three of them punched, a perforation across the middle; x 0.86, y 0.14, w 0.18   moves on: tear
+Cues this set must answer: ink, seal, tear, cost        Bound state for update(): the Fate meter (three of six boxes punched; one more box tears away when a point is spent)
+What the player must read in the end state: Cassandra on the wall at night; a Fate ticket with three punched boxes, or two after a hint.
 Palette and tokens: paper, ink, ink-2, tint-1, tint-2, rule
 Budget: 100 KB; at most 3 layers move at once
 ```
@@ -370,7 +370,7 @@ Budget: 140 KB; at most 2 layers move at once
 
 ## 8. Open questions for the lead
 
-1. Fate starts at 1 here (`SPEC.md` example and the task). `GUIDE.md` section 7 says "the OSR pack starts at 3 of 6", and Fort Cards gives 3. Which is it? One line in `pack.json` changes it.
-2. Beat `look` is in `GUIDE.md` section 4 but not in `SPEC.md` section 2, and `engine/stage.js` ignores it. Nine Breaths needs it to switch register after the choice.
+1. Fate starts at 3 of 6 (settled: SPINE pins 3).
+2. Beat `look` works: in Nine Breaths the bell branch fires `bloom`. The hood branch stays ink and fires no `ink` cue, because under the cue rule (ink and bloom fire when the look changes) nothing changed. The `seal` is the only motion there. The pack plays correctly; the lead may want the hood branch to read as its own moment.
 3. The pull-tab layer keys (`tally`, `value`, `under`) follow the fixture `packs/test/sets.json`. The paper-kit agent should confirm them.
 4. `side` on the card fields is `front` or `back`. I put the seven fields a DM reads first on the front.

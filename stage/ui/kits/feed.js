@@ -1,12 +1,15 @@
 /* STUB kit: feed (the Algorithm's surveillance view). Contract: stage/SPEC.md section 4, stage/MOTION.md.
    Wave 1 placeholder so the shell can be built and tested. Wave 2 replaces this file.
    A frame with a channel and a clock, a box on a face, a scan line, a log, bars. Transform and opacity only.
-   Durations come from --m-* tokens. Every cue returns a Promise and resolves at once under reduced motion.
-   `turn` is a hard cut (no animation); `shift` is a dissolve. Call order: show(), then cue(turn|shift), then update(state). */
+   Durations come from --m-* tokens. Every cue returns a Promise and resolves at once under reduced motion
+   (the media query, or <html data-motion="calm">).
+   `turn` is a hard cut (no animation); `shift` is a dissolve. Call order: show(), then cue(turn|shift), then update(state).
+   finish() jumps the active cue to its end state and resolves its Promise now. */
 (function () {
 "use strict";
-let skipNow = false, host, assets = {}, cast = null, active = new Set(), cur = null, pend = null, tokens = {}, clock = null, secs = 0;
-const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+let skipNow = false, host, assets = {}, cast = null, active = new Set(), cur = null, pend = null, tokens = {}, secs = 0, act = null, last = null;
+const docEl = document.documentElement;
+const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || docEl.getAttribute("data-motion") === "calm";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const ms = (cs, n, d) => { const x = parseFloat(cs.getPropertyValue(n)); return Number.isFinite(x) ? x : d; };
 
@@ -17,6 +20,14 @@ function run(elm, frames, dur, ease) {
   const done = () => active.delete(a);
   a.onfinish = done; a.oncancel = done;
   return a.finished.then(done, done);
+}
+// The active cue: its Promise settles when the animation ends or when finish() is called, whichever comes first.
+function track(p, end) {
+  return new Promise(res => {
+    const a = act = { end, res };
+    const fin = () => { if (act === a) act = null; try { end && end(); } catch (e) {} res(); };
+    Promise.resolve(p).then(fin, fin);
+  });
 }
 const stamp = n => { const s = n % 60, m = Math.floor(n / 60) % 60, h = 7 + Math.floor(n / 3600); return [h, m, s].map(x => String(x).padStart(2, "0")).join(":"); };
 function layerEl(l) {
@@ -84,9 +95,11 @@ const kit = {
     cur = next;
     if (o && o.instant) { if (old) old.remove(); host.appendChild(next); }
     else { next.style.opacity = "0"; host.appendChild(next); pend = { next, old }; }
+    last = o && o.state;
     setClock();
   },
-  update() { skipNow = false; commit(); setClock(); },
+  // Nothing in this stub is bound to state; it keeps the last state so a real kit's rule is visible here.
+  update(state) { skipNow = false; commit(); last = state; setClock(); },
   cue(c, o) {
     const red = (o && o.reduced) || redNow();
     skipNow = !!(o && o.reduced); // the shell asks for the end state at once (a tap, or reduced motion)
@@ -101,23 +114,23 @@ const kit = {
         const a = run(p.next, [{ opacity: 0 }, { opacity: 1 }], tokens.cross, tokens.easeOut);
         run(p.old, [{ opacity: 1 }, { opacity: 0 }], tokens.cross, tokens.easeOut);
         p.old.style.opacity = "0";
-        return a.then(commit);
+        return track(a, commit);
       }
       case "ink": { // a redaction lifts
         const bars = cur ? [...cur.querySelectorAll(".k-redact")] : [];
         if (!(o && o.beat && o.beat.reveal)) return Promise.resolve();
         bars.forEach(b => { b.style.opacity = "0"; b.style.transform += " translateY(-120%)"; });
-        return Promise.all(bars.map(b => run(b, [{ opacity: 1, transform: b.style.transform.replace(" translateY(-120%)", "") }, { opacity: 0, transform: b.style.transform }], tokens.ink, tokens.easeOut))).then(() => {});
+        return track(Promise.all(bars.map(b => run(b, [{ opacity: 1, transform: b.style.transform.replace(" translateY(-120%)", "") }, { opacity: 0, transform: b.style.transform }], tokens.ink, tokens.easeOut))));
       }
       case "bloom": // the frame comes into focus
-        return cur ? run(cur, [{ opacity: 0.7 }, { opacity: 1 }], tokens.bloom, tokens.easeOut) : Promise.resolve();
+        return cur ? track(run(cur, [{ opacity: 0.7 }, { opacity: 1 }], tokens.bloom, tokens.easeOut)) : Promise.resolve();
       case "roll": {
         const s = cur && cur.querySelector(".k-scan");
         if (!s) return Promise.resolve();
-        return run(s, [{ opacity: 0.15, transform: "translateY(0)" }, { opacity: 0.15, transform: `translateY(${host.clientHeight}px)` }], tokens.roll, tokens.easeLinear);
+        return track(run(s, [{ opacity: 0.15, transform: "translateY(0)" }, { opacity: 0.15, transform: `translateY(${host.clientHeight}px)` }], tokens.roll, tokens.easeLinear));
       }
       case "tear": // the signal slips once
-        return cur ? run(cur, [{ transform: `translateX(${tokens.d3}px)` }, { transform: "none" }], tokens.tear, tokens.easeOut) : Promise.resolve();
+        return cur ? track(run(cur, [{ transform: `translateX(${tokens.d3}px)` }, { transform: "none" }], tokens.tear, tokens.easeOut)) : Promise.resolve();
       case "seal": {
         const t = cur && cur.querySelector(".k-track");
         if (t) { t.style.borderStyle = "solid"; }
@@ -126,16 +139,23 @@ const kit = {
       case "close":
         if (!cur) return Promise.resolve();
         cur.style.transform = "scaleY(.02)";
-        return run(cur, [{ transform: "none" }, { transform: "scaleY(.02)" }], tokens.close, tokens.easeIn);
+        return track(run(cur, [{ transform: "none" }, { transform: "scaleY(.02)" }], tokens.close, tokens.easeIn));
       default:
-        return Promise.resolve();
+        return Promise.resolve(); // cost, gain, tally: the shell shows these
     }
   },
-  finish() { for (const a of [...active]) { try { a.finish(); } catch (e) {} } active.clear(); commit(); },
+  // A tap during a cue: every animation jumps to its end, a pending swap completes, and the cue's Promise resolves now.
+  finish() {
+    const a = act; act = null;
+    for (const x of [...active]) { try { x.finish(); } catch (e) {} }
+    active.clear();
+    commit();
+    if (a) { try { a.end && a.end(); } catch (e) {} a.res(); }
+  },
   card(scene) {
     return `<div class="scene-card"><p class="card-place">${scene.ending ? "Feed closed" : esc(scene.place || "")}</p><h2 class="card-title">${esc(scene.title)}</h2><div class="card-rule"></div></div>`;
   },
-  destroy() { if (host) host.innerHTML = ""; active.clear(); cur = pend = null; },
+  destroy() { if (host) host.innerHTML = ""; active.clear(); cur = pend = act = last = null; },
 };
 window.StageKit.register("feed", kit);
 })();

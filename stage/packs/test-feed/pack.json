@@ -41,9 +41,12 @@
       "side": "front"
     }
   ],
-  "tallies": [
-    "lens"
-  ],
+  "tallies": {
+    "lens": [
+      "hymn",
+      "machine"
+    ]
+  },
   "commentary": {
     "label": "What the Algorithm logs",
     "kinds": [

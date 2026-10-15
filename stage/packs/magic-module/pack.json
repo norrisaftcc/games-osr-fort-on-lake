@@ -11,8 +11,8 @@
       "id": "fate",
       "label": "Fate",
       "min": 0,
-      "max": 5,
-      "start": 1,
+      "max": 6,
+      "start": 3,
       "hud": true
     }
   ],
@@ -148,9 +148,12 @@
       "side": "back"
     }
   ],
-  "tallies": [
-    "lens"
-  ],
+  "tallies": {
+    "lens": [
+      "hymn",
+      "machine"
+    ]
+  },
   "commentary": {
     "label": "How the module DMs",
     "kinds": [

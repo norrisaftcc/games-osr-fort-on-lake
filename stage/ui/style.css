@@ -5,6 +5,8 @@
    and switches the two themes with prefers-color-scheme and <html data-theme="light|dark">.
 
    TOKENS THE SHELL READS (set them in both `light` and `dark` of theme.json)
+   Format: tools/validate.mjs reads the indented rows below. A row is a token name, two or more spaces, then its use.
+   `a | b` means a theme may define either name; `a, b` lists two separate tokens; "optional" means no theme has to define it.
    Colour. The first name is the fixture vocabulary; the second is the Blueline vocabulary.
      bg | paper          page and stage ground
      panel | tint-1      sheets, HUD, top bar, deck
@@ -18,18 +20,19 @@
      good, bad           gain and loss labels, roll results
      on-accent           text on an accent button (optional; the default is bg)
    Type (optional; each is a font-family list). The pack's theme.fonts embeds the files.
-     font-body           story text         (default: Georgia, serif)
-     font-display        titles, big numbers (default: font-body)
-     font-ui             buttons, labels    (default: system-ui)
-     font-mono           screens, logs      (default: ui-monospace)
+     font-body           optional: story text         (default: Georgia, serif)
+     font-display        optional: titles, big numbers (default: font-body)
+     font-ui             optional: buttons, labels    (default: system-ui)
+     font-mono           optional: screens, logs      (default: ui-monospace)
    Motion (optional; set in theme.json only to retune; defaults are in the :root block below)
-     m-flash-color       the one flash on a cost (default: ink)
+     m-flash-color       optional: the one flash on a cost (default: ink)
    Everything else below is the shell's own: every colour is a var(--st-*) alias of a token above,
    and every duration is a --m-* token from MOTION.md. No colour or time is hard-coded in a rule.
 
    Attributes the shell sets, for kits and tests:
      <html data-theme="light|dark">   absent means follow the system
      <html data-map="ink|blueline">   the map style the reader chose
+     <html data-motion="full|calm">   calm behaves exactly as prefers-reduced-motion: reduce
      <html data-commentary="on|off">
      <html data-hidden>               present while the page is hidden
      <html data-cue>                  present while a cue plays
@@ -181,6 +184,8 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .tallies { font-size: .8125rem; color: var(--st-ink-soft); }
 .tallies b { font-weight: 700; color: var(--st-ink); }
+.tallies i { font-style: normal; font-variant-numeric: tabular-nums; }
+.tallies i.bump { color: var(--st-ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .tallies span + span::before { content: "\00b7"; margin: 0 6px; }
 .count { font-variant-numeric: tabular-nums; }
 @media (max-width: 380px) { .m-val small { display: none; } }
@@ -420,6 +425,9 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 .ec b { display: block; font: 700 1.25rem/1.2 var(--st-font-display); font-variant-numeric: tabular-nums; }
 .ec.zero { border-style: dashed; color: var(--st-bad); }
 .routes { display: grid; gap: 6px; }
+.route-row { display: flex; align-items: stretch; gap: 6px; }
+.route-row .route { flex: 1 1 auto; min-width: 0; width: auto; }
+.route-last { flex: none; padding: 0 10px; }
 .route {
   display: block; width: 100%; min-height: var(--st-target); padding: 6px 10px; text-align: left; cursor: pointer;
   background: var(--st-card); border: 1px solid var(--st-edge); border-radius: 6px; font: .8125rem/1.45 var(--st-font-ui);
@@ -429,9 +437,14 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 .route small { display: block; color: var(--st-ink-soft); font-variant-numeric: tabular-nums; }
 .vlist-h { margin: 14px 0 6px; font: 700 .8125rem/1.3 var(--st-font-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--st-ink-soft); }
 
+/* Reduced motion: the system setting, or the reader's Calm setting (<html data-motion="calm">). The two are the same block. */
 @media (prefers-reduced-motion: reduce) {
   :root { --m-idle-scale: 1; }
   *, *::before, *::after {
     animation: none !important; transition: none !important; scroll-behavior: auto !important;
   }
+}
+:root[data-motion="calm"] { --m-idle-scale: 1; }
+:root[data-motion="calm"] *, :root[data-motion="calm"] *::before, :root[data-motion="calm"] *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
 }

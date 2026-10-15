@@ -69,10 +69,14 @@
               ],
               "then": [
                 {
-                  "text": "You count the wheel's turns. It is a clock, and a patient one."
+                  "text": "You count the wheel's turns. It is a clock, and a patient one.",
+                  "look": "paint"
                 }
               ]
             }
+          ],
+          "notes": [
+            "lens"
           ]
         },
         {
@@ -153,6 +157,14 @@
             "top": "hymn"
           },
           "text": "The lamp hums one low note. You step in time with it."
+        },
+        {
+          "when": {
+            "tally": "lens",
+            "value": "hymn",
+            "lte": 0
+          },
+          "text": "You have not heard the lamp hum, so you cross by the river's own sound."
         }
       ],
       "choices": [
@@ -261,6 +273,9 @@
               ],
               "to": "s4"
             }
+          ],
+          "notes": [
+            "gate"
           ]
         }
       ],
@@ -549,7 +564,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "comment": "alg-roll"
         }
       ],
       "route": [
