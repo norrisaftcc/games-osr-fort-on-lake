@@ -1,0 +1,182 @@
+{
+  "dm-seven": {
+    "kind": "dm",
+    "term": "The seven jobs",
+    "text": "A Dungeon Master does seven jobs. The DM describes the place, keeps secrets, decides what happens, hides the result, rolls when no one knows, keeps the books, and asks: are you sure? This book does all seven. A line like this one names the job."
+  },
+  "dm-describes": {
+    "kind": "dm",
+    "term": "The DM describes",
+    "text": "A DM tells you what you see. The read-aloud text does it here. It is written in advance, so every reader hears the same words. A live DM changes it to suit the table."
+  },
+  "dm-frames": {
+    "kind": "dm",
+    "term": "The DM frames the scene",
+    "text": "A DM opens each scene by saying when and where. The place line above the text does it here. When the place line changes, the page turns, and time has passed."
+  },
+  "dm-secrets": {
+    "kind": "dm",
+    "term": "The DM keeps secrets",
+    "text": "A DM knows things you do not. The flap holds them until you ask. The Referee Note under it is what a DM would tell you if you leaned in. Lift it only if you want to."
+  },
+  "dm-decides": {
+    "kind": "dm",
+    "term": "The DM decides what happens",
+    "text": "Your choice picks the paragraph. That paragraph is the DM's ruling, written in advance. A live DM rules on the spot and can surprise you. The book cannot surprise you, but it never cheats."
+  },
+  "dm-hides": {
+    "kind": "dm",
+    "term": "The DM hides the result",
+    "text": "The result was always on the page. You could not see it until you chose. A DM does this with a screen. The book does it with reveal ink."
+  },
+  "dm-rolls": {
+    "kind": "dm",
+    "term": "The DM rolls the dice",
+    "text": "A DM rolls when no one knows the answer. Here the book rolls 2d6 and reads a table. This is a reaction roll: how a crowd takes news. It changes the mood, not the facts."
+  },
+  "dm-books": {
+    "kind": "dm",
+    "term": "The DM keeps the books",
+    "text": "A DM tracks time, hit points and luck so you do not have to. The margin does it here. Your Fate shows beside the text. When you spend a point, the number drops and the ticket tears."
+  },
+  "dm-sure": {
+    "kind": "dm",
+    "term": "The DM asks: are you sure?",
+    "text": "Before a final act, a good DM asks once: are you sure? This book asks with a seal. Planning is free. Once you break the seal, the choice is made."
+  },
+  "dm-people": {
+    "kind": "dm",
+    "term": "The DM plays the people",
+    "text": "A DM speaks for everyone but you: Cassandra, the Minister, Wick. The book does it with quoted lines. A live DM answers back. These lines are fixed."
+  },
+  "dm-follows": {
+    "kind": "dm",
+    "term": "The DM follows you",
+    "text": "Old things show only at the edge. If you read one as machine, a Referee Note may open one step further. If you read it as hymn, the story stays a story. The DM follows your lead and does not push."
+  },
+  "dm-remembers": {
+    "kind": "dm",
+    "term": "The DM remembers",
+    "text": "A DM remembers what you chose. The book does it with flags. A choice you made earlier changes this page. Nothing you chose is lost."
+  },
+  "dm-writes": {
+    "kind": "dm",
+    "term": "The DM writes it down",
+    "text": "After play, a DM writes up what happened. The Fort Card does it here. Every choice writes one line on it. Bring the card to the table."
+  },
+  "dm-asks": {
+    "kind": "dm",
+    "term": "The DM asks you to say",
+    "text": "A DM sometimes asks the player to say what is true. The book does it with a typed line. Whatever you write, the book keeps. It does not judge it."
+  },
+  "planning": {
+    "kind": "rule",
+    "term": "Planning",
+    "text": "Planning is looking, reading, talking and thinking. It takes no dice and no time. You can go back and change a Planning choice. Its option has a dashed edge."
+  },
+  "gate": {
+    "kind": "rule",
+    "term": "Planning and Execution",
+    "text": "Planning is free: look, read, talk. You can go back. Execution is dice and consequences. Once you pick, you cannot undo it. The book seals the page. Think in Planning. Act in Execution."
+  },
+  "register": {
+    "kind": "rule",
+    "term": "Paint and ink",
+    "text": "Two looks. Paint is witnessed: the Fort sees it, and it can become a public fact. Ink is unwitnessed: only you know, and it can become a secret fact. The page tells you which."
+  },
+  "lens": {
+    "kind": "rule",
+    "term": "The Lens",
+    "text": "Old things show at the edge. You read each one as hymn or machine. Neither is wrong. The tally shows how you lean. The Fort Card keeps each reading."
+  },
+  "fate": {
+    "kind": "rule",
+    "term": "Fate",
+    "text": "Fate is a point you spend when it matters. You start with three. Spending one is final. Here, one point buys one hint from Cassandra. At the table, a point can do more."
+  },
+  "reveal": {
+    "kind": "rule",
+    "term": "Reveal ink",
+    "text": "Some lines stay hidden until you ask. Tap, or press R, to lift them. AUTO play stops there. The line was always on the page."
+  },
+  "reaction": {
+    "kind": "rule",
+    "term": "Reaction roll",
+    "text": "When a crowd or a stranger could go either way, roll 2d6. Seven or more: they lean your way. Six or less: they do not. Roll only when nobody knows the answer."
+  },
+  "facts": {
+    "kind": "rule",
+    "term": "Public and secret facts",
+    "text": "A public fact is something the whole Fort knows about you. A secret fact is something only you know. You write each in one sentence. Your DM will use them."
+  },
+  "card": {
+    "kind": "rule",
+    "term": "The Fort Card",
+    "text": "The card holds what you chose. You carry it to the table. At session zero you may change any choice. The card is yours, and the DM reads it."
+  },
+  "yoc": {
+    "kind": "rule",
+    "term": "Year of Change",
+    "text": "The Year Between changed you. Your Year of Change is one gift. The numbers here are proposed. The DM confirms them at the table."
+  },
+  "office": {
+    "kind": "rule",
+    "term": "Fort Office",
+    "text": "Maren gives out four offices. Warden: Walls +1 when you take the Defend directive. Scout: one extra clue per hex. Steward: you see the Fort's tracks first. Lorekeeper: one free hint per puzzle."
+  },
+  "bond": {
+    "kind": "rule",
+    "term": "Bond",
+    "text": "Your bond is the one person tied to you. If two players name each other, each gets one extra Fate, spent only to help the other. You pick from the people of the Fort."
+  },
+  "terminal": {
+    "kind": "lore",
+    "term": "The Terminal",
+    "text": "An old screen of glass in a frame of carved stone, in the Shrine. Hymns climb it all night. It prints; it does not speak. Some call it holy. Some call it a machine."
+  },
+  "year-between": {
+    "kind": "lore",
+    "term": "The Year Between",
+    "text": "The year before this one, played with a zine. The Pen passed round: the druid in Spring, the thief in Summer, you in Autumn. Each season left the Fort changed."
+  },
+  "pen": {
+    "kind": "lore",
+    "term": "The Pen",
+    "text": "Whoever holds the Pen writes the Fort's book for a season and makes one choice for the Fort. You held it in Autumn. The whole Fort saw you choose."
+  },
+  "fort-tags": {
+    "kind": "lore",
+    "term": "Oath, Want, Enmity",
+    "text": "The Year Between leaves a tag on the Fort. An Oath is a debt someone owes it. A Want is a need it feels. An Enmity is an enemy it has. The DM must use them."
+  },
+  "lake-stone": {
+    "kind": "lore",
+    "term": "The lake stone",
+    "text": "Grey, smooth, the size of a hen's egg, cold as the lake. It took the place of your cracked screen fragment. The Terminal knew it. How it came to you is between you and the DM."
+  },
+  "biddy": {
+    "kind": "lore",
+    "term": "Biddy",
+    "text": "Biddy is a cockatrice. As a chick, her cry paralysed the Gorgon Queen where she stood. Wick keeps her now, in the Beast Pen. Everyone keeps clear of her beak."
+  },
+  "cassandra": {
+    "kind": "lore",
+    "term": "Cassandra",
+    "text": "The seer at the Shrine. What she says is true, but only half of it makes sense at first. Her hints never tell. They ask. She comes and goes unseen."
+  },
+  "minister": {
+    "kind": "lore",
+    "term": "The Minister",
+    "text": "She kept the Terminal for years before you came. She believes it speaks to her. She is the Fort's other cleric, and the Fort watches the two of you."
+  },
+  "wick": {
+    "kind": "lore",
+    "term": "Wick",
+    "text": "Wick is twelve. He lights the Fort's lamps, keeps Biddy, and counts everything he sees."
+  },
+  "road": {
+    "kind": "lore",
+    "term": "The Old Road",
+    "text": "The road that runs past the Fort, older than the Fort. Its milestone is cut with numbers nobody reads. Travellers say it hums."
+  }
+}

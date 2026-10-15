@@ -25,11 +25,11 @@ The rules come from `AGENTS.md` and `campaign/SPINE.md`. Cite the file and line 
 
 ## The Stage (`stage/`)
 
-This section applies once `stage/` lands (PR #7). It is not the crawler; do not review it against `crawler/SPEC.md`. The contract is `stage/SPEC.md`. Where code and spec disagree, the code is wrong, unless the PR also changes the spec and records it in `stage/PLAN.md`'s change log.
+It is not the crawler; do not review it against `crawler/SPEC.md`. The contract is `stage/SPEC.md`. Where code and spec disagree, the code is wrong, unless the PR also changes the spec and records it in `stage/PLAN.md`'s change log.
 
 - A pack never names a motion. Only the engine picks cues (SPEC §3).
 - Every cue has a reduced-motion end state. Animations use only `transform` and `opacity`.
-- `localStorage` is used only in try/catch, under the pack's `storageKey` (`fort-stage.` here, `htll.` in HTLL).
+- `localStorage` is used only in try/catch, under the pack's `storageKey` (`fort-stage.<id>` here, `htll.stage.<id>` in HTLL).
 - The engine (`engine/stage.js`) has no DOM, no timers and no `Math.random`.
 - `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, `GUIDE.md`, `test.mjs` and the fixture packs are vendored into the HTLL repository. A change here needs a re-copy there; say so if the PR does not mention it.
 - Note texts are 60 words or fewer.

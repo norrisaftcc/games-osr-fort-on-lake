@@ -1,0 +1,164 @@
+{
+  "id": "magic-module",
+  "title": "The Magic Module",
+  "subtitle": "The elf cleric",
+  "kit": "paper",
+  "resolver": "ose",
+  "start": "s0",
+  "storageKey": "fort-stage.magic-module",
+  "meters": [
+    {
+      "id": "fate",
+      "label": "Fate",
+      "min": 0,
+      "max": 6,
+      "start": 3,
+      "hud": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "name",
+      "label": "Name",
+      "side": "front"
+    },
+    {
+      "id": "lens",
+      "label": "The Lens",
+      "side": "front"
+    },
+    {
+      "id": "yoc",
+      "label": "Year of Change",
+      "side": "front"
+    },
+    {
+      "id": "office",
+      "label": "Fort Office",
+      "side": "front"
+    },
+    {
+      "id": "bond",
+      "label": "Bond",
+      "side": "front"
+    },
+    {
+      "id": "public",
+      "label": "Public fact",
+      "side": "front"
+    },
+    {
+      "id": "secret",
+      "label": "Secret fact",
+      "side": "front"
+    },
+    {
+      "id": "origin",
+      "label": "The Terminal showed",
+      "side": "back"
+    },
+    {
+      "id": "know",
+      "label": "You start knowing",
+      "side": "back"
+    },
+    {
+      "id": "gaveup",
+      "label": "Gave up",
+      "side": "back"
+    },
+    {
+      "id": "minister",
+      "label": "The Minister",
+      "side": "back"
+    },
+    {
+      "id": "lens1",
+      "label": "Lens 1: the Queen's eyes",
+      "side": "back"
+    },
+    {
+      "id": "lens2",
+      "label": "Lens 2: the stone's greeting",
+      "side": "back"
+    },
+    {
+      "id": "lens3",
+      "label": "Lens 3: the blinking mark",
+      "side": "back"
+    },
+    {
+      "id": "lens4",
+      "label": "Lens 4: the hymns",
+      "side": "back"
+    },
+    {
+      "id": "autumn",
+      "label": "Autumn, the Year Between",
+      "side": "back"
+    },
+    {
+      "id": "pen",
+      "label": "The Pen · Autumn",
+      "side": "back"
+    },
+    {
+      "id": "said1",
+      "label": "Night one",
+      "side": "back"
+    },
+    {
+      "id": "said4",
+      "label": "Night four",
+      "side": "back"
+    },
+    {
+      "id": "said7",
+      "label": "Night seven",
+      "side": "back"
+    },
+    {
+      "id": "lastline",
+      "label": "Last line",
+      "side": "back"
+    },
+    {
+      "id": "cassq",
+      "label": "Cassandra asked",
+      "side": "back"
+    },
+    {
+      "id": "hint",
+      "label": "Cassandra's hint (1 Fate)",
+      "side": "back"
+    },
+    {
+      "id": "yard",
+      "label": "The yard at the plinth (the book's roll)",
+      "side": "back"
+    },
+    {
+      "id": "extra",
+      "label": "Kit extra",
+      "side": "back"
+    },
+    {
+      "id": "cassandra",
+      "label": "Cassandra, at the milestone",
+      "side": "back"
+    }
+  ],
+  "tallies": {
+    "lens": [
+      "hymn",
+      "machine"
+    ]
+  },
+  "commentary": {
+    "label": "How the module DMs",
+    "kinds": [
+      "dm",
+      "rule"
+    ]
+  }
+}

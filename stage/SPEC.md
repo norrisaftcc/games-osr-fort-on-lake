@@ -56,9 +56,10 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
   "commentary": { "label": "How the module DMs", "kinds": ["dm", "rule"] } }
 ```
 
+- A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
-- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL.
-- `fields` are the card the player carries away; `side` is `front` or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values; a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
+- `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL; the usual key is `fort-stage.<id>` here and `htll.stage.<id>` there. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
+- `fields` are the card the player carries away; `side` is `front` (the default) or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
 
@@ -86,7 +87,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 
 **Scene**: `id`, `title`, `place`, `look`, `set`, `beats`, `choices` (zero or more groups, played in order after the beats), and one of `next` (a scene id), `ending` (an ending id) or `route` (a list of `{ "when": cond, "to": id }`, first match wins, last entry has no `when`).
 
-**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (an array of strings shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
+**Beat**: `text` (plain text; `*word*` is the only markup, for emphasis), and optional `kicker`, `speaker` (a cast id), `set` (changes the set inside the scene), `notes` (ⓘ chips), `comment` (one commentary note id, shown in the commentary track), `reveal` (hidden until the player reveals it), `screen` (a non-empty array of strings shown on an in-world screen, kit-drawn), `look` (overrides the scene's look for this beat only; use it in an option's `then` when a choice decides the register, as in the cleric's *Nine Breaths*), `when`.
 
 **Choice group**: `key`, `ask`, `gate`, optional `cost` (`{ "meter": "fate", "n": 1 }`, only with gate `fate`), `notes` and `comment` (as on a beat; shown with the ask, before the player commits), `options`.
 
@@ -96,7 +97,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 - `roll`: `{ "dice": "2d6" | "1d20" | "3d6" | "4dF", "add": "<meter id>", "vs": n, "results": { "fail": {…}, "success": {…}, "style": {…} } }`. Each result is `{ "effects", "then" }`. `ose` reads `fail`/`success` (meet or beat `vs`). `fate4df` reads `fail` (below `vs`), `tie` (equal, falls back to `fail` if absent), `success`, `style` (`vs` + 3 or more, falls back to `success`).
 - `input`: `{ "field": "public", "prompt": "…", "max": 140 }`. The player types; the text goes to that card field. Simulation fills it with `"(typed)"`. No condition may read a field that an `input` writes; `validate` rejects it, because typed text cannot be explored.
 
-**Conditions** (`when`, `lock`, `route`): `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
+**Conditions** (`when`, `lock`, `route`): `{ "tally": "lens", "value": "machine", "gte": 1 }` (also `lte`; a count of one value), `{ "flag": "x" }`, `{ "field": "x", "is": "y" }`, `{ "meter": "fate", "gte": 1 }` (also `lte`), `{ "tally": "lens", "top": "machine" }` (that value leads or ties), `{ "all": [ … ] }`, `{ "any": [ … ] }`, `{ "not": cond }`.
 
 **Effects**: `{ "flag": "x" }`, `{ "set": { "field": "value" } }`, `{ "meter": "fate", "add": -1 }`, `{ "tally": "lens", "add": "hymn" }`.
 
@@ -124,11 +125,11 @@ Positions are fractions of the stage. Each kit defines its primitives in section
 
 ### theme.json
 
-Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
+Two themes, `light` and `dark`, each a map of custom-property names (without `--`) to colours. The names the shell and kits read are listed at the top of `ui/style.css`, in the block TOKENS THE SHELL READS; `validate` checks that both themes define every one. In that block, a row `a | b` is one token under either name (define one of them); `x, y` names separate tokens (define each); a row marked optional is not checked. A kit that reads a new token adds a row. A pack may define more (the OSR pack keeps Blueline's names). The OSR pack copies Blueline's `paper` and `lamp` values. `fonts`: `[{ "family", "file", "weight", "style" }]`, embedded by the build as base64. `mapStyles`: `["ink", "blueline"]`; the first is the default and the reader can toggle.
 
 ### cast.json
 
-`{ "sheet": "art/cast.jpg", "w": 1200, "h": 660, "people": { "chen": { "name": "Manager Chen", "role": "…", "x": 400, "y": 220, "r": 90 } } }`. Portraits are crops of the one sheet by background position, as in Neon On-Call.
+`{ "sheet": "art/cast.jpg", "w": 1200, "h": 660, "people": { "chen": { "name": "Manager Chen", "role": "…", "x": 400, "y": 220, "r": 90 } } }`. Portraits are crops of the one sheet by background position, as in Neon On-Call. A person with no `x`, `y` and `r` has no portrait: the paper kit draws an ink silhouette, and the feed kit draws a staticky outline labelled **VIDEO FEED DISABLED**. `cast.json` may then omit `sheet` if no person has a crop.
 
 ## 3. The engine
 
@@ -136,23 +137,25 @@ Two themes, `light` and `dark`, each a map of custom-property names (without `--
 
 ```js
 const game = Stage.create(pack, { seed: 42, save: null });
-game.view()            // → { node, scene, beat, group, options, meters, fields, tallies, flags, cues, canBack }
+game.view()            // → { node, scene, beat, group, options, meters, fields, tallies, flags, shown, opened, cues, canBack }; scene.look and beat.look are the effective look; shown is the look the stage shows now (the last ink or bloom); opened is true once a secret in the current set is revealed, until the set changes
 game.next()            // advance one beat; at a choice group, does nothing
 game.choose(optKey)    // pick an option in the current group; returns view()
 game.reveal()          // reveal the current beat if it is a reveal
 game.input(text)       // answer an input option
 game.back()            // review one beat back; undoes the last pick only if its gate was plan
 game.save()            // → JSON string
-Stage.replay(pack, route) // → a game played through a route; a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
+Stage.replay(pack, route, { seed, upTo }) // → a game played through a route (or its first `upTo` choices); a step's `result` forces that roll tier (dice faces are drawn within the tier, seeded)
+Stage.create(pack, { seed, force: ['fail', …] }) // `force` steers the next rolls to the given results, in order
 Stage.simulate(pack)  // → { paths, endings: { id: count }, routes, unreachable: [ids], locked: [ids] }
-Stage.validate(pack)   // → [error strings]
+Stage.validate(pack, warnings) // → [error strings]; warnings, if given, is an array that receives warning strings
+Stage.check(pack)      // → { errors, warnings }
 ```
 
 **Simulation.** Every path cannot be walked: the cleric alone has billions. `simulate` explores states projected onto the keys that change behaviour: those read by any `when`, `lock` or `route`, by a roll's `add`, and by a group's `cost`. Writes nobody reads do not split states. It counts paths with multiplicity (as numbers; large counts are fine), takes as a branch every roll result the dice can reach from the current modifier (4dF + 0 against 2 cannot reach `style`) and fills inputs with `"(typed)"`. `routes` is one representative path (a list of steps: `{ "opt": "a" }`, `{ "opt": "b", "result": "success" }`, `{ "input": "(typed)" }`) for each distinct projected state that reaches an ending; Verify lists them and replays one on tap. `unreachable` lists scenes, beats (by `scene:index`), options, endings and notes never reached (a note is reached when a reached beat or group names it); `locked` lists options that some route sees locked.
 
 `node` is `beat`, `choice`, `input`, `roll` or `ending`. Dice use mulberry32 seeded from `seed`; `?seed=N` sets it in the browser and the footer shows it.
 
-**Cues.** Each step returns `cues`, a list the view plays in order. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
+**Cues.** Each step returns `cues`, a list the view plays in order. A cue is an object with a `type` (the names below) and its fields: `turn {dir}`, `roll {dice, faces, total, add, vs, result, used}` (`used` is the result table read after the tie and style fallbacks), `cost`/`gain {meter, n}`, `tally {id, value}`. Within one step the order is: `seal`, `tear`, `roll`, `cost`/`gain`, `tally`, then `turn` or `shift`, then `ink`/`bloom`. `ink` and `bloom` fire on entering a scene and whenever a beat's effective look differs from the previous beat's, not on every beat; a revealed beat always fires `ink`, and the ink stays: the next beat compares its look with `ink`, so a paint beat after a reveal blooms again. The engine picks them from the data. Packs cannot pick a motion, so one motion always means one thing:
 
 | Cue | Fires when | Means, and nothing else |
 |-----|-----------|-------------------------|
@@ -162,7 +165,7 @@ Stage.validate(pack)   // → [error strings]
 | `bloom` | A beat with look `paint` comes into view | Witnessed or public |
 | `seal` | An `exec` or `fate` pick is made | The choice is final |
 | `roll` (`dice`, `faces`, `total`) | A roll resolves | The dice decide |
-| `cost` / `gain` (`meter`, `n`) | A meter goes down / up | Consequence |
+| `cost` / `gain` (`meter`, `n`) | A meter goes down / up; reversed for a meter marked `bad` (stress rising is a `cost`) | Consequence |
 | `tear` | A Fate point is spent | Player authority used |
 | `tally` (`id`, `value`) | A tally changes | The player's reading of the world changes (the Lens pull-tab) |
 | `close` | An ending is reached | The story stops |
@@ -171,11 +174,11 @@ Stage.validate(pack)   // → [error strings]
 
 **Layout** (one screen, after Neon On-Call): top bar (title, endings found, AUTO/STEP, settings, help) · HUD (meters, the Lens tally, the card button) · stage (the kit draws the set; text panels slide over it) · deck (back, a hint line, next). It works at 360 × 640 and up, with no page scroll; long text scrolls inside its panel.
 
-**Text.** Text types out at 28 ms a character. A tap finishes the line; the next tap goes on. Screen readers get the whole line at once through one polite live region, never a character at a time.
+**Text.** Text types out at 28 ms a character, and a beat never takes longer than 4 s to type (the rate rises for long beats). A tap finishes the line; the next tap goes on. Screen readers get the whole line at once through one polite live region, never a character at a time.
 
 **Commentary track.** Under the text panel, one line in the commentary voice when the beat has a `comment`. A toggle in settings hides it. ⓘ chips open the notes sheet at that note.
 
-**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, commentary, sound, AUTO speed).
+**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2). Calm sets `<html data-motion="calm">` (Full sets `"full"`). Kits get a `reduced` flag in `mount()` and `cue()` only; in `show()`, `update()` and `tick()` they read the attribute or the media query. Each Verify row also has a Last pick button: it replays the route to its final choice (`upTo`).
 
 **Film mode.** AUTO plays beats like a film and stops at every choice, roll, input and reveal.
 
@@ -187,13 +190,13 @@ Stage.validate(pack)   // → [error strings]
 
 **Kit: feed** (the Algorithm's view). Primitives: `frame` (a camera frame with timestamp and channel), `track` (a box that follows a cast face with a label and confidence), `scan` (a sweep line), `log` (scrolling machine lines), `redact` (bars that lift on `reveal`), `plate`. `turn` is a hard cut with a channel change. `ink` is a redaction lifting. `bloom` is the frame coming into focus.
 
-**The kit interface.** A kit draws the stage layer behind the text. The view owns the text, the HUD and the sheets. A kit registers itself:
+**The kit interface.** A kit draws the stage layer behind the text. The view owns the text, the HUD and the sheets. `ui/index.html` defines the `StageKit` registry in a small inline script before the kit loads. A kit registers itself:
 
 ```js
 StageKit.register("paper", {
   mount(root, { pack, assets, reduced }) {},  // once; root is the stage element
   show(setId, set, { instant, state }) {},    // build or swap the set's layers; state as in update()
-  update(state) {},                           // after every step: { meters, fields, tallies, flags }; restores bound layers (pull-tab) after back, load or save
+  update(state) {},                           // after every step: { meters, fields, tallies, flags, look, revealed } (look = view.shown, revealed = view.opened); restores bound layers (pull-tab), the look on show and a revealed secret after back, load or save
   cue(cue, { scene, beat, reduced }) {},      // play one cue; returns a Promise that resolves when it ends (at once if reduced)
   finish() {},                                // jump the active cue to its end state and resolve its Promise now
   tick(t) {},                                 // optional, per frame; returns true while anything moves
@@ -202,7 +205,7 @@ StageKit.register("paper", {
 });
 ```
 
-`assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue calls `finish()`.
+Optional hooks: `setMap(style)` (the reader changed the map style) and `screen(lines)` (draw a beat's `screen` in the set; without it the view draws the lines in the text panel). The view calls `show()` before the `turn` or `shift` cue that reveals the new set, so the kit can lay it under the old one, then `update(state)` after the cues. `assets` maps each `art/` path to a data URI. Durations, easings and end states come from [`MOTION.md`](MOTION.md) as custom properties (`--m-*`); kits read them, never hard-code them. The view plays cues one at a time and waits for each Promise; a tap during a cue calls `finish()`.
 
 **Reduced motion.** Under `prefers-reduced-motion: reduce` every cue jumps to its end state, text appears whole, and nothing loops. Every primitive has a static end state that reads correctly.
 
@@ -216,7 +219,7 @@ StageKit.register("paper", {
 
 | Run | Expect |
 |-----|--------|
-| `node stage/tools/validate.mjs stage/packs/<id>` | `OK <id>` |
+| `node stage/tools/validate.mjs stage/packs/<id>` | `OK <id>`. While a pack has no `cast.json` yet, unknown speakers are warnings, so a script can be finished before its cast art |
 | `node --test stage/engine/test.mjs` | `# fail 0` |
 | `node stage/tools/sim.mjs stage/packs/<id>` | Every ending reached; no unreachable scene, beat or note |
 | `node stage/tools/build.mjs stage/packs/<id>` for every pack, then `node stage/test.mjs` | `PASS` |

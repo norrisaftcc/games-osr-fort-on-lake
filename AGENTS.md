@@ -18,7 +18,7 @@ A B/X teaching campaign set around **The Fort on the Lake**, a post-imperial fro
 | `intro/` | **Fort Cards**: Badge Zero–style solo intros for the three Year Two PCs. All their choices are made here. |
 | `dm/Year_Two_First_Session_The_Hum.md` | Year Two's first session: the humming milestone, the hunter's map, the outflow tunnel. Stops at Halcyon's door. |
 | `crawler/` | **The Crawler**: a first-person party crawler for phones. One engine, a view, and data packs; `packs/drowned-tower` plays Module 2 (canon-bound: its pinned facts are checked on screen). Pure JS, no libraries. Contract: `crawler/SPEC.md`. |
-| `stage/` | **The Stage** (in build): a motion visual-novel engine and packs; `packs/magic-module` plays the elf cleric as a pop-up module that runs the game. Contract: `stage/SPEC.md`; plan: `stage/PLAN.md`. |
+| `stage/` | **The Stage** (in build): a motion visual-novel engine and packs; `packs/magic-module` plays the elf cleric as a pop-up module that runs the game. Contract: `stage/SPEC.md`; plan: `stage/PLAN.md`; motion: `stage/MOTION.md`; how to build a pack: `stage/GUIDE.md`. The skill `stage-pack` (`.claude/skills/stage-pack/`) carries the steps and the canon checklist. |
 | `beta/` | The superseded pre-split setting document. Keep it; do not edit it. |
 
 ## Where canon comes from
@@ -58,6 +58,7 @@ Plain words. Short sentences, one idea each. Concrete nouns. Tables for anything
 | `intro/` | `node intro/test.mjs` | `PASS` |
 | `classroom/` | `bash classroom/check.sh` | `ALL CHECKS PASSED`. After a deliberate output change: `bash classroom/check.sh --regen`, then check the diff of `test_vectors/`. |
 | `crawler/` | `node crawler/tools/validate.mjs crawler/packs/<id>` for every pack; `node --test crawler/engine/test.mjs`; build each pack (`node crawler/tools/build.mjs crawler/packs/<id>`), then `node crawler/test.mjs` | `OK <id>` for every pack; engine tests `# fail 0`; `PASS`. The HTLL repository vendors `engine/`, `ui/`, `tools/` and `SPEC.md`: after a change, copy them over (see `crawler/README.md`) and run `check-vendor.mjs` there. |
+| `stage/` | `node stage/tools/validate.mjs stage/packs/<id>` and `node stage/tools/sim.mjs stage/packs/<id>` for every pack; `node --test stage/engine/test.mjs`; build each pack (`node stage/tools/build.mjs stage/packs/<id>`), then `node stage/test.mjs` | `OK <id>`; every ending reached, nothing unreachable; `# fail 0`; `PASS`. The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, `GUIDE.md`, `test.mjs` and the fixture packs: after a change, copy them over and run `check-vendor.mjs` there. |
 | A map in `dm/maps/` | Render the SVG to PNG with Playwright and look at it | Every keyed area labelled; exits match the module's key |
 | A module | Read every exit both ways; grep for the forbidden names | Exits reciprocal; no hits |
 
@@ -69,6 +70,7 @@ Playwright is installed globally (`/opt/node22/lib/node_modules/playwright`); Ch
 - When a design decision changes canon, record it in `campaign/SPINE.md` in the same pull request.
 - Keep the classroom stages single-file, so students can paste a stage into an online compiler.
 - Do not commit the user's Year Two guides, family details, or anything from their mail.
+- New solo narrative work (a visual novel or choose-your-own-adventure) uses the Stage and its skill, `stage-pack`.
 
 ## Open items
 
