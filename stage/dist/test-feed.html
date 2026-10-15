@@ -27,6 +27,9 @@
      lamp | plate-gold   the Fate ticket, the warm wash
      good, bad           gain and loss labels, roll results
      on-accent           text on an accent button (optional; the default is bg)
+     plate-gold          optional: the paper kit's gold fill (default: lamp)
+     plate-umber         optional: the paper kit's umber fill (default: ink-soft)
+     blueline            optional: the paper kit's Blueline ink (default: accent)
    Type (optional; each is a font-family list). The pack's theme.fonts embeds the files.
      font-body           optional: story text         (default: Georgia, serif)
      font-display        optional: titles, big numbers (default: font-body)
@@ -45,6 +48,8 @@
      <html data-hidden>               present while the page is hidden
      <html data-cue>                  present while a cue plays
      #app[data-phase="title|card|play"], #app[data-node="beat|choice|input|roll|ending"], #app[data-busy="0|1"]
+     #app[data-ending="<id>"] and .panel.ending[data-ending="<id>"]   the id of the ending on show; absent at any other node
+     .ava.ava-none                    the speaker's avatar when the cast entry has no crop: a still disc with a camera-off mark
 */
 
 :root {
@@ -152,7 +157,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .btn.primary, .btn[aria-pressed="true"] { background: var(--st-accent); color: var(--st-on-accent); border-color: var(--st-accent); }
 .btn.primary:hover:not(:disabled), .btn[aria-pressed="true"]:hover:not(:disabled) { filter: brightness(1.08); }
 .btn.icon { padding: 0; }
-.kbd-hint { font-size: .7rem; font-weight: 700; opacity: .75; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; }
+.kbd-hint { font-size: .7rem; font-weight: 700; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; }
 @media (max-width: 480px) { .kbd-hint { display: none; } }
 
 .hud {
@@ -248,11 +253,23 @@ button, input, textarea { font: inherit; color: inherit; }
   flex: none; display: block; width: 44px; height: 44px; border-radius: 50%;
   background: var(--st-card) var(--cast-sheet, none) no-repeat; border: 2px solid var(--st-edge);
 }
+.ava.ava-none {
+  position: relative; overflow: hidden; background-color: var(--st-card);
+  background-image: repeating-conic-gradient(var(--st-card) 0% 25%, var(--st-tint1) 0% 50%); background-size: 6px 6px;
+}
+.ava.ava-none::before { /* the camera body */
+  content: ""; position: absolute; left: 25%; top: 34%; width: 50%; height: 32%;
+  border: 2px solid var(--st-ink-soft); border-radius: 3px; background: var(--st-card);
+}
+.ava.ava-none::after { /* the slash across it */
+  content: ""; position: absolute; left: 12%; top: calc(50% - 1px); width: 76%; height: 2px;
+  background: var(--st-ink); transform: rotate(-45deg);
+}
 .who-t { display: flex; flex-direction: column; line-height: 1.2; }
 .who-t b { font-size: .9375rem; }
 .who-t small { font-size: .75rem; color: var(--st-muted); }
 .txt { margin: 0; white-space: pre-wrap; }
-.txt em, .sr-copy em { font-style: italic; font-weight: 600; }
+.txt em, .sr-copy em { font-style: italic; font-weight: 400; } /* only Alegreya 400 italic is embedded */
 .t-rest { opacity: 0; }
 .caret { display: inline-block; width: 0; position: relative; }
 .caret::after { content: ""; position: absolute; left: 0; bottom: .15em; width: .55em; height: 1em; background: var(--st-ink); }
@@ -1623,25 +1640,32 @@ else root.Stage = Stage;
    One camera frame with a channel and a clock, boxes on faces, a scan line, a log, redaction bars and framed plates.
 
    How the picture is laid out
-   - The frame's art is drawn in a "cam": a box with the art's own aspect, scaled to cover the stage (like object-fit: cover).
-     The cam is anchored so that the art's focus line (frame.focus, default y 0.30) sits 30 percent down the stage. The text panel
-     covers the lower stage on a phone, so a set keeps what matters in the top third of its art.
+   - The frame's art is drawn in a "cam": a box with the art's own aspect. Its scale is cover (like object-fit: cover) unless
+     the x span of what must be seen (every track and plate in the cam, with half their widths, and any log or redaction bar
+     placed in the cam) is wider than the stage; then it scales down until the span fits, and the ground colour fills what the
+     art no longer covers. The cam is centred on that span (on frame.focus[0] when there is none) and anchored so that the
+     art's focus line (frame.focus[1], default y 0.30) sits 30 percent down the stage. The text panel covers the lower stage
+     on a phone, so a set keeps what matters in the top third of its art.
    - Tracks live in the cam (x, y, w are fractions of the art), so a box stays on its face at every size. Logs, redaction bars,
      plates and the frame chrome (channel, clock, rule) live in stage space. A layer takes "space": "cam" or "stage" to override.
+     A box (track or plate) is never made taller than the room above and below its centre; a plate in the stage space is w of
+     the stage's shorter side wide.
    - Art is SVG, injected inline so it reads the theme. An svg with class="ink" on its root styles itself with the classes below
-     (s, h, b, a, m, f0 to f3, fk, fa, fl, q0, q1, q2); any other svg keeps the colours it carries.
-     A raster file is an <img>.
+     (s, h, b, a, m, f0 to f3, fk, fa, fl, q0, q1, q2); any other svg keeps the colours it carries. The kit removes script,
+     foreignObject, every on* attribute and every href that does not start with #. A raster file is an <img>.
 
    Layer properties (all optional unless marked; x, y, w, h are fractions)
      frame   art (path), channel, view, time ("06:47:12"), status (a centred chip, "NO SIGNAL"), static (noise over the art),
              file (the art carries data-band borders for the exposure bands), focus [x, y] (the art point to anchor), aspect
      track   cast (id), x, y, w; label (text) or bind (a field) with labels (field value to text); conf (a number, false to
-             hide, default 26 + 12 x exposure); face false (no portrait, a bare box); labelAt "below"; tiltOn "roll"
+             hide) or confs (field value to number, for a bound track; wins over the formula) and otherwise 26 + 12 x exposure;
+             face false (no portrait, a bare box); labelAt "below"; tiltOn "roll"
              (the box tilts by --m-tilt toward the first other track when a roll fails or ties)
              A person with no x, y and r in cast.json draws as a staticky VIDEO FEED DISABLED box. A person's `alt` list
              ({ when: { field, is }, x, y, r }) swaps the crop while the field matches.
      log     lines (strings, or { t, red: true } for a line under a bar), on (the cues that print a line: seal, roll, cost,
-             gain, tear, ink), x or right, y, w (a limit), modLabel (the roll's modifier name), keep (the beat's screen lines stay)
+             gain, tear, ink), x or right, y, w (a limit), max (rows kept, default 8), modLabel (the roll's modifier name),
+             keep (the beat's screen lines stay)
      redact  text (the caption under the bar), x, y, w, h, space, opensOn "reveal" | "none", over "track" (the bar covers
              that track's name field)
      plate   cast (id) or art, x, y, w, space, desat "exposure"
@@ -1658,9 +1682,26 @@ else root.Stage = Stage;
    update(state) restores every state-bound visual in both directions: focus (look), boxes (exposure), labels (identity),
    redactions (revealed), the file border and plate (exposure bands). It does this in update() only, so forward cues still animate.
    Nothing here is animated except transform and opacity. Timings come from --m-* tokens; colours from --st-* tokens.
-   Under reduced motion (the media query, or <html data-motion="calm">) no animate() is called and the end state shows at once. */
+   Under reduced motion (the media query, or <html data-motion="calm">) no animate() is called and the end state shows at once.
+   The clock counts on a one-second timer (cleared when hidden, reduced or closed); tick() returns false: nothing moves per frame. */
 (function () {
+
 "use strict";
+// Art is ours, but it is inlined, so clean it the same way in both kits: no script, no foreign HTML, no links, no
+// handlers, no href that leaves the file, and no SMIL element that could set one.
+function cleanSvg(root) {
+  root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+  root.querySelectorAll("set,animate,animateTransform,animateMotion").forEach(n => {
+    const a = (n.getAttribute("attributeName") || "").toLowerCase();
+    if (a === "href" || a === "xlink:href" || a.startsWith("on")) n.remove();
+  });
+  root.querySelectorAll("a").forEach(a => a.replaceWith(...a.childNodes));
+  for (const n of [root, ...root.querySelectorAll("*")]) for (const at of [...n.attributes]) {
+    const nm = (at.localName || at.name).toLowerCase();
+    if (nm.startsWith("on") || (nm === "href" && !/^#/.test(at.value))) n.removeAttribute(at.name);
+  }
+  return root;
+}
 const docEl = document.documentElement;
 const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || docEl.getAttribute("data-motion") === "calm";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1757,6 +1798,7 @@ const CSS = `
 @keyframes k-sweep{from{transform:translateY(0);opacity:.15}to{transform:translateY(100%);opacity:.15}}
 html[data-cue] .k-idle,html[data-cue] .k-sweep.on,html[data-hidden] .k-idle,html[data-hidden] .k-sweep.on{animation-play-state:paused}
 .k-stop .k-sweep.on{animation:none;opacity:0}
+.k-stop .k-idle{animation:none}
 
 .k-band{position:absolute;left:0;right:0;overflow:hidden;z-index:2;pointer-events:none}
 .k-end{position:absolute;inset:0;pointer-events:none;z-index:5}
@@ -1781,7 +1823,8 @@ let S = { meters: {}, fields: {}, tallies: {}, flags: {}, look: "", revealed: fa
 let focusOn = false;       // the look on show: true is paint (sharp), false is ink (soft)
 let locked = false, closed = false, closedFresh = false;
 let cueSeq = 0, stoppedSeq = -1;
-const clock = { base: 0, acc: 0, last: 0 };
+const clock = { base: 0, acc: 0 };
+let timer = 0, mq = null, mo = null;
 const svgCache = new Map();
 
 // ---------------------------------------------------------------- helpers
@@ -1843,7 +1886,7 @@ function artNode(path) {
         const d = new DOMParser().parseFromString(decodeSvg(uri), "image/svg+xml");
         if (!d.querySelector("parsererror")) {
           root = d.documentElement;
-          root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+          cleanSvg(root);
           root.removeAttribute("width"); root.removeAttribute("height");
           root.setAttribute("preserveAspectRatio", "xMidYMid slice");
           root.setAttribute("aria-hidden", "true"); root.setAttribute("focusable", "false");
@@ -2024,14 +2067,53 @@ function buildPlate(K, l) {
 }
 
 // ---------------------------------------------------------------- layout
-const PAD = 30; // the shell's place line covers the top of the stage; the art starts below it
+const PAD = 30;    // the shell's place line covers the top of the stage; the art starts below it
+const EDGE = 10;   // the room kept between what must be seen and the stage edge
+const spaceOf = l => l.space || (l.prim === "track" ? "cam" : "stage");
+// The x range (fractions of the art) that must stay on screen: every track and plate in the cam, with half their widths,
+// and any log or redaction bar placed in the cam. Null when the set has none.
+function spanOf(K) {
+  let lo = Infinity, hi = -Infinity;
+  const add = (a, b) => { lo = Math.min(lo, a); hi = Math.max(hi, b); };
+  for (const T of K.tracks) { const x = frac(T.layer.x, 0.5), w = frac(T.layer.w, 0.12); add(x - w / 2, x + w / 2); }
+  for (const P of K.plates) if (spaceOf(P.layer) === "cam") { const x = frac(P.layer.x, 0.5), w = frac(P.layer.w, 0.3); add(x - w / 2, x + w / 2); }
+  for (const R of K.redacts) if (spaceOf(R.layer) === "cam" && !R.over) { const x = frac(R.layer.x, 0.5), w = frac(R.layer.w, 0.5); add(x - w / 2, x + w / 2); }
+  for (const L of K.logs) if (spaceOf(L.layer) === "cam") {
+    const w = L.layer.w != null ? L.layer.w : 0.62;
+    if (L.layer.right != null) add(1 - L.layer.right - w, 1 - L.layer.right); else add(frac(L.layer.x, 0.02), frac(L.layer.x, 0.02) + w);
+  }
+  return hi > lo ? [lo, hi] : null;
+}
+// The art is drawn in a cam of its own aspect. The scale is cover (like object-fit) unless the span that must be seen is
+// wider than the stage; then the cam shrinks until the span fits, and the ground colour shows where the art ends. The cam
+// is centred on the span (on the focus point when there is none) and sits so that the focus line is FOCAL down the stage.
 function layout(K) {
   if (!K || !host) return;
   const W = host.clientWidth || 360, H = host.clientHeight || 392, Hs = Math.max(1, H - PAD), a = K.aspect;
-  const cw = Math.max(W, Hs * a), ch = cw / a;
-  const left = clamp(W * 0.5 - cw * K.focus[0], W - cw, 0), top = PAD + clamp(Hs * FOCAL - ch * K.focus[1], Hs - ch, 0);
+  const sp = spanOf(K);
+  let cw = Math.max(W, Hs * a), cx = K.focus[0];
+  if (sp) {
+    cx = (sp[0] + sp[1]) / 2;
+    const room = Math.max(1, W - 2 * EDGE);
+    if ((sp[1] - sp[0]) * cw > room) cw = room / (sp[1] - sp[0]);
+  }
+  const ch = cw / a;
+  const left = cw >= W ? clamp(W * 0.5 - cw * cx, W - cw, 0) : (W - cw) / 2;
+  const top = PAD + clamp(Hs * FOCAL - ch * K.focus[1], Math.min(0, Hs - ch), 0);
   Object.assign(K.wrap.style, { left: left + "px", top: top + "px", width: cw + "px", height: ch + "px" });
   K.geo = { W, H, cw, ch, left, top };
+  // A square box (a track, or a plate) is never taller than the room above and below its centre. A track or a plate in
+  // the cam is w of the cam wide; a plate in the stage is w of the stage's shorter side wide.
+  const fit = (el, cy, want) => {
+    const side = 2 * Math.min(cy - (PAD + 6), H - 6 - cy);
+    el.style.width = (side > 0 && side < want ? side : want) + "px";
+  };
+  for (const T of K.tracks) fit(T.el, top + frac(T.layer.y, 0.3) * ch, frac(T.layer.w, 0.12) * cw);
+  for (const P of K.plates) {
+    const l = P.layer;
+    if (spaceOf(l) === "cam") fit(P.el, top + frac(l.y, 0.5) * ch, frac(l.w, 0.3) * cw);
+    else fit(P.el, frac(l.y, 0.5) * H, frac(l.w, 0.3) * Math.min(W, H));
+  }
   placeLabels(K);
 }
 // Labels sit above their boxes, inside the stage, each within the band between its neighbours so they never overlap.
@@ -2041,7 +2123,7 @@ function placeLabels(K) {
   const cxOf = T => g.left + frac(T.layer.x, 0.5) * g.cw;
   const order = [...K.tracks].sort((a, b) => cxOf(a) - cxOf(b));
   order.forEach((T, i) => {
-    const l = T.layer, bw = frac(l.w, 0.12) * g.cw, cx = cxOf(T);
+    const l = T.layer, bw = T.el.offsetWidth || frac(l.w, 0.12) * g.cw, cx = cxOf(T);
     const bandL = i > 0 ? (cxOf(order[i - 1]) + cx) / 2 + 2 : 12, bandR = i < order.length - 1 ? (cx + cxOf(order[i + 1])) / 2 - 2 : g.W - 12;
     const lw = Math.max(96, Math.min(230, bandR - bandL, g.W - 24));
     const want = clamp(cx - lw / 2, bandL, Math.max(bandL, bandR - lw));
@@ -2054,10 +2136,15 @@ function placeLabels(K) {
 }
 
 // ---------------------------------------------------------------- state-bound looks (the end states)
-// Confidence is 26 + 12 x exposure, capped at 99 (exposure 1, the start, reads 38). A layer can fix it with a number.
+// Confidence, in order: a number on the layer (conf); the layer's confs table, keyed by the bound field's value (the script
+// prints those numbers, so they win); then 26 + 12 x exposure, capped at 99 (exposure 1, the start, reads 38).
 const confOf = (K, T) => {
   const l = T.layer;
   if (typeof l.conf === "number") return l.conf;
+  if (l.bind && l.confs && typeof l.confs === "object") {
+    const v = String((K.st.fields || {})[l.bind] || "");
+    if (Object.prototype.hasOwnProperty.call(l.confs, v) && Number.isFinite(Number(l.confs[v]))) return clamp(Number(l.confs[v]), 0, 99);
+  }
   if (meterDefs.exposure) return clamp(26 + 12 * (K.expo || 0), 0, 99);
   return 90;
 };
@@ -2131,7 +2218,26 @@ function resetClock(K, scene) {
   let base = K && K.time != null ? K.time : clock.base;
   const m = scene && scene.place ? /(\d\d):(\d\d)\s*$/.exec(scene.place) : null;
   if (m) base = (+m[1]) * 3600 + (+m[2]) * 60 + (K && K.time != null ? K.time % 60 : 0);
-  clock.base = base; clock.acc = 0; clock.last = 0;
+  clock.base = base; clock.acc = 0;
+}
+// The clock counts whole seconds on a one-second timer, not on the frame loop. It runs only while the feed is open, the page
+// is visible and motion is on; any other time the timer is cleared (and syncTimer() restarts it when that changes).
+function unhook() {
+  stopTimer();
+  document.removeEventListener("visibilitychange", syncTimer);
+  if (mq) { try { mq.removeEventListener("change", syncTimer); } catch (e) {} mq = null; }
+  if (mo) { try { mo.disconnect(); } catch (e) {} mo = null; }
+}
+const clockWanted = () => !!cur && !closed && !document.hidden && !redNow();
+function stopTimer() { if (timer) { clearInterval(timer); timer = 0; } }
+function syncTimer() {
+  if (!clockWanted()) { stopTimer(); return; }
+  if (timer) return;
+  timer = setInterval(() => {
+    if (!clockWanted()) { stopTimer(); return; }
+    clock.acc += 1000;
+    setClock(cur);
+  }, 1000);
 }
 function restartSweeps(K) {
   for (const s of K.scans) { s.sweep.style.animation = "none"; void s.sweep.offsetWidth; s.sweep.style.animation = ""; }
@@ -2183,6 +2289,12 @@ const kit = {
     host.appendChild(endEl);
     const relayout = () => { layout(cur); if (pend) { layout(pend.next); layout(pend.old); } };
     if (window.ResizeObserver) { ro = new ResizeObserver(relayout); ro.observe(host); } else window.addEventListener("resize", relayout);
+    // the clock timer follows the page: hidden, reduced motion and Calm stop it
+    unhook();
+    document.addEventListener("visibilitychange", syncTimer);
+    try { mq = window.matchMedia("(prefers-reduced-motion: reduce)"); mq.addEventListener("change", syncTimer); } catch (e) { mq = null; }
+    try { mo = new MutationObserver(syncTimer); mo.observe(docEl, { attributes: true, attributeFilter: ["data-motion"] }); } catch (e) { mo = null; }
+    syncTimer();
   },
 
   show(id, set, o) {
@@ -2204,6 +2316,7 @@ const kit = {
       cur = next; pend = old ? { next, old } : null;
       if (!old) next.el.style.opacity = "";
     }
+    syncTimer();
   },
 
   update(state) {
@@ -2216,24 +2329,28 @@ const kit = {
     applyAll(cur, S);
     cur.el.style.transform = closed ? "scaleY(.002)" : "";
     endEl.classList.toggle("k-closed", closed);
+    syncTimer();
   },
 
   cue(c, o) {
     const red = (o && o.reduced) || redNow();
     skipNow = !!(o && o.reduced);
     const seq = ++cueSeq;
+    let p;
     switch (c.type) {
-      case "turn": return cueTurn(o, red, seq);
-      case "shift": return cueShift(red);
-      case "ink": return cueInk(o, red);
-      case "bloom": return cueBloom(red);
-      case "seal": return cueSeal(red);
-      case "roll": return cueRoll(c, red);
-      case "cost": case "gain": return cueMeter(c, red);
-      case "tear": return cueTear(red);
-      case "close": return cueClose(red);
-      default: return Promise.resolve(); // tally: this kit has none
+      case "turn": p = cueTurn(o, red, seq); break;
+      case "shift": p = cueShift(red); break;
+      case "ink": p = cueInk(o, red); break;
+      case "bloom": p = cueBloom(red); break;
+      case "seal": p = cueSeal(red); break;
+      case "roll": p = cueRoll(c, red); break;
+      case "cost": case "gain": p = cueMeter(c, red); break;
+      case "tear": p = cueTear(red); break;
+      case "close": p = cueClose(red); break;
+      default: p = Promise.resolve(); // tally: this kit has none
     }
+    syncTimer();
+    return p;
   },
 
   // A tap during a cue: every animation jumps to its end, a pending swap completes, and the cue's Promise resolves now.
@@ -2272,14 +2389,13 @@ const kit = {
     }
   },
 
-  // Ambient: the clock counts whole seconds. The drift and the sweep are CSS animations (paused while a cue plays and
-  // while the page is hidden, absent under reduced motion). Returns true while the clock should keep counting.
-  tick(t) {
-    if (!cur || redNow() || document.hidden || closed) return false;
-    const dt = clock.last ? Math.min(100, t - clock.last) : 0;
-    clock.last = t; clock.acc += dt;
-    setClock(cur);
-    return true;
+  // Ambient: nothing here moves per frame. The drift and the sweep are CSS animations (paused while a cue plays and while the
+  // page is hidden, absent under reduced motion and when the feed is closed); the clock counts on its own one-second timer.
+  // So tick() only makes sure the timer is right (the shell calls it once on a cue, also when hidden or reduced) and returns
+  // false, which lets the shell stop its frame loop.
+  tick() {
+    syncTimer();
+    return false;
   },
 
   card(scene) {
@@ -2292,6 +2408,7 @@ const kit = {
 
   destroy() {
     if (ro) { try { ro.disconnect(); } catch (e) {} ro = null; }
+    unhook();
     if (host) host.innerHTML = "";
     if (styleEl && styleEl.parentNode) styleEl.remove();
     styleEl = null; endEl = null; active.clear(); cur = pend = act = null;
@@ -2456,15 +2573,21 @@ function cueTear(red) {
   return track(Promise.all(ps), () => bandEl.remove());
 }
 
-// close: the frame collapses to a line, and the line is labelled.
+// close: the frame collapses to a line, and the line is labelled. The line and its caption fade in while the frame collapses,
+// all in one Promise.all, so the cue ends with the collapse (--m-close) and a tap on it reaches every animation.
 function cueClose(red) {
   const K = cur; if (!K) return Promise.resolve();
   closed = true; closedFresh = true;
   K.el.classList.add("k-stop");
-  K.el.style.transform = "scaleY(.002)"; // the end state, as the element's own style
-  const end = () => endEl.classList.add("k-closed");
-  if (red) { end(); return Promise.resolve(); }
-  return track(run(K.el, [{ transform: "none", offset: 0 }], tk.close, tk.easeIn).then(() => run(endEl, [{ opacity: 0, offset: 0 }], tk.state, tk.easeOut)), end);
+  K.el.style.transform = "scaleY(.002)"; // the end states are the elements' own styles
+  endEl.classList.add("k-closed");
+  if (red) return Promise.resolve();
+  const line = endEl.querySelector(".k-endline"), cap = endEl.querySelector(".k-endcap");
+  return track(Promise.all([
+    run(K.el, [{ transform: "none", offset: 0 }], tk.close, tk.easeIn),
+    run(line, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.55 }], tk.close, tk.easeOut),
+    run(cap, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.4 }], tk.close, tk.easeOut),
+  ]));
 }
 
 window.StageKit.register("feed", kit);
@@ -2492,10 +2615,15 @@ window.StageKit.register("feed", kit);
      - Map style: <html data-map="ink|blueline"> and a window "stage:map" event; the shell also calls setMap(style) if the kit has it.
      - A beat's `screen` lines: the shell calls screen(lines) if the kit has it (and screen([]) when no beat shows one),
        and then keeps a screen-reader copy only. Without it the shell draws the lines in the text panel.
+     - The state a kit gets (show, update): meters, fields, tallies, flags, look (the look on show), revealed (a secret is open) and
+       ended (true when the view is at the final ending node: a kit may draw its closed state after a replay or Continue lands there).
      - Motion: <html data-motion="full|calm">. Calm behaves exactly as prefers-reduced-motion: reduce. A kit that decides for itself
        whether to animate (in show(), update() or tick()) must treat data-motion="calm" like the media query. The `reduced` flag
        the shell passes to mount() and cue() already includes it.
-   Hooks for tests: #app[data-phase], #app[data-node], #app[data-busy]; every control is a labelled button. */
+   Hooks for tests: #app[data-phase], #app[data-node], #app[data-busy]; #app[data-ending="<id>"] and .panel.ending[data-ending="<id>"]
+   while an ending is on show (and absent otherwise); every control is a labelled button.
+   Page parameters: ?seed=N fixes the seed. ?force=fail,success steers the next rolls to those result tiers (the browser test uses it).
+   Either one fixes the run: no Continue. A forced run, like a Verify replay, never writes the save, the found endings or the notes met. */
 (function () {
 "use strict";
 
@@ -2583,9 +2711,10 @@ const V = {
   settings: null, found: new Set(), extraMet: new Set(), seen: new Set(),
   shown: { meters: {}, high: {}, tallies: {} }, setId: null,
   slide: null, typing: null, cueBusy: false, ctx: null, waiters: new Set(),
-  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false, force: [],
+  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false, force: [], forceIgnored: [], starting: false,
   lastFlash: -1e9, sealed: false, rollEl: null, sim: null, simAt: 0, rafId: 0, dragX: 0, dragY: 0, restartT: null,
 };
+const TIERS = ["fail", "tie", "success", "style"]; // the result tiers ?force= accepts
 const SPEED = { slow: 1.6, normal: 1, fast: 0.6 };
 const TYPE_MAX = 4000; // ms: the longest a beat may take to type
 
@@ -2645,7 +2774,8 @@ function kitCall(fn, ...args) {
 // so they follow back, load and Continue exactly as forward play left them.
 function stateOf(v) {
   return { meters: v.meters, fields: v.fields, tallies: v.tallies, flags: v.flags,
-    look: v.shown || null, revealed: !!v.opened };
+    look: v.shown || null, revealed: !!v.opened,
+    ended: v.node === "ending" }; // the view is at the final ending node: a kit may show its closed state
 }
 const kitHas = fn => !!(V.kit && typeof V.kit[fn] === "function");
 function kitShow(setId, v, instant) {
@@ -2803,9 +2933,15 @@ const segHtml = (segs, n) => {
 function avatar(id) {
   const c = PACK.cast && PACK.cast.people && PACK.cast.people[id];
   if (!c) return "";
+  const who = `<span class="who-t"><b>${esc(c.name)}</b>${c.role ? `<small>${esc(c.role)}</small>` : ""}</span>`;
+  const fin = v => typeof v === "number" && Number.isFinite(v);
+  // A cast entry with no crop (x, y and r) has no face on the sheet: draw a still placeholder, not the sheet's top-left corner.
+  if (!fin(c.x) || !fin(c.y) || !fin(c.r) || c.r <= 0 || !fin(PACK.cast.w) || !fin(PACK.cast.h)) {
+    return `<div class="who"><span class="ava ava-none" role="img" aria-label="${esc(c.name)}"></span>${who}</div>`;
+  }
   const size = 44, k = size / (2 * c.r);
   const style = `background-size:${PACK.cast.w * k}px ${PACK.cast.h * k}px;background-position:${-(c.x - c.r) * k}px ${-(c.y - c.r) * k}px`;
-  return `<div class="who"><span class="ava" style="${style}" role="img" aria-label="${esc(c.name)}"></span><span class="who-t"><b>${esc(c.name)}</b>${c.role ? `<small>${esc(c.role)}</small>` : ""}</span></div>`;
+  return `<div class="who"><span class="ava" style="${style}" role="img" aria-label="${esc(c.name)}"></span>${who}</div>`;
 }
 function chipsHtml(ids) {
   const list = (ids || []).filter(id => NOTES[id]);
@@ -2964,7 +3100,7 @@ function inputSlide(v) {
 
 function endingSlide(v) {
   const e = v.ending;
-  const html = slideHtml(`<section class="panel ending" data-look="${esc(e.look || "")}" aria-label="Ending">
+  const html = slideHtml(`<section class="panel ending" data-look="${esc(e.look || "")}" data-ending="${esc(e.id != null ? e.id : "")}" aria-label="Ending">
       <div class="tags"><span class="tag">Ending</span>${lookTag(e.look)}</div>
       <h2 class="end-title" tabindex="-1">${esc(e.title)}</h2>
       <p class="fine" style="margin-top:0">Endings found: ${V.found.size} of ${ENDING_IDS.length}</p>
@@ -3119,7 +3255,7 @@ async function present(v, o) {
   kitUpdate(v);
   record(v);
   setPlace(v);
-  $("app").dataset.node = v.node || "";
+  setNode(v);
 
   const card = !!v.scene && ((turn && dir > 0) || o.fresh) && !o.noCard;
   if (card) {
@@ -3138,7 +3274,7 @@ async function present(v, o) {
 function renderNode(v, dir, say, o) {
   say = (say || []).filter(Boolean);
   o = o || {};
-  $("app").dataset.node = v.node || "";
+  setNode(v);
   let built = null, slide;
   if (v.node === "roll") {
     if (V.rollEl && V.rollEl.isConnected && V.slide === V.rollEl) { slide = V.rollEl; V.rollEl = null; }
@@ -3163,6 +3299,12 @@ function renderNode(v, dir, say, o) {
   if (!(built && built.typing && V.typing)) armAuto();
 }
 
+// #app[data-node] and #app[data-ending] follow the view. The ending id is there for tests and kits; it is absent at any other node.
+function setNode(v) {
+  const app = $("app");
+  app.dataset.node = v.node || "";
+  if (v.node === "ending" && v.ending && v.ending.id != null) app.dataset.ending = v.ending.id; else delete app.dataset.ending;
+}
 function setPlace(v) {
   $("place").textContent = v.scene && v.scene.place ? v.scene.place : "";
   $("brandSub").textContent = `Endings found ${V.found.size} of ${ENDING_IDS.length}`;
@@ -3197,8 +3339,11 @@ function deckUI() {
   if (V.settings.auto && !off) h += " AUTO is on.";
   hint.textContent = h;
   const seed = v.seed != null ? v.seed : V.seedPending;
-  $("foot").textContent = `Seed ${seed}${V.replaying ? " · replay" : ""} · ?seed=${seed} repeats this run`;
+  $("foot").textContent = `Seed ${seed}${V.replaying ? " · replay" : ""} · ${runUrl(seed)} repeats this run${ignoredNote()}`;
 }
+// The query that repeats this run: the seed, and the forced tiers when ?force= was given.
+const runUrl = seed => `?seed=${seed}${V.force.length ? "&force=" + V.force.join(",") : ""}`;
+const ignoredNote = () => V.forceIgnored.length ? ` · ignored in ?force: ${V.forceIgnored.join(", ")}` : "";
 
 // ---------------------------------------------------------------- film mode
 function clearAuto() {
@@ -3287,8 +3432,10 @@ function canContinue() {
   if (!s) return false;
   try { const d = JSON.parse(s); return d && d.pack === PACK.id && Array.isArray(d.hist) && d.hist.length > 1; } catch (e) { return false; }
 }
+// A Verify replay and a ?force= run are not the reader's own play: neither writes the save, the found endings or the notes met.
+const volatileRun = () => V.replaying || V.force.length > 0;
 function persist(v) {
-  if (V.replaying) return;
+  if (volatileRun()) return;
   V.rec.found = [...V.found];
   V.rec.met = [...V.extraMet];
   V.rec.settings = V.settings;
@@ -3297,7 +3444,8 @@ function persist(v) {
 }
 function persistSettings() {
   if (!V.rec) return;
-  V.rec.settings = V.settings; V.rec.found = [...V.found]; V.rec.met = [...V.extraMet];
+  V.rec.settings = V.settings;
+  if (!volatileRun()) { V.rec.found = [...V.found]; V.rec.met = [...V.extraMet]; }
   store.write(V.rec);
 }
 function record(v) {
@@ -3308,13 +3456,17 @@ function record(v) {
 function newSeed() { return Math.floor(Math.random() * 0x7fffffff) + 1; }
 
 function begin(cont) {
+  // Enter or Space during the opening cues (the title's button keeps focus) must not start the story again.
+  // The flag is set here and cleared when the first beat or card has rendered, when the start fails, or at the title.
+  if (V.starting) return;
+  V.starting = true;
   if (V.sheet) closeSheet(true);
   V.token++; stopTyping(); clearAuto();
   V.replaying = false;
   const seed = V.seedPending;
   let save = null;
   if (cont && canContinue()) save = V.rec.save;
-  try { V.game = Stage.create(PACK, { seed, save, force: V.force.slice() }); } catch (e) { console.error(e); announce("This story could not start."); return; }
+  try { V.game = Stage.create(PACK, { seed, save, force: V.force.slice() }); } catch (e) { V.starting = false; console.error(e); announce("This story could not start."); return; }
   V.view = V.game.view();
   V.seen = new Set(); V.sealed = false; V.rollEl = null; V.cueBusy = false;
   V.seedPending = V.view.seed;
@@ -3322,7 +3474,11 @@ function begin(cont) {
   buildHud();
   $("app").dataset.phase = "play";
   if (save) restore(V.view);
-  else { V.phase = "play"; present(V.view, { dir: 1, fresh: true }); }
+  else {
+    V.phase = "play";
+    Promise.resolve(present(V.view, { dir: 1, fresh: true })).catch(e => console.error(e)).finally(() => { V.starting = false; });
+  }
+  if (save) V.starting = false;
 }
 function restore(v) {
   V.token++; stopTyping(); clearAuto();
@@ -3345,9 +3501,10 @@ function adopt(game) { // Verify: play a route and land on its end
 function toTitle() {
   if (V.sheet) closeSheet(true);
   V.token++; stopTyping(); clearAuto();
+  V.starting = false;
   V.game = null; V.view = null; V.phase = "title"; V.cueBusy = false; V.sealed = false; V.ctx = null; V.replaying = false;
   root.removeAttribute("data-cue");
-  $("app").dataset.phase = "title"; $("app").dataset.node = "";
+  $("app").dataset.phase = "title"; $("app").dataset.node = ""; delete $("app").dataset.ending;
   V.seedPending = V.seedFixed ? V.seedPending : newSeed();
   buildHud();
   $("place").textContent = "";
@@ -3362,7 +3519,7 @@ function toTitle() {
   showSlide(sl, 1, true);
   sl.classList.add("done");
   deckUI();
-  $("foot").textContent = `Seed ${V.seedPending}${V.seedFixed ? " (set by ?seed)" : ""}`;
+  $("foot").textContent = `Seed ${V.seedPending}${V.force.length ? " (set by ?seed or ?force)" : V.seedFixed ? " (set by ?seed)" : ""}${ignoredNote()}`;
   const b = sl.querySelector("#contBtn") || sl.querySelector("#beginBtn");
   if (b) b.focus({ preventScroll: true });
   announce(`${PACK.title}. ${PACK.subtitle || ""}`);
@@ -3714,7 +3871,14 @@ function boot() {
     if (q != null && q !== "" && Number.isFinite(Number(q))) { V.seedPending = Math.floor(Number(q)) >>> 0; V.seedFixed = true; }
     // ?force=fail,success steers the next rolls to those result tiers, in order (the browser test uses it). Like ?seed=, it fixes the run, so Continue is off.
     const f = new URLSearchParams(location.search).get("force");
-    if (f != null && f !== "") { V.force = f.split(",").map(x => x.trim()).filter(x => ["fail", "tie", "success", "style"].includes(x)); V.seedFixed = true; }
+    // Tokens that are not a result tier are dropped and shown in the footer (a console warning would fail the browser test).
+    // The run is fixed only if at least one valid tier is left.
+    if (f != null && f !== "") {
+      const toks = f.split(",").map(x => x.trim()).filter(Boolean);
+      V.force = toks.filter(x => TIERS.includes(x));
+      V.forceIgnored = toks.filter(x => !TIERS.includes(x));
+      if (V.force.length) V.seedFixed = true;
+    }
   } catch (e) {}
   if (PACK.cast && PACK.cast.sheet && ASSETS[PACK.cast.sheet]) root.style.setProperty("--cast-sheet", `url("${ASSETS[PACK.cast.sheet]}")`);
   applySettings();

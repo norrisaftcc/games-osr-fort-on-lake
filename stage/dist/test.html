@@ -27,6 +27,9 @@
      lamp | plate-gold   the Fate ticket, the warm wash
      good, bad           gain and loss labels, roll results
      on-accent           text on an accent button (optional; the default is bg)
+     plate-gold          optional: the paper kit's gold fill (default: lamp)
+     plate-umber         optional: the paper kit's umber fill (default: ink-soft)
+     blueline            optional: the paper kit's Blueline ink (default: accent)
    Type (optional; each is a font-family list). The pack's theme.fonts embeds the files.
      font-body           optional: story text         (default: Georgia, serif)
      font-display        optional: titles, big numbers (default: font-body)
@@ -45,6 +48,8 @@
      <html data-hidden>               present while the page is hidden
      <html data-cue>                  present while a cue plays
      #app[data-phase="title|card|play"], #app[data-node="beat|choice|input|roll|ending"], #app[data-busy="0|1"]
+     #app[data-ending="<id>"] and .panel.ending[data-ending="<id>"]   the id of the ending on show; absent at any other node
+     .ava.ava-none                    the speaker's avatar when the cast entry has no crop: a still disc with a camera-off mark
 */
 
 :root {
@@ -152,7 +157,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .btn.primary, .btn[aria-pressed="true"] { background: var(--st-accent); color: var(--st-on-accent); border-color: var(--st-accent); }
 .btn.primary:hover:not(:disabled), .btn[aria-pressed="true"]:hover:not(:disabled) { filter: brightness(1.08); }
 .btn.icon { padding: 0; }
-.kbd-hint { font-size: .7rem; font-weight: 700; opacity: .75; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; }
+.kbd-hint { font-size: .7rem; font-weight: 700; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; }
 @media (max-width: 480px) { .kbd-hint { display: none; } }
 
 .hud {
@@ -248,11 +253,23 @@ button, input, textarea { font: inherit; color: inherit; }
   flex: none; display: block; width: 44px; height: 44px; border-radius: 50%;
   background: var(--st-card) var(--cast-sheet, none) no-repeat; border: 2px solid var(--st-edge);
 }
+.ava.ava-none {
+  position: relative; overflow: hidden; background-color: var(--st-card);
+  background-image: repeating-conic-gradient(var(--st-card) 0% 25%, var(--st-tint1) 0% 50%); background-size: 6px 6px;
+}
+.ava.ava-none::before { /* the camera body */
+  content: ""; position: absolute; left: 25%; top: 34%; width: 50%; height: 32%;
+  border: 2px solid var(--st-ink-soft); border-radius: 3px; background: var(--st-card);
+}
+.ava.ava-none::after { /* the slash across it */
+  content: ""; position: absolute; left: 12%; top: calc(50% - 1px); width: 76%; height: 2px;
+  background: var(--st-ink); transform: rotate(-45deg);
+}
 .who-t { display: flex; flex-direction: column; line-height: 1.2; }
 .who-t b { font-size: .9375rem; }
 .who-t small { font-size: .75rem; color: var(--st-muted); }
 .txt { margin: 0; white-space: pre-wrap; }
-.txt em, .sr-copy em { font-style: italic; font-weight: 600; }
+.txt em, .sr-copy em { font-style: italic; font-weight: 400; } /* only Alegreya 400 italic is embedded */
 .t-rest { opacity: 0; }
 .caret { display: inline-block; width: 0; position: relative; }
 .caret::after { content: ""; position: absolute; left: 0; bottom: .15em; width: .55em; height: 1em; background: var(--st-ink); }
@@ -1643,7 +1660,10 @@ else root.Stage = Stage;
    Art vocabulary (SVG files are inlined, so strokes follow the map style): strokes and fills use currentColor, which the
    kit sets to ink or to Blueline blue. Fill classes: fi ink, fp paper, f1 tint-1, f2 tint-2, fg plate-gold, fu plate-umber,
    fs stone grey (the rule colour). Stroke classes: sg gold, su umber, ss grey. One path with class "d" (pathLength 1) is
-   the contour the ink cue draws on.
+   the contour the ink cue draws on. That path is the only stroke of the contour: the shapes under it are filled with
+   stroke="none", so the ink cue draws the line on from nothing. Text is filled with --k-text (ink; in Blueline a darker
+   blue, so that it passes 4.5:1 under the warm wash) and always sits on a paper fill (fp), never straight on gold,
+   umber or a tint. Labels on a flap or a pull-tab are at least 10px on a 360px phone.
 
    Motion: every duration, easing and distance is a --m-* token read in mount(). Only transform and opacity animate; the
    one exception is stroke-dashoffset on the ink contour (MOTION.md, ink). Under reduced motion or Calm no animate() is
@@ -1655,6 +1675,21 @@ else root.Stage = Stage;
    restores everything bound to state (look, revealed, tally, meters), in both directions. */
 (function () {
 "use strict";
+// Art is ours, but it is inlined, so clean it the same way in both kits: no script, no foreign HTML, no links, no
+// handlers, no href that leaves the file, and no SMIL element that could set one.
+function cleanSvg(root) {
+  root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+  root.querySelectorAll("set,animate,animateTransform,animateMotion").forEach(n => {
+    const a = (n.getAttribute("attributeName") || "").toLowerCase();
+    if (a === "href" || a === "xlink:href" || a.startsWith("on")) n.remove();
+  });
+  root.querySelectorAll("a").forEach(a => a.replaceWith(...a.childNodes));
+  for (const n of [root, ...root.querySelectorAll("*")]) for (const at of [...n.attributes]) {
+    const nm = (at.localName || at.name).toLowerCase();
+    if (nm.startsWith("on") || (nm === "href" && !/^#/.test(at.value))) n.removeAttribute(at.name);
+  }
+  return root;
+}
 const docEl = document.documentElement;
 const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || docEl.getAttribute("data-motion") === "calm";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1685,7 +1720,8 @@ function svgText(src) {
       if (b64) { const bin = atob(body); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); txt = new TextDecoder("utf-8").decode(u); }
       else txt = decodeURIComponent(body);
       txt = txt.replace(/<\?xml[^>]*\?>/g, "").replace(/<!DOCTYPE[^>]*>/gi, "").trim();
-      if (!/<script|\son\w+\s*=/i.test(txt)) out = txt;
+      const d = new DOMParser().parseFromString(txt, "image/svg+xml");
+      if (!d.querySelector("parsererror")) out = new XMLSerializer().serializeToString(cleanSvg(d.documentElement));
     } catch (e) { out = null; }
   }
   svgCache.set(src, out);
@@ -1847,8 +1883,15 @@ function leads(l, state) {
 function sheetPos(e) { return e.dataset.pulled === "1" ? "none" : e.dataset.out === "1" ? `translateX(${T.d4}px)` : "none"; }
 function pullState(e, state, animate) {
   const sheet = e.querySelector(".k-sheet");
-  const from = sheetPos(e);
-  e.dataset.out = leads(e._l, state) ? "1" : "0";
+  const lead = leads(e._l, state);
+  const from = sheetPos(e); // where the sheet is now (pulled counts as none)
+  if (!lead && e.dataset.pulled === "1") { // the tally no longer leads (Back, or a new step): the pulled card folds back behind the front
+    e.dataset.pulled = "0";
+    e.querySelector(".k-tab").setAttribute("aria-expanded", "false");
+    sheet.style.zIndex = "";
+    if (animate) run(e.querySelector(".k-fronti"), [{ opacity: 0 }], T.state, T.easeOut); // the front comes back over it
+  }
+  e.dataset.out = lead ? "1" : "0";
   const to = sheetPos(e);
   sheet.style.transform = to === "none" ? "" : to;
   if (e.dataset.pulled === "1") sheet.style.zIndex = "2";
@@ -2199,8 +2242,9 @@ const kit = {
 // each has a fallback. Lengths and times are the --m-* tokens.
 const CSS = `
 .k-root{position:absolute;inset:0;overflow:hidden;container-type:size;perspective:var(--m-persp,1200px);color:var(--k-ink);background:var(--st-bg);
-  --k-ink:var(--st-ink);--k-gold:var(--plate-gold,var(--st-lamp));--k-umber:var(--plate-umber,var(--st-ink-soft));--k-stone:var(--st-line);--k-shade:var(--st-tint2)}
-html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blueline,var(--st-accent))}
+  --k-ink:var(--st-ink);--k-text:var(--k-ink);--k-gold:var(--plate-gold,var(--st-lamp));--k-umber:var(--plate-umber,var(--st-ink-soft));--k-stone:var(--st-line);--k-shade:var(--st-tint2)}
+html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blueline,var(--st-accent));--k-text:var(--st-ink)}
+@supports (background:color-mix(in srgb,red 50%,blue)){html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-text:color-mix(in srgb,var(--blueline,var(--st-accent)) 12%,var(--st-ink))}}
 @supports (background:color-mix(in srgb,red 50%,blue)){.k-root{--k-shade:color-mix(in srgb,var(--st-ink) 20%,transparent)}}
 .k-set,.k-ground,.k-glow,.k-glow>*,.k-clone,.k-half-page,.k-cover{position:absolute;inset:0}
 .k-set{overflow:hidden}
@@ -2212,7 +2256,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-layer{position:absolute;translate:-50% -50%;pointer-events:none}
 .k-art{display:block}
 .k-art svg,.k-art img{display:block;width:100%;height:auto;overflow:visible}
-.k-art text{font-family:var(--st-font-display);fill:currentColor}
+.k-art text{font-family:var(--st-font-display);fill:var(--k-text)}
 .k-art .fi{fill:currentColor}.k-art .fp{fill:var(--st-bg)}.k-art .f1{fill:var(--st-tint1)}.k-art .f2{fill:var(--st-tint2)}
 .k-art .fg{fill:var(--k-gold)}.k-art .fu{fill:var(--k-umber)}.k-art .fs{fill:var(--k-stone)}
 .k-art .sg{stroke:var(--k-gold)}.k-art .su{stroke:var(--k-umber)}.k-art .ss{stroke:var(--k-stone)}
@@ -2257,7 +2301,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-stub{position:absolute;left:50%;top:100%;translate:-50% 4px;white-space:nowrap;padding:1px 8px;font:700 .75rem/1.3 var(--st-font-ui);letter-spacing:.06em;color:var(--st-ink);background:var(--st-bg);border:1px solid var(--k-ink);border-radius:999px}
 .k-glow{pointer-events:none;opacity:0}
 .k-wash{background:var(--k-gold);opacity:var(--m-wash-alpha,.3)}
-.k-lamp{background:radial-gradient(ellipse 75% 65% at 50% 32%,var(--k-gold),transparent 72%);opacity:var(--m-wash-alpha,.3)}
+.k-lamp{background:radial-gradient(ellipse 75% 65% at 50% 32%,var(--k-gold),transparent 72%);opacity:calc(var(--m-wash-alpha,.3) * .3)}
 .k-leaf{position:absolute;top:0;bottom:0;width:50%;z-index:6;transform-style:preserve-3d;pointer-events:none}
 .k-leaf[data-dir="r"]{left:50%;transform-origin:0 50%}
 .k-leaf[data-dir="l"]{left:0;transform-origin:100% 50%}
@@ -2271,7 +2315,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-half-page[data-side="r"]{left:50%;transform-origin:0 50%}
 .k-half-page .k-clone{inset:auto;top:0;height:100%;width:200%}
 .k-stamp{position:absolute;left:var(--st-gutter,16px);top:36px;z-index:7;width:4.6rem;height:4.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none;
-  background:var(--st-bg);color:var(--k-ink);border:3px double var(--k-ink);transform:rotate(calc(var(--m-tilt,3deg) * -3));font:700 .75rem/1 var(--st-font-display);letter-spacing:.14em;text-transform:uppercase}
+  background:var(--st-bg);color:var(--k-text);border:3px double var(--k-ink);transform:rotate(calc(var(--m-tilt,3deg) * -3));font:700 .75rem/1 var(--st-font-display);letter-spacing:.14em;text-transform:uppercase}
 .k-cover{z-index:7;display:flex;align-items:center;justify-content:center;pointer-events:none;background:var(--st-bg)}
 .k-cover-in{width:min(62%,18rem);aspect-ratio:3/4;max-height:78%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;
   background:var(--st-ink);color:var(--st-bg);border-radius:4px 10px 10px 4px;outline:2px solid var(--k-gold);outline-offset:-10px;box-shadow:inset 8px 0 0 var(--k-shade)}
@@ -2304,10 +2348,15 @@ window.StageKit.register("paper", kit);
      - Map style: <html data-map="ink|blueline"> and a window "stage:map" event; the shell also calls setMap(style) if the kit has it.
      - A beat's `screen` lines: the shell calls screen(lines) if the kit has it (and screen([]) when no beat shows one),
        and then keeps a screen-reader copy only. Without it the shell draws the lines in the text panel.
+     - The state a kit gets (show, update): meters, fields, tallies, flags, look (the look on show), revealed (a secret is open) and
+       ended (true when the view is at the final ending node: a kit may draw its closed state after a replay or Continue lands there).
      - Motion: <html data-motion="full|calm">. Calm behaves exactly as prefers-reduced-motion: reduce. A kit that decides for itself
        whether to animate (in show(), update() or tick()) must treat data-motion="calm" like the media query. The `reduced` flag
        the shell passes to mount() and cue() already includes it.
-   Hooks for tests: #app[data-phase], #app[data-node], #app[data-busy]; every control is a labelled button. */
+   Hooks for tests: #app[data-phase], #app[data-node], #app[data-busy]; #app[data-ending="<id>"] and .panel.ending[data-ending="<id>"]
+   while an ending is on show (and absent otherwise); every control is a labelled button.
+   Page parameters: ?seed=N fixes the seed. ?force=fail,success steers the next rolls to those result tiers (the browser test uses it).
+   Either one fixes the run: no Continue. A forced run, like a Verify replay, never writes the save, the found endings or the notes met. */
 (function () {
 "use strict";
 
@@ -2395,9 +2444,10 @@ const V = {
   settings: null, found: new Set(), extraMet: new Set(), seen: new Set(),
   shown: { meters: {}, high: {}, tallies: {} }, setId: null,
   slide: null, typing: null, cueBusy: false, ctx: null, waiters: new Set(),
-  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false, force: [],
+  autoT: null, sheet: null, opener: null, replaying: false, seedPending: 1, seedFixed: false, force: [], forceIgnored: [], starting: false,
   lastFlash: -1e9, sealed: false, rollEl: null, sim: null, simAt: 0, rafId: 0, dragX: 0, dragY: 0, restartT: null,
 };
+const TIERS = ["fail", "tie", "success", "style"]; // the result tiers ?force= accepts
 const SPEED = { slow: 1.6, normal: 1, fast: 0.6 };
 const TYPE_MAX = 4000; // ms: the longest a beat may take to type
 
@@ -2457,7 +2507,8 @@ function kitCall(fn, ...args) {
 // so they follow back, load and Continue exactly as forward play left them.
 function stateOf(v) {
   return { meters: v.meters, fields: v.fields, tallies: v.tallies, flags: v.flags,
-    look: v.shown || null, revealed: !!v.opened };
+    look: v.shown || null, revealed: !!v.opened,
+    ended: v.node === "ending" }; // the view is at the final ending node: a kit may show its closed state
 }
 const kitHas = fn => !!(V.kit && typeof V.kit[fn] === "function");
 function kitShow(setId, v, instant) {
@@ -2615,9 +2666,15 @@ const segHtml = (segs, n) => {
 function avatar(id) {
   const c = PACK.cast && PACK.cast.people && PACK.cast.people[id];
   if (!c) return "";
+  const who = `<span class="who-t"><b>${esc(c.name)}</b>${c.role ? `<small>${esc(c.role)}</small>` : ""}</span>`;
+  const fin = v => typeof v === "number" && Number.isFinite(v);
+  // A cast entry with no crop (x, y and r) has no face on the sheet: draw a still placeholder, not the sheet's top-left corner.
+  if (!fin(c.x) || !fin(c.y) || !fin(c.r) || c.r <= 0 || !fin(PACK.cast.w) || !fin(PACK.cast.h)) {
+    return `<div class="who"><span class="ava ava-none" role="img" aria-label="${esc(c.name)}"></span>${who}</div>`;
+  }
   const size = 44, k = size / (2 * c.r);
   const style = `background-size:${PACK.cast.w * k}px ${PACK.cast.h * k}px;background-position:${-(c.x - c.r) * k}px ${-(c.y - c.r) * k}px`;
-  return `<div class="who"><span class="ava" style="${style}" role="img" aria-label="${esc(c.name)}"></span><span class="who-t"><b>${esc(c.name)}</b>${c.role ? `<small>${esc(c.role)}</small>` : ""}</span></div>`;
+  return `<div class="who"><span class="ava" style="${style}" role="img" aria-label="${esc(c.name)}"></span>${who}</div>`;
 }
 function chipsHtml(ids) {
   const list = (ids || []).filter(id => NOTES[id]);
@@ -2776,7 +2833,7 @@ function inputSlide(v) {
 
 function endingSlide(v) {
   const e = v.ending;
-  const html = slideHtml(`<section class="panel ending" data-look="${esc(e.look || "")}" aria-label="Ending">
+  const html = slideHtml(`<section class="panel ending" data-look="${esc(e.look || "")}" data-ending="${esc(e.id != null ? e.id : "")}" aria-label="Ending">
       <div class="tags"><span class="tag">Ending</span>${lookTag(e.look)}</div>
       <h2 class="end-title" tabindex="-1">${esc(e.title)}</h2>
       <p class="fine" style="margin-top:0">Endings found: ${V.found.size} of ${ENDING_IDS.length}</p>
@@ -2931,7 +2988,7 @@ async function present(v, o) {
   kitUpdate(v);
   record(v);
   setPlace(v);
-  $("app").dataset.node = v.node || "";
+  setNode(v);
 
   const card = !!v.scene && ((turn && dir > 0) || o.fresh) && !o.noCard;
   if (card) {
@@ -2950,7 +3007,7 @@ async function present(v, o) {
 function renderNode(v, dir, say, o) {
   say = (say || []).filter(Boolean);
   o = o || {};
-  $("app").dataset.node = v.node || "";
+  setNode(v);
   let built = null, slide;
   if (v.node === "roll") {
     if (V.rollEl && V.rollEl.isConnected && V.slide === V.rollEl) { slide = V.rollEl; V.rollEl = null; }
@@ -2975,6 +3032,12 @@ function renderNode(v, dir, say, o) {
   if (!(built && built.typing && V.typing)) armAuto();
 }
 
+// #app[data-node] and #app[data-ending] follow the view. The ending id is there for tests and kits; it is absent at any other node.
+function setNode(v) {
+  const app = $("app");
+  app.dataset.node = v.node || "";
+  if (v.node === "ending" && v.ending && v.ending.id != null) app.dataset.ending = v.ending.id; else delete app.dataset.ending;
+}
 function setPlace(v) {
   $("place").textContent = v.scene && v.scene.place ? v.scene.place : "";
   $("brandSub").textContent = `Endings found ${V.found.size} of ${ENDING_IDS.length}`;
@@ -3009,8 +3072,11 @@ function deckUI() {
   if (V.settings.auto && !off) h += " AUTO is on.";
   hint.textContent = h;
   const seed = v.seed != null ? v.seed : V.seedPending;
-  $("foot").textContent = `Seed ${seed}${V.replaying ? " · replay" : ""} · ?seed=${seed} repeats this run`;
+  $("foot").textContent = `Seed ${seed}${V.replaying ? " · replay" : ""} · ${runUrl(seed)} repeats this run${ignoredNote()}`;
 }
+// The query that repeats this run: the seed, and the forced tiers when ?force= was given.
+const runUrl = seed => `?seed=${seed}${V.force.length ? "&force=" + V.force.join(",") : ""}`;
+const ignoredNote = () => V.forceIgnored.length ? ` · ignored in ?force: ${V.forceIgnored.join(", ")}` : "";
 
 // ---------------------------------------------------------------- film mode
 function clearAuto() {
@@ -3099,8 +3165,10 @@ function canContinue() {
   if (!s) return false;
   try { const d = JSON.parse(s); return d && d.pack === PACK.id && Array.isArray(d.hist) && d.hist.length > 1; } catch (e) { return false; }
 }
+// A Verify replay and a ?force= run are not the reader's own play: neither writes the save, the found endings or the notes met.
+const volatileRun = () => V.replaying || V.force.length > 0;
 function persist(v) {
-  if (V.replaying) return;
+  if (volatileRun()) return;
   V.rec.found = [...V.found];
   V.rec.met = [...V.extraMet];
   V.rec.settings = V.settings;
@@ -3109,7 +3177,8 @@ function persist(v) {
 }
 function persistSettings() {
   if (!V.rec) return;
-  V.rec.settings = V.settings; V.rec.found = [...V.found]; V.rec.met = [...V.extraMet];
+  V.rec.settings = V.settings;
+  if (!volatileRun()) { V.rec.found = [...V.found]; V.rec.met = [...V.extraMet]; }
   store.write(V.rec);
 }
 function record(v) {
@@ -3120,13 +3189,17 @@ function record(v) {
 function newSeed() { return Math.floor(Math.random() * 0x7fffffff) + 1; }
 
 function begin(cont) {
+  // Enter or Space during the opening cues (the title's button keeps focus) must not start the story again.
+  // The flag is set here and cleared when the first beat or card has rendered, when the start fails, or at the title.
+  if (V.starting) return;
+  V.starting = true;
   if (V.sheet) closeSheet(true);
   V.token++; stopTyping(); clearAuto();
   V.replaying = false;
   const seed = V.seedPending;
   let save = null;
   if (cont && canContinue()) save = V.rec.save;
-  try { V.game = Stage.create(PACK, { seed, save, force: V.force.slice() }); } catch (e) { console.error(e); announce("This story could not start."); return; }
+  try { V.game = Stage.create(PACK, { seed, save, force: V.force.slice() }); } catch (e) { V.starting = false; console.error(e); announce("This story could not start."); return; }
   V.view = V.game.view();
   V.seen = new Set(); V.sealed = false; V.rollEl = null; V.cueBusy = false;
   V.seedPending = V.view.seed;
@@ -3134,7 +3207,11 @@ function begin(cont) {
   buildHud();
   $("app").dataset.phase = "play";
   if (save) restore(V.view);
-  else { V.phase = "play"; present(V.view, { dir: 1, fresh: true }); }
+  else {
+    V.phase = "play";
+    Promise.resolve(present(V.view, { dir: 1, fresh: true })).catch(e => console.error(e)).finally(() => { V.starting = false; });
+  }
+  if (save) V.starting = false;
 }
 function restore(v) {
   V.token++; stopTyping(); clearAuto();
@@ -3157,9 +3234,10 @@ function adopt(game) { // Verify: play a route and land on its end
 function toTitle() {
   if (V.sheet) closeSheet(true);
   V.token++; stopTyping(); clearAuto();
+  V.starting = false;
   V.game = null; V.view = null; V.phase = "title"; V.cueBusy = false; V.sealed = false; V.ctx = null; V.replaying = false;
   root.removeAttribute("data-cue");
-  $("app").dataset.phase = "title"; $("app").dataset.node = "";
+  $("app").dataset.phase = "title"; $("app").dataset.node = ""; delete $("app").dataset.ending;
   V.seedPending = V.seedFixed ? V.seedPending : newSeed();
   buildHud();
   $("place").textContent = "";
@@ -3174,7 +3252,7 @@ function toTitle() {
   showSlide(sl, 1, true);
   sl.classList.add("done");
   deckUI();
-  $("foot").textContent = `Seed ${V.seedPending}${V.seedFixed ? " (set by ?seed)" : ""}`;
+  $("foot").textContent = `Seed ${V.seedPending}${V.force.length ? " (set by ?seed or ?force)" : V.seedFixed ? " (set by ?seed)" : ""}${ignoredNote()}`;
   const b = sl.querySelector("#contBtn") || sl.querySelector("#beginBtn");
   if (b) b.focus({ preventScroll: true });
   announce(`${PACK.title}. ${PACK.subtitle || ""}`);
@@ -3526,7 +3604,14 @@ function boot() {
     if (q != null && q !== "" && Number.isFinite(Number(q))) { V.seedPending = Math.floor(Number(q)) >>> 0; V.seedFixed = true; }
     // ?force=fail,success steers the next rolls to those result tiers, in order (the browser test uses it). Like ?seed=, it fixes the run, so Continue is off.
     const f = new URLSearchParams(location.search).get("force");
-    if (f != null && f !== "") { V.force = f.split(",").map(x => x.trim()).filter(x => ["fail", "tie", "success", "style"].includes(x)); V.seedFixed = true; }
+    // Tokens that are not a result tier are dropped and shown in the footer (a console warning would fail the browser test).
+    // The run is fixed only if at least one valid tier is left.
+    if (f != null && f !== "") {
+      const toks = f.split(",").map(x => x.trim()).filter(Boolean);
+      V.force = toks.filter(x => TIERS.includes(x));
+      V.forceIgnored = toks.filter(x => !TIERS.includes(x));
+      if (V.force.length) V.seedFixed = true;
+    }
   } catch (e) {}
   if (PACK.cast && PACK.cast.sheet && ASSETS[PACK.cast.sheet]) root.style.setProperty("--cast-sheet", `url("${ASSETS[PACK.cast.sheet]}")`);
   applySettings();
