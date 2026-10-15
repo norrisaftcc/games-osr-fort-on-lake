@@ -59,9 +59,9 @@
         "under": "art/chamber-glass.svg",
         "tally": "lens",
         "value": "machine",
-        "x": 0.76,
+        "x": 0.74,
         "y": 0.36,
-        "w": 0.22
+        "w": 0.26
       }
     ]
   },
@@ -90,9 +90,9 @@
         "prim": "plate",
         "art": "art/pen-stone.svg",
         "look": "paint",
-        "x": 0.51,
+        "x": 0.5,
         "y": 0.22,
-        "w": 0.22
+        "w": 0.21
       },
       {
         "prim": "flap",
@@ -109,9 +109,9 @@
         "under": "art/pen-rings.svg",
         "tally": "lens",
         "value": "machine",
-        "x": 0.76,
+        "x": 0.74,
         "y": 0.36,
-        "w": 0.22
+        "w": 0.26
       }
     ]
   },
@@ -164,9 +164,9 @@
         "prim": "flap",
         "art": "art/tag.svg",
         "under": "art/glass-key.svg",
-        "x": 0.78,
+        "x": 0.77,
         "y": 0.15,
-        "w": 0.24,
+        "w": 0.26,
         "opensOn": "reveal"
       },
       {
@@ -175,9 +175,9 @@
         "under": "art/glass-cursor.svg",
         "tally": "lens",
         "value": "machine",
-        "x": 0.78,
+        "x": 0.74,
         "y": 0.35,
-        "w": 0.2
+        "w": 0.26
       }
     ]
   },
@@ -203,7 +203,7 @@
         "look": "ink",
         "x": 0.5,
         "y": 0.45,
-        "w": 0.26
+        "w": 0.32
       }
     ]
   },
@@ -243,9 +243,9 @@
         "prim": "flap",
         "art": "art/tag.svg",
         "under": "art/plinth-stations.svg",
-        "x": 0.17,
-        "y": 0.475,
-        "w": 0.24,
+        "x": 0.18,
+        "y": 0.55,
+        "w": 0.28,
         "opensOn": "reveal"
       },
       {

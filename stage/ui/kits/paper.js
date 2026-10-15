@@ -22,7 +22,10 @@
    Art vocabulary (SVG files are inlined, so strokes follow the map style): strokes and fills use currentColor, which the
    kit sets to ink or to Blueline blue. Fill classes: fi ink, fp paper, f1 tint-1, f2 tint-2, fg plate-gold, fu plate-umber,
    fs stone grey (the rule colour). Stroke classes: sg gold, su umber, ss grey. One path with class "d" (pathLength 1) is
-   the contour the ink cue draws on.
+   the contour the ink cue draws on. That path is the only stroke of the contour: the shapes under it are filled with
+   stroke="none", so the ink cue draws the line on from nothing. Text is filled with --k-text (ink; in Blueline a darker
+   blue, so that it passes 4.5:1 under the warm wash) and always sits on a paper fill (fp), never straight on gold,
+   umber or a tint. Labels on a flap or a pull-tab are at least 10px on a 360px phone.
 
    Motion: every duration, easing and distance is a --m-* token read in mount(). Only transform and opacity animate; the
    one exception is stroke-dashoffset on the ink contour (MOTION.md, ink). Under reduced motion or Calm no animate() is
@@ -34,6 +37,21 @@
    restores everything bound to state (look, revealed, tally, meters), in both directions. */
 (function () {
 "use strict";
+// Art is ours, but it is inlined, so clean it the same way in both kits: no script, no foreign HTML, no links, no
+// handlers, no href that leaves the file, and no SMIL element that could set one.
+function cleanSvg(root) {
+  root.querySelectorAll("script,foreignObject").forEach(n => n.remove());
+  root.querySelectorAll("set,animate,animateTransform,animateMotion").forEach(n => {
+    const a = (n.getAttribute("attributeName") || "").toLowerCase();
+    if (a === "href" || a === "xlink:href" || a.startsWith("on")) n.remove();
+  });
+  root.querySelectorAll("a").forEach(a => a.replaceWith(...a.childNodes));
+  for (const n of [root, ...root.querySelectorAll("*")]) for (const at of [...n.attributes]) {
+    const nm = (at.localName || at.name).toLowerCase();
+    if (nm.startsWith("on") || (nm === "href" && !/^#/.test(at.value))) n.removeAttribute(at.name);
+  }
+  return root;
+}
 const docEl = document.documentElement;
 const redNow = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || docEl.getAttribute("data-motion") === "calm";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -64,7 +82,8 @@ function svgText(src) {
       if (b64) { const bin = atob(body); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); txt = new TextDecoder("utf-8").decode(u); }
       else txt = decodeURIComponent(body);
       txt = txt.replace(/<\?xml[^>]*\?>/g, "").replace(/<!DOCTYPE[^>]*>/gi, "").trim();
-      if (!/<script|\son\w+\s*=/i.test(txt)) out = txt;
+      const d = new DOMParser().parseFromString(txt, "image/svg+xml");
+      if (!d.querySelector("parsererror")) out = new XMLSerializer().serializeToString(cleanSvg(d.documentElement));
     } catch (e) { out = null; }
   }
   svgCache.set(src, out);
@@ -226,8 +245,15 @@ function leads(l, state) {
 function sheetPos(e) { return e.dataset.pulled === "1" ? "none" : e.dataset.out === "1" ? `translateX(${T.d4}px)` : "none"; }
 function pullState(e, state, animate) {
   const sheet = e.querySelector(".k-sheet");
-  const from = sheetPos(e);
-  e.dataset.out = leads(e._l, state) ? "1" : "0";
+  const lead = leads(e._l, state);
+  const from = sheetPos(e); // where the sheet is now (pulled counts as none)
+  if (!lead && e.dataset.pulled === "1") { // the tally no longer leads (Back, or a new step): the pulled card folds back behind the front
+    e.dataset.pulled = "0";
+    e.querySelector(".k-tab").setAttribute("aria-expanded", "false");
+    sheet.style.zIndex = "";
+    if (animate) run(e.querySelector(".k-fronti"), [{ opacity: 0 }], T.state, T.easeOut); // the front comes back over it
+  }
+  e.dataset.out = lead ? "1" : "0";
   const to = sheetPos(e);
   sheet.style.transform = to === "none" ? "" : to;
   if (e.dataset.pulled === "1") sheet.style.zIndex = "2";
@@ -578,8 +604,9 @@ const kit = {
 // each has a fallback. Lengths and times are the --m-* tokens.
 const CSS = `
 .k-root{position:absolute;inset:0;overflow:hidden;container-type:size;perspective:var(--m-persp,1200px);color:var(--k-ink);background:var(--st-bg);
-  --k-ink:var(--st-ink);--k-gold:var(--plate-gold,var(--st-lamp));--k-umber:var(--plate-umber,var(--st-ink-soft));--k-stone:var(--st-line);--k-shade:var(--st-tint2)}
-html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blueline,var(--st-accent))}
+  --k-ink:var(--st-ink);--k-text:var(--k-ink);--k-gold:var(--plate-gold,var(--st-lamp));--k-umber:var(--plate-umber,var(--st-ink-soft));--k-stone:var(--st-line);--k-shade:var(--st-tint2)}
+html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blueline,var(--st-accent));--k-text:var(--st-ink)}
+@supports (background:color-mix(in srgb,red 50%,blue)){html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-text:color-mix(in srgb,var(--blueline,var(--st-accent)) 12%,var(--st-ink))}}
 @supports (background:color-mix(in srgb,red 50%,blue)){.k-root{--k-shade:color-mix(in srgb,var(--st-ink) 20%,transparent)}}
 .k-set,.k-ground,.k-glow,.k-glow>*,.k-clone,.k-half-page,.k-cover{position:absolute;inset:0}
 .k-set{overflow:hidden}
@@ -591,7 +618,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-layer{position:absolute;translate:-50% -50%;pointer-events:none}
 .k-art{display:block}
 .k-art svg,.k-art img{display:block;width:100%;height:auto;overflow:visible}
-.k-art text{font-family:var(--st-font-display);fill:currentColor}
+.k-art text{font-family:var(--st-font-display);fill:var(--k-text)}
 .k-art .fi{fill:currentColor}.k-art .fp{fill:var(--st-bg)}.k-art .f1{fill:var(--st-tint1)}.k-art .f2{fill:var(--st-tint2)}
 .k-art .fg{fill:var(--k-gold)}.k-art .fu{fill:var(--k-umber)}.k-art .fs{fill:var(--k-stone)}
 .k-art .sg{stroke:var(--k-gold)}.k-art .su{stroke:var(--k-umber)}.k-art .ss{stroke:var(--k-stone)}
@@ -636,7 +663,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-stub{position:absolute;left:50%;top:100%;translate:-50% 4px;white-space:nowrap;padding:1px 8px;font:700 .75rem/1.3 var(--st-font-ui);letter-spacing:.06em;color:var(--st-ink);background:var(--st-bg);border:1px solid var(--k-ink);border-radius:999px}
 .k-glow{pointer-events:none;opacity:0}
 .k-wash{background:var(--k-gold);opacity:var(--m-wash-alpha,.3)}
-.k-lamp{background:radial-gradient(ellipse 75% 65% at 50% 32%,var(--k-gold),transparent 72%);opacity:var(--m-wash-alpha,.3)}
+.k-lamp{background:radial-gradient(ellipse 75% 65% at 50% 32%,var(--k-gold),transparent 72%);opacity:calc(var(--m-wash-alpha,.3) * .3)}
 .k-leaf{position:absolute;top:0;bottom:0;width:50%;z-index:6;transform-style:preserve-3d;pointer-events:none}
 .k-leaf[data-dir="r"]{left:50%;transform-origin:0 50%}
 .k-leaf[data-dir="l"]{left:0;transform-origin:100% 50%}
@@ -650,7 +677,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
 .k-half-page[data-side="r"]{left:50%;transform-origin:0 50%}
 .k-half-page .k-clone{inset:auto;top:0;height:100%;width:200%}
 .k-stamp{position:absolute;left:var(--st-gutter,16px);top:36px;z-index:7;width:4.6rem;height:4.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none;
-  background:var(--st-bg);color:var(--k-ink);border:3px double var(--k-ink);transform:rotate(calc(var(--m-tilt,3deg) * -3));font:700 .75rem/1 var(--st-font-display);letter-spacing:.14em;text-transform:uppercase}
+  background:var(--st-bg);color:var(--k-text);border:3px double var(--k-ink);transform:rotate(calc(var(--m-tilt,3deg) * -3));font:700 .75rem/1 var(--st-font-display);letter-spacing:.14em;text-transform:uppercase}
 .k-cover{z-index:7;display:flex;align-items:center;justify-content:center;pointer-events:none;background:var(--st-bg)}
 .k-cover-in{width:min(62%,18rem);aspect-ratio:3/4;max-height:78%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;
   background:var(--st-ink);color:var(--st-bg);border-radius:4px 10px 10px 4px;outline:2px solid var(--k-gold);outline-offset:-10px;box-shadow:inset 8px 0 0 var(--k-shade)}
