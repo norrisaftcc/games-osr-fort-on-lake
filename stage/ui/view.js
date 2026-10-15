@@ -351,6 +351,8 @@ function enterFrames(dir, fade) {
 }
 function retire(old, dir, fade, instant) {
   if (!old) return;
+  // A button that held focus goes inert with its panel; let go of focus so the keys keep working (Enter on a dead button does nothing).
+  if (old.contains(document.activeElement) && document.activeElement !== document.body) { try { document.activeElement.blur(); } catch (e) {} }
   old.setAttribute("inert", ""); old.setAttribute("aria-hidden", "true"); old.classList.add("out");
   if (isReduced() || instant) { old.remove(); return; }
   const a = old.animate(fade ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, transform: "translateX(0)" }, { opacity: 0, transform: `translateX(${-dir * M.d5}px)` }],

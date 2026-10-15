@@ -139,10 +139,10 @@ button, input, textarea { font: inherit; color: inherit; }
   cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent;
   transition: background-color var(--m-state) var(--m-ease-out);
 }
-.btn:hover:not(:disabled) { background: var(--st-tint1); }
+.btn:hover:not(:disabled):not(.primary):not([aria-pressed="true"]) { background: var(--st-tint1); }
 .btn:disabled, .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 .btn.primary, .btn[aria-pressed="true"] { background: var(--st-accent); color: var(--st-on-accent); border-color: var(--st-accent); }
-.btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.btn.primary:hover:not(:disabled), .btn[aria-pressed="true"]:hover:not(:disabled) { filter: brightness(1.08); }
 .btn.icon { padding: 0; }
 .kbd-hint { font-size: .7rem; font-weight: 700; opacity: .75; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; }
 @media (max-width: 480px) { .kbd-hint { display: none; } }
@@ -427,7 +427,7 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 .routes { display: grid; gap: 6px; }
 .route-row { display: flex; align-items: stretch; gap: 6px; }
 .route-row .route { flex: 1 1 auto; min-width: 0; width: auto; }
-.route-last { flex: none; padding: 0 10px; }
+.route-last { flex: none; align-self: flex-start; padding: 0 10px; }
 .route {
   display: block; width: 100%; min-height: var(--st-target); padding: 6px 10px; text-align: left; cursor: pointer;
   background: var(--st-card); border: 1px solid var(--st-edge); border-radius: 6px; font: .8125rem/1.45 var(--st-font-ui);
