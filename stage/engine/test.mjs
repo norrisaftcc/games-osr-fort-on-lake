@@ -220,7 +220,7 @@ test("cue ink and bloom: a reveal inks even in a paint scene; a pick's then beat
   assert.deepEqual(types(g.view()), ["bloom"]);
   g.next();
   assert.deepEqual(types(g.reveal()), ["ink"]);
-  assert.deepEqual(types(g.next()), [], "the revealed beat counts as the scene's look");
+  assert.deepEqual(types(g.next()), ["bloom"], "the ink of a reveal holds; the next paint beat blooms again");
   assert.deepEqual(types(g.next()), []);
   const v = g.choose("x");
   assert.deepEqual([v.beat.text, types(v)], ["t1", ["ink"]]);

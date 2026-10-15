@@ -479,7 +479,7 @@ function create(pack, opts) {
       S.cues = [];
       if (!hidden()) return view();
       S.revealed = true;
-      S.lookShown = S.look; // a revealed beat always inks
+      S.lookShown = "ink"; // a revealed beat always inks, and the ink holds until a beat of another look
       S.cues.push({ type: "ink" });
       meet(X.beats.get(split(S.cur)[1]));
       hist[hist.length - 1] = snap(S);

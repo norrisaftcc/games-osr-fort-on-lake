@@ -61,7 +61,9 @@ export function validatePack(dir) {
   // The two fixtures are vendored byte for byte into HTLL, so they may keep "fort-stage." there.
   const fixture = FIXTURES.includes(pack.id);
   if (typeof pack.storageKey === "string" && !pack.storageKey.startsWith(prefix) && !(fixture && pack.storageKey.startsWith("fort-stage."))) err("pack.json", `storageKey "${pack.storageKey}" must start with "${prefix}" for a pack here`);
-  else if (typeof pack.storageKey === "string" && pack.id && pack.storageKey !== prefix + pack.id && !fixture) warn("pack.json", `storageKey is usually "${prefix}${pack.id}"`);
+  // HTLL keeps each tool under its own name (htll.crawler., htll.stage.), so the usual key there is htll.stage.<id>.
+  const usual = (prefix === "htll." ? "htll.stage." : prefix) + pack.id;
+  if (typeof pack.storageKey === "string" && pack.id && pack.storageKey.startsWith(prefix) && pack.storageKey !== usual && !fixture) warn("pack.json", `storageKey is usually "${usual}"`);
 
   // art/
   const artFiles = new Set(walk(dir, join(dir, "art")));
