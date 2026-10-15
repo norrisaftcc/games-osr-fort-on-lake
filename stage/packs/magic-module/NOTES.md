@@ -143,7 +143,7 @@ The lean-ins do not explain the canon glass lines, the station list, the year or
 | Halcyon: named, never keyed? | Not named. Not keyed. The pack says only "the door beneath the lake", which is canon Fort Cards text. |
 | The Sleeper never appears in anything a player reads? | It does not appear anywhere in the pack. |
 | Lintel? | Does not appear. |
-| The Terminal never speaks as a mind? | Yes. Glass lines are the canon table, word for word. None has *I*, a feeling or *I see you*. Two canon narration lines (Fort Cards) say the Terminal "knew who you were" and "had been waiting for you". They are narration, kept as written. |
+| The Terminal never speaks as a mind? | Yes. Glass lines are the canon table, word for word. None has *I*, a feeling or *I see you*. Two canon narration lines (Fort Cards) say the Terminal "knew who you were" and "had been waiting for you". They are narration, kept as written; the spine records this (*Year Two Canon*, *The Terminal's voice*). |
 | The Gorgon Queen was paralysed by a cockatrice chick's cry, not "turned to stone"? | Yes. The `biddy` note says "paralysed". The phrase "turned to stone" is absent. |
 | The cockatrice is Biddy; Wick keeps her? | Yes (`biddy`, `wick`; scene 6 puts her in the Beast Pen). |
 | ASSUMED canon written so a DM can replace it? | The pack assumes the Queen's wards are dark ("a disc of dark glass") and that Wick keeps Biddy. Both are in a flap or a lore note, not in a rule. |
