@@ -20,6 +20,8 @@ Blueline gives each signal channel one meaning. Motion is one more channel, with
    | `gain` | Consequence, a meter goes up | Signed number: "+1 Fate" |
    | `tear` | Player authority used | "★ 1 FP spent" (the star is Blueline's Fate-only glyph) |
    | `close` | The story stops | The ending's title |
+   | `beat` | A new moment of text arrives, and nothing else has changed. The shell's own motion, not an engine cue | The text itself |
+   | `tally` | The player's reading of the world changed | The reading in the HUD, with its number ("Lens: machine 2") |
 
 2. **Motion never carries meaning alone.** Every cue ends on a still state that says the same thing in words. Skip the motion and nothing is lost. Reading the end state is the whole test.
 3. **One end state, three ways to reach it.** A cue can play, be finished by a tap, or be jumped by reduced motion. All three land on the same end state. Write the end state first (as the element's own style); animate *from* a start state *to* it.
@@ -36,7 +38,7 @@ The shell and kits read these. They never hard-code a timing. **Source** says wh
 
 | Token | Value | Source | Use |
 |-------|-------|--------|-----|
-| `--m-state` | 250ms | Neon | HUD change: meter pip, chip, label fade-in |
+| `--m-state` | 250ms | Neon | HUD change: meter pip, chip, label fade-in. A new panel's text crossfade. A screen's lines printing |
 | `--m-sheet` | 300ms | Neon | A sheet rises by `--m-d4` (Help, Notes, Card, Verify, Settings) |
 | `--m-in` | 450ms | Neon | A text panel arrives |
 | `--m-out` | 380ms | Neon | A text panel leaves |
@@ -121,7 +123,7 @@ The shell and kits read these. They never hard-code a timing. **Source** says wh
 Each entry names what moves in the **Shell** (HUD, text, hint line) and in each kit, the tokens, the end state and the reduced-motion end state. Sound is Web Audio, with the notes and shapes taken from Neon On-Call's `synth` where it has one. Gains are Neon's (.03 to .07).
 
 ### turn (`dir` +1 forward, −1 back): time passes
-- **Shell.** The text panel leaves (`--m-out`, `--m-ease-in`, by `--m-d5` toward `−dir`) and the new one arrives (`--m-in`, `--m-ease-out`, from `+dir`). In the feed kit the panel fades over `--m-state` and does not slide: a cut does not slide.
+- **Shell.** The text panel leaves (`--m-out`, `--m-ease-in`, by `--m-d5` toward `−dir`) and the new one arrives (`--m-in`, `--m-ease-out`, from `+dir`). **Only a `turn` slides the text.** A plain beat, a choice, a roll and a `shift` do not (see `beat` below). In the feed kit the panel fades over `--m-state` and does not slide: a cut does not slide. The scene card that follows a `turn` arrives with it; the first beat after the card crossfades.
 - **Paper.** A page turn: the old spread rotates about the gutter (`rotateY`, `--m-persp`) while the new one lies beneath. Duration `--m-turn`, `--m-ease-out`. Primitives on the new spread enter by their own rule (§4), `--m-stagger` apart, grouped so no more than `--m-layers-max` move at once. The scene card (`card(scene)`) shows the title and place line.
 - **Feed.** A hard cut: the frame swaps in one frame. The channel label and timestamp change. The log clears and prints again.
 - **End.** The new scene's set at rest, the place line shown. **Reduced.** The same, with no slide and no rotation.
@@ -129,8 +131,14 @@ Each entry names what moves in the **Shell** (HUD, text, hint line) and in each 
 
 ### shift: the same moment, a new view
 - **Paper and Feed.** The old layers fade out and the new fade in together over `--m-cross`, `--m-ease-out`. Nothing slides. In the feed the timestamp holds and only the channel label changes. In both kits the place line stays.
-- **Shell.** Nothing moves; the text panel stays.
+- **Shell.** The text does not slide. The next panel crossfades as for `beat`.
 - **End.** The new set, text untouched. **Reduced.** The swap with no fade. **Sound.** None: the moment has not changed.
+
+### beat: a new panel of text (the shell's own, not an engine cue)
+- **Shell.** A new panel that arrives without a `turn` (the next beat, a choice, a roll, an input, an ending) **crossfades**: the old panel fades out and the new one fades in, both over `--m-state` (`--m-ease-in` out, `--m-ease-out` in), by opacity only. It does not slide. The text then types (§5).
+- **A screen prints.** A beat's `screen` lines are part of the beat. A kit with `screen(lines)` fades them in over `--m-state` (the paper `screen`, the feed `log`); without it the lines sit in the panel and fade in with it. The lines are not a cue and are not spoken twice: the live region reads them once with the beat.
+- **Kit.** Does nothing for a beat. A kit that moved its set on every beat would break "one motion, one meaning".
+- **End.** The panel at rest, the line whole after typing. **Reduced.** The panel at once, the line whole. **Sound.** The typing tick only.
 
 ### ink: unwitnessed or secret
 - **Paper.** SVG strokes draw on (`stroke-dashoffset` to 0) over `--m-ink`, `--m-ease-out`. A `flap` with `opensOn: "reveal"` opens (`--m-flap`) over the same time. The beat sits on `tint-1` with the label "Referee only" (Blueline: secrets live in shade).
@@ -160,16 +168,21 @@ Each entry names what moves in the **Shell** (HUD, text, hint line) and in each 
 - **Sound.** Neon's tick (triangle, 1100–1400 Hz, 18 ms, gain .016), `--m-roll-ticks` times, evenly spaced.
 
 ### cost (`meter`, `n`): a meter goes down
-- **Shell.** The pip fills with `tint-2` (spent) over `--m-state`. The label "−1 Fate" rises in by `--m-d1` over `--m-state` and stays `--m-hold`. One flash: `--m-flash-color` at `--m-flash-alpha` on the stage edge and the meter, decaying over `--m-flash`, never twice inside `--m-flash-gap`.
+- **Shell.** The pip that changed takes its new class (a toggle, never a rebuild of the row) and fades in over `--m-state`. The label "−1 Fate" rises in by `--m-d1` over `--m-state` and stays `--m-hold`. **The direction is the cue's, not the number's sign:** a `cost` always rises in, even on a stress meter where the number is a plus ("+1 Nerves"). One flash: `--m-flash-color` at `--m-flash-alpha` on the stage edge and the meter, decaying over `--m-flash`, never twice inside `--m-flash-gap`.
 - **Paper and Feed.** The Feed `log` prints a line "FATE −1". Paper adds nothing: the margin is the HUD.
 - **End.** The lower value, the label gone after `--m-hold`, a spent pip. **Reduced.** The lower value and pip at once; the label shows `--m-hold` then goes; no flash.
 - **Sound.** One pulse of Neon's klaxon: sawtooth 220 → 140 Hz (linear, 0.18 s), gain .07. Neon plays three; we play one.
 
 ### gain (`meter`, `n`): a meter goes up
-- **Shell.** The pip fills with `ink` over `--m-state`. The label "+1 Fate" falls in from `−--m-d1`. No flash: a gain is quiet.
+- **Shell.** The pip that changed fades in over `--m-state`. The label "+1 Fate" falls in from `−--m-d1`, always, whatever the sign of the number. No flash: a gain is quiet.
 - **Paper and Feed.** The Feed `log` prints "FATE +1".
 - **End and reduced.** As `cost`, with the higher value and a filled pip.
 - **Sound.** Neon's good chord: triangle 330, 440, 554.37, 659.25 Hz, 0.3 s each, 0.08 s apart, gain .04.
+
+### tally (`id`, `value`): the player's reading changes
+- **Shell.** One form: the reading in the HUD flashes once. The value that moved ("machine 2") scales 1.18 → 1 and fades up from .25 over `--m-flash`. It is not a screen flash. The number says by how much.
+- **Kit.** May echo it, and only where the pack binds a layer to the tally: the paper `pulltab` slides out `--m-d4` over `--m-in` (brush depth). The feed has no echo.
+- **End.** The new count in the HUD; the value underlined while it is fresh (`--m-hold`). **Reduced.** The count and underline at once, no flash. **Sound.** None.
 
 ### tear: player authority used
 - **Paper.** The `ticket` parts along its perforation: the halves move `±--m-d2` and rotate `±--m-tilt` over `--m-tear`, `--m-ease-out`. The stub stays, reading "★ 1 FP spent".
@@ -220,7 +233,9 @@ A line printed by `log` is a record, not a signal. The live region does not read
 - **Typewriter.** One character every `--m-type` (28 ms). The line's whole text is laid out first: typed characters are visible and the untyped tail is `opacity: 0`, so the panel never changes size. A solid block caret sits at the end while it types. It does not blink: Neon's caret loops, ours does not.
 - **Tap to finish.** A tap, Space, Enter or → on a typing line shows the rest at once and does not go on. The next press goes on. ← while typing finishes the line, then goes back. A tap during a cue finishes the cue; it does not go on either.
 - **AUTO.** Waits `--m-auto-base` + length × `--m-auto-char` (capped at 14000 ms) after the line is whole, then goes on. The progress bar is a `scaleX` on the deck's top edge, `--m-ease-linear`. AUTO stops at every choice, roll, input and reveal. It pauses while a sheet is open and while the page is hidden. Under reduced motion the bar is not drawn; the delay stays, because it is a reading pause, not motion.
-- **The live region.** There is one `aria-live="polite"` region (`aria-atomic="true"`) on the page. The whole line goes into it when the line starts. The typing element is `aria-hidden`, so a screen reader never hears a half line, and a tap-to-finish never says it twice. The region also gets, once and in this order: the scene's title and place on `turn`; the result line on `roll`; the label on `cost` and `gain` ("Fate, minus 1"); "Sealed" on `seal`; "Fate point spent" on `tear`; the ending's title on `close`. `shift`, `ink`, `bloom` and `log` lines are silent: they are looks, not events.
+- **The live region.** There is one `aria-live="polite"` region (`aria-atomic="true"`) on the page. The whole line goes into it when the line starts. The typing element is `aria-hidden`, so a screen reader never hears a half line, and a tap-to-finish never says it twice. The region also gets, once and in this order: the scene's title and place on `turn`; the result on `roll`, in words (see below); the change on `cost` and `gain`, as a direction ("Cost: Fate falls by 1", "Cost: Nerves rises by 1"); "Sealed" on `seal`; "Fate point spent" on `tear`; the ending's title on `close`. A choice is spoken with its gate first: "Execution, final. What do you do?" (Planning, free · Execution, final · Spends 1 Fate, final); the gate tag is also the heading's `aria-describedby`. When the reader changes AUTO, Calm, Sound or Keyboard shortcuts, the region says "AUTO on", "Calm off" and so on.
+- **The roll in words.** Faces are spoken as words, never as symbols: "plus, minus, blank, minus, plus 3 for Code: total 2 against 2. Tie." The dice row carries the same words as its `aria-label` (role `img`), and its glyphs are hidden from assistive technology.
+- **Single-key shortcuts.** Settings has Keyboard shortcuts On or Off (WCAG 2.1.4). Off, the letter and digit keys and "?" do nothing. The arrows, Space, Enter and Esc still work. `shift`, `ink`, `bloom` and `log` lines are silent: they are looks, not events.
 - **Reduced motion.** The line is whole from the first frame and the region gets it the same way.
 - **Tick sound.** Neon's tick on every fourth character (about 9 a second at 28 ms), only when sound is on.
 
@@ -243,4 +258,4 @@ A line printed by `log` is a record, not a signal. The live region does not read
 
 ## 7. Checks this contract asks of the tests
 
-SPEC §5 already requires that reduced motion leaves no running animation. This contract adds the rest as a proposal for `stage/test.mjs`. For every built pack: with reduced motion emulated, `document.getAnimations()` has no running animation and no cue Promise is pending; with motion on, every cue Promise resolves within its token plus 100 ms and no step's chain is longer than 2400 ms; no more than `--m-layers-max` elements carry a running animation at once; the page has no animation when `document.hidden`; the computed tokens match this file's table.
+SPEC §5 already requires that reduced motion leaves no running animation. This contract adds the rest as a proposal for `stage/test.mjs`. For every built pack: with reduced motion emulated, `document.getAnimations()` has no running animation and no cue Promise is pending; with motion on, every cue Promise resolves within its token plus 100 ms at 1× CPU and its token plus 150 ms at 6× CPU throttle, and no step's chain is longer than 2400 ms; no more than `--m-layers-max` elements carry a running animation at once; the page has no animation when `document.hidden`; the computed tokens match this file's table.

@@ -178,13 +178,13 @@ Stage.check(pack)      // → { errors, warnings }
 
 **Commentary track.** Under the text panel, one line in the commentary voice when the beat has a `comment`. A toggle in settings hides it. ⓘ chips open the notes sheet at that note.
 
-**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2). Calm sets `<html data-motion="calm">` (Full sets `"full"`). Kits get a `reduced` flag in `mount()` and `cue()` only; in `show()`, `update()` and `tick()` they read the attribute or the media query. Each Verify row also has a Last pick button: it replays the route to its final choice (`upTo`).
+**Sheets.** Help (controls, how to play), Notes (every note met so far, grouped by kind), Card (the fields, copy as text), Verify (every route and the path count for each ending, as Neon On-Call's `--VERIFY`; tap a row to replay that route), Settings (theme, map style, motion Full or Calm, commentary, sound, keyboard shortcuts On or Off, AUTO speed). Calm behaves exactly as reduced motion, so ambient motion can be stopped inside the page (WCAG 2.2.2). Calm sets `<html data-motion="calm">` (Full sets `"full"`). Kits get a `reduced` flag in `mount()` and `cue()` only; in `show()`, `update()` and `tick()` they read the attribute or the media query. Each Verify row also has a Last pick button: it replays the route to its final choice (`upTo`).
 
 **Film mode.** AUTO plays beats like a film and stops at every choice, roll, input and reveal.
 
 **Sound.** Web Audio only, no files, off until the player turns it on. One sound per cue at most.
 
-**Keys.** → Space Enter: next. ←: back. 1–9: pick. R: reveal. N: notes. C: card. V: verify. H or ?: help. Esc: close a sheet. A: AUTO. All controls are buttons with labels; targets are 44 px or larger.
+**Keys.** → Space Enter: next. ←: back. 1–9: pick. R: reveal. N: notes. C: card. V: verify. H or ?: help. Esc: close a sheet. A: AUTO. The single-key shortcuts (letters, digits, ?) can be turned off in Settings (Keyboard shortcuts, default On, saved with the other settings; WCAG 2.1.4); the arrows, Space, Enter and Esc then still work. All controls are buttons with labels; targets are 44 px or larger.
 
 **Kit: paper** (the pop-up book). Primitives: `spread` (the two-page ground), `vfold` (rises from the gutter), `parallel` (a platform that lifts flat), `tunnel` (three to five layered planes; tilt moves them), `flap` (lifts on `reveal`, shows `under`), `pulltab` (slides a second layer out when the tally named by its `tally` property leads with its `value`, e.g. `{ "prim": "pulltab", "tally": "lens", "value": "machine" }`), `volvelle` (a wheel that turns on `roll`), `ticket` (tears on `tear`), `plate` (a framed image; `look` paint blooms it, `ink` draws it). `turn` is a page turn. `ink` draws SVG strokes on (stroke-dashoffset). `bloom` is a warm wash and lamplight.
 
@@ -215,7 +215,7 @@ Optional hooks: `setMap(style)` (the reader changed the map style) and `screen(l
 
 **What survives Back and Continue.** The engine's state, and with it everything `update(state)` carries: meters, fields, tallies, flags, the look on show, an opened secret, the ending. Moment cues (`roll`, `seal`, `tear`, `cost`, `gain`) are not restored as motion or marks; their results stay in the HUD, the card and the text. A kit may keep more, but must not show a moment's mark on a state that never had it.
 
-**DOM hooks for tests.** `#app` carries `data-phase`, `data-node`, `data-busy` and, at an ending, `data-ending="<id>"`.
+**DOM hooks for tests.** `#app` carries `data-phase`, `data-node`, `data-busy` and, at an ending, `data-ending="<id>"`. The shell sets `data-overflow="1"` on a `.panel` or `.track` while its content overflows and is not scrolled to the end (and clears it otherwise); an overflowing panel or track also gets `tabindex="0"`, `role="region"` and a "…, scrollable" label. The build embeds `window.SIM`, the result of `Stage.simulate(pack)`; the Verify sheet uses it (and computes it itself when absent) and lists the first 20 routes, the rest behind "Show all".
 
 **Network.** None. No external scripts, styles, fonts or images. Fonts and art are inlined by the build.
 
