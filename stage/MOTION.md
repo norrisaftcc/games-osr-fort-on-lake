@@ -149,14 +149,14 @@ Each entry names what moves in the **Shell** (HUD, text, hint line) and in each 
 
 ### bloom: witnessed or public
 - **Paper.** A warm wash of `plate-gold` rises to `--m-wash-alpha` over `--m-bloom`, `--m-ease-out`, with a lamplight layer (a radial gradient, static, fading in to 0.3 × `--m-wash-alpha`, so text under the wash keeps 4.5:1). The `plate` settles by `--m-tilt` to level.
-- **Feed.** The frame comes into focus: a sharp layer fades in over a pre-blurred copy, `--m-bloom`. The `track` box tightens from 1.08 to 1.
+- **Feed.** The frame comes into focus: a sharp layer fades in over a pre-blurred copy, `--m-bloom`. The `track` box's fill and face brighten by opacity; its border keeps full strength, and nothing scales.
 - **Shell.** Tag "Witnessed" fades in over `--m-state`.
 - **End.** The wash and lamplight stay while the beat is up; they fade over `--m-state` when a beat without paint comes into view. **Reduced.** Wash and focus present at once. **Sound.** Triangle 440 Hz, 0.3 s, gain .02 (chosen).
 
 ### seal: the choice is final
 - **Shell.** The picked option's label becomes "Sealed". The other options go to `tint-2` (spent). The back button disables. Over `--m-state`.
 - **Paper.** A stamp disc scales 1.4 → 1 on the option over `--m-seal`, `--m-ease-thump`. It carries the word "Sealed".
-- **Feed.** The `track` box goes from dashed to solid, the frame rule from `rule-hair` to `rule-firm`, the label reads "Locked". `--m-seal`, `--m-ease-out`.
+- **Feed.** The `track` box goes from dashed to solid, the frame rule from `rule-hair` to `rule-firm`, the label reads "Locked" and fades in. No scale. `--m-seal`, `--m-ease-out`.
 - **End.** Stamp or lock at rest. **Reduced.** At rest at once. The words are the same.
 - **Sound.** Square 140 Hz, 0.09 s, gain .06 (a thud; Neon's `beep` with a low pitch).
 
@@ -208,9 +208,9 @@ Idle means nothing has happened. Only the set layer may move in idle, marked **d
 | `spread` | Still. | `turn`: it is the page that rotates. `shift`: crossfades. `bloom`: takes the wash. `close`: shuts. |
 | `vfold` | Standing at rest. | `turn`: rises from the gutter, `--m-fold` → 0 about its base, `--m-in`, `--m-stagger` apart. `shift`: crossfades its art. `ink`: strokes draw. `close`: lies flat. |
 | `parallel` | Lifted flat; its shadow at rest. | `turn`: lifts from `--m-fold`, its shadow fades in with it (opacity). `close`: lowers. |
-| `tunnel` | **Drift**: the group scales to `--m-idle-scale` and back (`.m-idle`). A pointer drag tilts it, up to `--m-tunnel` at the near plane. The planes count as one layer. | `turn`: planes settle from 1.06 to 1, far to near. `shift`: crossfade. Reduced: no drift, no tilt; the planes stay at their depth offsets. |
+| `tunnel` | **Drift**: the group scales to `--m-idle-scale` and back (`.m-idle`), stepped about twice a second (`steps()`), so a 2 % scale does not keep the compositor drawing. A pointer drag tilts it, up to `--m-tunnel` at the near plane. The planes count as one layer. | `turn`: planes settle from 1.06 to 1, far to near. `shift`: crossfade. Reduced: no drift, no tilt; the planes stay at their depth offsets. |
 | `flap` | Closed, labelled "Referee only". | `ink` on a reveal: opens to `--m-flap` and shows `under`. A new scene (`turn`) starts it closed. |
-| `pulltab` | Tab edge showing `--m-d3`, labelled with the value's word ("Machine"). The back layer rests behind. Nothing pulses. | A change to its bound tally slides the layer out `--m-d4` over `--m-in`, `--m-ease-out`. That is **brush** depth. Further only on the player's tap on the tab (the player asks). Reduced: at the same offset at once. |
+| `pulltab` | Tab edge showing `--m-d3`, labelled with the value's word ("Machine"). The back layer rests behind. Nothing pulses. | A change to its bound tally slides the layer out `--m-d4` over `--m-in`, `--m-ease-out` (less on a narrow stage: the tab stays 4 px inside). That is **brush** depth. Further only on the player's tap on the tab (the player asks). Reduced: at the same offset at once. |
 | `volvelle` | Still at its last result. | `roll`: turns. |
 | `ticket` | Whole, with its star and "1 FP". | `tear`: parts. |
 | `plate` | Framed, still. | `bloom` (paint): wash and settle. `ink`: strokes draw. `turn`: arrives with the page. |
@@ -219,10 +219,10 @@ Idle means nothing has happened. Only the set layer may move in idle, marked **d
 
 | Primitive | Idle | Answers |
 |-----------|------|---------|
-| `frame` | **Drift**: the frame scales to `--m-idle-scale` and back. The timestamp counts in whole seconds. Reduced: frozen at the scene's time. | `turn`: hard cut, new channel and time. `shift`: crossfade, time holds. `bloom`: focus. `close`: collapses. |
-| `track` | A box on a face with a label and a confidence number. Still. | `turn`: appears at 1.12 and locks to 1 in `--m-state`. `bloom`: tightens. `seal`: dashed → solid, "Locked". `close`: fades; label "Lost". |
-| `scan` | **Drift**: one sweep per `--m-scan`, `--m-ease-linear`, at most .15 opacity. | `roll`: one pass in `--m-roll`. `turn`: restarts at the top. `close`: stops. Reduced: the line rests at the top, hidden. |
-| `log` | Lines of machine text, still. They are not a scroll. | `turn`: clears, prints `--m-stagger` apart. `ink`: redacted lines open. `roll`, `cost`, `gain`, `tear`: one new line each, fade in over `--m-state`. |
+| `frame` | **Drift**: the frame scales to `--m-idle-scale` and back, stepped about twice a second. The timestamp counts in whole seconds. Reduced: frozen at the scene's time. | `turn`: hard cut, new channel and time. `shift`: crossfade, time holds. `bloom`: focus. `close`: collapses. |
+| `track` | A box on a face with a label and a confidence number. Still. | `turn`: appears at 1.12 and locks to 1 in `--m-state`; this is the only cue that scales a box. `bloom`: fill and face brighten (opacity). `seal`: dashed → solid, "Locked". The ink look dims the fill and face, never the border, which keeps 3:1. `close`: fades; label "Lost". |
+| `scan` | **Drift** (stepped, as the frame): one sweep per `--m-scan`, `--m-ease-linear`, at most .15 opacity. | `roll`: one pass in `--m-roll`. `turn`: restarts at the top. `close`: stops. Reduced: the line rests at the top, hidden. |
+| `log` | Lines of machine text, still. They are not a scroll. With no `y`, the log sits under the channel chips at the top, where a phone's text panel does not reach. | `turn`: clears, prints `--m-stagger` apart. `ink`: redacted lines open. `roll`, `cost`, `gain`, `tear`: one new line each, fade in over `--m-state`. |
 | `redact` | Bars over the text, each marked "Redacted". | `ink`: lifts. Reduced: the bars are gone. |
 | `plate` | Framed, still. | As in paper. |
 
