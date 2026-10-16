@@ -412,8 +412,12 @@ function renderLog(L, lines) {
   L.el.innerHTML = "";
   for (const x of lines || L.model) L.el.appendChild(lineEl(x));
   // A log that gains its first line (or loses its last) may now be in the way of a label, or clear of it.
-  const had = L.has; L.has = !!L.el.firstChild;
-  if (had !== L.has && L.K.geo && L.K.tracks.length) placeLabels(L.K);
+  const had = L.has, K = L.K; L.has = !!L.el.firstChild;
+  if (K.geo && K.tracks.length) {
+    // A log that appears or goes, or that changes size while it moves a label or runs into one, may move the labels.
+    const r = had === L.has ? logRect(K, L) : null;
+    if (had !== L.has || (r && sigOf(r) !== L.sig && (K.byLog || K.tracks.some(T => T.rect && hits(T.rect, r))))) placeLabels(K);
+  }
 }
 function lineEl(x) {
   const e = div("k-ln");
@@ -544,6 +548,13 @@ function layout(K, size) {
 // sits under the log it goes beside the box. A label with labelAt "side" is always beside, one with "below" always below.
 // The labels are placed again when a log gains its first line or loses its last.
 const SIDE_MIN = 120;
+// A log's rectangle in the set's own space, 4 px wider on each side so that a label keeps its distance. Only a log in the set's
+// own layer (not in the cam) that has lines.
+const logRect = (K, L) => (L.has && L.el.parentNode === K.el && L.el.offsetWidth ? { x0: L.el.offsetLeft - 4, x1: L.el.offsetLeft + L.el.offsetWidth + 4, y0: L.el.offsetTop, y1: L.el.offsetTop + L.el.offsetHeight } : null);
+const sigOf = r => (r ? [r.x0, r.y0, r.x1, r.y1].join() : "");
+const logRects = K => K.logs.map(L => { const r = logRect(K, L); L.sig = sigOf(r); return r; }).filter(Boolean);
+const hits = (a, b) => a.x0 < b.x1 && a.x1 > b.x0 && a.y0 < b.y1 && a.y1 > b.y0;
+
 function placeLabels(K) {
   const g = K.geo; if (!g || !K.tracks.length) return;
   for (const T of K.tracks) T.moved = false;
@@ -563,8 +574,8 @@ function placeLabels(K) {
     return { left, room: Math.min(230, g.W - 24, room) };
   };
   // The logs that have lines, as rectangles in the set's own space (one read, and only when there is such a log).
-  const logs = K.logs.filter(L => L.has && L.el.offsetParent === K.el && L.el.offsetWidth)
-    .map(L => ({ x0: L.el.offsetLeft - 4, x1: L.el.offsetLeft + L.el.offsetWidth + 4, y0: L.el.offsetTop, y1: L.el.offsetTop + L.el.offsetHeight }));
+  const logs = logRects(K);
+  K.byLog = false; // set when a log moved a label: the labels are placed again when that log changes
   for (const T of K.tracks) { T.clipL = 0; T.clipR = Infinity; T.beside = T.layer.labelAt === "side" && sideOf(T).room >= SIDE_MIN; }
   // Each label hugs its text up to the room it has between its neighbours (and clear of a log). Labels do not affect one
   // another's width, so the writes, the reads and the final writes each run as one batch: one layout pass per batch.
@@ -587,7 +598,12 @@ function placeLabels(K) {
       p.T.label.style.left = (want - (p.cx - p.bw / 2)) + "px";
     }
   };
-  const rooms = new Map(K.tracks.map(T => [T, g.top + frac(T.layer.y, 0.3) * g.ch - bwOf(T) / 2 - 6 - 54])); // height that fits above the box
+  // The room above a box, from the chips to the box, is the most a label above it can take (it keeps 2 px off the box at least).
+  // On a stage much shorter than it is tall the text panel covers most of it, so a label that has room lifts up to LIFT px off
+  // its box: the higher the label, the later the panel reaches it.
+  const LIFT = g.H < 1.3 * g.W ? 10 : 0;
+  const tops = new Map(K.tracks.map(T => [T, g.top + frac(T.layer.y, 0.3) * g.ch - bwOf(T) / 2 - 54]));
+  const rooms = new Map(K.tracks.map(T => [T, tops.get(T) - 2]));
   let order = K.tracks.filter(T => !T.beside).sort((a, b) => cxOf(a) - cxOf(b));
   // pass 1: every label shares the bands; the label's height at that width says which side it takes
   widen(order);
@@ -600,11 +616,14 @@ function placeLabels(K) {
   if (logs.length) {
     for (const T of order) {
       if (T.below) continue;
-      const cx = cxOf(T), top = g.top + frac(T.layer.y, 0.3) * g.ch - bwOf(T) / 2 - 6, r = { x0: T.lx, x1: T.lx + T.lw, y0: top - T.label.offsetHeight, y1: top };
-      const hit = logs.find(o => r.x0 < o.x1 && r.x1 > o.x0 && r.y0 < o.y1 && r.y1 > o.y0);
+      const cx = cxOf(T), top = tops.get(T) + 54, r = { x0: T.lx, x1: T.lx + T.lw, y0: top - 6 - LIFT - T.label.offsetHeight, y1: top };
+      const hit = logs.find(o => hits(r, o));
       if (!hit) continue;
-      if (cx < hit.x0 && hit.x0 - 12 >= SIDE_MIN) T.clipR = hit.x0;
-      else if (cx > hit.x1 && g.W - 12 - hit.x1 >= SIDE_MIN) T.clipL = hit.x1;
+      K.byLog = true;
+      // the label keeps to one side of the log, if that side has room and still reaches over the box (10 px at least)
+      const bw = bwOf(T), leftOk = hit.x0 - 12 >= SIDE_MIN && hit.x0 >= cx - bw / 2 + 10, rightOk = g.W - 12 - hit.x1 >= SIDE_MIN && hit.x1 <= cx + bw / 2 - 10;
+      if (leftOk && (!rightOk || cx <= (hit.x0 + hit.x1) / 2)) T.clipR = hit.x0;
+      else if (rightOk) T.clipL = hit.x1;
       else if (sideOf(T).room >= SIDE_MIN) T.beside = true;
       else T.below = true;
     }
@@ -617,21 +636,49 @@ function placeLabels(K) {
       widen(grp);
       for (const T of grp) {
         if (side) { T.label.style.top = "100%"; T.label.style.bottom = "auto"; T.label.style.marginTop = "6px"; T.label.style.marginBottom = ""; }
-        else { T.label.style.bottom = "100%"; T.label.style.top = "auto"; T.label.style.marginBottom = "6px"; T.label.style.marginTop = ""; }
+        else { T.label.style.bottom = "100%"; T.label.style.top = "auto"; T.label.style.marginTop = ""; }
+      }
+      if (!side) { // one read for the heights, then the writes
+        const lift = grp.map(T => clamp(tops.get(T) - T.label.offsetHeight, 2, 6 + LIFT));
+        grp.forEach((T, i) => { T.label.style.marginBottom = lift[i] + "px"; });
+      }
+      for (const T of grp) { // where the label is, for the labels that sit beside a box
+        const h = T.label.offsetHeight, boxTop = tops.get(T) + 54, boxBottom = boxTop + bwOf(T);
+        const y0 = side ? boxBottom + 6 : boxTop - clamp(tops.get(T) - h, 2, 6 + LIFT) - h;
+        T.rect = { x0: T.lx, x1: T.lx + T.lw, y0, y1: y0 + h };
       }
     }
   };
   settle();
   // a label that kept clear of a log is narrower and so taller: it may no longer fit above
   const tall = order.filter(T => !T.below && T.label.offsetHeight > rooms.get(T));
-  if (tall.length) { for (const T of tall) { if (sideOf(T).room >= SIDE_MIN) T.beside = true; else T.below = true; } settle(); }
-  // side labels: write the widths, read the sizes, write the places
-  const plan = K.tracks.filter(T => T.beside).map(T => { const s = sideOf(T); T.label.style.width = "max-content"; T.label.style.maxWidth = s.room + "px"; return { T, s }; });
+  if (tall.length) { for (const T of tall) { if (sideOf(T).room >= SIDE_MIN) T.beside = true; else T.below = true; } order = order.filter(T => !T.beside); settle(); }
+  // side labels: write the widths, read the sizes, write the places. Two labels that face each other across the gap
+  // between their boxes share it.
+  const plan = K.tracks.filter(T => T.beside).map(T => {
+    const s = sideOf(T);
+    const O = K.tracks.filter(o => o !== T && o.beside && sideOf(o).left !== s.left && (s.left ? cxOf(o) < cxOf(T) : cxOf(o) > cxOf(T)))
+      .sort((a, b) => Math.abs(cxOf(a) - cxOf(T)) - Math.abs(cxOf(b) - cxOf(T)))[0];
+    if (O) { // the gap from this box's edge to the other box's edge, less the margins, is split between the two labels
+      const gap = Math.abs(cxOf(O) - cxOf(T)) - (bwOf(O) + bwOf(T)) / 2 - 12 - 6;
+      s.room = Math.max(40, Math.min(s.room, gap / 2)); // never wider than half the gap (40 px at least); the overlap check below moves a label that still meets another
+    }
+    T.label.style.width = "max-content"; T.label.style.maxWidth = s.room + "px";
+    return { T, s };
+  });
   for (const p of plan) { p.lw = Math.min(p.s.room, Math.ceil(p.T.label.getBoundingClientRect().width)); p.lh = p.T.label.offsetHeight; p.bw = bwOf(p.T); }
+  const others = order.map(T => T.rect).concat(logs);
   for (const p of plan) {
-    const st = p.T.label.style;
+    const st = p.T.label.style, cx = cxOf(p.T), cy = g.top + frac(p.T.layer.y, 0.3) * g.ch;
+    const x0 = p.s.left ? cx - p.bw / 2 - 6 - p.lw : cx + p.bw / 2 + 6;
+    let y0 = cy - p.lh / 2; // level with the box centre, or just under a label or a log that is in the way
+    for (const r of others.slice().sort((a, b) => a.y0 - b.y0)) {
+      if (x0 < r.x1 && x0 + p.lw > r.x0 && y0 < r.y1 - 2 && y0 + p.lh > r.y0 + 2) { y0 = r.y1 + 2; if (logs.includes(r)) K.byLog = true; } // (an overlap of 2 px is a touch)
+    }
     st.width = p.lw + "px"; st.left = (p.s.left ? -6 - p.lw : p.bw + 6) + "px";
-    st.top = "50%"; st.bottom = "auto"; st.marginTop = -p.lh / 2 + "px"; st.marginBottom = "";
+    st.top = "50%"; st.bottom = "auto"; st.marginTop = (y0 - cy) + "px"; st.marginBottom = "";
+    p.T.rect = { x0, x1: x0 + p.lw, y0, y1: y0 + p.lh };
+    others.push(p.T.rect); // a later side label keeps clear of this one
   }
 }
 
