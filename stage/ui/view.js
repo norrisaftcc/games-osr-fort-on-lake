@@ -1151,10 +1151,15 @@ function copyText(text) {
 // The build embeds Stage.simulate's result (window.SIM), so Verify does not walk the story on the main thread. Without it, the page computes it.
 function getSim() {
   if (!V.sim) {
-    if (window.SIM && typeof window.SIM === "object" && window.SIM.routes) V.sim = window.SIM;
+    if (window.SIM && typeof window.SIM === "object" && window.SIM.routes) V.sim = unpackSim(window.SIM);
     else { try { V.sim = Stage.simulate(PACK); } catch (e) { V.sim = { error: e.message }; } }
   }
   return V.sim;
+}
+// The build packs each route's steps into one string (tools/build.mjs): "group.option", "group.option=tier" or "(typed)", joined by "|".
+function unpackSim(sim) {
+  const step = w => { if (w === "(typed)") return { input: "(typed)" }; const i = w.indexOf("="); return i < 0 ? { opt: w } : { opt: w.slice(0, i), result: w.slice(i + 1) }; };
+  return { ...sim, routes: sim.routes.map(r => r.steps ? r : { ending: r.ending, count: r.count, steps: r.s ? r.s.split("|").map(step) : [] }) };
 }
 const VERIFY_FIRST = 20; // routes listed before "Show all"
 // A route is { ending, count, steps }; a step is { opt, result? } or { input }. Label: "group.option", "group.option=tier", "(typed)".
