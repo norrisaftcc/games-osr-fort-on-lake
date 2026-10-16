@@ -576,6 +576,10 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 /* Short and wide: the commentary sits beside the passage. Not while a pull-tab shows: the room kept clear for the tab
    (mid-stage, since the book box is narrow here) leaves too little width for two columns. */
 @media (max-height: 480px) and (min-width: 560px) {
+  /* The HUD stays one row on a short screen: five meters too. */
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter,
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter:nth-child(n+4) { grid-column: auto; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) { flex-direction: row; align-items: flex-end; justify-content: center; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .panel { flex: 1 1 0; width: auto; min-width: min(16rem, 100%); max-width: 34rem; max-height: 100%; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .track { flex: 0 1 15rem; width: auto; max-width: 15rem; max-height: 100%; }

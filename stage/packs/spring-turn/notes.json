@@ -1,0 +1,302 @@
+{
+  "dm-sheet": {
+    "kind": "dm",
+    "term": "The Fort has a sheet",
+    "text": "A character has a sheet. So does the Fort. The DM keeps it at the table. Here it is the row at the top: Stores, Walls, Folk and Lamp, with your Fate beside them."
+  },
+  "dm-follows": {
+    "kind": "dm",
+    "term": "The DM follows the table",
+    "text": "A good DM follows the players. If the table leans toward the machines, the DM gives it more machines. If not, the Fort stays a place with old ruins. The book watches your Lens the same way."
+  },
+  "dm-frames": {
+    "kind": "dm",
+    "term": "The DM frames the scene",
+    "text": "The DM says where and when before anything happens. The line at the top of the page does it here."
+  },
+  "dm-secrets": {
+    "kind": "dm",
+    "term": "A Referee Note",
+    "text": "A Referee Note holds what the DM knows and has not said. The flap opens only if you lift it. It tells you how to look, not what is there."
+  },
+  "dm-hides": {
+    "kind": "dm",
+    "term": "The DM keeps a secret",
+    "text": "A DM hides a thing until you have earned it. The reveal ink does it here. The line was always on the page. You could not read it until you chose to."
+  },
+  "dm-turn": {
+    "kind": "dm",
+    "term": "The DM runs the turn",
+    "text": "The DM runs a Fort Turn four times a year. It has six steps, always in order. The DM names each step aloud, so the table knows whether it is talking or rolling."
+  },
+  "dm-season": {
+    "kind": "dm",
+    "term": "The DM opens with a season card",
+    "text": "The DM opens a turn with a season card: one weather rule and one fixed visit. Weather changes how the party travels. The visit is a guest you can plan for."
+  },
+  "dm-report": {
+    "kind": "dm",
+    "term": "The DM reads the Report",
+    "text": "The DM has Maren and the Minister read the Fort aloud, one sentence for each track. Nobody rolls and no time passes. It is the moment to ask what a number means."
+  },
+  "dm-propose": {
+    "kind": "dm",
+    "term": "Everyone proposes",
+    "text": "At the table, every player proposes a Directive. Here the book speaks for the thief and the cleric, with proposals that suit them. It says so, so you know they are the book's words."
+  },
+  "dm-resolve": {
+    "kind": "dm",
+    "term": "The DM resolves at once",
+    "text": "The DM applies each Directive as soon as the table picks it. A track moves now, not at the end of the turn. The sheet at the top shows it."
+  },
+  "dm-fate": {
+    "kind": "dm",
+    "term": "The DM must use it",
+    "text": "When you state a Fate fact, the DM must use it. It becomes true in the Fort, and the DM builds on it. You have not bought a result. You have written one line of the world."
+  },
+  "dm-event": {
+    "kind": "dm",
+    "term": "The DM rolls the Event",
+    "text": "The DM rolls the Event on a d12 table. Each result is a prompt, not a story. The DM and the table decide the rest. This book writes one short ending for each prompt."
+  },
+  "dm-remembers": {
+    "kind": "dm",
+    "term": "The DM remembers",
+    "text": "A DM remembers every tag the Fort carries. The book does it with flags. Your Year Between choice is still on the sheet, and the turn uses it."
+  },
+  "dm-refresh": {
+    "kind": "dm",
+    "term": "The DM closes the turn",
+    "text": "The DM closes the turn: Fate comes back and one line goes in the Fort ledger. The next turn starts from these numbers, not from the start values."
+  },
+  "dm-asks": {
+    "kind": "dm",
+    "term": "The DM asks you to say",
+    "text": "A DM asks you to say what is true. The book does it with a line you type. The Fort Card keeps it."
+  },
+  "dm-people": {
+    "kind": "dm",
+    "term": "The DM plays the people",
+    "text": "A DM speaks for every person at the Fort. The book quotes them. Cassandra's lines are true, and half a riddle."
+  },
+  "dm-writes": {
+    "kind": "dm",
+    "term": "The DM writes it down",
+    "text": "A DM keeps the Fort's book. The Fort Card is yours: every choice is one line on it."
+  },
+  "fort-sheet": {
+    "kind": "rule",
+    "term": "The sheet",
+    "text": "The row at the top is the Fort's sheet. Stores, Walls, Folk and Lamp are the Fort. Fate is yours. A number moves the moment the book says so, and the Fort Card copies all of them."
+  },
+  "tracks": {
+    "kind": "rule",
+    "term": "The four tracks",
+    "text": "Each track runs 0 to 6. At 0: Stores, hunger and Folk −1. Walls, a raid succeeds. Folk, the Fort splits. Lamp, the Terminal goes dark. At 6: Stores, a feast and a project. Walls, a garrison tower. Folk, new families. Lamp, the Terminal answers one question. A track stops at 6, and points past it are lost."
+  },
+  "size": {
+    "kind": "rule",
+    "term": "Size",
+    "text": "Size follows Folk. At 0 to 3 the Fort is a Camp. At 4 or 5 it is a Hamlet. At 6 it is a Village. Folk stands at 4, so the Fort is a Hamlet."
+  },
+  "turn": {
+    "kind": "rule",
+    "term": "The Fort Turn",
+    "text": "A Fort Turn comes four times a year. Its steps: season card, report, two Directives, a Fate fact, the Event, refresh. The report is Planning. The Directives are Execution."
+  },
+  "season": {
+    "kind": "rule",
+    "term": "The season card",
+    "text": "The season card gives one weather rule and one fixed visit. Spring: mud halves road speed. The Court's Door opens. The Glamourist visits."
+  },
+  "planning": {
+    "kind": "rule",
+    "term": "Planning",
+    "text": "Planning is free: talk, look, plan. No dice, no time. You can go back and change your mind. The Report is Planning."
+  },
+  "gate": {
+    "kind": "rule",
+    "term": "Planning and Execution",
+    "text": "Planning is free: talk, look, plan. You can go back. Execution is final: dice and consequences, and nothing can be undone. The Report was Planning. The Directives are Execution. Once the table picks, the effects are real."
+  },
+  "directives": {
+    "kind": "rule",
+    "term": "The five Directives",
+    "text": "Build: start a 4-segment project; done, +1 to one track. Defend: Walls +1, or +2 for 1 Stores. Trade: send a cart; roll 1d6. Explore: name a hex, learn one fact, lower its encounter risk until the next turn. Tend: Lamp +1."
+  },
+  "build": {
+    "kind": "rule",
+    "term": "Build",
+    "text": "Build starts a project with four segments: a well, a tower, a boat or a smithy. A turn can fill one segment. When all four are full, the project is done, and one track gains +1."
+  },
+  "defend": {
+    "kind": "rule",
+    "term": "Defend",
+    "text": "Defend raises Walls by 1. Or pay 1 Stores, and Walls rise by 2. At Walls 1 or more the palisade holds against a raid. Walls at 0 means a raid succeeds."
+  },
+  "trade": {
+    "kind": "rule",
+    "term": "Trade",
+    "text": "Trade sends a cart to the coast. Roll 1d6 and read the line for that face. 1 or 2: Stores −1. 3 or 4: Stores +1. 5 or 6: Stores +2 and a rumour. A table roll is not pass or fail."
+  },
+  "explore": {
+    "kind": "rule",
+    "term": "Explore",
+    "text": "Explore names a hex. You learn one fact about it, and its encounter risk is lower until the next turn. The Reed Shore, the Standing Stones and the Weirs are hexes near the Fort."
+  },
+  "tend": {
+    "kind": "rule",
+    "term": "Tend",
+    "text": "Tend raises Lamp by 1. The cleric reads a hymn at the Shrine, and the Terminal shows one new line. A line is output. It prints; it does not speak."
+  },
+  "surplus": {
+    "kind": "rule",
+    "term": "Surplus",
+    "text": "A Surplus is a tag from the Year Between. It gives +1 Stores to one Trade in a season. Barley is yours. Send it with the cart, and Stores rise by 1 before the dice."
+  },
+  "want": {
+    "kind": "rule",
+    "term": "Want and Strain",
+    "text": "A Want is a tag that asks for something. Salt is yours. If no Directive meets it in a turn, the book marks Strain. Three Strain makes an Event. A Trade cart can bring salt. At your table the DM decides what meets a Want."
+  },
+  "oath": {
+    "kind": "rule",
+    "term": "Oath",
+    "text": "An Oath is a tag you can call in once. Cassandra asks one question, and the table writes it. At your table the DM decides what an Oath buys. An Enmity, which Spring does not give, spoils one Event a turn."
+  },
+  "tags": {
+    "kind": "rule",
+    "term": "Tags",
+    "text": "A Year Between choice leaves a tag on the Fort: a Surplus, a Want, an Oath or an Enmity. The Fort Turn uses it. The tag is a name and a rule, not a story."
+  },
+  "fate": {
+    "kind": "rule",
+    "term": "Fate",
+    "text": "You have 3 Fate. Spend 1 to reroll, to add +4 to a save, or to state one true fact in your lane. Spend 2 to cheat death. Fate comes back at each Fort Turn."
+  },
+  "fate-fact": {
+    "kind": "rule",
+    "term": "The Fate fact",
+    "text": "Spend 1 Fate to state one true fact about a Directive. The DM must use it. Fate falls to 2 and comes back at Refresh. A fact is not a roll. You choose what is true, and it stays true."
+  },
+  "event": {
+    "kind": "rule",
+    "term": "The Event",
+    "text": "The Event is one roll of d12 on the Event table. Each face has its own line. A table roll is not pass or fail. You read the line for the face that shows. Most lines are prompts, and the table decides the rest."
+  },
+  "walls-test": {
+    "kind": "rule",
+    "term": "A Walls test",
+    "text": "A raid asks one question of the Walls. A raid succeeds only at Walls 0. At Walls 1 or more the palisade holds, though the table may still play the fight. At your table the DM decides how a raid runs."
+  },
+  "refresh": {
+    "kind": "rule",
+    "term": "Refresh",
+    "text": "Refresh brings Fate back to 3. The tracks stay where the turn left them. Growth: Stores and Folk both at 5 or more at the end of two turns running adds a family and a building."
+  },
+  "lens": {
+    "kind": "rule",
+    "term": "The Lens",
+    "text": "Old things show at the edge. You read each as a hymn, a spirit or a mystery; or as a machine, an engine or a mechanism. Neither is wrong. Your card keeps the reading."
+  },
+  "register": {
+    "kind": "rule",
+    "term": "Paint and ink",
+    "text": "Paint is witnessed: the Fort sees it, and a public fact comes from it. Ink is unwitnessed: nobody tells the Fort, and a secret fact comes from it. The page says which."
+  },
+  "facts": {
+    "kind": "rule",
+    "term": "Public and secret facts",
+    "text": "A public fact is one the whole Fort knows. A secret fact is true, and only you know it. Each is one sentence, typed by you. The other one is typed in a later scene of the other kind."
+  },
+  "reveal": {
+    "kind": "rule",
+    "term": "Reveal ink",
+    "text": "Some lines stay hidden until you reveal them. Press R, or tap. A reveal is never forced. The line was always there."
+  },
+  "land": {
+    "kind": "rule",
+    "term": "The Land Speaks",
+    "text": "The Land Speaks is your Fate ability. In a natural place, declare one true fact about what the land knows: the earth, the water, the roots, the animals. Your lane is natural places."
+  },
+  "yoc": {
+    "kind": "rule",
+    "term": "Year of Change",
+    "text": "A Year of Change is what the Year Between made of you. A gnome has three. The numbers are proposed. The DM confirms them at session zero."
+  },
+  "spell2": {
+    "kind": "rule",
+    "term": "The level-2 spell",
+    "text": "At level 2 you learn one more spell, for good. Warp Wood bends wood. Heat Metal makes iron hot. It fills a 1st-level slot."
+  },
+  "office": {
+    "kind": "rule",
+    "term": "Fort Office",
+    "text": "A Fort Office keeps one track honest. Warden: Walls +1 when you Defend. Scout: one extra clue per hex you explore. Steward: you see the tracks before the DM reports them. Lorekeeper: one free hint per puzzle."
+  },
+  "bond": {
+    "kind": "rule",
+    "term": "Bonds",
+    "text": "A bond ties you to another character or to someone at the Fort. If two cards name each other, each gets 1 extra Fate, spent only to help the other."
+  },
+  "card": {
+    "kind": "rule",
+    "term": "The Fort Card",
+    "text": "The Fort Card is what you carry away: every choice, one line each, and the Fort's sheet. Copy it as text, print it, and bring it to session zero. There you may change any choice."
+  },
+  "pen": {
+    "kind": "lore",
+    "term": "The Pen",
+    "text": "The Pen is the Fort's book and the right to write in it. One of you holds it each season of the Year Between: the druid in Spring, the thief in Summer, the cleric in Autumn, all three in Winter."
+  },
+  "quiet": {
+    "kind": "lore",
+    "term": "The Quiet",
+    "text": "The Quiet are lake-folk who pray to the kingfisher. They cross the water in boats. They keep to their shrines, and they watch the lake."
+  },
+  "biddy": {
+    "kind": "lore",
+    "term": "Biddy",
+    "text": "A cockatrice chick's cry paralysed the Gorgon Queen. The chick is Biddy. Wick keeps her now, in the Beast Pen."
+  },
+  "glamourist": {
+    "kind": "lore",
+    "term": "The Glamourist",
+    "text": "The Glamourist is fae. She visits the Fort at the solstices and the equinoxes, and she was in the Nesting Hall in Year One."
+  },
+  "terminal": {
+    "kind": "lore",
+    "term": "The Terminal",
+    "text": "The Terminal is a screen in the Shrine that prints hymns. It prints; it does not speak. The Minister and the cleric tend it. Some say it is holy. Some say it is a machine."
+  },
+  "harrow": {
+    "kind": "lore",
+    "term": "Harrow",
+    "text": "Harrow drives wagons up the Old Road. He buys what the Fort can spare. He pays in coin, and does not say what he does with the rest."
+  },
+  "mile-house": {
+    "kind": "lore",
+    "term": "Mile-House 13",
+    "text": "Mile-House 13 is the post of the Bureau of Imperial Anomalies, on the Old Road. The Bureau files things, and it likes a form."
+  },
+  "wick": {
+    "kind": "lore",
+    "term": "Wick",
+    "text": "Wick is twelve. He lights the lamps along the wall and keeps Biddy. He counts everything."
+  },
+  "cassandra": {
+    "kind": "lore",
+    "term": "Cassandra",
+    "text": "Cassandra is the seer at the Shrine. Her rumours are true, and half a riddle. When she hints, she asks a question."
+  },
+  "muster": {
+    "kind": "lore",
+    "term": "Maren and the Minister",
+    "text": "Captain Maren leads the Fort and is about to retire. The Minister keeps the Terminal. They do not agree, and the Fort knows it."
+  },
+  "road": {
+    "kind": "lore",
+    "term": "The Old Road",
+    "text": "The Old Road runs past the Fort. A milestone stands on it, cut with numbers nobody reads. It hums."
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "id": "spring-turn",
+  "title": "The Spring Turn",
+  "subtitle": "The gnome druid",
+  "kit": "paper",
+  "resolver": "ose",
+  "start": "s0",
+  "storageKey": "fort-stage.spring-turn",
+  "meters": [
+    {
+      "id": "fate",
+      "label": "Fate",
+      "min": 0,
+      "max": 6,
+      "start": 3,
+      "hud": true
+    },
+    {
+      "id": "stores",
+      "label": "Stores",
+      "min": 0,
+      "max": 6,
+      "start": 4,
+      "hud": true
+    },
+    {
+      "id": "walls",
+      "label": "Walls",
+      "min": 0,
+      "max": 6,
+      "start": 3,
+      "hud": true
+    },
+    {
+      "id": "folk",
+      "label": "Folk",
+      "min": 0,
+      "max": 6,
+      "start": 4,
+      "hud": true
+    },
+    {
+      "id": "lamp",
+      "label": "Lamp",
+      "min": 0,
+      "max": 6,
+      "start": 2,
+      "hud": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "name",
+      "label": "Name",
+      "side": "front"
+    },
+    {
+      "id": "lens",
+      "label": "The Lens",
+      "side": "front"
+    },
+    {
+      "id": "yoc",
+      "label": "Year of Change",
+      "side": "front"
+    },
+    {
+      "id": "spell",
+      "label": "Level-2 spell",
+      "side": "front"
+    },
+    {
+      "id": "office",
+      "label": "Fort Office",
+      "side": "front"
+    },
+    {
+      "id": "bond",
+      "label": "Bond",
+      "side": "front"
+    },
+    {
+      "id": "extra",
+      "label": "Kit extra",
+      "side": "front"
+    },
+    {
+      "id": "public",
+      "label": "Public fact",
+      "side": "front"
+    },
+    {
+      "id": "secret",
+      "label": "Secret fact",
+      "side": "front"
+    },
+    {
+      "id": "size",
+      "label": "The Fort's Size",
+      "side": "front",
+      "default": "Hamlet (Folk 4)"
+    },
+    {
+      "id": "land",
+      "label": "The land tells you",
+      "side": "back"
+    },
+    {
+      "id": "origin",
+      "label": "Came because",
+      "side": "back"
+    },
+    {
+      "id": "terminal",
+      "label": "The Terminal is",
+      "side": "back"
+    },
+    {
+      "id": "know",
+      "label": "You start knowing",
+      "side": "back"
+    },
+    {
+      "id": "lens1",
+      "label": "Lens 1: the pulse in the rock",
+      "side": "back"
+    },
+    {
+      "id": "lens2",
+      "label": "Lens 2: the wall in the well",
+      "side": "back"
+    },
+    {
+      "id": "spring",
+      "label": "Spring, the Year Between",
+      "side": "back"
+    },
+    {
+      "id": "pen",
+      "label": "The Pen · Spring",
+      "side": "back"
+    },
+    {
+      "id": "dir_mine",
+      "label": "Directive: yours",
+      "side": "back"
+    },
+    {
+      "id": "dir_explore",
+      "label": "Directive: Explore",
+      "side": "back"
+    },
+    {
+      "id": "dir_tend",
+      "label": "Directive: Tend",
+      "side": "back"
+    },
+    {
+      "id": "strain",
+      "label": "Strain",
+      "side": "back",
+      "default": "None"
+    },
+    {
+      "id": "fatefact",
+      "label": "Fate fact (1 Fate)",
+      "side": "back"
+    },
+    {
+      "id": "event",
+      "label": "The Event",
+      "side": "back"
+    },
+    {
+      "id": "oath",
+      "label": "The Oath",
+      "side": "back"
+    },
+    {
+      "id": "ledger",
+      "label": "Fort ledger, Spring",
+      "side": "back"
+    },
+    {
+      "id": "cassandra",
+      "label": "Cassandra, at the milestone",
+      "side": "back"
+    },
+    {
+      "id": "w_tag",
+      "label": "Year Between tag",
+      "side": "back",
+      "hidden": true
+    },
+    {
+      "id": "w_change",
+      "label": "Year of Change code",
+      "side": "back",
+      "hidden": true
+    },
+    {
+      "id": "w_dirs",
+      "label": "Directives picked",
+      "side": "back",
+      "hidden": true
+    },
+    {
+      "id": "w_tmp",
+      "label": "Event follow-up",
+      "side": "back",
+      "hidden": true
+    }
+  ],
+  "tallies": {
+    "lens": [
+      "hymn",
+      "machine"
+    ]
+  },
+  "commentary": {
+    "label": "How the Fort turns",
+    "kinds": [
+      "dm",
+      "rule"
+    ]
+  }
+}
