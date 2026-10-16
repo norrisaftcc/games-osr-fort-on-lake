@@ -20,6 +20,7 @@ For the Year Two table (the elven thief, the elf cleric of the Sacred Terminal, 
 | Fort Cards: solo intros, one per PC, played before session zero. Every choice is made here. | [`intro/index.html`](intro/index.html) |
 | Year Two playbooks: what each choice does | [`player/year-two/`](player/year-two/) |
 | The first session, *The Hum* (GM) | [`dm/Year_Two_First_Session_The_Hum.md`](dm/Year_Two_First_Session_The_Hum.md) |
+| *The Magic Module*: the elf cleric's Fort Card scenes, played in a pop-up module that runs the game and shows which DM job each part does | [`stage/dist/magic-module.html`](stage/dist/magic-module.html) |
 
 The science fantasy brushes the setting rather than taking it over. Each Fort Card records a **Lens**, how the player chose to read old things (Hymn, Machine or Both), and the first session's *Brush* table says how far to take each machine element.
 
@@ -36,6 +37,10 @@ Test it with `node demo/test.mjs` (needs Playwright and Chromium).
 ## Play the crawler
 
 [`crawler/`](crawler/) is a first-person party crawler for phones, with the Drowned Tower as its first pack: build it with `node crawler/tools/build.mjs crawler/packs/drowned-tower` and open `crawler/dist/drowned-tower.html`. See [`crawler/README.md`](crawler/README.md).
+
+## Play the Stage
+
+[`stage/`](stage/) is a motion visual novel for phones: one engine, two kits, and packs of data. Its first pack is *The Magic Module* (above). Open [`stage/dist/magic-module.html`](stage/dist/magic-module.html) in a browser: one offline file, light and dark, keyboard, touch and screen reader. To build a pack, read [`stage/GUIDE.md`](stage/GUIDE.md); the contract is [`stage/SPEC.md`](stage/SPEC.md) and the motion rules are [`stage/MOTION.md`](stage/MOTION.md).
 
 ## For programming classes: The First Delve
 
