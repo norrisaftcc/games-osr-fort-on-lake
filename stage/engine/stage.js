@@ -774,6 +774,7 @@ function check(pack) {
     fieldIds.add(f.id);
     if (!str(f.label)) err(`pack.json field ${f.id}`, "label is missing");
     if (f.side != null && !["front", "back"].includes(f.side)) err(`pack.json field ${f.id}`, `side must be "front" or "back", not ${JSON.stringify(f.side)}`);
+    if (f.hidden != null && typeof f.hidden !== "boolean") err(`pack.json field ${f.id}`, "hidden must be true or false");
   }
   // tallies: a map of tally id to its allowed values. Never a list of ids.
   if (pack.tallies != null) {

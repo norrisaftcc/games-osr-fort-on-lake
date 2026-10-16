@@ -171,7 +171,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .count { font-variant-numeric: tabular-nums; }
 .hud-tools .count:not(:empty) { font-size: .8125rem; }
 
-/* The meters. One or two sit side by side. Three share a row. Four make a 2 x 2 block until the HUD is 520px wide.
+/* The meters. One or two sit side by side. Three share a row. Four make a 2 x 2 block until the HUD is 520px wide; five, three over two until 640px.
    A meter's name is never cut: when name and number do not fit on one line, the number drops under the name. */
 .meters {
   --st-mw: 6rem; /* the least width the meters get before the tallies and buttons drop to a second row */
@@ -183,8 +183,16 @@ button, input, textarea { font: inherit; color: inherit; }
 .meters:not(:has(.meter:nth-child(3))) { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
 .meters:has(.meter:nth-child(3)):not(:has(.meter:nth-child(4))) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .meters:has(.meter:nth-child(4)):not(:has(.meter:nth-child(5))) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Five make three over two (a six-column grid: the first row's meters take two columns, the second row's three), one row from 640px. */
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter { grid-column: span 2; }
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter:nth-child(n+4) { grid-column: span 3; }
 @container (min-width: 520px) {
   .meters:has(.meter:nth-child(4)):not(:has(.meter:nth-child(5))) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@container (min-width: 640px) {
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter { grid-column: auto; }
 }
 @container (max-width: 399px) {
   .meters:has(.meter:nth-child(3)):not(:has(.meter:nth-child(4))) { grid-template-columns: repeat(2, minmax(0, 1fr)); }

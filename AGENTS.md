@@ -18,7 +18,7 @@ A B/X teaching campaign set around **The Fort on the Lake**, a post-imperial fro
 | `intro/` | **Fort Cards**: Badge Zero–style solo intros for the three Year Two PCs. All their choices are made here. |
 | `dm/Year_Two_First_Session_The_Hum.md` | Year Two's first session: the humming milestone, the hunter's map, the outflow tunnel. Stops at Halcyon's door. |
 | `crawler/` | **The Crawler**: a first-person party crawler for phones. One engine, a view, and data packs; `packs/drowned-tower` plays Module 2 (canon-bound: its pinned facts are checked on screen). Pure JS, no libraries. Contract: `crawler/SPEC.md`. |
-| `stage/` | **The Stage** (in build): a motion visual-novel engine and packs; `packs/magic-module` plays the elf cleric as a pop-up module that runs the game. Contract: `stage/SPEC.md`; plan: `stage/PLAN.md`; motion: `stage/MOTION.md`; how to build a pack: `stage/GUIDE.md`. The skill `stage-pack` (`.claude/skills/stage-pack/`) carries the steps and the canon checklist. |
+| `stage/` | **The Stage** (in build): a motion visual-novel engine and packs; `packs/magic-module` plays the elf cleric as a pop-up module that runs the game; `packs/two-in-six` the elven thief, with the odds on the page; `packs/spring-turn` the gnome druid, with a Fort Turn. Contract: `stage/SPEC.md`; plan: `stage/PLAN.md`; motion: `stage/MOTION.md`; how to build a pack: `stage/GUIDE.md`. The skill `stage-pack` (`.claude/skills/stage-pack/`) carries the steps and the canon checklist. |
 | `beta/` | The superseded pre-split setting document. Keep it; do not edit it. |
 
 ## Where canon comes from
@@ -77,7 +77,7 @@ Playwright is installed globally (`/opt/node22/lib/node_modules/playwright`); Ch
 - The DM confirms the Year Two numbers marked "DM confirms": the Year of Change effects, recomputed saves and the cleric's shield AC, XP to levels 3 and 4, gnome infravision.
 - The first session invents Senior Agent Emory Platt (the missing B.I.A. agent) and Tobin Ash (the hunter); replace them if the DM Guide names them.
 
-- The Year Two party includes an **elven thief**, who has no playbook here yet, so the modules give the thief no moments.
+- The modules give the **elven thief** no moments yet, though she now has a playbook, a Fort Card and a Stage pack.
 - Each module's **The Fort Reacts** table should eventually read as changes to the Fort's tracks (Stores, Walls, Folk, Lamp) and tags.
 - `dm/DM_Guide_Fort_and_Caves.md` still calls the Gorgon Queen "the Basilisk Queen" and its outcome table predates the play record.
 - `player/README.md` links to a meetings note (`../../meetings/…`) that lives in another repository.

@@ -61,7 +61,7 @@ The HTLL repository vendors `engine/`, `ui/`, `tools/`, `SPEC.md`, `MOTION.md`, 
 - A meter that is bad when it rises (stress, exposure) has `"bad": true`; its rises play as `cost`.
 - `kit` is `paper` or `feed`. `resolver` is `ose` (dN notation) or `fate4df`.
 - `storageKey` starts with `fort-stage.` in this repository and with `htll.` in HTLL; the usual key is `fort-stage.<id>` here and `htll.stage.<id>` there. The vendored fixtures (`test`, `test-feed`) keep `fort-stage.` in both.
-- `fields` are the card the player carries away; `side` is `front` (the default) or `back`, the face of the card in the Card sheet. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
+- `fields` are the card the player carries away; `side` is `front` (the default) or `back`, the face of the card in the Card sheet. A field with `"hidden": true` is the story's working memory (a choice a later scene reads, cleared when it is spent): the card and its text never show it. Unlike a flag, a field can be cleared, so routes that differ only in spent memory merge. `tallies` maps each tally to its allowed values (a map, never a list of ids); a choice adds to one value (the Lens: hymn, machine). `validate` rejects any other value.
 - `commentary.kinds` lists the note kinds a `comment` may use; `validate` rejects any other kind. A note shown in the track also joins the Notes sheet.
 - **`look` is the witness register, not the art style.** `paint` means witnessed (cue `bloom`); `ink` means unwitnessed (cue `ink`). The art style of a set (Elmore or Otus) is named in the set brief and drawn by the kit; an Otus interior can be witnessed.
 

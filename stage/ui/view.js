@@ -68,6 +68,7 @@ const ENDING_IDS = Object.keys(ENDINGS);
 const NOTES = PACK.notes || {};
 const METERS = PACK.meters || [];
 const FIELDS = PACK.fields || [];
+const CARD_FIELDS = FIELDS.filter(f => !f.hidden); // a hidden field is the story's working memory, never on the card
 const TALLY_VALUES = PACK.tallies || {}; // tally id -> allowed values
 const TALLY_IDS = Object.keys(TALLY_VALUES);
 const COMMENTARY = PACK.commentary || null;
@@ -525,7 +526,8 @@ function rollLine(info) {
   const sum = info.faces.reduce((a, b) => a + b, 0);
   const faces = dF ? info.faces.map(f => faceText(info.dice, f)).join(" ") + ` (${sgn(sum)})` : info.faces.join(" + ");
   const add = info.add ? ` ${info.add < 0 ? "−" : "+"} ${Math.abs(info.add)}` : "";
-  return `${info.dice}: ${faces}${add} = ${info.total}${info.table ? "" : info.under ? `, ${info.vs} or under` : ` vs ${info.vs}`}`;
+  const eq = info.faces.length > 1 || add ? ` = ${info.total}` : ""; // one die and no bonus: the face is the total
+  return `${info.dice}: ${faces}${add}${eq}${info.table ? "" : info.under ? `, ${info.vs} or under` : ` vs ${info.vs}`}`;
 }
 // The meter a roll adds, for the spoken line ("plus 3 for Code"). A pick names its option; with no pick (Back, Continue) the scene's rolls
 // that match the dice and the target decide, when they agree.
@@ -1138,7 +1140,7 @@ function cardText() {
   const lines = [PACK.title + (PACK.subtitle ? " — " + PACK.subtitle : "")];
   const fields = v ? v.fields : {};
   for (const side of ["front", "back"]) {
-    const list = FIELDS.filter(f => (f.side || "front") === side);
+    const list = CARD_FIELDS.filter(f => (f.side || "front") === side);
     if (!list.length) continue;
     lines.push("", side === "front" ? "Front" : "Back");
     for (const f of list) lines.push(`${f.label}: ${fields[f.id] ? fields[f.id] : "—"}`);
@@ -1155,12 +1157,12 @@ function cardText() {
 function renderCard() {
   const v = V.view, fields = v ? v.fields : {};
   const face = side => {
-    const list = FIELDS.filter(f => (f.side || "front") === side);
+    const list = CARD_FIELDS.filter(f => (f.side || "front") === side);
     if (!list.length) return "";
     return `<div class="facing"><h3>${side === "front" ? "Front" : "Back"}</h3><dl class="kv">${list.map(f => `<dt>${esc(f.label)}</dt><dd>${fields[f.id] ? esc(fields[f.id]) : '<span class="none">—</span>'}</dd>`).join("")}</dl></div>`;
   };
   const text = cardText();
-  $("body-card").innerHTML = `${FIELDS.length ? face("front") + face("back") : "<p>This story has no card fields.</p>"}
+  $("body-card").innerHTML = `${CARD_FIELDS.length ? face("front") + face("back") : "<p>This story has no card fields.</p>"}
     <label for="cardText" class="vlist-h" style="display:block">Card as text</label>
     <textarea class="asText" id="cardText" readonly>${esc(text)}</textarea>
     <div class="row" style="margin-top:0"><button type="button" class="btn primary" id="copyBtn">Copy as text</button></div>`;
