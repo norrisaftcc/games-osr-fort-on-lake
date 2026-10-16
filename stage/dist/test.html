@@ -543,6 +543,11 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
    shorter than the chrome plus that floor, the page scrolls, and everything can still be reached (WCAG 1.4.10 at 320 x 256). */
 @media (max-height: 480px) {
   .brand-sub, .foot { display: none; }
+  /* The text panel covers most of the stage here, and with it the kit's in-world screen: the panel shows its copy of the lines. */
+  .sr-only.screen-copy {
+    position: static; width: auto; height: auto; margin: 10px 0 0; padding: 8px 10px; overflow: visible; clip-path: none;
+    white-space: pre-wrap; font: .875rem/1.5 var(--st-font-mono); background: var(--st-ink); color: var(--st-bg); border-radius: 4px;
+  }
   .bar { padding-top: max(2px, env(safe-area-inset-top, 0px)); padding-bottom: 2px; }
   .hud { padding-top: 4px; padding-bottom: 4px; }
   .hud-tools .lbl { display: none; }
@@ -568,10 +573,12 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 }
 
 /* A short and wide screen puts the commentary beside the passage, not under it, so both keep their height. */
+/* Short and wide: the commentary sits beside the passage. Not while a pull-tab shows: the room kept clear for the tab
+   (mid-stage, since the book box is narrow here) leaves too little width for two columns. */
 @media (max-height: 480px) and (min-width: 560px) {
-  .sl:has(> .track) { flex-direction: row; align-items: flex-end; justify-content: center; }
-  .sl:has(> .track) > .panel { flex: 1 1 0; width: auto; max-width: 34rem; max-height: 100%; }
-  .sl:has(> .track) > .track { flex: 0 1 15rem; width: auto; max-width: 15rem; max-height: 100%; }
+  #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) { flex-direction: row; align-items: flex-end; justify-content: center; }
+  #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .panel { flex: 1 1 0; width: auto; min-width: min(16rem, 100%); max-width: 34rem; max-height: 100%; }
+  #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .track { flex: 0 1 15rem; width: auto; max-width: 15rem; max-height: 100%; }
 }
 
 /* ---------- forced colors: fills and marks that are backgrounds would vanish, so they take system colors ---------- */
@@ -2981,8 +2988,9 @@ function beatSlide(v) {
   const segs = parseEm(b.text);
   const secret = b.reveal;
   const tags = secret ? `<span class="tag" data-k="secret">${KIT_ID === "feed" ? "Unwitnessed" : "Referee only"}</span>` : lookTag(look);
-  // The kit draws a screen itself when it has screen(lines); the panel then keeps a copy for screen readers only.
-  const screen = b.screen ? `<div class="${kitHas("screen") ? "sr-only" : "screen late"}" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
+  // The kit draws a screen itself when it has screen(lines); the panel then keeps a copy for screen readers only
+  // (.screen-copy: on a short screen, where the panel covers the stage, style.css shows it).
+  const screen = b.screen ? `<div class="${kitHas("screen") ? "sr-only screen-copy" : "screen late"}" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
   const html = slideHtml(`<section class="panel ${secret ? "is-secret" : ""}" data-look="${esc(secret ? "ink" : look)}" aria-label="Passage">
       ${tags ? `<div class="tags">${tags}</div>` : ""}
       ${b.kicker ? `<p class="kicker">${esc(b.kicker)}</p>` : ""}

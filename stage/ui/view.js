@@ -482,8 +482,9 @@ function beatSlide(v) {
   const segs = parseEm(b.text);
   const secret = b.reveal;
   const tags = secret ? `<span class="tag" data-k="secret">${KIT_ID === "feed" ? "Unwitnessed" : "Referee only"}</span>` : lookTag(look);
-  // The kit draws a screen itself when it has screen(lines); the panel then keeps a copy for screen readers only.
-  const screen = b.screen ? `<div class="${kitHas("screen") ? "sr-only" : "screen late"}" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
+  // The kit draws a screen itself when it has screen(lines); the panel then keeps a copy for screen readers only
+  // (.screen-copy: on a short screen, where the panel covers the stage, style.css shows it).
+  const screen = b.screen ? `<div class="${kitHas("screen") ? "sr-only screen-copy" : "screen late"}" role="group" aria-label="Screen">${b.screen.map(l => esc(l)).join("\n")}</div>` : "";
   const html = slideHtml(`<section class="panel ${secret ? "is-secret" : ""}" data-look="${esc(secret ? "ink" : look)}" aria-label="Passage">
       ${tags ? `<div class="tags">${tags}</div>` : ""}
       ${b.kicker ? `<p class="kicker">${esc(b.kicker)}</p>` : ""}
