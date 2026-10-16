@@ -43,8 +43,8 @@
      #app[data-ending="<id>"] and .panel.ending[data-ending="<id>"]   the id of the ending on show; absent at any other node
      .ava.ava-none                    the speaker's avatar when the cast entry has no crop: a still disc with a camera-off mark
      .panel[data-overflow="1"], .track[data-overflow="1"]   the box scrolls and is not at its end: a fade shows on its bottom edge
-   Custom properties the shell reads from a kit or pack (optional): --st-tab-x (where a pull-tab stands across the book box, default .87;
-   while a .k-tab shows, the text slide keeps clear of it), --st-stage-min (the least height of the stage, default 9.5rem).
+   Custom properties the shell reads from a kit or pack (optional): --st-tab-x (where a pull-tab stands across the book box, default .87)
+   and --st-tab-out (how far its card has slid out, default 0px): the paper kit sets both on #stage, and while a .k-tab shows, the text slide keeps clear of it, --st-stage-min (the least height of the stage, default 9.5rem).
 */
 
 :root {
@@ -255,9 +255,10 @@ button, input, textarea { font: inherit; color: inherit; }
 .sl.out > * { pointer-events: none; }
 .sl.mid { justify-content: center; }
 /* While the kit shows a pull-tab (.k-tab), the text keeps clear of it, tab and touch margin both. The tab stands at --st-tab-x across the
-   book box (the square, as wide as the stage is high, or as wide as the stage if that is less), 16px wide, with a 14px touch margin (the reserve adds 4px). */
+   book box (the square, as wide as the stage is high, or as wide as the stage if that is less), plus --st-tab-out when its card slides out.
+   Its touch area starts 24px left of that edge (the reserve adds 4px). The paper kit sets both properties on #stage for the tab on show. */
 #stage:has(.k-tab:not([hidden])) .sl {
-  padding-right: max(var(--st-gutter-r), calc(50cqw - (var(--st-tab-x) - .5) * min(100cqw, 100cqh) + 18px));
+  padding-right: max(var(--st-gutter-r), calc(50cqw - (var(--st-tab-x) - .5) * min(100cqw, 100cqh) - var(--st-tab-out, 0px) + 28px));
 }
 
 .panel {

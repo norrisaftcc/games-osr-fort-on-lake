@@ -256,8 +256,24 @@ function tabLabel(e) {
 }
 // The tab is in the DOM, not hidden, only in the set on show. Old sets, clones and a closed book hide theirs.
 function tabsOn(set, on) { for (const t of set.querySelectorAll(".k-tab")) { if (on) t.removeAttribute("hidden"); else t.setAttribute("hidden", ""); } }
-// The sheet's transform for the pull-tab, by state: tucked (none), slid out (d4), or pulled over (none, on top).
-function sheetPos(e) { return e.dataset.pulled === "1" ? "none" : e.dataset.out === "1" ? `translateX(${T.d4}px)` : "none"; }
+// How far the sheet slides out: d4, or less, so the tab stays 4px inside the kit's box (a 360px phone has no room for all 32px).
+function slideOf(e) {
+  const b = e.getBoundingClientRect(), r = root && root.getBoundingClientRect();
+  if (!r || !b.width || !r.width) return T.d4;
+  return Math.max(0, Math.min(T.d4, Math.floor(r.right - 4 - (b.right + T.d3))));
+}
+// The sheet's transform for the pull-tab, by state: tucked (none), slid out (slideOf), or pulled over (none, on top).
+function sheetPos(e) { return e.dataset.pulled === "1" ? "none" : e.dataset.out === "1" ? `translateX(${slideOf(e)}px)` : "none"; }
+// The shell keeps its text clear of the tab on show (style.css reads --st-tab-x and --st-tab-out from the stage, the kit host's parent).
+function tabReserve() {
+  const stage = host && host.parentElement;
+  if (!stage) return;
+  const t = cur && cur.querySelector(".k-tab:not([hidden])"), e = t && t.closest(".k-pulltab");
+  if (!e || !e._l) { stage.style.removeProperty("--st-tab-x"); stage.style.removeProperty("--st-tab-out"); return; }
+  const x = Number(e._l.x), w = Number(e._l.w);
+  if (Number.isFinite(x) && Number.isFinite(w)) stage.style.setProperty("--st-tab-x", String(Math.round((x + w / 2) * 1000) / 1000));
+  stage.style.setProperty("--st-tab-out", e.dataset.out === "1" && e.dataset.pulled !== "1" ? `${slideOf(e)}px` : "0px");
+}
 function pullState(e, state, animate) {
   const sheet = e.querySelector(".k-sheet");
   const lead = leads(e._l, state);
@@ -285,6 +301,7 @@ function pullToggle(e) {
   const to = sheetPos(e);
   btn.setAttribute("aria-expanded", e.dataset.pulled === "1" ? "true" : "false");
   tabLabel(e);
+  tabReserve();
   sheet.style.transform = to === "none" ? "" : to;
   sheet.style.zIndex = "2";
   skip = false;
@@ -452,6 +469,7 @@ const kit = {
     tilt.tx = tilt.ty = tilt.x = tilt.y = 0;
     if (instant) { if (old) old.remove(); root.appendChild(next); pend = null; }
     else { next.inert = true; root.insertBefore(next, old); pend = { next, old, leaf: null }; }
+    tabReserve();
   },
 
   update(state) {
@@ -467,6 +485,7 @@ const kit = {
     for (const f of cur.querySelectorAll(".k-flap")) setFlap(f, !!state.revealed);
     for (const t of cur.querySelectorAll(".k-pulltab")) pullState(t, state, true);
     for (const t of cur.querySelectorAll(".k-ticket")) ticketState(t, state);
+    tabReserve();
   },
 
   cue(c, o) {
@@ -670,7 +689,7 @@ html[data-map="blueline"] .k-root,.k-root[data-map="blueline"]{--k-ink:var(--blu
   border:1.5px solid var(--k-ink);border-left:0;border-radius:0 6px 6px 0;font:700 .6875rem/1 var(--st-font-ui);letter-spacing:.1em;text-transform:uppercase}
 .k-tab[hidden]{display:none}
 .k-tab span{writing-mode:vertical-rl;white-space:nowrap}
-.k-tab::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-14px;right:-14px}
+.k-tab::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-24px;right:-4px}
 .k-tab:focus-visible{outline:3px solid var(--st-accent);outline-offset:2px}
 .k-wheel{position:absolute;inset:0;transform-origin:50% 50%}
 .k-pointer{position:absolute;left:50%;top:-6px;width:0;height:0;translate:-50% 0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:13px solid var(--k-ink)}
