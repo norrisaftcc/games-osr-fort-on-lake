@@ -37,7 +37,7 @@ The lineage is structure only: a programmed solo adventure of 1983 (a numbered p
 | Describes the scene | Read-aloud text | `s1`, the Queen's chamber | `dm-describes` |
 | Frames the scene | The place line; the page turn | `s1`, first beat | `dm-frames` |
 | Keeps secrets | The flap: a Referee Note | `s1`, Lens 1 lean-in | `dm-secrets` |
-| Decides what happens | Numbered paragraph | `s0`, how the book works | `dm-decides` |
+| Decides what happens | A page for each choice | `s0`, how the book works | `dm-decides` |
 | Hides the result | Reveal ink | `s1`, *you start knowing*; the glass in `s3` | `dm-hides` |
 | Rolls when it is uncertain | Volvelle, reaction roll | `s5`, the yard | `dm-rolls` |
 | Keeps the books | Margin ticket, Fate | `s0` (Fate 3); `s7` (the spend) | `dm-books` |
@@ -54,8 +54,8 @@ Seven are the jobs in `PLAN.md`. Six are mine: the book also frames the scene, p
 
 | Scene | Teaches | Where |
 |-------|---------|-------|
-| `s0` | The seven jobs; paint and ink; the Lens; Fate; the Fort Card | Opening beats |
-| `s1` | Planning (a chip); reveal ink (a chip, before the first reveal) | The last read-aloud beat; the beats before each reveal |
+| `s0` | The seven jobs; paint and ink; the Lens; Fate; the Fort Card; Planning (a chip, in the last beat, before the name) | Opening beats |
+| `s1` | Planning again (a chip, at the first choice with several options); reveal ink (a chip, before the first reveal) | The last read-aloud beat; the beats before each reveal |
 | `s2` | Year of Change; the Pen; the Fort's tags | Beats 1, 3 and each tag beat |
 | `s4` | **Planning and Execution** (rule note `gate`, in the first Execution group's own `notes`; the lead-in beat carries no copy); public and secret facts | The Execution group's ask, right after the lead-in beat |
 | `s5` | The reaction roll (rule note `reaction`, in the `yard` group's own `notes`; the lead-in beat carries no copy) | The `yard` group's ask, right after the lead-in beat |
@@ -91,7 +91,7 @@ Seven are the jobs in `PLAN.md`. Six are mine: the book also frames the scene, p
 | The bridge beats before each glass line | The player acts, then the glass answers. The bridge is the act. |
 | The Execution lead-in beat in `s4`, the Fate lead-in beat in `s7` | To teach each rule the first time it matters. |
 | Ending titles `The Milestone: Hymn / Machine / Both` | So the Verify sheet tells the endings apart. |
-| Fate starts at 3, max 6 | `campaign/SPINE.md` pins Fate at 3 and Fort Cards uses 3. The hint costs 1, so the player ends with 2 or 3. |
+| Fate starts at 3, max 6 | `campaign/SPINE.md` pins Fate at 3 and Fort Cards uses 3. The hint costs 1, so the player ends with 2 or 3. Canon has no cap and no cost for a hint: the `fate` note says so ("The margin holds six"; "In this book, Cassandra's hint costs one point"). |
 
 ## 2. Checks, as run
 
@@ -178,6 +178,22 @@ Result: no output from any of the three.
 | Group `notes` and `comment` | Set on the Execution and Fate groups. Where a beat repeated the same note and comment right before its group (the `s4` lead-in, the `s5` lead-in), the beat copy is gone. The Fate lead-in beat in `s7` stays: it comes before a Plan choice (ask for a hint?), not before the Fate group. | The engine now reads group notes and comments for reachability and the Notes sheet. The first Execution group carries the `gate` rule note in its own `notes`, as `validate` requires. |
 | Speakers | None. Cassandra and the Minister are named in a `kicker` or in the text. | The pack has no `cast.json`. A `speaker` with no cast entry is a warning until a `cast.json` exists, then an error. |
 | Theme | Blueline's `paper` values as `light`, its `lamp` values as `dark`, under Blueline's token names (kept). Alegreya families as `font-serif`, `font-caps`, `font-sans`, and as the shell's `font-body`, `font-display`, `font-ui`. Aliases for the names the fixture packs use: `bg`, `panel`, `card`, `line`, `ink-soft`, `muted`. New for the shell: `accent`, `on-accent`, `lamp`, `good`, `bad`. `fonts: []`. | `SPEC.md` section 2; `validate` checks every token in the header of `ui/style.css`. No Blueline value passes 4.5:1 as text for `accent`, `good` or `bad` on all three grounds, so these are chosen: `accent` is Blueline's blue, darkened in light (#2a679c) and Blueline's own in dark; `good` is a green; `bad` is Blueline's red in light and a lighter red in dark. Every text token (`ink`, `ink-soft`, `muted`, `accent`, `lamp`, `good`, `bad`) passes 4.5:1 on `bg`, `panel` and `card` in both themes; `on-accent` on `accent` is 5.71 (light) and 7.57 (dark). |
+
+### Review fixes (wave 3)
+
+Three reviewers (canon, access, phone) checked the pack. These are the changes to the text. None touches a line quoted from `intro/index.html`, so the 168-of-168 canon claim in section 2 holds. The lines changed are the book's own frame, the notes, and the authored ending beats.
+
+| Id | Change |
+|----|--------|
+| M1 | Ending `milestone-both`, beat 4. The Lens 4 option *Both* now sets the flag `lens4_both`. With the flag the beat keeps "A prayer is a protocol for speaking to what you cannot see, you said once." Without it (the ending is routed by the tally, so a mixed route lands here) the beat reads "You lay your palm on the stone, and your ear beside it. The stone does not argue. It hums its first line, and waits." |
+| M2 | The `reaction` note says the book cuts the reaction roll to one line (7 or more, they lean your way) and that the table's DM reads five bands, where 6 to 8 means they wait and watch (`dm/Module_3_The_Ravine_of_Mouths.md`). `dm-rolls` no longer says the book "reads a table". |
+| M3 | `dm-seven` and the `s0` beat say a DM does many jobs and seven come first; the book names each job as it comes. The sixth job is "keeps the books" in both. |
+| M4 | The term of `dm-sure` has no question mark. |
+| M5 | Softer claims. `dm-describes`: "unless your choices change them". `dm-decides`: "The book cannot improvise, but a roll can surprise you." `dm-books`: the margin keeps Fate; a live DM also tracks time and hit points. `dm-people` names Cassandra, the Minister and Maren (the people who speak in the book; Wick does not). `s0`: "There is a page for each choice" (no number is shown). |
+| M6 | Ending `milestone-machine`, beat 4: "or a line left open" is gone. |
+| M7 | The last `s0` beat teaches Planning (note `planning`, and "This is Planning: it is free, and you can change it.") before the first Planning chip. |
+| M8 | The `fate` note says that in this book Cassandra's hint costs one point. |
+| M9 | The `fate` note says "The margin holds six." |
 
 ## 6. Cues, in short
 

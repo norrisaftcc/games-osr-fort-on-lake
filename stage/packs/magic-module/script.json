@@ -13,13 +13,13 @@
           "comment": "dm-seven"
         },
         {
-          "text": "A Dungeon Master has jobs. The DM describes the place, keeps secrets, decides what happens, hides the result until you choose, rolls when no one knows the answer, keeps the count, and asks: *are you sure?*"
+          "text": "A Dungeon Master has many jobs. Seven come first. The DM describes the place, keeps secrets, decides what happens, hides the result until you choose, rolls when no one knows the answer, keeps the books, and asks: *are you sure?*"
         },
         {
           "text": "The book does each job on paper, with ink, fold and tab. When it does, a line under the text names the job. Turn that line off in Settings if you would rather read alone."
         },
         {
-          "text": "Every page is a numbered paragraph. You choose. The book turns to the paragraph you chose. The ones you did not choose stay shut.",
+          "text": "There is a page for each choice. You choose. The book turns to the page you chose. The ones you did not choose stay shut.",
           "comment": "dm-decides"
         },
         {
@@ -51,9 +51,10 @@
         },
         {
           "kicker": "BEFORE THE FIRST PAGE",
-          "text": "At the end you carry away a Fort Card. Every choice writes one line on it. First, write the name the Fort calls you.",
+          "text": "At the end you carry away a Fort Card. Every choice writes one line on it. First, write the name the Fort calls you. This is Planning: it is free, and you can change it.",
           "notes": [
-            "card"
+            "card",
+            "planning"
           ],
           "comment": "dm-writes"
         }
@@ -1349,6 +1350,9 @@
                   "add": "machine"
                 },
                 {
+                  "flag": "lens4_both"
+                },
+                {
                   "set": {
                     "lens4": "Prayer and protocol (both)"
                   }
@@ -2198,7 +2202,7 @@
           "comment": "dm-people"
         },
         {
-          "text": "You lay your ear to the stone. The hum does not change when you breathe. It is steady, like a mark that blinks, or a line left open. You copy the numbers on its face onto your slate."
+          "text": "You lay your ear to the stone. The hum does not change when you breathe. It is steady, like a mark that blinks. You copy the numbers on its face onto your slate."
         },
         {
           "when": {
@@ -2243,7 +2247,18 @@
           "comment": "dm-people"
         },
         {
+          "when": {
+            "flag": "lens4_both"
+          },
           "text": "You lay your palm on the stone, and your ear beside it. A prayer is a protocol for speaking to what you cannot see, you said once. The stone does not argue. It hums its first line, and waits."
+        },
+        {
+          "when": {
+            "not": {
+              "flag": "lens4_both"
+            }
+          },
+          "text": "You lay your palm on the stone, and your ear beside it. The stone does not argue. It hums its first line, and waits."
         },
         {
           "when": {
