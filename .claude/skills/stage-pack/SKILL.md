@@ -32,7 +32,7 @@ The Stage plays a solo story as a motion picture. The engine is fixed; a pack is
 
 - **IP.** Take structure, never expression, from the 1977 Basic sample dungeon and from B2. Forbidden names: Zenopus, Portown, Thalagram, Lemunda, Borderlands, Chaos, Castellan, Hermit, Bree-yark, Keep (capitalised), medusa. The player-facing check also forbids Sleeper, Lintel and turned to stone (`intro/test.mjs`, `generator/test.mjs`). Grep every authored text and SVG label.
 - **Halcyon** may be named, not keyed. **The Sleeper** never appears in anything a player reads.
-- **The Terminal never speaks as a mind.** It is a machine and a hymn; it prints, it does not say "I".
+- **The Terminal never speaks as a mind.** It is a machine and a hymn; it prints, it does not say "I". Narration may say how it seems to a person (`campaign/SPINE.md`, *The Terminal's voice*).
 - **The Gorgon Queen** was paralysed by a cockatrice chick's cry. She was not turned to stone. The cockatrice is Biddy; Wick keeps her.
 - **The Brush.** Machine elements stay at brush depth. The Lens pull-tab slides on a tally and does not glow or pulse. Go further only when the player pulls it.
 - **Art.** Elmore (colour paint) for characters and hero scenes; Otus (black ink) for interiors, machines, maps. On screen, black on cream is the default and Blueline blue is the toggle.

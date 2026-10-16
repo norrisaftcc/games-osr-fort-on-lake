@@ -11,14 +11,14 @@
         "art": "art/cover-plate.svg",
         "look": "paint",
         "x": 0.5,
-        "y": 0.3,
-        "w": 0.74
+        "y": 0.31,
+        "w": 0.62
       },
       {
         "prim": "vfold",
         "art": "art/cover-spine.svg",
         "x": 0.5,
-        "y": 0.56,
+        "y": 0.13,
         "w": 0.74
       }
     ]
@@ -61,7 +61,11 @@
         "value": "machine",
         "x": 0.74,
         "y": 0.36,
-        "w": 0.26
+        "w": 0.26,
+        "words": [
+          "Ward",
+          "Sensor"
+        ]
       }
     ]
   },
@@ -111,7 +115,11 @@
         "value": "machine",
         "x": 0.74,
         "y": 0.36,
-        "w": 0.26
+        "w": 0.26,
+        "words": [
+          "A blessing",
+          "A signal"
+        ]
       }
     ]
   },
@@ -151,7 +159,7 @@
         "art": "art/glass-frame.svg",
         "look": "ink",
         "x": 0.5,
-        "y": 0.24,
+        "y": 0.22,
         "w": 0.96,
         "screen": {
           "x": 0.0545,
@@ -177,7 +185,11 @@
         "value": "machine",
         "x": 0.74,
         "y": 0.35,
-        "w": 0.26
+        "w": 0.26,
+        "words": [
+          "A breath",
+          "A cursor"
+        ]
       }
     ]
   },
@@ -256,7 +268,11 @@
         "value": "machine",
         "x": 0.73,
         "y": 0.475,
-        "w": 0.22
+        "w": 0.22,
+        "words": [
+          "Prayer",
+          "Protocol"
+        ]
       }
     ]
   },

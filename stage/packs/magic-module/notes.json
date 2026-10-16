@@ -2,12 +2,12 @@
   "dm-seven": {
     "kind": "dm",
     "term": "The seven jobs",
-    "text": "A Dungeon Master does seven jobs. The DM describes the place, keeps secrets, decides what happens, hides the result, rolls when no one knows, keeps the books, and asks: are you sure? This book does all seven. A line like this one names the job."
+    "text": "A Dungeon Master does many jobs. Seven come first: the DM describes the place, keeps secrets, decides what happens, hides the result, rolls when no one knows, keeps the books, and asks: are you sure? This book does all seven, and names each job as it comes. A line like this one names the job."
   },
   "dm-describes": {
     "kind": "dm",
     "term": "The DM describes",
-    "text": "A DM tells you what you see. The read-aloud text does it here. It is written in advance, so every reader hears the same words. A live DM changes it to suit the table."
+    "text": "A DM tells you what you see. The read-aloud text does it here. It is written in advance, so you hear the same words each time, unless your choices change them. A live DM changes it to suit the table."
   },
   "dm-frames": {
     "kind": "dm",
@@ -22,7 +22,7 @@
   "dm-decides": {
     "kind": "dm",
     "term": "The DM decides what happens",
-    "text": "Your choice picks the paragraph. That paragraph is the DM's ruling, written in advance. A live DM rules on the spot and can surprise you. The book cannot surprise you, but it never cheats."
+    "text": "Your choice picks the page. That page is the DM's ruling, written in advance. A live DM rules on the spot. The book cannot improvise, but a roll can surprise you. It never cheats."
   },
   "dm-hides": {
     "kind": "dm",
@@ -32,22 +32,22 @@
   "dm-rolls": {
     "kind": "dm",
     "term": "The DM rolls the dice",
-    "text": "A DM rolls when no one knows the answer. Here the book rolls 2d6 and reads a table. This is a reaction roll: how a crowd takes news. It changes the mood, not the facts."
+    "text": "A DM rolls when no one knows the answer. Here the book rolls 2d6 for you. This is a reaction roll: how a crowd takes news. It changes the mood, not the facts."
   },
   "dm-books": {
     "kind": "dm",
     "term": "The DM keeps the books",
-    "text": "A DM tracks time, hit points and luck so you do not have to. The margin does it here. Your Fate shows beside the text. When you spend a point, the number drops and the ticket tears."
+    "text": "A DM tracks time, hit points and luck so you do not have to. Here the margin keeps your Fate, beside the text. A live DM also tracks time and hit points. When you spend a point, the number drops and the ticket tears."
   },
   "dm-sure": {
     "kind": "dm",
-    "term": "The DM asks: are you sure?",
+    "term": "The DM asks: are you sure",
     "text": "Before a final act, a good DM asks once: are you sure? This book asks with a seal. Planning is free. Once you break the seal, the choice is made."
   },
   "dm-people": {
     "kind": "dm",
     "term": "The DM plays the people",
-    "text": "A DM speaks for everyone but you: Cassandra, the Minister, Wick. The book does it with quoted lines. A live DM answers back. These lines are fixed."
+    "text": "A DM speaks for everyone but you. The book does it with quoted lines for Cassandra, the Minister and Maren. A live DM answers back. These lines are fixed."
   },
   "dm-follows": {
     "kind": "dm",
@@ -92,7 +92,7 @@
   "fate": {
     "kind": "rule",
     "term": "Fate",
-    "text": "Fate is a point you spend when it matters. You start with three. Spending one is final. Here, one point buys one hint from Cassandra. At the table, a point can do more."
+    "text": "Fate is a point you spend when it matters. You start with three. The margin holds six. Spending one is final. In this book, Cassandra's hint costs one point. At the table, a point can do more."
   },
   "reveal": {
     "kind": "rule",
@@ -102,7 +102,7 @@
   "reaction": {
     "kind": "rule",
     "term": "Reaction roll",
-    "text": "When a crowd or a stranger could go either way, roll 2d6. Seven or more: they lean your way. Six or less: they do not. Roll only when nobody knows the answer."
+    "text": "When a crowd or a stranger could go either way, roll 2d6. At the table, a DM reads a table of five bands, and 6 to 8 means they wait and watch. This book cuts it to one line: seven or more, they lean your way. Roll only when nobody knows the answer."
   },
   "facts": {
     "kind": "rule",
