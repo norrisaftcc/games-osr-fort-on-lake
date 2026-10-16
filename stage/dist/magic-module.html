@@ -179,7 +179,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .count { font-variant-numeric: tabular-nums; }
 .hud-tools .count:not(:empty) { font-size: .8125rem; }
 
-/* The meters. One or two sit side by side. Three share a row. Four make a 2 x 2 block until the HUD is 520px wide.
+/* The meters. One or two sit side by side. Three share a row. Four make a 2 x 2 block until the HUD is 520px wide; five, three over two until 640px.
    A meter's name is never cut: when name and number do not fit on one line, the number drops under the name. */
 .meters {
   --st-mw: 6rem; /* the least width the meters get before the tallies and buttons drop to a second row */
@@ -191,8 +191,16 @@ button, input, textarea { font: inherit; color: inherit; }
 .meters:not(:has(.meter:nth-child(3))) { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
 .meters:has(.meter:nth-child(3)):not(:has(.meter:nth-child(4))) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .meters:has(.meter:nth-child(4)):not(:has(.meter:nth-child(5))) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Five make three over two (a six-column grid: the first row's meters take two columns, the second row's three), one row from 640px. */
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter { grid-column: span 2; }
+.meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter:nth-child(n+4) { grid-column: span 3; }
 @container (min-width: 520px) {
   .meters:has(.meter:nth-child(4)):not(:has(.meter:nth-child(5))) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@container (min-width: 640px) {
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter { grid-column: auto; }
 }
 @container (max-width: 399px) {
   .meters:has(.meter:nth-child(3)):not(:has(.meter:nth-child(4))) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -576,6 +584,10 @@ kbd { font: 700 .8125rem var(--st-font-mono); border: 1px solid var(--st-edge); 
 /* Short and wide: the commentary sits beside the passage. Not while a pull-tab shows: the room kept clear for the tab
    (mid-stage, since the book box is narrow here) leaves too little width for two columns. */
 @media (max-height: 480px) and (min-width: 560px) {
+  /* The HUD stays one row on a short screen: five meters too. */
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter,
+  .meters:has(.meter:nth-child(5)):not(:has(.meter:nth-child(6))) .meter:nth-child(n+4) { grid-column: auto; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) { flex-direction: row; align-items: flex-end; justify-content: center; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .panel { flex: 1 1 0; width: auto; min-width: min(16rem, 100%); max-width: 34rem; max-height: 100%; }
   #stage:not(:has(.k-tab:not([hidden]))) .sl:has(> .track) > .track { flex: 0 1 15rem; width: auto; max-width: 15rem; max-height: 100%; }
@@ -1484,6 +1496,7 @@ function check(pack) {
     fieldIds.add(f.id);
     if (!str(f.label)) err(`pack.json field ${f.id}`, "label is missing");
     if (f.side != null && !["front", "back"].includes(f.side)) err(`pack.json field ${f.id}`, `side must be "front" or "back", not ${JSON.stringify(f.side)}`);
+    if (f.hidden != null && typeof f.hidden !== "boolean") err(`pack.json field ${f.id}`, "hidden must be true or false");
   }
   // tallies: a map of tally id to its allowed values. Never a list of ids.
   if (pack.tallies != null) {
@@ -1831,6 +1844,7 @@ else root.Stage = Stage;
      volvelle      art, range, center            range [min,max] faces round the rim (default [2,12]); the face "center" is
                                                  at the top when the wheel is at rest (default the middle one); a fixed
                                                  pointer is drawn by the kit; on roll the wheel stops with the total at the top
+                                                 (a total outside the range leaves the wheel at rest)
      ticket        art, meter                    the Fate ticket: boxes are drawn by the kit (a hole for each point left)
 
    Art vocabulary (SVG files are inlined, so strokes follow the map style): strokes and fills use currentColor, which the
@@ -2375,6 +2389,8 @@ const kit = {
         const l = w._l, range = Array.isArray(l.range) && l.range.length === 2 ? l.range : [2, 12];
         const n = range[1] - range[0] + 1;
         const center = l.center != null ? l.center : Math.round((range[0] + range[1]) / 2);
+        // A total the wheel does not carry (a d100 roll in a set with a d6 wheel) leaves the wheel at rest: it never shows a wrong face.
+        if (c.total != null && (c.total < range[0] || c.total > range[1])) { delete w.dataset.total; return Promise.resolve(); }
         const total = Math.max(range[0], Math.min(range[1], Math.round(c.total == null ? center : c.total)));
         const target = -((total - center) * 360 / n);
         const base = w._rot || 0;
@@ -2614,6 +2630,7 @@ const ENDING_IDS = Object.keys(ENDINGS);
 const NOTES = PACK.notes || {};
 const METERS = PACK.meters || [];
 const FIELDS = PACK.fields || [];
+const CARD_FIELDS = FIELDS.filter(f => !f.hidden); // a hidden field is the story's working memory, never on the card
 const TALLY_VALUES = PACK.tallies || {}; // tally id -> allowed values
 const TALLY_IDS = Object.keys(TALLY_VALUES);
 const COMMENTARY = PACK.commentary || null;
@@ -3071,7 +3088,8 @@ function rollLine(info) {
   const sum = info.faces.reduce((a, b) => a + b, 0);
   const faces = dF ? info.faces.map(f => faceText(info.dice, f)).join(" ") + ` (${sgn(sum)})` : info.faces.join(" + ");
   const add = info.add ? ` ${info.add < 0 ? "−" : "+"} ${Math.abs(info.add)}` : "";
-  return `${info.dice}: ${faces}${add} = ${info.total}${info.table ? "" : info.under ? `, ${info.vs} or under` : ` vs ${info.vs}`}`;
+  const eq = info.faces.length > 1 || add ? ` = ${info.total}` : ""; // one die and no bonus: the face is the total
+  return `${info.dice}: ${faces}${add}${eq}${info.table ? "" : info.under ? `, ${info.vs} or under` : ` vs ${info.vs}`}`;
 }
 // The meter a roll adds, for the spoken line ("plus 3 for Code"). A pick names its option; with no pick (Back, Continue) the scene's rolls
 // that match the dice and the target decide, when they agree.
@@ -3684,7 +3702,7 @@ function cardText() {
   const lines = [PACK.title + (PACK.subtitle ? " — " + PACK.subtitle : "")];
   const fields = v ? v.fields : {};
   for (const side of ["front", "back"]) {
-    const list = FIELDS.filter(f => (f.side || "front") === side);
+    const list = CARD_FIELDS.filter(f => (f.side || "front") === side);
     if (!list.length) continue;
     lines.push("", side === "front" ? "Front" : "Back");
     for (const f of list) lines.push(`${f.label}: ${fields[f.id] ? fields[f.id] : "—"}`);
@@ -3701,12 +3719,12 @@ function cardText() {
 function renderCard() {
   const v = V.view, fields = v ? v.fields : {};
   const face = side => {
-    const list = FIELDS.filter(f => (f.side || "front") === side);
+    const list = CARD_FIELDS.filter(f => (f.side || "front") === side);
     if (!list.length) return "";
     return `<div class="facing"><h3>${side === "front" ? "Front" : "Back"}</h3><dl class="kv">${list.map(f => `<dt>${esc(f.label)}</dt><dd>${fields[f.id] ? esc(fields[f.id]) : '<span class="none">—</span>'}</dd>`).join("")}</dl></div>`;
   };
   const text = cardText();
-  $("body-card").innerHTML = `${FIELDS.length ? face("front") + face("back") : "<p>This story has no card fields.</p>"}
+  $("body-card").innerHTML = `${CARD_FIELDS.length ? face("front") + face("back") : "<p>This story has no card fields.</p>"}
     <label for="cardText" class="vlist-h" style="display:block">Card as text</label>
     <textarea class="asText" id="cardText" readonly>${esc(text)}</textarea>
     <div class="row" style="margin-top:0"><button type="button" class="btn primary" id="copyBtn">Copy as text</button></div>`;

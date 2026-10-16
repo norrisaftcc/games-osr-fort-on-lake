@@ -1,0 +1,217 @@
+{
+  "odds-printed": {
+    "kind": "dm",
+    "term": "The DM tells you the odds",
+    "text": "A fair DM tells you the odds when the odds are known. In this book they always are. Every chance is printed before you pick, so you can plan around it. At the table, ask. A good DM will say."
+  },
+  "plans": {
+    "kind": "dm",
+    "term": "The DM offers a plan",
+    "text": "A good module always has a way that needs no roll. The playbook says: make a plan that still works if the roll fails. Dice are for what you cannot plan. This book offers a plan in every Execution scene."
+  },
+  "turn-clock": {
+    "kind": "rule",
+    "term": "The turn",
+    "text": "In a dungeon, time runs in turns. One turn is ten minutes. Looking, listening and trying a lock each take one. The margin counts them. Every second turn, the DM checks for wandering monsters. Out in the open, the count stops."
+  },
+  "dm-rolls": {
+    "kind": "dm",
+    "term": "The DM rolls when it is uncertain",
+    "text": "A DM rolls only when the answer is unknown and failing matters. If a plan is sound and nothing is at risk, the DM just says yes. The book rolls here because the plate might beat you, and you might not get a second try."
+  },
+  "counted": {
+    "kind": "dm",
+    "term": "A good plan changes the odds",
+    "text": "At the table, a DM may raise your number for a good plan. That is the DM's call, not a rule of the book. Here, if you heard the count, Open Locks rises from 20 % to 40 %. The book shows it as a new option with a new number."
+  },
+  "patient": {
+    "kind": "dm",
+    "term": "The DM rewards patience",
+    "text": "The playbook says the DM awards 1 Fate for something quiet or patient. Waiting cost two turns and no luck. A DM pays for good plans in points, not dice."
+  },
+  "bonus": {
+    "kind": "rule",
+    "term": "A bonus raises the number",
+    "text": "A bonus to a percentage raises your number. Quiet Feet takes Move Silently from 25 % to 45 %. When your odds change, the book shows a second option with the new number. Locksmith's Eye adds no number. It buys a true answer."
+  },
+  "sure": {
+    "kind": "dm",
+    "term": "The DM asks: are you sure",
+    "text": "Before a final act, a good DM asks once: are you sure? This book asks with a seal. Planning is free. Once you break the seal, the choice is made. Here the Fort will either see it or not."
+  },
+  "hidden-roll": {
+    "kind": "dm",
+    "term": "The DM rolls Move Silently in secret",
+    "text": "Hide in Shadows and Move Silently are rolled by the DM, in secret. If it fails, you still think it worked. This book rolls it in the open. The panel shows it only for teaching. Your table will not."
+  },
+  "secret-roll-later": {
+    "kind": "dm",
+    "term": "The DM keeps the result",
+    "text": "You thought the walk went well. The DM knew it had not, and kept the result. A fair DM uses such a result later, to tell the truth about the world, never to punish."
+  },
+  "plan-cost": {
+    "kind": "dm",
+    "term": "A plan costs time",
+    "text": "A plan that cannot fail costs something else. The slow way costs an hour. In a dungeon, an hour is six turns, and three wandering checks. Time is the DM's coin. Spend it on purpose."
+  },
+  "eye-fate": {
+    "kind": "rule",
+    "term": "Fate and a limited power",
+    "text": "Spend 1 Fate when you use a power with a limit, such as Locksmith's Eye. The power works as written. Then you write part of its effect: one more true thing. The DM tells you if you reach too far."
+  },
+  "odds-card": {
+    "kind": "dm",
+    "term": "The odds go on the card",
+    "text": "Your card lists your odds: Open Locks, Move Silently, Hear Noise. A DM keeps them in mind for you. Every roll you saw in this book is on the card. They are low. That is why you made plans."
+  },
+  "dm-asks": {
+    "kind": "dm",
+    "term": "The DM asks you to say",
+    "text": "A DM sometimes asks the player to say what is true. The book does it with a typed line. Whatever you write, the book keeps. It does not judge it."
+  },
+  "dm-writes": {
+    "kind": "dm",
+    "term": "The DM writes it down",
+    "text": "After play, a DM writes up what happened. The Fort Card does it here. Every choice writes one line on it. Bring the card to the table."
+  },
+  "dm-follows": {
+    "kind": "dm",
+    "term": "The DM follows you",
+    "text": "Old things show only at the edge. If you read one as machine, a Referee Note may open one step further. If you read it as hymn, the story stays a story. The DM follows your lead and does not push."
+  },
+  "dm-secrets": {
+    "kind": "dm",
+    "term": "The DM keeps secrets",
+    "text": "A DM knows things you do not. The flap holds them until you ask. The Referee Note under it is what a DM would tell you if you leaned in. Lift it only if you want to."
+  },
+  "dm-hides": {
+    "kind": "dm",
+    "term": "The DM hides the result",
+    "text": "The result was always on the page. You could not see it until you chose. A DM does this with a screen. The book does it with reveal ink."
+  },
+  "dm-people": {
+    "kind": "dm",
+    "term": "The DM plays the people",
+    "text": "A DM speaks for everyone but you. The book does it with quoted lines, here for Cassandra. Her words are true, and they ask more than they tell. A live DM answers back. These lines are fixed."
+  },
+  "planning": {
+    "kind": "rule",
+    "term": "Planning",
+    "text": "Planning is looking, reading, talking and thinking. It takes no dice and no time. You can go back and change a Planning choice. Its option has a dashed edge."
+  },
+  "gate": {
+    "kind": "rule",
+    "term": "Planning and Execution",
+    "text": "Planning is free: look, read, talk. You can go back. Execution costs time and risks dice, and it cannot be undone. Once you pick, the book seals the page. Think in Planning. Act in Execution."
+  },
+  "under6": {
+    "kind": "rule",
+    "term": "X-in-6: roll under",
+    "text": "A 2-in-6 chance is one six-sided die. Roll 2 or lower and it works. You roll *under*. Elves hear noise and find secret doors on 2-in-6. A DM uses 1-in-6 to check for wandering monsters."
+  },
+  "percent": {
+    "kind": "rule",
+    "term": "Thief skills are percentages",
+    "text": "Roll 1d100 and get your number or lower. Open Locks is 20 % at level 2. It needs your tools, and you get one try per lock. Fail, and that lock beats you until you gain a level."
+  },
+  "wander": {
+    "kind": "rule",
+    "term": "Wandering monsters",
+    "text": "Every second turn the DM rolls 1d6. On a 1, something comes by. It may not want you. The book rolls it against you, in the open. At the table the DM may roll it behind the screen."
+  },
+  "register": {
+    "kind": "rule",
+    "term": "Paint and ink",
+    "text": "Two looks. Paint is witnessed: the Fort sees it, and it can become a public fact. Ink is unwitnessed: only you know, and it can become a secret fact. The page tells you which."
+  },
+  "lens": {
+    "kind": "rule",
+    "term": "The Lens",
+    "text": "Old things show at the edge. You read each one as hymn or machine. Neither is wrong. The tally shows how you lean. The Fort Card keeps each reading."
+  },
+  "fate": {
+    "kind": "rule",
+    "term": "Fate",
+    "text": "Fate is a point you spend when it matters. You start with three. The margin holds six. The DM awards a point for something quiet, patient or generous. Points refill at each Fort Turn and at the start of each session."
+  },
+  "reveal": {
+    "kind": "rule",
+    "term": "Reveal ink",
+    "text": "Some lines stay hidden until you ask. Tap, or press R, to lift them. AUTO play stops there. The line was always on the page."
+  },
+  "facts": {
+    "kind": "rule",
+    "term": "Public and secret facts",
+    "text": "A public fact is something the whole Fort knows about you. A secret fact is something only you know. You write each in one sentence. Your DM will use them."
+  },
+  "card": {
+    "kind": "rule",
+    "term": "The Fort Card",
+    "text": "The card holds what you chose. You carry it to the table. At session zero you may change any choice. The card is yours, and the DM reads it."
+  },
+  "yoc": {
+    "kind": "rule",
+    "term": "Year of Change",
+    "text": "The Year Between changed you. Your Year of Change is one gift. The numbers here are proposed. The DM confirms them at the table."
+  },
+  "office": {
+    "kind": "rule",
+    "term": "Fort Office",
+    "text": "Maren gives out four offices. Warden: Walls +1 when you take the Defend directive. Scout: one extra clue per hex. Steward: you see the Fort's tracks first. Lorekeeper: one free hint per puzzle."
+  },
+  "bond": {
+    "kind": "rule",
+    "term": "Bond",
+    "text": "Your bond is the one person tied to you. If two players name each other, each gets one extra Fate, spent only to help the other. You pick from the people of the Fort."
+  },
+  "thief": {
+    "kind": "lore",
+    "term": "The One Who Opens",
+    "text": "An elven thief, level 2. You see in the dark. A thief's skills are low at first: one in four, one in five. Your best tool is a plan, not a roll."
+  },
+  "year-between": {
+    "kind": "lore",
+    "term": "The Year Between",
+    "text": "The year before this one, played with a zine. The Pen passed round: the druid in Spring, you in Summer, the cleric in Autumn. Each season left a tag on the Fort."
+  },
+  "pen": {
+    "kind": "lore",
+    "term": "The Pen",
+    "text": "Whoever holds the Pen writes the Fort's book for a season and makes one choice for the Fort. You held it in Summer. The whole Fort saw you choose."
+  },
+  "fort-tags": {
+    "kind": "lore",
+    "term": "Oath, Want, Enmity",
+    "text": "The Year Between leaves a tag on the Fort. An Oath binds someone to the Fort, and is called in once. A Want is a need; unmet, it marks Strain. An Enmity is an enemy. The DM must use them."
+  },
+  "tin-dozen": {
+    "kind": "lore",
+    "term": "The Tin Dozen",
+    "text": "Twelve deserters in old tin armour. They come up the road for salt and pay in coin that is nearly good. Their sergeant does the talking."
+  },
+  "harrow": {
+    "kind": "lore",
+    "term": "Harrow's Wagons",
+    "text": "Old Harrow drives the wagons between the coast and the Fort. He buys cockatrice eggs and will not say for whom."
+  },
+  "wick": {
+    "kind": "lore",
+    "term": "Wick",
+    "text": "Wick is twelve. He lights the Fort's lamps, keeps Biddy, and counts everything he sees."
+  },
+  "biddy": {
+    "kind": "lore",
+    "term": "Biddy",
+    "text": "Biddy is a cockatrice. As a chick, her cry paralysed the Gorgon Queen where she stood. Wick keeps her now, in the Beast Pen. Everyone keeps clear of her beak."
+  },
+  "cassandra": {
+    "kind": "lore",
+    "term": "Cassandra",
+    "text": "The seer at the Shrine. What she says is true, but only half of it makes sense at first. Her hints never tell. They ask. She comes and goes unseen."
+  },
+  "road": {
+    "kind": "lore",
+    "term": "The Old Road",
+    "text": "The road that runs past the Fort, older than the Fort. Its milestone is cut with numbers nobody reads. Travellers say it hums."
+  }
+}

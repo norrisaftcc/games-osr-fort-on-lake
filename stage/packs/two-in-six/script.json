@@ -1,0 +1,2428 @@
+{
+  "scenes": [
+    {
+      "id": "s0",
+      "title": "The Odds",
+      "place": "Two in Six · Before you begin",
+      "look": "paint",
+      "set": "cover",
+      "beats": [
+        {
+          "text": "You hold a book that plays the game with you. It rolls small, honest dice. And it shows you every chance before you choose.",
+          "kicker": "TWO IN SIX",
+          "comment": "odds-printed"
+        },
+        {
+          "text": "A chance is printed like this: *2-in-6*. Or like this: *20 %*. You read it first. Then you pick. Nothing is hidden. The book uses your level-2 odds throughout. The Year One scene uses them too."
+        },
+        {
+          "text": "Some picks need no roll at all. The book always offers one. The playbook says it: *make a plan that still works if the roll fails*.",
+          "comment": "plans"
+        },
+        {
+          "text": "You play the elven thief, level 2: *The One Who Opens*. Last year you went into the Gorgon Caves behind the others and came out ahead of them. Five short scenes follow.",
+          "kicker": "WHO YOU PLAY",
+          "notes": [
+            "thief"
+          ]
+        },
+        {
+          "text": "Some pages are *paint*: the Fort sees what you do. Some are *ink*: only you know. The page says which.",
+          "notes": [
+            "register"
+          ]
+        },
+        {
+          "text": "Old things show at the edge. Read each one as *hymn*, or as *machine*. Neither is wrong. The book will follow you.",
+          "notes": [
+            "lens"
+          ],
+          "comment": "dm-follows"
+        },
+        {
+          "text": "The margin keeps two counts. *Fate* starts at three. *Turns* counts the minutes in a dungeon, ten at a time. It starts at none.",
+          "notes": [
+            "fate"
+          ]
+        },
+        {
+          "text": "At the end you carry away a Fort Card. Every choice writes one line on it. First, write the name the Fort calls you. This is Planning: it is free, and you can change it.",
+          "kicker": "BEFORE THE FIRST PAGE",
+          "notes": [
+            "card",
+            "planning"
+          ],
+          "comment": "dm-writes"
+        }
+      ],
+      "choices": [
+        {
+          "key": "name",
+          "ask": "What does the Fort call you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write your name",
+              "sub": "Typed. It goes on your card.",
+              "input": {
+                "field": "name",
+                "prompt": "Write your name, as the Fort writes it.",
+                "max": 60
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s1"
+    },
+    {
+      "id": "s1",
+      "title": "The Squeeze",
+      "place": "Year One · the Gorgon Caves, behind the Garden of Stone",
+      "look": "ink",
+      "set": "crack",
+      "beats": [
+        {
+          "text": "Last year. The Gorgon Caves.",
+          "kicker": "YEAR ONE"
+        },
+        {
+          "text": "The others stand in the Garden of Stone and argue about who walks first. In the torchlight the stone deer looks as if it breathes. You are not with them. You found the crack in the north wall an hour ago."
+        },
+        {
+          "text": "It is a long squeeze. Cold air comes up it from somewhere below."
+        },
+        {
+          "text": "Halfway down, the crack ends at a plate of old iron set into the rock. It has no keyhole. It has a ring of small glass eyes, and one of them is lit, faint as a coal. When you breathe on it, something inside the plate clicks once.",
+          "set": "plate"
+        },
+        {
+          "text": "This is not the first wall you have slipped through. And you will not come out of these caves with empty pockets."
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens1",
+          "ask": "What is the plate?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A ward. Old words keep it shut, and the lit eye is its watchman.",
+              "sub": "Lens: hymn",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "set": {
+                    "lens1": "A ward (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You whisper an apology to it, as you would to any old door. It clicks again, softer."
+                },
+                {
+                  "text": "Until now you have only looked and thought. That is Planning, and it is free. Now the book prints the odds, and you pick. In a dungeon every act takes time, and the margin counts it.",
+                  "kicker": "EXECUTION",
+                  "comment": "turn-clock",
+                  "notes": [
+                    "under6",
+                    "percent"
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A lock. The eye is how it reads a key, and your breath was nearly the right one.",
+              "sub": "Lens: machine",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "set": {
+                    "lens1": "A lock (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You count the click, and the pause after it. A lock that counts can be counted back.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "text": "A lock with no keyhole reads its key some other way. The lit eye is the reader. Watch what makes it click, and you have learned how it reads. You have not yet tested one.",
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "reveal": true,
+                  "comment": "dm-follows",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "text": "Until now you have only looked and thought. That is Planning, and it is free. Now the book prints the odds, and you pick. In a dungeon every act takes time, and the margin counts it.",
+                  "kicker": "EXECUTION",
+                  "comment": "turn-clock",
+                  "notes": [
+                    "under6",
+                    "percent"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "plate",
+          "ask": "The plate is under your hand. What do you do?",
+          "gate": "exec",
+          "notes": [
+            "gate"
+          ],
+          "comment": "dm-rolls",
+          "options": [
+            {
+              "key": "lock",
+              "label": "Work the plate with your tools.",
+              "sub": "Sealed. Open Locks 20 %: roll 1d100, 20 or under. One try. 1 turn.",
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 1
+                },
+                {
+                  "flag": "plate_done"
+                }
+              ],
+              "then": [
+                {
+                  "text": "You take your tools from their oilcloth. The lit eye watches your hands."
+                }
+              ],
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 20,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 20 %: failed. That lock beats you until you gain a level."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick slips. The plate clicks once, harder, and the lit eye goes dark for the length of a breath. That lock has beaten you, until you gain a level. You back out the way you came."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 20 %: it opened. You shut it again."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick finds the catch, and the plate gives a finger's width. Cold air breathes out, smelling of wet iron. Behind it, dark. You shut it again. The eye lights, as if nothing happened. You back out the way you came."
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "listen",
+              "label": "Listen at the plate first.",
+              "sub": "Sealed. Hear noise 2-in-6: roll 1d6, 2 or under. 1 turn.",
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "text": "You put your ear to the iron and hold your breath."
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "under": true,
+                "vs": 2,
+                "results": {
+                  "fail": {
+                    "then": [
+                      {
+                        "text": "You hear your own blood, and the drip of water. Nothing else."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "flag": "heard"
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "Behind the click there is a pause. Behind the pause, a count. You hold it in your head."
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "search",
+              "label": "Search the crack for another way.",
+              "sub": "Sealed. An elf's search, 2-in-6: roll 1d6, 2 or under. 1 turn.",
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "text": "You run your fingers along the rock, slowly."
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "under": true,
+                "vs": 2,
+                "results": {
+                  "fail": {
+                    "then": [
+                      {
+                        "text": "Rock, and rock, and more rock."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "flag": "found"
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "Beside the plate, behind a flake of rock, there is a seam a hand wide. It goes down. You mark it with chalk, where only you will see it."
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "wait",
+              "label": "Wait for the others. Make a plan.",
+              "sub": "Sealed. No roll. 2 turns. Patience earns 1 Fate.",
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 2
+                },
+                {
+                  "meter": "fate",
+                  "add": 1
+                },
+                {
+                  "flag": "plate_done"
+                },
+                {
+                  "set": {
+                    "plate": "Waited two turns, planned, and left the plate alone. 1 Fate for patience."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You go back up and wait in the dark until the others stop arguing. You tell them about the plate. They have three plans, and none of them is good. Nobody opens anything. The plate can wait, and so can you."
+                },
+                {
+                  "text": "The book counts two turns. It gives you a Fate point for them. Then you back out the way you came.",
+                  "comment": "patient"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "wander1",
+          "ask": "Two turns have gone. The book checks the dark.",
+          "gate": "exec",
+          "notes": [
+            "wander"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Let the book check for wandering monsters.",
+              "sub": "Sealed. 1-in-6: roll 1d6. On a 1, something comes by.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "turns",
+                    "gte": 2
+                  },
+                  {
+                    "not": {
+                      "flag": "wc1"
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "flag": "wc1"
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "table": true,
+                "results": {
+                  "1": {
+                    "then": [
+                      {
+                        "text": "Something passes in the dark beyond the rock: slow, large, not looking for you. You press yourself against the rock and do not breathe. Far off, a chick cries once, thin and high. The slow sound stops, and does not start again.",
+                        "notes": [
+                          "biddy"
+                        ]
+                      }
+                    ],
+                    "label": "Something comes"
+                  },
+                  "2-6": {
+                    "then": [
+                      {
+                        "text": "The dark stays quiet. Water drips somewhere below."
+                      }
+                    ],
+                    "label": "The dark is quiet"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "plate2",
+          "ask": "A turn has gone. The plate has not changed. What now?",
+          "gate": "exec",
+          "comment": "counted",
+          "options": [
+            {
+              "key": "lock20",
+              "label": "Try the lock.",
+              "sub": "Sealed. Open Locks 20 %: roll 1d100, 20 or under. One try. 1 turn.",
+              "when": {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "plate_done"
+                    }
+                  },
+                  {
+                    "not": {
+                      "flag": "heard"
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 1
+                },
+                {
+                  "flag": "plate_done"
+                }
+              ],
+              "then": [
+                {
+                  "text": "You take your tools from their oilcloth. The lit eye watches your hands."
+                }
+              ],
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 20,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 20 %: failed. That lock beats you until you gain a level."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick slips. The plate clicks once, harder, and the lit eye goes dark for the length of a breath. That lock has beaten you, until you gain a level. You back out the way you came."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 20 %: it opened. You shut it again."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick finds the catch, and the plate gives a finger's width. Cold air breathes out, smelling of wet iron. Behind it, dark. You shut it again. The eye lights, as if nothing happened. You back out the way you came."
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "lock40",
+              "label": "Try the lock, counting the clicks.",
+              "sub": "Sealed. Open Locks 40 %: 20, and 20 for the count. Roll 1d100, 40 or under. One try. 1 turn.",
+              "when": {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "plate_done"
+                    }
+                  },
+                  {
+                    "flag": "heard"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "turns",
+                  "add": 1
+                },
+                {
+                  "flag": "plate_done"
+                }
+              ],
+              "then": [
+                {
+                  "text": "You take your tools from their oilcloth. This time you know the count."
+                }
+              ],
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 40,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 40 %, with the count: failed. That lock beats you until you gain a level."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick slips. The plate clicks once, harder, and the lit eye goes dark for the length of a breath. That lock has beaten you, until you gain a level. You back out the way you came."
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "plate": "Open Locks 40 %, with the count: it opened. You shut it again."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick finds the catch, and the plate gives a finger's width. Cold air breathes out, smelling of wet iron. Behind it, dark. You shut it again. The eye lights, as if nothing happened. You back out the way you came."
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "leave1",
+              "label": "Leave the plate and the seam, and back out.",
+              "sub": "Sealed. No roll. No turn.",
+              "when": {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "plate_done"
+                    }
+                  },
+                  {
+                    "flag": "found"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "flag": "plate_done"
+                },
+                {
+                  "set": {
+                    "plate": "Found a seam beside the plate, chalked it, and left the plate alone."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You leave the plate alone, and the seam too. The chalk will keep them for another day. You back out the way you came."
+                }
+              ]
+            },
+            {
+              "key": "leave2",
+              "label": "Leave the plate and back out.",
+              "sub": "Sealed. No roll. No turn.",
+              "when": {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "plate_done"
+                    }
+                  },
+                  {
+                    "not": {
+                      "flag": "found"
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "flag": "plate_done"
+                },
+                {
+                  "set": {
+                    "plate": "Left the plate alone."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You leave the plate alone. It clicks once more as you go. You back out the way you came."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "wander2",
+          "ask": "Two turns have gone. The book checks the dark.",
+          "gate": "exec",
+          "notes": [
+            "wander"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Let the book check for wandering monsters.",
+              "sub": "Sealed. 1-in-6: roll 1d6. On a 1, something comes by.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "turns",
+                    "gte": 2
+                  },
+                  {
+                    "not": {
+                      "flag": "wc1"
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "flag": "wc1"
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "table": true,
+                "results": {
+                  "1": {
+                    "then": [
+                      {
+                        "text": "Something passes in the dark beyond the rock: slow, large, not looking for you. You press yourself against the rock and do not breathe. Far off, a chick cries once, thin and high. The slow sound stops, and does not start again.",
+                        "notes": [
+                          "biddy"
+                        ]
+                      }
+                    ],
+                    "label": "Something comes"
+                  },
+                  "2-6": {
+                    "then": [
+                      {
+                        "text": "The dark stays quiet. Water drips somewhere below."
+                      }
+                    ],
+                    "label": "The dark is quiet"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "origin",
+          "ask": "On the climb out you think of the road that brought you here. Before the Fort, where did you come from?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The coast.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "The coast. Smuggler: Harrow nods to you and says nothing; Maren counts the stores after you visit.",
+                    "know": "Who on the coast buys Fort goods with no questions asked, and what they pay for a cockatrice egg."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You came up from the fishing village in the bottom of old Harrow's cart, under the dried fish. You owed money on the coast. You still do. The sum has grown.",
+                  "set": "crack",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "text": "Who on the coast buys Fort goods with no questions asked, and what they pay for a cockatrice egg.",
+                  "kicker": "YOU START KNOWING",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The old foundations in the forest.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "The old foundations in the forest. Ghost: the children say you can walk through the palisade. You cannot. You know where it is weak.",
+                    "know": "One way over the palisade that does not use the Gate. It is not a gap. It is better than a gap."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Your people left the wood long ago. You did not. You lived alone in the stone footings deep in the trees, and you came to the Fort for salt. You stayed for the caves.",
+                  "set": "crack",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "text": "One way over the palisade that does not use the Gate. It is not a gap. It is better than a gap.",
+                  "kicker": "YOU START KNOWING",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A file at Mile-House 13.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "A file at Mile-House 13. Wanted, politely. The Fort finds this funny. You find it useful.",
+                    "know": "The day of the week the agents walk the Old Road, and the name they think is yours."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Bureau of Imperial Anomalies has a file on you. It says: Elf. Anomalous. Light of finger. The two Junior Men in Red who carry it are polite, and they have your description wrong.",
+                  "set": "crack",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "text": "The day of the week the agents walk the Old Road, and the name they think is yours.",
+                  "kicker": "YOU START KNOWING",
+                  "reveal": true,
+                  "comment": "dm-hides"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "took",
+          "ask": "You are out of the crack, and the book stops counting turns. What did you take from the Gorgon Caves?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A ward-eye.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "took": "A ward-eye. It went cold when the wards went dark. Some nights it is warm again."
+                  }
+                },
+                {
+                  "meter": "turns",
+                  "add": -6
+                }
+              ],
+              "then": [
+                {
+                  "text": "A glass eye the size of a plum, prised from the Queen's wards. It went cold when the wards went dark. Some nights it is warm again."
+                },
+                {
+                  "text": "You come out ahead of the others. Your hands are full. Your face is empty."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A key that fits nothing.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "took": "A bronze key that fits nothing. Yet."
+                  }
+                },
+                {
+                  "meter": "turns",
+                  "add": -6
+                }
+              ],
+              "then": [
+                {
+                  "text": "Bronze, as long as your finger, from a niche nobody else saw. You have tried it in every lock at the Fort. You have not tried it in every lock in the world."
+                },
+                {
+                  "text": "You come out ahead of the others. Your hands are full. Your face is empty."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Nothing.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "took": "Nothing, and everyone believed you. Except Wick."
+                  }
+                },
+                {
+                  "meter": "turns",
+                  "add": -6
+                }
+              ],
+              "then": [
+                {
+                  "text": "You came out with empty hands, and everyone believed you. Except Wick. Wick counts everything. He has not said what he counted."
+                },
+                {
+                  "text": "You come out ahead of the others, hands full of nothing, face empty."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "title": "Summer: The Pen",
+      "place": "The Year Between · Summer",
+      "look": "paint",
+      "set": "pen-summer",
+      "beats": [
+        {
+          "text": "The Year Between. The druid held the Pen in Spring. In Summer it was yours.",
+          "kicker": "THE YEAR BETWEEN",
+          "notes": [
+            "year-between",
+            "pen"
+          ]
+        },
+        {
+          "text": "You kept the Fort's book. Each night you wrote down what the Fort had done that day, in a small, neat hand. Wick said you must have forged it."
+        },
+        {
+          "text": "The lake was low and warm. The Tin Dozen came up the road twice for salt, rattling in their old tin, and paid in coin that was nearly good. After dark the Shallows sang: one long note under the water, every night at the same hour. You wrote the hour in the margin each night. It never moved by more than a minute.",
+          "notes": [
+            "tin-dozen"
+          ]
+        },
+        {
+          "text": "By the time you passed the Pen to the cleric, you were not the same."
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens2",
+          "ask": "What do you write beside the hour?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "“Spirits of the lake. They keep their own hours.”",
+              "sub": "Lens: hymn",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "set": {
+                    "lens2": "Spirits (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Wick reads it over your shoulder and nods, as if he knew all along."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "“A signal. Something under the water keeps time.”",
+              "sub": "Lens: machine",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "set": {
+                    "lens2": "A signal (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Wick reads it over your shoulder, and from that night he times it too.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "text": "A signal that keeps one hour can be tested. Time it against a bell for a month. If it never drifts, something is keeping it. You have written the hour down. That is the start of a test.",
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "reveal": true,
+                  "comment": "dm-follows",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "summer",
+          "ask": "You held the Pen. What did the Fort do with its Summer?",
+          "gate": "plan",
+          "notes": [
+            "harrow"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "A. The Tin Dozen",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "summer": "A. The Tin Dozen — Oath: Tin Dozen"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You gave the Tin Dozen a page of their own in the Fort's book."
+                },
+                {
+                  "text": "Tag on the Fort: Oath. The Tin Dozen.",
+                  "kicker": "THE FORT'S BOOK",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "B. Harrow's Wagons",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "summer": "B. Harrow's Wagons — Want: iron"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You gave Harrow's wagons a page of their own in the Fort's book."
+                },
+                {
+                  "text": "Tag on the Fort: Want. Iron.",
+                  "kicker": "THE FORT'S BOOK",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "C. The Lamplighter",
+              "sub": "Leaves a tag on the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "summer": "C. The Lamplighter — Oath: Wick"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You gave Wick, the Lamplighter, a page of his own in the Fort's book."
+                },
+                {
+                  "text": "Tag on the Fort: Oath. Wick.",
+                  "kicker": "THE FORT'S BOOK",
+                  "notes": [
+                    "fort-tags"
+                  ],
+                  "comment": "dm-writes"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "yoc",
+          "ask": "What changed in you? (Year of Change)",
+          "gate": "plan",
+          "notes": [
+            "yoc"
+          ],
+          "comment": "bonus",
+          "options": [
+            {
+              "key": "a",
+              "label": "Locksmith's Eye",
+              "sub": "Once per room, ask the DM one question about a lock or a trap. The answer is true. (Proposed)",
+              "effects": [
+                {
+                  "flag": "eye"
+                },
+                {
+                  "set": {
+                    "yoc": "Locksmith's Eye. Once per room, ask the DM one question about a lock or a trap. The answer is true. (Proposed; the DM confirms.)",
+                    "odds": "CS 88 TR 15 HN 2-in-6 HS 15 MS 25 (45 with Quiet Feet) OL 20 PP 25 · Search 2-in-6 (elf) · Backstab +4, ×2"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You took apart every lock in the Fort that Summer, and put each one back better than you found it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Quiet Feet",
+              "sub": "Move Silently +20%: 25 % becomes 45 %. Old stone never gives you away. (Proposed)",
+              "effects": [
+                {
+                  "flag": "quiet_feet"
+                },
+                {
+                  "set": {
+                    "yoc": "Quiet Feet. Move Silently +20% (45% at level 2). Old stone never gives you away: no loose flag, no grating step. (Proposed; the DM confirms.)",
+                    "odds": "CS 88 TR 15 HN 2-in-6 HS 15 MS 45 (Quiet Feet) OL 20 PP 25 · Search 2-in-6 (elf) · Backstab +4, ×2"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You walked the walls every night, until the old stones knew your step and stopped telling anyone."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Fence",
+              "sub": "Trade directives roll +1 at a Fort Turn. Loot sells for 10% more. (Proposed)",
+              "effects": [
+                {
+                  "flag": "fence"
+                },
+                {
+                  "set": {
+                    "yoc": "Fence. Trade directives roll +1 at a Fort Turn. Loot sells for 10% more. (Proposed; the DM confirms.)",
+                    "odds": "CS 88 TR 15 HN 2-in-6 HS 15 MS 25 (45 with Quiet Feet) OL 20 PP 25 · Search 2-in-6 (elf) · Backstab +4, ×2"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You sold the Fort's surplus to the Tin Dozen and the river traders, and got more for it than anyone thought there was."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "pen",
+          "ask": "The Pen is yours. What do you write in the Fort's book?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write one line in the Fort's book",
+              "sub": "Typed. It goes on your card.",
+              "input": {
+                "field": "pen",
+                "prompt": "Write one thing you wrote in Summer that is still true at the Fort.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s3"
+    },
+    {
+      "id": "s3",
+      "title": "Salt for a Box",
+      "place": "Late Summer · the Gate",
+      "look": "ink",
+      "set": "salt",
+      "beats": [
+        {
+          "text": "Late Summer. The Tin Dozen are at the Gate again: twelve deserters in tin, wanting salt.",
+          "kicker": "LATE SUMMER"
+        },
+        {
+          "text": "This time the sergeant has no coin. He sets a small iron box on the salt scale instead. It is locked. He says nobody has the key, and he says it too fast."
+        },
+        {
+          "text": "You price the salt ten in the hundred above the Gate's rate, and the sergeant pays it, and curses.",
+          "when": {
+            "flag": "fence"
+          }
+        },
+        {
+          "text": "Wick counts the salt sacks twice and frowns at the box. Across the yard, at the Shrine door, Cassandra watches you look at the lock.",
+          "notes": [
+            "wick",
+            "cassandra"
+          ]
+        },
+        {
+          "text": "You can open it at the Gate, with the whole yard watching. Or you can take it home and open it alone, after dark. The Gate sees. The dark does not."
+        }
+      ],
+      "choices": [
+        {
+          "key": "reg",
+          "ask": "Do you let them see?",
+          "gate": "exec",
+          "comment": "sure",
+          "options": [
+            {
+              "key": "a",
+              "label": "Open it at the Gate, with the whole yard watching.",
+              "sub": "Sealed. Witnessed: paint, and a public fact.",
+              "effects": [
+                {
+                  "flag": "witnessed"
+                }
+              ],
+              "then": [
+                {
+                  "text": "Witnessed. The Fort will see what your hands can do, and what is in the box.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Buy the box with your own salt, and open it alone after dark.",
+              "sub": "Sealed. Unwitnessed: ink, and a secret fact.",
+              "effects": [
+                {
+                  "flag": "unwitnessed"
+                }
+              ],
+              "then": [
+                {
+                  "text": "Unwitnessed. Nobody will see what is inside, or what you do with it.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                },
+                {
+                  "text": "After dark you carry the box to the loft over the storehouse. To reach it, you must cross the yard under Wick's lamps.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "sneak",
+          "ask": "Can you cross the yard unheard?",
+          "gate": "exec",
+          "comment": "hidden-roll",
+          "options": [
+            {
+              "key": "a",
+              "label": "Cross the yard.",
+              "sub": "Sealed. Move Silently 25 %: roll 1d100, 25 or under.",
+              "when": {
+                "all": [
+                  {
+                    "flag": "unwitnessed"
+                  },
+                  {
+                    "not": {
+                      "flag": "quiet_feet"
+                    }
+                  }
+                ]
+              },
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 25,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "flag": "wick_heard"
+                      },
+                      {
+                        "set": {
+                          "night": "Heard. You thought it worked. Wick counted your steps."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "You cross the yard like water. You are sure nobody heard.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      },
+                      {
+                        "text": "A rung of the loft ladder spoke under your hand. Wick's lamp-pole stopped for a count of three, and went on. He did not call out.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        },
+                        "kicker": "REFEREE NOTE",
+                        "reveal": true,
+                        "comment": "dm-secrets"
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "night": "Unheard."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "You cross the yard like water. Nobody hears.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "b",
+              "label": "Cross the yard, on Quiet Feet.",
+              "sub": "Sealed. Move Silently 45 %: 25, and 20 for Quiet Feet. Roll 1d100, 45 or under.",
+              "when": {
+                "all": [
+                  {
+                    "flag": "unwitnessed"
+                  },
+                  {
+                    "flag": "quiet_feet"
+                  }
+                ]
+              },
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 45,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "flag": "wick_heard"
+                      },
+                      {
+                        "set": {
+                          "night": "Heard, even on Quiet Feet. You thought it worked. Wick counted your steps."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "You cross the yard like water. You are sure nobody heard.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      },
+                      {
+                        "text": "A rung of the loft ladder spoke under your hand. Old stone keeps your secrets. Old wood does not. Wick's lamp-pole stopped for a count of three, and went on.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        },
+                        "kicker": "REFEREE NOTE",
+                        "reveal": true,
+                        "comment": "dm-secrets"
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "night": "Unheard, on Quiet Feet."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "You cross the yard like water. Old stone says nothing. Nobody hears.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "lock",
+          "ask": "The lock is small and worn. What do you do about it?",
+          "gate": "exec",
+          "comment": "plan-cost",
+          "options": [
+            {
+              "key": "pick",
+              "label": "Pick the lock.",
+              "sub": "Sealed. Open Locks 20 %: roll 1d100, 20 or under. One try.",
+              "then": [
+                {
+                  "text": "You take your tools from their oilcloth. The yard goes quiet.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                },
+                {
+                  "text": "You take your tools from their oilcloth. The candle shakes with your breath.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ],
+              "roll": {
+                "dice": "1d100",
+                "under": true,
+                "vs": 20,
+                "results": {
+                  "fail": {
+                    "effects": [
+                      {
+                        "flag": "box_failed"
+                      },
+                      {
+                        "set": {
+                          "box": "Open Locks 20 %: failed. That lock beats you until you gain a level."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The pick slips. The yard sighs. That lock has beaten you, until you gain a level, and everyone saw.",
+                        "look": "paint",
+                        "when": {
+                          "flag": "witnessed"
+                        }
+                      },
+                      {
+                        "text": "The pick slips. The lock snaps shut harder than before. That lock has beaten you, until you gain a level. Nobody saw.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      }
+                    ]
+                  },
+                  "success": {
+                    "effects": [
+                      {
+                        "set": {
+                          "box": "Picked it. Open Locks 20 %."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The lock turns. The lid lifts. The yard leans in.",
+                        "look": "paint",
+                        "when": {
+                          "flag": "witnessed"
+                        }
+                      },
+                      {
+                        "text": "The lock turns. The lid lifts. You are the only one who looks.",
+                        "look": "ink",
+                        "when": {
+                          "flag": "unwitnessed"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "eye",
+              "label": "Use Locksmith's Eye: ask the DM one question about the lock.",
+              "sub": "Sealed. No roll. Once per room. The answer is true.",
+              "when": {
+                "flag": "eye"
+              },
+              "effects": [
+                {
+                  "flag": "eye_used"
+                },
+                {
+                  "set": {
+                    "box": "Locksmith's Eye. No roll: the lock is a decoy, and the hinge pins are soft tin."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You ask how the box opens. The DM answers, and the answer is true: the lock is a decoy. The hinge pins are soft tin. A thumb will push them out."
+                },
+                {
+                  "text": "You push the pins out with your thumb. The lid lifts. The yard leans in.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                },
+                {
+                  "text": "You push the pins out with your thumb. The lid lifts. You are the only one who looks.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "pins",
+              "label": "Take the hinge pins out instead.",
+              "sub": "Sealed. No roll. It takes an hour. In the open the count stops; in a dungeon an hour would be six turns.",
+              "when": {
+                "not": {
+                  "flag": "eye"
+                }
+              },
+              "effects": [
+                {
+                  "set": {
+                    "box": "Hinge pins, the long way. No roll. It took an hour."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You work at the pins with your thin bar while the yard watches. They are soft tin, as the Tin Dozen make everything. It takes an hour. The lid lifts.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                },
+                {
+                  "text": "You work at the pins with your thin bar, by candle. They are soft tin, as the Tin Dozen make everything. It takes an hour. The lid lifts.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fallback",
+          "ask": "The lock has beaten you. Your plan has not.",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Fall back on the hinge pins.",
+              "sub": "Sealed. No roll. It takes an hour.",
+              "when": {
+                "flag": "box_failed"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "box": "Open Locks 20 %: failed. Then the hinge pins. No roll. It took an hour."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You work at the pins with your thin bar while the yard watches. They are soft tin. The lock beat you. The hinges do not. It takes an hour, and the lid lifts.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                },
+                {
+                  "text": "You work at the pins with your thin bar, by candle. They are soft tin. The lock beat you. The hinges do not. It takes an hour, and the lid lifts.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "eyeask",
+          "ask": "You used Locksmith's Eye. You may spend 1 Fate to write part of the answer. Do you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Yes. Write part of the answer.",
+              "sub": "Next: costs 1 Fate",
+              "when": {
+                "flag": "eye_used"
+              },
+              "effects": [
+                {
+                  "flag": "want_plus"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "No. The answer is enough.",
+              "sub": "Keeps your Fate",
+              "when": {
+                "flag": "eye_used"
+              }
+            }
+          ]
+        },
+        {
+          "key": "eyeplus",
+          "ask": "What do you add to the answer?",
+          "gate": "fate",
+          "cost": {
+            "meter": "fate",
+            "n": 1
+          },
+          "notes": [
+            "eye-fate"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "…and the sergeant has the real key on a cord round his neck. He lied.",
+              "sub": "Costs 1 Fate. You write a true thing.",
+              "when": {
+                "flag": "want_plus"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "eyeplus": "The sergeant has the real key on a cord round his neck. He lied."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You add it, and the DM must use it. The sergeant's hand goes to his neck. Half the yard sees him do it.",
+                  "look": "paint",
+                  "when": {
+                    "flag": "witnessed"
+                  }
+                },
+                {
+                  "text": "You add it, and the DM must use it. The sergeant's hand will go to his neck, the next time he sees you.",
+                  "look": "ink",
+                  "when": {
+                    "flag": "unwitnessed"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "…and the lock is newer than the box. Someone locked it last winter.",
+              "sub": "Costs 1 Fate. You write a true thing.",
+              "when": {
+                "flag": "want_plus"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "eyeplus": "The lock is newer than the box. Someone locked it last winter."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You add it, and the DM must use it. Someone locked this box last winter. You do not yet know who."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact3p",
+          "ask": "Write one thing the whole Fort now knows about you, since that day.",
+          "gate": "plan",
+          "notes": [
+            "facts"
+          ],
+          "comment": "dm-asks",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what the whole Fort now knows",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Write one thing the whole Fort now knows about you, since that day.",
+                "max": 200
+              }
+            }
+          ]
+        },
+        {
+          "key": "fact3s",
+          "ask": "Write one true thing that only you know. It may be about you, or about what the box held.",
+          "gate": "plan",
+          "notes": [
+            "facts"
+          ],
+          "comment": "dm-asks",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Write one true thing that only you know. It may be about you, or about what the box held.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s4"
+    },
+    {
+      "id": "s4",
+      "title": "Maren's Last Muster",
+      "place": "Autumn · the yard",
+      "look": "paint",
+      "set": "muster",
+      "beats": [
+        {
+          "text": "Autumn. Captain Maren is retiring, and she wants the Fort in order before she goes.",
+          "kicker": "AUTUMN"
+        },
+        {
+          "text": "She calls the muster in the yard. The Paladin stands at the Gate. The Minister stands at Maren's left hand and does not look at her. From the Beast Pen, Biddy watches the crowd with one cold eye.",
+          "notes": [
+            "biddy"
+          ]
+        },
+        {
+          "text": "Wick catches your eye across the yard. He holds up three fingers, and says nothing.",
+          "when": {
+            "flag": "wick_heard"
+          },
+          "comment": "secret-roll-later"
+        },
+        {
+          "text": "Maren reads four offices off a slate: Warden, Scout, Steward, Lorekeeper. The Fort keeps its own book now, and its own tracks: Stores, Walls, Folk, Lamp. Each office keeps one of them honest.",
+          "notes": [
+            "office"
+          ]
+        },
+        {
+          "text": "She comes to you last. “You could have left any morning this year,” she says. “You didn't. You have walked every wall here at night, too. Don't tell me you haven't. Pick one.”"
+        }
+      ],
+      "choices": [
+        {
+          "key": "stay",
+          "ask": "A thief can leave any place by morning. Why do you stay?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Wick counted you.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "stay": "Wick counted you. Your name is on his list of the Fort's folk."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "When Wick wrote the list of the Fort's folk, he wrote your name on it. Nobody has listed you as belonging anywhere before."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Maren gave you a key.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "stay": "Maren gave you the storehouse key. You want to give it back to her yourself."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "In the Year Between the Captain gave you the key to the storehouse. She did not ask you to promise anything. That is why you have kept it. She retires soon. You want to give it back to her yourself."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "There is a city under the lake.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "stay": "There is a city under the lake, and cities have doors."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "People say a city lies drowned under the Deep. Cities have doors. You have never met a door you could leave alone."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "office",
+          "ask": "Which office do you take?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Warden",
+              "sub": "Writes: Fort Office",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Warden. Walls +1 when you take the Defend directive."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You know where the walls are weak. You found every gap by using it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Scout",
+              "sub": "Writes: Fort Office",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Scout. One extra clue per hex you explore."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You were already out there. Now it is your job."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Steward",
+              "sub": "Writes: Fort Office",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Steward. You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You kept the book in Summer. You know what is in the stores, to the sack."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Lorekeeper",
+              "sub": "Writes: Fort Office",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Lorekeeper. One free hint per puzzle."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Locks are puzzles. So is most of the rest."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact4",
+          "ask": "Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+          "gate": "plan",
+          "notes": [
+            "facts"
+          ],
+          "comment": "dm-asks",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what Maren says",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s5"
+    },
+    {
+      "id": "s5",
+      "title": "The Night Before the Road",
+      "place": "The night before · the loft",
+      "look": "ink",
+      "set": "loft",
+      "beats": [
+        {
+          "text": "Night. The Fort sleeps, except for Wick, who walks the wall with his lamp-pole and counts the lamps.",
+          "kicker": "NIGHT",
+          "notes": [
+            "wick"
+          ]
+        },
+        {
+          "text": "You lay your kit out on a blanket in the loft and count it twice: the short sword, the bow, the two daggers, the tools in their oilcloth. Before dawn you will walk out on the Old Road. You do not know yet why. You only know you will.",
+          "notes": [
+            "road"
+          ]
+        },
+        {
+          "text": "Somebody here is tied to you.",
+          "notes": [
+            "bond"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "bond",
+          "ask": "Who is your bond?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The Elf Cleric",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Elf Cleric: The cleric knows what I took in Summer, and said nothing."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The cleric found out what you took in Summer, and said nothing to anyone."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The Gnome Druid",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Gnome Druid: The druid and I argue about which of us is quieter. Nobody has won."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Nobody hears either of you coming. You have argued about which of you is quieter. Nobody has won."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Cassandra",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Cassandra: Cassandra knows a true thing about my past that she should not."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "She once told you a true thing about your past that nobody at the Fort could know."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Wick",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Wick: Wick counts everything, me included. I cannot fool him, and I keep trying."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "He counts everything, you included. The one person at the Fort you cannot fool, and the one you most want to."
+                }
+              ]
+            },
+            {
+              "key": "e",
+              "label": "The Paladin",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Paladin: The Paladin holds the Gate. I know three other ways in, and have not said so."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Paladin holds the Gate. You know three other ways in. You have not said so. Not yet."
+                }
+              ]
+            },
+            {
+              "key": "f",
+              "label": "Captain Maren",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Captain Maren: Maren gave me work once, and I did it. I owe her before she retires."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Maren gave you work once, and you did it. She counts the stores anyway. You owe her before she retires."
+                }
+              ]
+            },
+            {
+              "key": "g",
+              "label": "The Minister",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Minister: The Minister pays me to watch the Shrine at night. Neither of us says why."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Minister pays you to watch the Shrine at night. Neither of you says why."
+                }
+              ]
+            },
+            {
+              "key": "h",
+              "label": "The Glamourist",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Glamourist: I lost a bet to the Glamourist. She has not said what I owe."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You lost a bet to the Glamourist at midsummer. She has not yet said what you owe."
+                }
+              ]
+            },
+            {
+              "key": "i",
+              "label": "Biddy",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Biddy: Biddy lets me into the Beast Pen. Nobody else gets that."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Biddy lets you into the Beast Pen. Nobody else gets that."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "kit",
+          "ask": "Your kit is the playbook's. What one thing do you add?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A hooded lantern and two flasks of oil.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "hooded lantern and 2 flasks of oil"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Light you can shut with one thumb."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A grapnel and 30' of cord.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "grapnel and 30' of cord"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "For high places, and for leaving them fast."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A short iron bar.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "short iron bar"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "For doors that will not listen to reason."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "secret5",
+          "ask": "Nobody sees you pack. Write one true thing that only you know.",
+          "gate": "plan",
+          "notes": [
+            "facts"
+          ],
+          "comment": "dm-asks",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Nobody sees you pack. Write one true thing that only you know.",
+                "max": 200
+              }
+            }
+          ]
+        },
+        {
+          "key": "go",
+          "ask": "Before dawn, you walk out on the Old Road. Do you go?",
+          "gate": "exec",
+          "comment": "odds-card",
+          "options": [
+            {
+              "key": "a",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "machine",
+                "lte": 0
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Hymn",
+                    "cassandra": "The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet."
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "hymn",
+                "lte": 0
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Machine",
+                    "cassandra": "The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet."
+                  }
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "all": [
+                  {
+                    "tally": "lens",
+                    "value": "hymn",
+                    "gte": 1
+                  },
+                  {
+                    "tally": "lens",
+                    "value": "machine",
+                    "gte": 1
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Both",
+                    "cassandra": "The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "route": [
+        {
+          "when": {
+            "tally": "lens",
+            "value": "machine",
+            "lte": 0
+          },
+          "to": "milestone-hymn"
+        },
+        {
+          "when": {
+            "tally": "lens",
+            "value": "hymn",
+            "lte": 0
+          },
+          "to": "milestone-machine"
+        },
+        {
+          "to": "milestone-both"
+        }
+      ]
+    }
+  ],
+  "endings": {
+    "milestone-hymn": {
+      "title": "The Milestone: Hymn",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet.",
+          "kicker": "BEFORE DAWN"
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "text": "“The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet.”",
+          "kicker": "CASSANDRA",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You put your palm on the stone. It hums one held note, like a bell that was struck once and left to ring."
+        },
+        {
+          "text": "Behind the Garden of Stone, a chalk arrow waits on the rock, where only you will see it.",
+          "when": {
+            "flag": "found"
+          }
+        },
+        {
+          "text": "You think of Wick's three fingers. You were never as quiet as you thought.",
+          "when": {
+            "flag": "wick_heard"
+          }
+        },
+        {
+          "text": "The book closes. Your Fort Card holds every choice, and your odds. Two in six is not much. You made plans. Open the card, copy it as text, and bring it to session zero. There you may change any choice.",
+          "kicker": "END OF THE BOOK",
+          "notes": [
+            "card"
+          ],
+          "comment": "odds-card"
+        }
+      ]
+    },
+    "milestone-machine": {
+      "title": "The Milestone: Machine",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet.",
+          "kicker": "BEFORE DAWN"
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "text": "“The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet.”",
+          "kicker": "CASSANDRA",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You put your ear to the stone. The hum holds one pitch, and does not waver. Something keeps it steady."
+        },
+        {
+          "text": "Behind the Garden of Stone, a chalk arrow waits on the rock, where only you will see it.",
+          "when": {
+            "flag": "found"
+          }
+        },
+        {
+          "text": "You think of Wick's three fingers. You were never as quiet as you thought.",
+          "when": {
+            "flag": "wick_heard"
+          }
+        },
+        {
+          "text": "The book closes. Your Fort Card holds every choice, and your odds. Two in six is not much. You made plans. Open the card, copy it as text, and bring it to session zero. There you may change any choice.",
+          "kicker": "END OF THE BOOK",
+          "notes": [
+            "card"
+          ],
+          "comment": "odds-card"
+        }
+      ]
+    },
+    "milestone-both": {
+      "title": "The Milestone: Both",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet.",
+          "kicker": "BEFORE DAWN"
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "text": "“The hunter in Boar Hollow nailed his map to the wall and never went back for it. He drew one door too few. You were already there, weren't you? You only haven't gone yet.”",
+          "kicker": "CASSANDRA",
+          "comment": "dm-people"
+        },
+        {
+          "text": "You put your palm on the stone, and your ear beside it. The hum holds one pitch, steady as a held breath. You do not say which of your two readings it fits."
+        },
+        {
+          "text": "Behind the Garden of Stone, a chalk arrow waits on the rock, where only you will see it.",
+          "when": {
+            "flag": "found"
+          }
+        },
+        {
+          "text": "You think of Wick's three fingers. You were never as quiet as you thought.",
+          "when": {
+            "flag": "wick_heard"
+          }
+        },
+        {
+          "text": "The book closes. Your Fort Card holds every choice, and your odds. Two in six is not much. You made plans. Open the card, copy it as text, and bring it to session zero. There you may change any choice.",
+          "kicker": "END OF THE BOOK",
+          "notes": [
+            "card"
+          ],
+          "comment": "odds-card"
+        }
+      ]
+    }
+  }
+}
