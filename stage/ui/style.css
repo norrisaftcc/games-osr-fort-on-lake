@@ -428,7 +428,7 @@ html[data-commentary="off"] .track { display: none; }
 .roll-line .res { display: inline-block; margin-left: 4px; padding: 0 8px; border: 2px solid currentColor; border-radius: 4px; text-transform: uppercase; letter-spacing: .06em; }
 .roll-line[data-r="success"], .roll-line[data-r="style"] { color: var(--st-good); }
 .roll-line[data-r="fail"] { color: var(--st-bad); }
-.roll-line[data-r="tie"] { color: var(--st-ink); }
+.roll-line[data-r="tie"], .roll-line[data-r="table"] { color: var(--st-ink); }
 .roll-line.pending { color: var(--st-muted); }
 .roll-line .res-s { color: inherit; }
 
