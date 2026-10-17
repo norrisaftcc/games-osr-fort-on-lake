@@ -21,6 +21,8 @@ For the Year Two table (the elven thief, the elf cleric of the Sacred Terminal, 
 | Year Two playbooks: what each choice does | [`player/year-two/`](player/year-two/) |
 | The first session, *The Hum* (GM) | [`dm/Year_Two_First_Session_The_Hum.md`](dm/Year_Two_First_Session_The_Hum.md) |
 | *The Magic Module*: the elf cleric's Fort Card scenes, played in a pop-up module that runs the game and shows which DM job each part does | [`stage/dist/magic-module.html`](stage/dist/magic-module.html) |
+| *Two in Six*: the elven thief's Fort Card scenes, with every chance printed before she chooses and a plan that needs no roll | [`stage/dist/two-in-six.html`](stage/dist/two-in-six.html) |
+| *The Spring Turn*: the gnome druid's Fort Card scenes, with one Fort Turn played step by step on the Fort's own sheet | [`stage/dist/spring-turn.html`](stage/dist/spring-turn.html) |
 
 The science fantasy brushes the setting rather than taking it over. Each Fort Card records a **Lens**, how the player chose to read old things (Hymn, Machine or Both), and the first session's *Brush* table says how far to take each machine element.
 
@@ -40,7 +42,7 @@ Test it with `node demo/test.mjs` (needs Playwright and Chromium).
 
 ## Play the Stage
 
-[`stage/`](stage/) is a motion visual novel for phones: one engine, two kits, and packs of data. Its first pack is *The Magic Module* (above). Open [`stage/dist/magic-module.html`](stage/dist/magic-module.html) in a browser: one offline file, light and dark, keyboard, touch and screen reader. To build a pack, read [`stage/GUIDE.md`](stage/GUIDE.md); the contract is [`stage/SPEC.md`](stage/SPEC.md) and the motion rules are [`stage/MOTION.md`](stage/MOTION.md).
+[`stage/`](stage/) is a motion visual novel for phones: one engine, two kits, and packs of data. It has a pack for each Year Two PC (above): the cleric's *The Magic Module* teaches the DM's jobs, the thief's *Two in Six* the odds, and the druid's *The Spring Turn* the Fort Turn. Open a page such as [`stage/dist/magic-module.html`](stage/dist/magic-module.html) in a browser: one offline file, light and dark, keyboard, touch and screen reader. To build a pack, read [`stage/GUIDE.md`](stage/GUIDE.md); the contract is [`stage/SPEC.md`](stage/SPEC.md) and the motion rules are [`stage/MOTION.md`](stage/MOTION.md).
 
 ## For programming classes: The First Delve
 

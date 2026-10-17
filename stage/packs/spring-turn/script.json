@@ -1,0 +1,3552 @@
+{
+  "scenes": [
+    {
+      "id": "s0",
+      "title": "The Book Opens",
+      "place": "The Spring Turn · Before you begin",
+      "look": "paint",
+      "set": "cover",
+      "beats": [
+        {
+          "kicker": "THE SPRING TURN",
+          "text": "You hold a book that plays one season of the Fort. The Fort is a character too. It has a sheet, as you do.",
+          "comment": "dm-sheet"
+        },
+        {
+          "text": "Look at the top of the page. Stores, Walls, Folk and Lamp are the Fort. Fate is yours. The Fort acts through you, and you act through it.",
+          "notes": [
+            "fort-sheet"
+          ]
+        },
+        {
+          "text": "The numbers are the Fort's start values: Stores 4, Walls 3, Folk 4, Lamp 2. This book plays one Spring from them, to teach the turn. The Fort at your own table may stand at other numbers."
+        },
+        {
+          "kicker": "WHO YOU PLAY",
+          "text": "You play the gnome druid, level 2. You held the Pen in Spring. You listen to the land, and to what the land carries. Six short scenes follow. The third is the Fort Turn.",
+          "notes": [
+            "pen"
+          ]
+        },
+        {
+          "text": "Some pages are *paint*: the Fort sees what you do. Some are *ink*: only you know. The page says which.",
+          "notes": [
+            "register"
+          ]
+        },
+        {
+          "text": "Old things will show at the edge of the story. Read each as a hymn or as a machine. Neither is wrong. The book will follow you.",
+          "notes": [
+            "lens"
+          ],
+          "comment": "dm-follows"
+        },
+        {
+          "text": "The margin keeps your Fate. You start with three points. The Fort Turn will ask for one.",
+          "notes": [
+            "fate"
+          ]
+        },
+        {
+          "kicker": "BEFORE THE FIRST PAGE",
+          "text": "At the end you carry away a Fort Card. Every choice writes one line on it. First, write the name the Fort calls you. This is Planning: it is free, and you can change it.",
+          "notes": [
+            "card",
+            "planning"
+          ],
+          "comment": "dm-writes"
+        }
+      ],
+      "choices": [
+        {
+          "key": "name",
+          "ask": "What does the Fort call you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write your name",
+              "sub": "Typed. It goes on your card.",
+              "input": {
+                "field": "name",
+                "prompt": "Write your name, as the Fort writes it.",
+                "max": 60
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s1"
+    },
+    {
+      "id": "s1",
+      "title": "The Nesting Hall",
+      "place": "Year One · the Gorgon Caves",
+      "look": "ink",
+      "set": "nesting",
+      "beats": [
+        {
+          "kicker": "YEAR ONE",
+          "text": "Last year. The Gorgon Caves.",
+          "comment": "dm-frames"
+        },
+        {
+          "text": "In the Nesting Hall the floor is warm. Something small pecks at the inside of an egg. The Glamourist is already crouched beside it, crooning.",
+          "notes": [
+            "biddy",
+            "glamourist"
+          ]
+        },
+        {
+          "text": "You put your hand flat on the stone and listen. The rock has a slow pulse. It is not the Queen's. It is deeper than she is, and older, and it never misses a beat."
+        },
+        {
+          "text": "You have felt it before. You felt it the day you left your burrow and came to the Fort. The land has been talking to you ever since.",
+          "notes": [
+            "land"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens1",
+          "ask": "What is the pulse?",
+          "gate": "plan",
+          "notes": [
+            "lens"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "A spirit of the deep earth, old and slow, older than the Queen.",
+              "sub": "Lens: hymn (a spirit)",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "set": {
+                    "lens1": "A spirit (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You thank it, the way your grandmother taught you to thank a spring."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "An engine. Something under the rock is turning, steady as a mill wheel.",
+              "sub": "Lens: machine (an engine)",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "set": {
+                    "lens1": "An engine (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You count the beats. The count never changes. Living things are not so steady.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A pulse that never misses is a count. Count it against your own heart, and against the days. A living thing drifts. A machine does not. You will know the difference again.",
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  },
+                  "reveal": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "land",
+          "ask": "What does the land tell you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The land is sick.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "land": "The land is sick. Warning: Maren listens because she has to.",
+                    "know": "Where the sickness is worst: a place near the caves where nothing grows. And one symptom the humans have not noticed yet."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Something is poisoning it, slowly, from underground, spreading out from the Ridge. The burrowing animals are leaving. The water tastes wrong, if you know what right tastes like.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "Where the sickness is worst: a place near the caves where nothing grows. And one symptom the humans have not noticed yet.",
+                  "comment": "dm-hides",
+                  "reveal": true
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The land is waking up.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "land": "The land is waking up. Strange: the children follow you; the adults aren't sure you're safe.",
+                    "know": "A place where the waking is strongest. You go there alone. Something met you there. It did not speak. It just looked."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Not sick: alive, more than it should be. New growth where it should be barren. Animals watching, not fleeing. Something old is stirring, and it is curious.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "A place where the waking is strongest. You go there alone. Something met you there. It did not speak. It just looked.",
+                  "comment": "dm-hides",
+                  "reveal": true
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "The land is old, and it remembers.",
+              "sub": "Writes: Year One, and what you start knowing",
+              "effects": [
+                {
+                  "set": {
+                    "land": "The land is old, and it remembers. Oracle: people ask your advice and leave unsettled.",
+                    "know": "That the Terminal and the land are entangled. What happens to one happens to the other. The Minister does not know this yet."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The empire built over something. The Terminals run on something. The land was here before all of it, and it is patient, and it is waiting for the machines to stop.",
+                  "notes": [
+                    "reveal"
+                  ]
+                },
+                {
+                  "kicker": "YOU START KNOWING",
+                  "text": "That the Terminal and the land are entangled. What happens to one happens to the other. The Minister does not know this yet.",
+                  "comment": "dm-hides",
+                  "reveal": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "origin",
+          "ask": "Why did you come to the Fort?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The animals told you to.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "The animals told you to. The land wanted you here."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Not in words. A fox led you three days through the forest. The birds would not let you turn south. The land wanted you here."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Your grove was destroyed.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "Your grove was destroyed. You need a new one."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Fire, or axes, or something worse. The place you tended is gone. You need a new one. The lake shore might do, if something changes first."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "You heard the Terminal from underground.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "origin": "You heard the Terminal from underground, and followed the hum here."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "A hum, deep, through the rock. Gnomes hear what humans cannot. You followed it here. You do not think the Terminal knows you can hear it."
+                }
+              ]
+            }
+          ],
+          "notes": [
+            "terminal"
+          ]
+        }
+      ],
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "title": "Spring: The Pen",
+      "place": "Spring · the Fields",
+      "look": "paint",
+      "set": "pen-spring",
+      "beats": [
+        {
+          "kicker": "THE YEAR BETWEEN",
+          "text": "The Year Between. The Pen came to you first, in Spring.",
+          "notes": [
+            "pen"
+          ]
+        },
+        {
+          "text": "You kept the Fort's book with dirt under your nails, and you drew the weather in the margins because it mattered more than the words."
+        },
+        {
+          "text": "The thaw came early. You planted with the Fort folk and walked the Fields barefoot at dawn. The Quiet came across the water in their boats to watch the kingfishers, and bowed to you, and went home. The burrowing things began to bring you news.",
+          "notes": [
+            "quiet"
+          ]
+        },
+        {
+          "kicker": "THE SEASON CARD · SPRING",
+          "text": "When the thaw is done, the Fort turns a card. Spring's card says three things. Mud halves the speed of every road. The Court's Door in the Fields stands open. The Glamourist comes to visit.",
+          "notes": [
+            "season"
+          ],
+          "comment": "dm-season"
+        },
+        {
+          "kicker": "THE YEAR BETWEEN · SPRING",
+          "text": "The Pen asks what the Fort did with its Spring. Each answer leaves one tag on the Fort. The Fort Turn will use it.",
+          "notes": [
+            "tags"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "yb",
+          "ask": "What did the Fort do with its Spring?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A. The Long Field",
+              "sub": "Tag: Surplus: barley",
+              "effects": [
+                {
+                  "set": {
+                    "spring": "A. The Long Field — Surplus: barley",
+                    "w_tag": "a"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Fort's book now carries one tag from your Pen. Surplus: barley."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "B. The Broken Docks",
+              "sub": "Tag: Want: salt",
+              "effects": [
+                {
+                  "set": {
+                    "spring": "B. The Broken Docks — Want: salt",
+                    "w_tag": "b"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Fort's book now carries one tag from your Pen. Want: salt."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "C. The First Moot",
+              "sub": "Tag: Oath: Cassandra",
+              "effects": [
+                {
+                  "set": {
+                    "spring": "C. The First Moot — Oath: Cassandra",
+                    "w_tag": "c"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Fort's book now carries one tag from your Pen. Oath: Cassandra."
+                }
+              ]
+            }
+          ],
+          "notes": [
+            "surplus",
+            "want",
+            "oath"
+          ]
+        },
+        {
+          "key": "yoc",
+          "ask": "How were you changed? (Year of Change) (Proposed; the DM confirms.)",
+          "gate": "plan",
+          "notes": [
+            "yoc"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Green Hand",
+              "sub": "Plants grow faster near you. Once a year, Stores +1 at a Fort Turn. (Proposed; the DM confirms.)",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Green Hand. Plants grow faster near you. Once a year, Stores +1 at a Fort Turn. (Proposed; the DM confirms.)",
+                    "w_change": "g"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Whatever you planted came up a week early and twice as thick. The Fort ate better for it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Lake-Speaker",
+              "sub": "Once a day, ask the fish or the birds one question. They answer truly, as far as they know. (Proposed; the DM confirms.)",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Lake-Speaker. Once a day, ask the fish or the birds one question. They answer truly, as far as they know. (Proposed; the DM confirms.)",
+                    "w_change": "l"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You sat at the end of the jetty every evening until the herons began to answer."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Small Friend",
+              "sub": "A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there. (Proposed; the DM confirms.)",
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Small Friend (choose the animal). A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there. (Proposed; the DM confirms.)",
+                    "w_change": "s"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Something small followed you home from the Fields and would not leave."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "friend",
+          "ask": "What follows you?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A stoat",
+              "sub": "Your small friend",
+              "when": {
+                "field": "w_change",
+                "is": "s"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Small Friend (a stoat). A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "It sits at the edge of the Fields, watching you plant. By evening it is on your shoulder."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A crow",
+              "sub": "Your small friend",
+              "when": {
+                "field": "w_change",
+                "is": "s"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Small Friend (a crow). A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "It sits at the edge of the Fields, watching you plant. By evening it is on your shoulder."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A toad",
+              "sub": "Your small friend",
+              "when": {
+                "field": "w_change",
+                "is": "s"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "yoc": "Small Friend (a toad). A small animal follows you. HD ½, 1 hp, cannot fight. Once per hex it scouts ahead, and the party cannot be surprised there. (Proposed; the DM confirms.)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "It sits at the edge of the Fields, watching you plant. By evening it is on your shoulder."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "spell",
+          "ask": "The land taught you one more spell. Which, for good?",
+          "gate": "plan",
+          "notes": [
+            "spell2"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Warp Wood",
+              "sub": "Writes: level-2 spell",
+              "effects": [
+                {
+                  "set": {
+                    "spell": "Warp Wood"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Wood bends for you. A gate, a ladder, a bow."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Heat Metal",
+              "sub": "Writes: level-2 spell",
+              "effects": [
+                {
+                  "set": {
+                    "spell": "Heat Metal"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Iron remembers the fire it came from, when you remind it."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "pen",
+          "ask": "Write one thing you wrote in Spring that is still true at the Fort.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write the line",
+              "sub": "The Pen line. Typed.",
+              "input": {
+                "field": "pen",
+                "prompt": "Write one thing you wrote in Spring that is still true at the Fort.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s3"
+    },
+    {
+      "id": "s3",
+      "title": "The Fort Turn",
+      "place": "Spring · the Fort Turn",
+      "look": "paint",
+      "set": "ledger",
+      "beats": [
+        {
+          "kicker": "THE FORT TURN",
+          "text": "Spring is ending. The Fort turns its page. A Fort Turn comes four times a year, in six steps. You will play each one.",
+          "notes": [
+            "turn"
+          ],
+          "comment": "dm-turn"
+        },
+        {
+          "kicker": "1 · THE SEASON",
+          "text": "You read the card already. Mud halves road speed. The Court's Door stands open. The Glamourist will visit."
+        },
+        {
+          "kicker": "2 · THE REPORT",
+          "text": "Maren and the Minister stand at the table with the Fort's book. Each will say one track in one sentence. Nobody rolls. No time passes.",
+          "notes": [
+            "planning"
+          ],
+          "comment": "dm-report"
+        },
+        {
+          "kicker": "MAREN",
+          "text": "“Stores stand at four. We eat until midsummer, if the road opens.”",
+          "notes": [
+            "tracks"
+          ]
+        },
+        {
+          "kicker": "MAREN",
+          "text": "“Walls stand at three. The palisade holds, and the north corner leans.”"
+        },
+        {
+          "kicker": "THE MINISTER",
+          "text": "“Folk stand at four. A Hamlet, by the old count of heads.”",
+          "notes": [
+            "size"
+          ]
+        },
+        {
+          "kicker": "THE MINISTER",
+          "text": "“Lamp stands at two. Wick trims it each night, and the glass in the Shrine is faint.”"
+        },
+        {
+          "kicker": "THE FORT'S BOOK",
+          "text": "The Fort's book carries one tag from your Pen. Surplus: barley.",
+          "comment": "dm-remembers",
+          "when": {
+            "field": "w_tag",
+            "is": "a"
+          }
+        },
+        {
+          "kicker": "THE FORT'S BOOK",
+          "text": "The Fort's book carries one tag from your Pen. Want: salt.",
+          "comment": "dm-remembers",
+          "when": {
+            "field": "w_tag",
+            "is": "b"
+          }
+        },
+        {
+          "kicker": "THE FORT'S BOOK",
+          "text": "The Fort's book carries one tag from your Pen. Oath: Cassandra.",
+          "comment": "dm-remembers",
+          "when": {
+            "field": "w_tag",
+            "is": "c"
+          }
+        },
+        {
+          "kicker": "3 · THE DIRECTIVES",
+          "text": "Now the Fort acts. A Directive is one job for the Fort this season. There are five: Build, Defend, Trade, Explore and Tend. Each of you proposes one. The table picks two.",
+          "notes": [
+            "directives"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "propose",
+          "ask": "What do you propose?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Build. Start a project.",
+              "sub": "Start a 4-segment project. Done: +1 to one track.",
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "p:bu"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "YOUR PROPOSAL",
+                  "text": "You propose Build. The Fields have wanted water since the thaw."
+                },
+                {
+                  "kicker": "THE THIEF",
+                  "text": "The thief proposes Explore. She reads places, and a hex is a place to read."
+                },
+                {
+                  "kicker": "THE CLERIC",
+                  "text": "The cleric proposes Tend. She keeps the Terminal, and the Lamp is low."
+                },
+                {
+                  "kicker": "THE BOOK SPEAKS FOR THEM",
+                  "text": "The book chose these two for them, as proposals that suit them. At your table they would choose for themselves.",
+                  "comment": "dm-propose"
+                },
+                {
+                  "kicker": "EXECUTION",
+                  "text": "Until now the Fort has only talked. That was Planning, and it is free. Choosing the Directives is Execution. Each effect takes hold at once, and none can be undone."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Defend. Mend the palisade.",
+              "sub": "Walls +1, or +2 for 1 Stores.",
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "p:de"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "YOUR PROPOSAL",
+                  "text": "You propose Defend. The north corner leans, and you can feel it from the Fields."
+                },
+                {
+                  "kicker": "THE THIEF",
+                  "text": "The thief proposes Explore. She reads places, and a hex is a place to read."
+                },
+                {
+                  "kicker": "THE CLERIC",
+                  "text": "The cleric proposes Tend. She keeps the Terminal, and the Lamp is low."
+                },
+                {
+                  "kicker": "THE BOOK SPEAKS FOR THEM",
+                  "text": "The book chose these two for them, as proposals that suit them. At your table they would choose for themselves.",
+                  "comment": "dm-propose"
+                },
+                {
+                  "kicker": "EXECUTION",
+                  "text": "Until now the Fort has only talked. That was Planning, and it is free. Choosing the Directives is Execution. Each effect takes hold at once, and none can be undone."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Trade. Send a cart.",
+              "sub": "Roll 1d6 for the cart to the coast.",
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "p:tr"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "YOUR PROPOSAL",
+                  "text": "You propose Trade. The road is mud, but a cart can still get through."
+                },
+                {
+                  "kicker": "THE THIEF",
+                  "text": "The thief proposes Explore. She reads places, and a hex is a place to read."
+                },
+                {
+                  "kicker": "THE CLERIC",
+                  "text": "The cleric proposes Tend. She keeps the Terminal, and the Lamp is low."
+                },
+                {
+                  "kicker": "THE BOOK SPEAKS FOR THEM",
+                  "text": "The book chose these two for them, as proposals that suit them. At your table they would choose for themselves.",
+                  "comment": "dm-propose"
+                },
+                {
+                  "kicker": "EXECUTION",
+                  "text": "Until now the Fort has only talked. That was Planning, and it is free. Choosing the Directives is Execution. Each effect takes hold at once, and none can be undone."
+                }
+              ]
+            }
+          ],
+          "notes": [
+            "trade",
+            "tend"
+          ]
+        },
+        {
+          "key": "pick",
+          "ask": "The table picks two. Which?",
+          "gate": "exec",
+          "notes": [
+            "gate"
+          ],
+          "comment": "dm-resolve",
+          "options": [
+            {
+              "key": "a",
+              "label": "Yours (Build), and the thief's Explore.",
+              "sub": "Sealed. Tend waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:bu"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "bu-ex"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Build, and the thief's Explore. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Yours (Build), and the cleric's Tend.",
+              "sub": "Sealed. Explore waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:bu"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "bu-te"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Build, and the cleric's Tend. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Yours (Defend), and the thief's Explore.",
+              "sub": "Sealed. Tend waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:de"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "de-ex"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Defend, and the thief's Explore. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Yours (Defend), and the cleric's Tend.",
+              "sub": "Sealed. Explore waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:de"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "de-te"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Defend, and the cleric's Tend. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "e",
+              "label": "Yours (Trade), and the thief's Explore.",
+              "sub": "Sealed. Tend waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:tr"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "tr-ex"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Trade, and the thief's Explore. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "f",
+              "label": "Yours (Trade), and the cleric's Tend.",
+              "sub": "Sealed. Explore waits for next season.",
+              "when": {
+                "field": "w_dirs",
+                "is": "p:tr"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "tr-te"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks your Directive, Trade, and the cleric's Tend. The Fort acts."
+                }
+              ]
+            },
+            {
+              "key": "g",
+              "label": "The thief's Explore, and the cleric's Tend.",
+              "sub": "Sealed. Yours waits for next season.",
+              "effects": [
+                {
+                  "set": {
+                    "w_dirs": "ex-te"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE PICK",
+                  "text": "The table picks Explore and Tend. Your Directive waits. The Fort acts."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "build",
+          "ask": "Build. Which project?",
+          "gate": "exec",
+          "notes": [
+            "build"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "A well in the Fields",
+              "sub": "Segment 1 of 4. Done: +1 to one track.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "flag": "well_project"
+                },
+                {
+                  "set": {
+                    "dir_mine": "Build: a new well in the Fields, 1 of 4 segments."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "BUILD",
+                  "text": "The diggers mark the first of four lines on the well-frame in the Fields. Three more turns will finish it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A tower",
+              "sub": "Segment 1 of 4. Done: +1 to one track.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_mine": "Build: a tower, 1 of 4 segments."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "BUILD",
+                  "text": "Stone is hauled to the Gate and stacked. The first of four lines goes on the plan."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A boat",
+              "sub": "Segment 1 of 4. Done: +1 to one track.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_mine": "Build: a boat, 1 of 4 segments."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "BUILD",
+                  "text": "A keel is laid on the shore. The first of four lines goes on the plan."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "A smithy",
+              "sub": "Segment 1 of 4. Done: +1 to one track.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_mine": "Build: a smithy, 1 of 4 segments."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "BUILD",
+                  "text": "A hearth is laid by the wall. The first of four lines goes on the plan."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "defend",
+          "ask": "Defend. How well?",
+          "gate": "exec",
+          "notes": [
+            "defend"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Mend the palisade",
+              "sub": "Walls +1",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "de-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "walls",
+                  "add": 1
+                },
+                {
+                  "set": {
+                    "dir_mine": "Defend: the palisade mended. Walls +1."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "DEFEND",
+                  "text": "You, the Paladin and a dozen folk re-set the leaning posts at the north corner. Walls +1."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Mend it, and plant thorn",
+              "sub": "Walls +2, Stores −1",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "de-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "walls",
+                  "add": 2
+                },
+                {
+                  "meter": "stores",
+                  "add": -1
+                },
+                {
+                  "set": {
+                    "dir_mine": "Defend: the palisade mended, thorn planted. Walls +2, Stores −1."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "DEFEND",
+                  "text": "You plant thorn along the foot of the palisade as well. The Fort pays for the stakes and the hands. Walls +2, Stores −1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "trade",
+          "ask": "Trade. What goes on the cart?",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Send the cart",
+              "sub": "1d6: 1–2 Stores −1 · 3–4 Stores +1 · 5–6 Stores +2 and a rumour",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-te"
+                  }
+                ]
+              },
+              "then": [
+                {
+                  "kicker": "TRADE",
+                  "text": "The cart is loaded in the yard. Maren counts it. Wick counts it again.",
+                  "set": "cart"
+                },
+                {
+                  "text": "The cart goes for salt. The Want is met.",
+                  "when": {
+                    "field": "w_tag",
+                    "is": "b"
+                  }
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "table": true,
+                "results": {
+                  "1-2": {
+                    "label": "Stores −1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": -1
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores −1."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The carter comes home with less than he took. The road was mud, and the buyers knew it. Stores −1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "3-4": {
+                    "label": "Stores +1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 1
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores +1."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "A fair day's trade. The carter comes home with salt, cloth and a small profit. Stores +1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "5-6": {
+                    "label": "Stores +2 and a rumour",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 2
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores +2 and a rumour."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "A good trade, and a rumour. Boatmen at the coast say the water at the Weirs has not moved in weeks. The table decides what else the carter heard. Stores +2.",
+                        "set": "ledger"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "key": "b",
+              "label": "Send the cart and the barley",
+              "sub": "Surplus: Stores +1 first. 1d6: 1–2 Stores −1 · 3–4 Stores +1 · 5–6 Stores +2 and a rumour",
+              "when": {
+                "all": [
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-te"
+                      }
+                    ]
+                  },
+                  {
+                    "field": "w_tag",
+                    "is": "a"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "stores",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "TRADE",
+                  "text": "The cart is loaded in the yard, and the barley goes on top. Maren counts it. Wick counts it again. The Surplus pays at once: Stores +1.",
+                  "set": "cart"
+                }
+              ],
+              "roll": {
+                "dice": "1d6",
+                "table": true,
+                "results": {
+                  "1-2": {
+                    "label": "Stores −1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": -1
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores −1."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "The carter comes home with less than he took. The road was mud, and the buyers knew it. Stores −1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "3-4": {
+                    "label": "Stores +1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 1
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores +1."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "A fair day's trade. The carter comes home with salt, cloth and a small profit. Stores +1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "5-6": {
+                    "label": "Stores +2 and a rumour",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 2
+                      },
+                      {
+                        "set": {
+                          "dir_mine": "Trade: a cart to the coast. Stores +2 and a rumour."
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "text": "A good trade, and a rumour. Boatmen at the coast say the water at the Weirs has not moved in weeks. The table decides what else the carter heard. Stores +2.",
+                        "set": "ledger"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "explore",
+          "ask": "Explore. Which hex?",
+          "gate": "exec",
+          "notes": [
+            "explore"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "The Reed Shore",
+              "sub": "Learn one fact. Its encounter risk is lower until the next turn.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "ex-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_explore": "Explore: The Reed Shore. Stilt huts stand in the shallows, and the Quiet live there. The reeds around them grow in straight rows, straighter than reeds grow by themselves."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "EXPLORE",
+                  "text": "You walk the Reed Shore with the thief at your back. Stilt huts stand in the shallows, and the Quiet live there. The reeds around them grow in straight rows, straighter than reeds grow by themselves."
+                },
+                {
+                  "text": "Your small friend runs ahead of you. Here the party cannot be surprised.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "s"
+                  }
+                },
+                {
+                  "text": "You ask the herons one question about the place. They answer truly, as far as they know.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "l"
+                  }
+                },
+                {
+                  "text": "You note the fact and leave it. Until the next turn, the road to the place is quieter."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The Standing Stones",
+              "sub": "Learn one fact. Its encounter risk is lower until the next turn.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "ex-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_explore": "Explore: The Standing Stones. Nine stones stand, and one has fallen. Kingfishers and stars are carved on them. Each stone has one smooth face, turned to the south, as if to be read."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "EXPLORE",
+                  "text": "You walk the Standing Stones with the thief at your back. Nine stones stand, and one has fallen. Kingfishers and stars are carved on them. Each stone has one smooth face, turned to the south, as if to be read."
+                },
+                {
+                  "text": "Your small friend runs ahead of you. Here the party cannot be surprised.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "s"
+                  }
+                },
+                {
+                  "text": "You ask the herons one question about the place. They answer truly, as far as they know.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "l"
+                  }
+                },
+                {
+                  "text": "You note the fact and leave it. Until the next turn, the road to the place is quieter."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "The Weirs",
+              "sub": "Learn one fact. Its encounter risk is lower until the next turn.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-ex"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "ex-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "dir_explore": "Explore: The Weirs. Old stone fish traps line the channel, and someone has re-set the stakes. The channel runs dry in the middle, and the fish crowd at both ends."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "EXPLORE",
+                  "text": "You walk the Weirs with the thief at your back. Old stone fish traps line the channel, and someone has re-set the stakes. The channel runs dry in the middle, and the fish crowd at both ends."
+                },
+                {
+                  "text": "Your small friend runs ahead of you. Here the party cannot be surprised.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "s"
+                  }
+                },
+                {
+                  "text": "You ask the herons one question about the place. They answer truly, as far as they know.",
+                  "when": {
+                    "field": "w_change",
+                    "is": "l"
+                  }
+                },
+                {
+                  "text": "You note the fact and leave it. Until the next turn, the road to the place is quieter."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "tend",
+          "ask": "Tend. The Lamp needs hands.",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Tend the Lamp",
+              "sub": "Lamp +1. The cleric reads a hymn.",
+              "when": {
+                "any": [
+                  {
+                    "field": "w_dirs",
+                    "is": "bu-te"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "de-te"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "tr-te"
+                  },
+                  {
+                    "field": "w_dirs",
+                    "is": "ex-te"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "lamp",
+                  "add": 1
+                },
+                {
+                  "set": {
+                    "dir_tend": "Tend: Lamp +1. The Terminal showed one new line."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "TEND",
+                  "text": "Wick trims the Lamp on the wall. In the Shrine the cleric reads a hymn aloud. The Terminal shows one new line.",
+                  "set": "glass",
+                  "screen": [
+                    "Lamp: tended.",
+                    "Filed."
+                  ]
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A log line is written by a rule, not by a wish. It says what was done, and when. Read enough of them, and you can tell what the rule counts.",
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  },
+                  "reveal": true
+                },
+                {
+                  "text": "The Minister copies the line into the Fort's book. Lamp +1.",
+                  "set": "ledger"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "strain",
+          "ask": "Your Want was not met this turn.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Mark Strain in the book",
+              "sub": "Strain 1 of 3. Three makes an Event.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tag",
+                    "is": "b"
+                  },
+                  {
+                    "not": {
+                      "any": [
+                        {
+                          "field": "w_dirs",
+                          "is": "tr-ex"
+                        },
+                        {
+                          "field": "w_dirs",
+                          "is": "tr-te"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "strain": "Strain 1 of 3: salt. No Directive met the Want."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "STRAIN",
+                  "text": "Maren writes a small mark in the Fort's book, beside the word salt. Strain 1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fate_ask",
+          "ask": "4 · Fate. Spend 1 Fate to state one true fact about a Directive?",
+          "gate": "plan",
+          "notes": [
+            "fate-fact"
+          ],
+          "comment": "dm-fate",
+          "options": [
+            {
+              "key": "a",
+              "label": "Spend 1 Fate",
+              "sub": "Fate 3 to 2. The DM must use your fact.",
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": "fate"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Hold your Fate",
+              "sub": "No fact this turn."
+            }
+          ]
+        },
+        {
+          "key": "fate",
+          "ask": "State your fact.",
+          "gate": "fate",
+          "cost": {
+            "meter": "fate",
+            "n": 1
+          },
+          "options": [
+            {
+              "key": "build",
+              "label": "About Build",
+              "sub": "Spend 1 Fate. Typed.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tmp",
+                    "is": "fate"
+                  },
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "bu-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "bu-te"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "fatefact",
+                "prompt": "State one true thing about the project, or the people who build it.",
+                "max": 200
+              },
+              "then": [
+                {
+                  "kicker": "THE DM MUST USE IT",
+                  "text": "The DM must use it. It is true in the Fort now, and it is on the sheet."
+                }
+              ]
+            },
+            {
+              "key": "defend",
+              "label": "About Defend",
+              "sub": "Spend 1 Fate. Typed.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tmp",
+                    "is": "fate"
+                  },
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "de-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "de-te"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "fatefact",
+                "prompt": "State one true thing about the palisade, or the north corner.",
+                "max": 200
+              },
+              "then": [
+                {
+                  "kicker": "THE DM MUST USE IT",
+                  "text": "The DM must use it. It is true in the Fort now, and it is on the sheet."
+                }
+              ]
+            },
+            {
+              "key": "trade",
+              "label": "About Trade",
+              "sub": "Spend 1 Fate. Typed.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tmp",
+                    "is": "fate"
+                  },
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-te"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "fatefact",
+                "prompt": "State one true thing about the cart, the carter or the coast road.",
+                "max": 200
+              },
+              "then": [
+                {
+                  "kicker": "THE DM MUST USE IT",
+                  "text": "The DM must use it. It is true in the Fort now, and it is on the sheet."
+                }
+              ]
+            },
+            {
+              "key": "explore",
+              "label": "About Explore",
+              "sub": "Spend 1 Fate. Typed.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tmp",
+                    "is": "fate"
+                  },
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "bu-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "de-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-ex"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "ex-te"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "fatefact",
+                "prompt": "State one true thing about the hex you explored.",
+                "max": 200
+              },
+              "then": [
+                {
+                  "kicker": "THE DM MUST USE IT",
+                  "text": "The DM must use it. It is true in the Fort now, and it is on the sheet."
+                }
+              ]
+            },
+            {
+              "key": "tend",
+              "label": "About Tend",
+              "sub": "Spend 1 Fate. Typed.",
+              "when": {
+                "all": [
+                  {
+                    "field": "w_tmp",
+                    "is": "fate"
+                  },
+                  {
+                    "any": [
+                      {
+                        "field": "w_dirs",
+                        "is": "bu-te"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "de-te"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "tr-te"
+                      },
+                      {
+                        "field": "w_dirs",
+                        "is": "ex-te"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "fatefact",
+                "prompt": "State one true thing about the Lamp, or the Shrine.",
+                "max": 200
+              },
+              "then": [
+                {
+                  "kicker": "THE DM MUST USE IT",
+                  "text": "The DM must use it. It is true in the Fort now, and it is on the sheet."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "event",
+          "ask": "5 · The Event. Something always happens in a season. Roll the d12.",
+          "gate": "exec",
+          "notes": [
+            "event"
+          ],
+          "comment": "dm-event",
+          "options": [
+            {
+              "key": "a",
+              "label": "Roll the Event",
+              "sub": "1d12. Twelve results, one for each face.",
+              "then": [
+                {
+                  "kicker": "THE EVENT",
+                  "text": "The DM rolls a d12 for the Fort. One line on the table will come true.",
+                  "set": "event"
+                },
+                {
+                  "text": "The table has twelve lines. A raid asks a Walls test. A sickness or a stranger moves Folk. A form may come from Mile-House 13, and Harrow may come early. The rest are prompts.",
+                  "notes": [
+                    "walls-test",
+                    "mile-house",
+                    "harrow"
+                  ]
+                }
+              ],
+              "roll": {
+                "dice": "1d12",
+                "table": true,
+                "results": {
+                  "1": {
+                    "label": "A raid",
+                    "effects": [
+                      {
+                        "set": {
+                          "w_tmp": "raid"
+                        }
+                      },
+                      {
+                        "set": {
+                          "event": "1 · A raid"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A RAID",
+                        "text": "Torches at the north corner, where the palisade leans. Wick rings the Gate bell, and the Fort wakes.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "2": {
+                    "label": "Sickness: Folk −1",
+                    "effects": [
+                      {
+                        "meter": "folk",
+                        "add": -1
+                      },
+                      {
+                        "set": {
+                          "size": "Camp (Folk 3)"
+                        }
+                      },
+                      {
+                        "set": {
+                          "event": "2 · Sickness: Folk −1"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "SICKNESS",
+                        "text": "A fever goes through the low houses. You stabilise the worst with your herb pouch. Not all of them. Folk −1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "3": {
+                    "label": "A quarrel",
+                    "effects": [
+                      {
+                        "set": {
+                          "event": "3 · A quarrel"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A QUARREL",
+                        "text": "Maren and the Minister quarrel in the yard, where everyone can hear. About what, the table decides. The tracks do not move.",
+                        "notes": [
+                          "muster"
+                        ],
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "4": {
+                    "label": "A form from Mile-House 13",
+                    "effects": [
+                      {
+                        "set": {
+                          "event": "4 · A form from Mile-House 13"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A FORM",
+                        "text": "A rider from Mile-House 13 brings a form for the Fort to fill in. The Bureau of Imperial Anomalies wants a count of heads. What the Fort writes, the table decides. The tracks do not move.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "5": {
+                    "label": "A stranger: Folk +1",
+                    "effects": [
+                      {
+                        "meter": "folk",
+                        "add": 1
+                      },
+                      {
+                        "set": {
+                          "size": "Hamlet (Folk 5)"
+                        }
+                      },
+                      {
+                        "set": {
+                          "event": "5 · A stranger: Folk +1"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A STRANGER",
+                        "text": "A stranger comes to the Gate at dusk and asks for a bed. The Paladin lets them in. By morning they have asked the cook for work. Folk +1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "6": {
+                    "label": "A new line on the Terminal",
+                    "effects": [
+                      {
+                        "set": {
+                          "event": "6 · A new line on the Terminal"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A NEW LINE",
+                        "text": "In the Shrine, the glass prints a line nobody asked for. It is short, and it goes away.",
+                        "set": "glass",
+                        "screen": [
+                          "New line.",
+                          "Unread: 1."
+                        ]
+                      },
+                      {
+                        "kicker": "REFEREE NOTE · LEAN IN",
+                        "text": "A line that arrives unasked is a rule that ran. Someone, long ago, chose the hour it runs. A rule can be watched, and its hour can be learned.",
+                        "comment": "dm-secrets",
+                        "when": {
+                          "all": [
+                            {
+                              "tally": "lens",
+                              "top": "machine"
+                            },
+                            {
+                              "not": {
+                                "tally": "lens",
+                                "top": "hymn"
+                              }
+                            }
+                          ]
+                        },
+                        "reveal": true
+                      },
+                      {
+                        "text": "The Minister copies it into the Fort's book. What it means, the table decides. The tracks do not move.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "7": {
+                    "label": "Harrow early: Stores +1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 1
+                      },
+                      {
+                        "set": {
+                          "event": "7 · Harrow early: Stores +1"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "HARROW EARLY",
+                        "text": "Harrow's wagons come up the road a week early, through the mud. He buys what the Fort can spare, and pays in coin and cloth. Stores +1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "8": {
+                    "label": "A find in the reeds",
+                    "effects": [
+                      {
+                        "set": {
+                          "event": "8 · A find in the reeds"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A FIND",
+                        "text": "Wick finds something in the Reed Shore, and counts it twice. What it is, the table decides. The tracks do not move.",
+                        "notes": [
+                          "wick"
+                        ],
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "9": {
+                    "label": "A good catch: Stores +1",
+                    "effects": [
+                      {
+                        "meter": "stores",
+                        "add": 1
+                      },
+                      {
+                        "set": {
+                          "event": "9 · A good catch: Stores +1"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A GOOD CATCH",
+                        "text": "The nets come up full three days running, and the smoke-house is busy. Stores +1.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "10": {
+                    "label": "A hard case for the Paladin",
+                    "effects": [
+                      {
+                        "set": {
+                          "event": "10 · A hard case for the Paladin"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A HARD CASE",
+                        "text": "A hard case comes to the Gate: someone took a sack from the stores to feed a neighbour. The Paladin asks the Fort what to do. The table decides. The tracks do not move.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "11": {
+                    "label": "The Glamourist's bargain",
+                    "effects": [
+                      {
+                        "set": {
+                          "w_tmp": "bargain"
+                        }
+                      },
+                      {
+                        "set": {
+                          "event": "11 · The Glamourist's bargain"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "A BARGAIN",
+                        "text": "The Glamourist is here for her spring visit, and she has brought an offer. She smiles when she makes it.",
+                        "set": "ledger"
+                      }
+                    ]
+                  },
+                  "12": {
+                    "label": "The lake sings",
+                    "effects": [
+                      {
+                        "set": {
+                          "w_tmp": "sing"
+                        }
+                      },
+                      {
+                        "set": {
+                          "event": "12 · The lake sings"
+                        }
+                      }
+                    ],
+                    "then": [
+                      {
+                        "kicker": "THE LAKE SINGS",
+                        "text": "At night the lake sings. One long note rolls up the shore, and the Fort goes out on the wall to hear it. Wick wants to light the Lamp to answer. The Minister wants the shutters closed.",
+                        "set": "ledger"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "raid",
+          "ask": "A raid is a Walls test. A raid succeeds only at Walls 0. At Walls 1 or more the palisade holds, though the table may still play the fight.",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Man the Walls",
+              "sub": "Walls 1 or more: the palisade holds. At 0 a raid succeeds.",
+              "when": {
+                "field": "w_tmp",
+                "is": "raid"
+              },
+              "then": [
+                {
+                  "kicker": "THE PALISADE HOLDS",
+                  "text": "The palisade holds. The raiders find it whole, and go away cold. The table may still play the fight."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "bargain",
+          "ask": "The Glamourist offers a hedge of thorn along the north corner. She will say her price. Do you take it?",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Take the bargain",
+              "sub": "Walls +2, Stores −1.",
+              "when": {
+                "field": "w_tmp",
+                "is": "bargain"
+              },
+              "effects": [
+                {
+                  "meter": "walls",
+                  "add": 2
+                },
+                {
+                  "meter": "stores",
+                  "add": -1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE BARGAIN",
+                  "text": "A hedge of thorn comes up along the north corner in one night. The Glamourist takes the first jar from the stores. What else she asks, the table decides. Walls +2, Stores −1.",
+                  "notes": [
+                    "glamourist"
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Refuse politely",
+              "sub": "No change.",
+              "when": {
+                "field": "w_tmp",
+                "is": "bargain"
+              },
+              "then": [
+                {
+                  "kicker": "THE BARGAIN",
+                  "text": "She laughs, and curtseys, and you cannot tell whether she is pleased."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "sing",
+          "ask": "The lake sings. What does the Fort do?",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Light the Lamp to answer it",
+              "sub": "Lamp +1",
+              "when": {
+                "field": "w_tmp",
+                "is": "sing"
+              },
+              "effects": [
+                {
+                  "meter": "lamp",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE LAKE SINGS",
+                  "text": "Wick lights the Lamp's second wick. The note comes back off the water, a little higher. Lamp +1."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Shutter the Fort and say nothing",
+              "sub": "Folk −1",
+              "when": {
+                "field": "w_tmp",
+                "is": "sing"
+              },
+              "effects": [
+                {
+                  "meter": "folk",
+                  "add": -1
+                },
+                {
+                  "set": {
+                    "size": "Camp (Folk 3)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE LAKE SINGS",
+                  "text": "The shutters go up. A family that heard the note, and was afraid of it, leaves in the night. Folk −1."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "oath",
+          "ask": "Your tag is an Oath. Call it in now, or keep it?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Call in the Oath",
+              "sub": "Once only. Cassandra asks one question, and the table writes it.",
+              "when": {
+                "field": "w_tag",
+                "is": "c"
+              },
+              "effects": [
+                {
+                  "set": {
+                    "oath": "Called in, Spring."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "THE OATH",
+                  "text": "Cassandra comes down from the wall, and looks at the Fort's book for a long moment."
+                },
+                {
+                  "kicker": "CASSANDRA",
+                  "text": "She asks one question. The table writes it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Hold it for later",
+              "sub": "The Oath stays on the sheet.",
+              "when": {
+                "field": "w_tag",
+                "is": "c"
+              }
+            }
+          ]
+        },
+        {
+          "key": "refresh",
+          "ask": "6 · Refresh. Fate comes back to 3. The tracks stay where the turn left them.",
+          "gate": "plan",
+          "notes": [
+            "refresh"
+          ],
+          "comment": "dm-refresh",
+          "options": [
+            {
+              "key": "a",
+              "label": "Refresh",
+              "sub": "Fate is full.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "fate",
+                    "gte": 3
+                  },
+                  {
+                    "not": {
+                      "field": "w_change",
+                      "is": "g"
+                    }
+                  }
+                ]
+              },
+              "then": [
+                {
+                  "kicker": "REFRESH",
+                  "text": "Fate is full. The page turns."
+                },
+                {
+                  "kicker": "STORES AT 6",
+                  "text": "Stores stand at 6: a feast, and a project.",
+                  "when": {
+                    "meter": "stores",
+                    "gte": 6
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Refresh",
+              "sub": "Fate +1, back to 3.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "fate",
+                    "lte": 2
+                  },
+                  {
+                    "not": {
+                      "field": "w_change",
+                      "is": "g"
+                    }
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "fate",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "REFRESH",
+                  "text": "Your Fate point comes back. The page turns."
+                },
+                {
+                  "kicker": "STORES AT 6",
+                  "text": "Stores stand at 6: a feast, and a project.",
+                  "when": {
+                    "meter": "stores",
+                    "gte": 6
+                  }
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Refresh",
+              "sub": "Fate is full. Green Hand: Stores +1.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "fate",
+                    "gte": 3
+                  },
+                  {
+                    "field": "w_change",
+                    "is": "g"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "stores",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "REFRESH",
+                  "text": "Fate is full. Green Hand: the early row comes up in the Fields. Stores +1."
+                },
+                {
+                  "kicker": "STORES AT 6",
+                  "text": "Stores stand at 6: a feast, and a project.",
+                  "when": {
+                    "meter": "stores",
+                    "gte": 6
+                  }
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Refresh",
+              "sub": "Fate +1, back to 3. Green Hand: Stores +1.",
+              "when": {
+                "all": [
+                  {
+                    "meter": "fate",
+                    "lte": 2
+                  },
+                  {
+                    "field": "w_change",
+                    "is": "g"
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "meter": "fate",
+                  "add": 1
+                },
+                {
+                  "meter": "stores",
+                  "add": 1
+                }
+              ],
+              "then": [
+                {
+                  "kicker": "REFRESH",
+                  "text": "Your Fate point comes back. Green Hand: the early row comes up in the Fields. Stores +1."
+                },
+                {
+                  "kicker": "STORES AT 6",
+                  "text": "Stores stand at 6: a feast, and a project.",
+                  "when": {
+                    "meter": "stores",
+                    "gte": 6
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "ledger",
+          "ask": "Write one line in the Fort ledger. It is the Fort's book, and the line is true.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write the line",
+              "sub": "The Fort ledger. Typed.",
+              "effects": [
+                {
+                  "set": {
+                    "w_tag": "",
+                    "w_change": "",
+                    "w_dirs": "",
+                    "w_tmp": ""
+                  }
+                }
+              ],
+              "input": {
+                "field": "ledger",
+                "prompt": "Write one line for the Fort ledger.",
+                "max": 160
+              },
+              "then": [
+                {
+                  "kicker": "THE SHEET",
+                  "text": "Read the sheet at the top of the page. A track at 0 costs the Fort. A track at 6 pays it. Folk sets the Fort's Size: a Camp, a Hamlet or a Village.",
+                  "notes": [
+                    "tracks"
+                  ]
+                },
+                {
+                  "kicker": "THE TURN ENDS",
+                  "text": "The turn is done. The next one starts from these numbers, not from the start values."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "next": "s4"
+    },
+    {
+      "id": "s4",
+      "title": "The Singing Well",
+      "place": "The same Spring · the Fields",
+      "look": "paint",
+      "set": "well",
+      "beats": [
+        {
+          "kicker": "THE SAME SPRING",
+          "text": "The same Spring. The Fort has dug a new well in the Fields."
+        },
+        {
+          "text": "It is the well you began in the Turn. The first line was straight. The diggers hurried the rest of it.",
+          "when": {
+            "flag": "well_project"
+          }
+        },
+        {
+          "text": "At the bottom the diggers struck a curved wall of fitted stone, smooth as an eggshell, with water running behind it. They broke through, and the well filled in an hour."
+        },
+        {
+          "text": "On its first night the water sings: one low note, like a wet finger on the rim of a glass. It does not stop."
+        },
+        {
+          "text": "Folk gather at the fence with lanterns and come no closer. Wick has climbed the well-frame to see. Cassandra is not there. Somehow that is worse.",
+          "notes": [
+            "wick"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "lens2",
+          "ask": "What has the well found?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A spring with a spirit in it, singing because it was woken.",
+              "sub": "Lens: hymn (a woken spring)",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "hymn"
+                },
+                {
+                  "set": {
+                    "lens2": "A woken spring (hymn)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You decide it is lonely, not angry."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "An old pipe. The empire moved water under the Fields, and some of it still runs.",
+              "sub": "Lens: machine (an old pipe)",
+              "effects": [
+                {
+                  "tally": "lens",
+                  "add": "machine"
+                },
+                {
+                  "set": {
+                    "lens2": "An old pipe (machine)"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You decide the note is the water, and the pipe is the glass."
+                },
+                {
+                  "kicker": "REFEREE NOTE · LEAN IN",
+                  "text": "A pipe has a bore, and the bore sets the note. Measure the note, and you can measure the pipe. A wet finger on the rim of a glass does the same.",
+                  "comment": "dm-secrets",
+                  "when": {
+                    "all": [
+                      {
+                        "tally": "lens",
+                        "top": "machine"
+                      },
+                      {
+                        "not": {
+                          "tally": "lens",
+                          "top": "hymn"
+                        }
+                      }
+                    ]
+                  },
+                  "reveal": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "reg",
+          "ask": "Do you let them see?",
+          "gate": "exec",
+          "options": [
+            {
+              "key": "a",
+              "label": "Walk up to the well in front of everyone, and answer the note.",
+              "sub": "Sealed. Witnessed: paint, and a public fact.",
+              "effects": [
+                {
+                  "flag": "witnessed"
+                }
+              ],
+              "then": [
+                {
+                  "text": "Witnessed. The Fort sees what the water does when you speak to it.",
+                  "look": "paint"
+                },
+                {
+                  "kicker": "A PUBLIC FACT",
+                  "text": "The Fort saw. Now say what the whole Fort knows.",
+                  "notes": [
+                    "facts"
+                  ],
+                  "comment": "dm-asks",
+                  "look": "paint"
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Wait until the lanterns go home. Then climb down alone.",
+              "sub": "Sealed. Unwitnessed: ink, and a secret fact.",
+              "effects": [
+                {
+                  "flag": "unwitnessed"
+                }
+              ],
+              "then": [
+                {
+                  "text": "Unwitnessed. Only you know what is at the bottom.",
+                  "look": "ink"
+                },
+                {
+                  "kicker": "A SECRET FACT",
+                  "text": "No one saw. Now say what only you know.",
+                  "notes": [
+                    "facts"
+                  ],
+                  "comment": "dm-asks",
+                  "look": "ink"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact4",
+          "ask": "Write it down.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what the whole Fort now knows",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Write one thing the whole Fort now knows about you, since that day.",
+                "max": 200
+              }
+            },
+            {
+              "key": "b",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Write one true thing that only you know. It may be about you, or about the well.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s5"
+    },
+    {
+      "id": "s5",
+      "title": "Maren's Last Muster",
+      "place": "Autumn · the yard",
+      "look": "paint",
+      "set": "muster",
+      "beats": [
+        {
+          "kicker": "AUTUMN",
+          "text": "Autumn. Captain Maren is retiring, and she wants the Fort in order before she goes."
+        },
+        {
+          "text": "She calls the muster in the yard. The Paladin stands at the Gate. The Minister stands at Maren's left hand and does not look at her. From the Beast Pen, Biddy watches the crowd with one cold eye.",
+          "notes": [
+            "muster",
+            "biddy"
+          ]
+        },
+        {
+          "text": "Maren reads four offices off a slate: Warden, Scout, Steward, Lorekeeper. The Fort keeps its own book now, and its own tracks: Stores, Walls, Folk, Lamp. Each office keeps one of them honest."
+        },
+        {
+          "text": "She comes to you last, and has to look down. “The children follow you everywhere,” she says. “You may as well have a title. Pick one.” Beside her, the Minister asks you the question she has asked all year."
+        }
+      ],
+      "choices": [
+        {
+          "key": "terminal",
+          "ask": "The Minister asks, in the end: what do you think of the Terminal?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "It's a tool.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "terminal": "A tool. Useful, maybe. Holy, no."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Like a plough or a loom. Useful, maybe. Holy, no. The power comes from the land; the screen only redirects it."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "It's a wound.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "terminal": "A wound. The hymns are a siphon."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Something was driven into the earth here, and it is still drawing from it. The hymns are a siphon, and nobody asks the land if that is all right."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "It's a conversation.",
+              "sub": "Writes: Year One",
+              "effects": [
+                {
+                  "set": {
+                    "terminal": "A conversation between the land and the empire. You hear both sides."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Terminal and the land are talking, slowly, in a language neither side fully speaks. You hear both. You understand neither."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "office",
+          "ask": "Which office do you take?",
+          "gate": "plan",
+          "notes": [
+            "office"
+          ],
+          "options": [
+            {
+              "key": "a",
+              "label": "Warden",
+              "sub": "Walls +1 when you take the Defend directive.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Warden. Walls +1 when you take the Defend directive."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Walls of stone, or hedges of thorn. You can grow the second kind."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Scout",
+              "sub": "One extra clue per hex you explore.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Scout. One extra clue per hex you explore."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You walk every hex anyway, barefoot."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Steward",
+              "sub": "You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Steward. You see the Fort's tracks (Stores, Walls, Folk, Lamp) before the DM reports them."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "You kept the book in Spring. You know what the Fields will give."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Lorekeeper",
+              "sub": "One free hint per puzzle.",
+              "effects": [
+                {
+                  "set": {
+                    "office": "Lorekeeper. One free hint per puzzle."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The land is old. It remembers what the books forgot."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "fact5",
+          "ask": "Write it down.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what Maren says about you",
+              "sub": "Public fact. Typed.",
+              "when": {
+                "flag": "unwitnessed"
+              },
+              "input": {
+                "field": "public",
+                "prompt": "Maren says one more thing about you, loud enough for the whole yard. Everyone hears it. Write it.",
+                "max": 200
+              }
+            }
+          ]
+        }
+      ],
+      "next": "s6"
+    },
+    {
+      "id": "s6",
+      "title": "The Night Before the Road",
+      "place": "The night before · the pear tree",
+      "look": "ink",
+      "set": "road-pack",
+      "beats": [
+        {
+          "kicker": "NIGHT",
+          "text": "Night. The Fort sleeps. Wick's lamps burn along the wall, one by one, and an owl counts them with him.",
+          "notes": [
+            "wick"
+          ]
+        },
+        {
+          "text": "You lay your kit out under the pear tree and count it twice: staff, sling, stones, herb pouch, a waterskin filled at a spring and not the well. No torches. Before dawn you will walk out on the Old Road. The moles have been telling you so all week. They do not like the hum.",
+          "notes": [
+            "road"
+          ]
+        },
+        {
+          "text": "Somebody here is tied to you.",
+          "notes": [
+            "bond"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "key": "bond",
+          "ask": "Who is your bond?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "The Elven Thief",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Elven Thief: The thief and I argue about which of us is quieter. Nobody has won."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Nobody hears either of you coming. You have argued about which of you is quieter. Nobody has won."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "The Elf Cleric",
+              "sub": "Mutual if their card names you",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Elf Cleric: The cleric and I argue every night about where the power comes from."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The opposition, and a friend. The cleric says the power is in the network. You say the land. You argue every night, and both of you like it."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Cassandra",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Cassandra: Cassandra brings me dreams to read. I bring her roots."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Cassandra brings you dreams to read. You bring her roots to taste."
+                }
+              ]
+            },
+            {
+              "key": "d",
+              "label": "Wick",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Wick: Wick counts the things I grow. He is never wrong."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Wick follows you on your walks and counts the things you grow. He is never wrong."
+                }
+              ]
+            },
+            {
+              "key": "e",
+              "label": "The Paladin",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Paladin: I planted a rowan by the Gate. The Paladin keeps it watered."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Your power does not come from an oath. That bothers the Paladin. You planted a rowan by the Gate anyway, and the Paladin keeps it watered."
+                }
+              ]
+            },
+            {
+              "key": "f",
+              "label": "Captain Maren",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Captain Maren: My weather saved Maren's harvest. She remembers."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Maren listened to your weather, and it saved the harvest. She retires soon. She remembers."
+                }
+              ]
+            },
+            {
+              "key": "g",
+              "label": "The Minister",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Minister: The Minister fears what I stand for. I mended her garden anyway."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Minister fears what you stand for. You mended her garden anyway."
+                }
+              ]
+            },
+            {
+              "key": "h",
+              "label": "The Glamourist",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "The Glamourist: The Glamourist showed me the ring at the Court's Door. I keep it weeded."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "The Glamourist showed you the mushroom ring at the Court's Door. You keep it weeded."
+                }
+              ]
+            },
+            {
+              "key": "i",
+              "label": "Biddy",
+              "sub": "A bond with a person of the Fort",
+              "effects": [
+                {
+                  "set": {
+                    "bond": "Biddy: Biddy is pleased that everyone keeps clear of her beak. The animals told me."
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Everyone keeps clear of her beak. The animals tell you what she thinks of that. She is pleased."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "kit",
+          "ask": "Your kit is the playbook's. What one thing do you add?",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "A bag of seeds.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "a bag of seeds"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Something always needs planting."
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "A willow whistle.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "a willow bird-whistle"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "Three notes. The birds know all three."
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "A jar of wild honey.",
+              "sub": "Writes: Gear",
+              "effects": [
+                {
+                  "set": {
+                    "extra": "a jar of wild honey"
+                  }
+                }
+              ],
+              "then": [
+                {
+                  "text": "For wounds, for bargains, and for bears."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "secret6",
+          "ask": "Nobody sees you pack. Write one true thing that only you know.",
+          "gate": "plan",
+          "options": [
+            {
+              "key": "a",
+              "label": "Write what only you know",
+              "sub": "Secret fact. Typed.",
+              "when": {
+                "flag": "witnessed"
+              },
+              "input": {
+                "field": "secret",
+                "prompt": "Nobody sees you pack. Write one true thing that only you know.",
+                "max": 200
+              }
+            }
+          ]
+        },
+        {
+          "key": "go",
+          "ask": "Before dawn, you walk out on the Old Road. Do you go?",
+          "gate": "exec",
+          "comment": "dm-people",
+          "options": [
+            {
+              "key": "a",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "machine",
+                "lte": 0
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Hymn",
+                    "cassandra": "The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "b",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "tally": "lens",
+                "value": "hymn",
+                "lte": 0
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Machine",
+                    "cassandra": "The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "c",
+              "label": "Walk out onto the Old Road.",
+              "sub": "Sealed. The book reads your Lens and turns the page.",
+              "when": {
+                "all": [
+                  {
+                    "tally": "lens",
+                    "value": "machine",
+                    "gte": 1
+                  },
+                  {
+                    "tally": "lens",
+                    "value": "hymn",
+                    "gte": 1
+                  }
+                ]
+              },
+              "effects": [
+                {
+                  "set": {
+                    "lens": "Both",
+                    "cassandra": "The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "route": [
+        {
+          "when": {
+            "tally": "lens",
+            "value": "machine",
+            "lte": 0
+          },
+          "to": "milestone-hymn"
+        },
+        {
+          "when": {
+            "tally": "lens",
+            "value": "hymn",
+            "lte": 0
+          },
+          "to": "milestone-machine"
+        },
+        {
+          "to": "milestone-both"
+        }
+      ]
+    }
+  ],
+  "endings": {
+    "milestone-hymn": {
+      "title": "The Milestone: Hymn",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?”",
+          "notes": [
+            "cassandra"
+          ],
+          "comment": "dm-people"
+        },
+        {
+          "text": "You kneel, and lay your palm on the stone, as you laid it on the warm rock in the Nesting Hall. It hums under your hand. You thank it, and it goes on."
+        },
+        {
+          "text": "Behind you, in the Fields, the well you began is quiet. Its first line is still straight.",
+          "when": {
+            "flag": "well_project"
+          }
+        },
+        {
+          "kicker": "END OF THE BOOK",
+          "text": "The book closes. Your Fort Card holds every choice, and the Fort's sheet holds the Spring. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    },
+    "milestone-machine": {
+      "title": "The Milestone: Machine",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?”",
+          "notes": [
+            "cassandra"
+          ],
+          "comment": "dm-people"
+        },
+        {
+          "text": "You lay your ear to the stone and count the hum. It does not drift. Behind the count, you think, someone set a rule."
+        },
+        {
+          "text": "Behind you, in the Fields, the well you began is quiet. Its first line is still straight.",
+          "when": {
+            "flag": "well_project"
+          }
+        },
+        {
+          "kicker": "END OF THE BOOK",
+          "text": "The book closes. Your Fort Card holds every choice, and the Fort's sheet holds the Spring. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    },
+    "milestone-both": {
+      "title": "The Milestone: Both",
+      "look": "paint",
+      "set": "milestone",
+      "beats": [
+        {
+          "kicker": "BEFORE DAWN",
+          "text": "Before dawn you walk out on the Old Road. Mist lies on the Fields. The new well is quiet."
+        },
+        {
+          "text": "The milestone stands where it always has, older than the Fort, cut with numbers nobody reads. It hums. You feel it in your teeth and in the soles of your feet."
+        },
+        {
+          "text": "Cassandra is already there, wrapped in grey, as if she had waited all night. She does not look at the stone. She looks at you, and she says one true thing."
+        },
+        {
+          "kicker": "CASSANDRA",
+          "text": "“The lake breathes in at the Shallows and out under the Weirs, little one. It has not breathed out for a long time. Put your ear to the dry place, and count. Why do you think it is holding its breath?”",
+          "notes": [
+            "cassandra"
+          ],
+          "comment": "dm-people"
+        },
+        {
+          "text": "You lay your palm on the stone, and your ear beside it. The land and the count say the same thing in two voices, and neither argues. It hums, and waits."
+        },
+        {
+          "text": "Behind you, in the Fields, the well you began is quiet. Its first line is still straight.",
+          "when": {
+            "flag": "well_project"
+          }
+        },
+        {
+          "kicker": "END OF THE BOOK",
+          "text": "The book closes. Your Fort Card holds every choice, and the Fort's sheet holds the Spring. Open it, copy it as text, and bring it to session zero. There you may change any choice.",
+          "notes": [
+            "card"
+          ],
+          "comment": "dm-writes"
+        }
+      ]
+    }
+  }
+}

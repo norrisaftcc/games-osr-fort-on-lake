@@ -1,0 +1,153 @@
+{
+  "id": "two-in-six",
+  "title": "Two in Six",
+  "subtitle": "The elven thief",
+  "kit": "paper",
+  "resolver": "ose",
+  "start": "s0",
+  "storageKey": "fort-stage.two-in-six",
+  "meters": [
+    {
+      "id": "fate",
+      "label": "Fate",
+      "min": 0,
+      "max": 6,
+      "start": 3,
+      "hud": true
+    },
+    {
+      "id": "turns",
+      "label": "Turns",
+      "min": 0,
+      "max": 6,
+      "start": 0,
+      "hud": true,
+      "bad": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "name",
+      "label": "Name",
+      "side": "front"
+    },
+    {
+      "id": "lens",
+      "label": "The Lens",
+      "side": "front"
+    },
+    {
+      "id": "yoc",
+      "label": "Year of Change",
+      "side": "front"
+    },
+    {
+      "id": "office",
+      "label": "Fort Office",
+      "side": "front"
+    },
+    {
+      "id": "bond",
+      "label": "Bond",
+      "side": "front"
+    },
+    {
+      "id": "public",
+      "label": "Public fact",
+      "side": "front"
+    },
+    {
+      "id": "secret",
+      "label": "Secret fact",
+      "side": "front"
+    },
+    {
+      "id": "odds",
+      "label": "Your odds (level 2)",
+      "side": "front"
+    },
+    {
+      "id": "origin",
+      "label": "Came from",
+      "side": "back"
+    },
+    {
+      "id": "know",
+      "label": "You start knowing",
+      "side": "back"
+    },
+    {
+      "id": "took",
+      "label": "Took from the caves",
+      "side": "back"
+    },
+    {
+      "id": "stay",
+      "label": "Stays because",
+      "side": "back"
+    },
+    {
+      "id": "lens1",
+      "label": "Lens 1: the iron plate",
+      "side": "back"
+    },
+    {
+      "id": "lens2",
+      "label": "Lens 2: the singing Shallows",
+      "side": "back"
+    },
+    {
+      "id": "summer",
+      "label": "Summer, the Year Between",
+      "side": "back"
+    },
+    {
+      "id": "pen",
+      "label": "The Pen · Summer",
+      "side": "back"
+    },
+    {
+      "id": "plate",
+      "label": "The plate (the book's rolls)",
+      "side": "back"
+    },
+    {
+      "id": "box",
+      "label": "The iron box (the book's rolls)",
+      "side": "back"
+    },
+    {
+      "id": "night",
+      "label": "The walk in the dark (the book's roll)",
+      "side": "back"
+    },
+    {
+      "id": "eyeplus",
+      "label": "Locksmith's Eye, written (1 Fate)",
+      "side": "back"
+    },
+    {
+      "id": "extra",
+      "label": "Kit extra",
+      "side": "back"
+    },
+    {
+      "id": "cassandra",
+      "label": "Cassandra, at the milestone",
+      "side": "back"
+    }
+  ],
+  "tallies": {
+    "lens": [
+      "hymn",
+      "machine"
+    ]
+  },
+  "commentary": {
+    "label": "How the odds work",
+    "kinds": [
+      "dm",
+      "rule"
+    ]
+  }
+}

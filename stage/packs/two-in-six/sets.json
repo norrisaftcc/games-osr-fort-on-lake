@@ -1,0 +1,296 @@
+{
+  "cover": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/cover-ground.svg"
+      },
+      {
+        "prim": "plate",
+        "art": "art/cover-plate.svg",
+        "look": "paint",
+        "x": 0.5,
+        "y": 0.32,
+        "w": 0.6
+      },
+      {
+        "prim": "vfold",
+        "art": "art/cover-spine.svg",
+        "x": 0.5,
+        "y": 0.115,
+        "w": 0.72
+      }
+    ]
+  },
+  "crack": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/crack-ground.svg"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/crack-t1.svg",
+        "art2": "art/crack-t2.svg",
+        "art3": "art/crack-t3.svg",
+        "art4": "art/crack-t4.svg",
+        "x": 0.5,
+        "y": 0.27,
+        "w": 0.94
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/crack-slip.svg",
+        "x": 0.84,
+        "y": 0.14,
+        "w": 0.26,
+        "opensOn": "reveal"
+      }
+    ]
+  },
+  "plate": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/plate-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/plate-caption.svg",
+        "x": 0.21,
+        "y": 0.135,
+        "w": 0.4
+      },
+      {
+        "prim": "plate",
+        "art": "art/plate-iron.svg",
+        "look": "ink",
+        "x": 0.5,
+        "y": 0.3,
+        "w": 0.36
+      },
+      {
+        "prim": "volvelle",
+        "art": "art/plate-wheel.svg",
+        "x": 0.17,
+        "y": 0.355,
+        "w": 0.3,
+        "range": [
+          1,
+          6
+        ],
+        "center": 1
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/plate-ward.svg",
+        "under": "art/plate-lock.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.8,
+        "y": 0.3,
+        "w": 0.22,
+        "words": [
+          "A ward",
+          "A lock"
+        ]
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/plate-count.svg",
+        "x": 0.84,
+        "y": 0.14,
+        "w": 0.26,
+        "opensOn": "reveal"
+      }
+    ]
+  },
+  "pen-summer": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/pen-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/pen-yard.svg",
+        "x": 0.5,
+        "y": 0.2,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/pen-table.svg",
+        "x": 0.22,
+        "y": 0.33,
+        "w": 0.38
+      },
+      {
+        "prim": "plate",
+        "art": "art/pen-shallows.svg",
+        "look": "paint",
+        "x": 0.53,
+        "y": 0.3,
+        "w": 0.3
+      },
+      {
+        "prim": "pulltab",
+        "art": "art/pen-kingfisher.svg",
+        "under": "art/pen-clock.svg",
+        "tally": "lens",
+        "value": "machine",
+        "x": 0.8,
+        "y": 0.3,
+        "w": 0.22,
+        "words": [
+          "Spirits",
+          "A signal"
+        ]
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/pen-hours.svg",
+        "x": 0.2,
+        "y": 0.14,
+        "w": 0.26,
+        "opensOn": "reveal"
+      }
+    ]
+  },
+  "salt": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/salt-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/salt-gate.svg",
+        "x": 0.5,
+        "y": 0.17,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/salt-scale.svg",
+        "x": 0.5,
+        "y": 0.34,
+        "w": 0.7
+      },
+      {
+        "prim": "flap",
+        "art": "art/tag.svg",
+        "under": "art/salt-ladder.svg",
+        "x": 0.22,
+        "y": 0.15,
+        "w": 0.26,
+        "opensOn": "reveal"
+      },
+      {
+        "prim": "ticket",
+        "art": "art/salt-ticket.svg",
+        "meter": "fate",
+        "x": 0.86,
+        "y": 0.115,
+        "w": 0.2
+      }
+    ]
+  },
+  "muster": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/muster-ground.svg"
+      },
+      {
+        "prim": "parallel",
+        "art": "art/muster-yard.svg",
+        "x": 0.5,
+        "y": 0.33,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/muster-maren.svg",
+        "x": 0.36,
+        "y": 0.26,
+        "w": 0.6
+      },
+      {
+        "prim": "plate",
+        "art": "art/muster-pen.svg",
+        "look": "paint",
+        "x": 0.86,
+        "y": 0.37,
+        "w": 0.24
+      }
+    ]
+  },
+  "loft": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/loft-ground.svg"
+      },
+      {
+        "prim": "vfold",
+        "art": "art/loft-room.svg",
+        "x": 0.5,
+        "y": 0.25,
+        "w": 0.94
+      },
+      {
+        "prim": "parallel",
+        "art": "art/loft-kit.svg",
+        "x": 0.5,
+        "y": 0.33,
+        "w": 0.7
+      }
+    ]
+  },
+  "milestone": {
+    "kit": "paper",
+    "layers": [
+      {
+        "prim": "spread",
+        "art": "art/milestone-ground.svg"
+      },
+      {
+        "prim": "tunnel",
+        "art": "art/milestone-t1.svg",
+        "art2": "art/milestone-t2.svg",
+        "art3": "art/milestone-t3.svg",
+        "art4": "art/milestone-t4.svg",
+        "art5": "art/milestone-t5.svg",
+        "x": 0.5,
+        "y": 0.28,
+        "w": 0.94
+      },
+      {
+        "prim": "vfold",
+        "art": "art/milestone-stone.svg",
+        "x": 0.64,
+        "y": 0.34,
+        "w": 0.24
+      },
+      {
+        "prim": "plate",
+        "art": "art/milestone-cassandra.svg",
+        "look": "paint",
+        "x": 0.4,
+        "y": 0.33,
+        "w": 0.22
+      }
+    ]
+  }
+}
