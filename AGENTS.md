@@ -33,6 +33,24 @@ Other sources the user has shared: the **"Fort on the Lake: Maps and Handouts"**
 
 Canon marked **ASSUMED** in the DM Guide (the basilisk is dead; Petra is restored; the Beast Pen cage is empty) may change. Write so a DM can replace it.
 
+## Downstream: menhir
+
+The sister repository `norrisaftcc/game-nwn-menhir` ports the Fort Country to Neverwinter Nights: Enhanced Edition as a persistent world. Canon flows one way: from here to menhir. A menhir design becomes Fort canon only when someone records it in `campaign/SPINE.md`.
+
+menhir depends on these Fort facts. If you change one, say so in the pull request, so menhir can follow.
+
+| Fort fact | Source here | How menhir uses it |
+|-----------|-------------|--------------------|
+| The Fort Country hex map and key | `campaign/SPINE.md`, *The Fort Country (canon)* | The hub and its sites |
+| Hex E5, The Standing Stones: "Nine stones, one fallen." | The same table | The Ring of Nine: one road to each of the nine Norse realms. This reading is PROPOSED in menhir and is not canon here. If the Year Two DM Guide keys E5, it wins. |
+| The lamp-stones: man-high, a carved eye, a bronze dish | `dm/Module_2_The_Drowned_Tower.md`, S4 | The model for menhir's travelling stones |
+| The Junior Men believe the hum comes from the Standing Stones (a false rumour) | `dm/Year_Two_First_Session_The_Hum.md`, rumours, row 7 | A hook at E5 |
+| Egg prices: 50 gp in Year One, 100 gp in Year Two | `dm/DM_Guide_Fort_and_Caves.md`; Module 2 | Copied exactly |
+| The Gorgon Queen was paralysed by Biddy's cry; Wick keeps Biddy; the ASSUMED canon | `campaign/SPINE.md`, *Play Record* | World keys, each replaceable |
+| Halcyon is named, never keyed; the Sleeper is never revealed | The rules below | The same rules, in menhir's own gate |
+
+menhir never receives the Year Two guides, family details or anything from the user's mail.
+
 ## Rules that are easy to break
 
 - **IP.** Modules 2 and 3 are glosses on the 1977 Basic sample dungeon and on module B2. Both belong to Wizards of the Coast and are not open content. Take structure, never expression: no names, room keys, read-aloud, maps or NPCs from those books. `generator/test.mjs` checks generated text for the forbidden names; check authored text yourself with the list in the spine.
